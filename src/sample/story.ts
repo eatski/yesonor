@@ -3,7 +3,7 @@ import { Story } from "@/server/model/types";
 export const sampleStory: Story = {
     title: "太郎さんのメガネ",
     description: "サンプルです。",
-    quiz: "太郎さんは視力がとてもいいのにメガネをかけている。なぜか？",
+    mystery: "太郎さんは視力がとてもいいのにメガネをかけている。なぜか？",
     truth: "太郎さんはオシャレ好きであり、おしゃれのためにメガネをかけている。太郎さんがかけているメガネは度が入っていない伊達メガネである。",
     examples: [
         {

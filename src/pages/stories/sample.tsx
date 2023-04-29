@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({query}) => 
       props: {
         storyId: "sample",
         title: story.title,
-        quiz: story.quiz,
+        quiz: story.mystery,
       }
     }
 }
