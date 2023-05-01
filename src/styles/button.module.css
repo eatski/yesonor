@@ -7,6 +7,7 @@
     border-radius: 8px;
     cursor: pointer;
     height: 100%;
+    filter: var(--filter-shadow);
 }
 
 .button:hover {

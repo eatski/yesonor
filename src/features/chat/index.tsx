@@ -1,7 +1,7 @@
 import { trpc } from "@/libs/trpc";
 import { useRef, useState } from "react";
 import { Feed } from "./ui/feed";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import { QuestionForm } from "./ui/questionForm";
 import { AnswerForm } from "./ui/answerForm";
 import { Answer } from "@/server/model/types";
@@ -51,8 +51,14 @@ export function Chat(props: Props) {
     const [history,setHistory] = useState<{id: number,input: string,result: string}[]>([]);
     const latest = history.at(-1);
      return <main className={styles.main}>
-        <h2 className={styles.mainTitle}>{props.title}</h2>
-        <p className={styles.problemStatement}>{props.quiz}</p>
+        <div className={styles.problemStatement}>
+            <h2>
+                {props.title}
+            </h2>
+            <p>
+                {props.quiz}
+            </p>
+        </div>
         <div className={styles.questionResultContainer}>
         {
             latest && <QuestionResult question={latest.input} answer={latest.result} />
