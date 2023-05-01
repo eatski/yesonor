@@ -7,6 +7,7 @@ export const story = z.object({
     description: z.string(),
     mystery: z.string(),
     truth: z.string(),
+    truthExamples: z.array(z.string()),
     examples: z.array(z.object({
         question: z.string(),
         answer,
