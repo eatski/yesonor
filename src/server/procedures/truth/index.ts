@@ -2,15 +2,8 @@ import { openai } from "@/libs/openapi";
 import { sampleStory } from "@/sample/story";
 import { procedure } from "@/server/trpc";
 import { z } from "zod";
+import { getEmbedding } from "./adapter";
 import { cosineSimilarity } from "./math";
-
-const getEmbedding = async (text: string): Promise<number[]> => {
-    const embedding = await openai.createEmbedding({
-        input: text,
-        model: "text-embedding-ada-002"
-    })
-    return embedding.data.data[0].embedding
-}
 
 export const truth = procedure.input(z.object({
     storyId: z.string(),
