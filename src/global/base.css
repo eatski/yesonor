@@ -1,0 +1,10 @@
+html {
+    --text-color-primary: #333;
+    --bg-color-main:#ECD7BF;
+    --bg-color-accent: #FFFFFF;
+    --bg-color-accent-secondary: #FDF8F1;
+    --bg-color-brand: #DEB982;
+    --bg-color-action: #5D901C;
+    color: var(--text-color-primary);
+    background-color: var(--bg-color-main);
+}

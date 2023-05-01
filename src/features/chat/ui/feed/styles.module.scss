@@ -1,0 +1,33 @@
+.feed {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 12px;
+    padding-left: 0;
+    margin: 0;
+    li {
+        display: flex;
+        font-size: 16px;
+        column-gap: 8px;
+        row-gap: 4px;
+        @media screen and (max-width:480px) {
+            flex-direction: column;
+        }
+        div {
+            padding: 4px 12px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        div:nth-child(1) {
+            background-color: var(--bg-color-accent-secondary);
+            flex-grow: 1;
+        }
+        div:nth-child(2) {
+            background-color: var(--bg-color-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 112px;
+        }
+    }
+}

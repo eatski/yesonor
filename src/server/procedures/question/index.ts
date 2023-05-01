@@ -47,7 +47,8 @@ export const question = procedure.input(z.object({
                 content: input.text
             }
         ],
-        temperature: 0
+        temperature: 0,
+        max_tokens: 10,
     })
     const message = response.data.choices[0].message
     if (!message) {
