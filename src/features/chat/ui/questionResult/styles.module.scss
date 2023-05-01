@@ -1,7 +1,7 @@
 .container {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
     margin: 0;
     dt {
         font-size: 14px;
@@ -10,6 +10,7 @@
     }
     dd {
         padding: 8px 12px;
+        font-size: 16px;
         border-radius: 4px;
         text-align: center;
         display: flex;
