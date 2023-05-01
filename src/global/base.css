@@ -1,6 +1,6 @@
 html {
-    --text-color-primary: #333;
-    --text-color-bright: #333;
+    --text-color-primary: rgb(61, 61, 61);
+    --text-color-bright: rgb(61, 61, 61);
     --text-color-action: #FFFFFF;
     --bg-color-main:#ECD7BF;
     --bg-color-accent: #FFFFFF;
