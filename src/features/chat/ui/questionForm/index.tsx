@@ -1,5 +1,6 @@
 import React, {useRef} from "react";
 import styles from "./styles.module.css";
+import button from "@/styles/button.module.css"
 
 export const QuestionForm: React.FC<{
     onSubmit: (text: string) => void;
@@ -18,7 +19,7 @@ export const QuestionForm: React.FC<{
                 inputRef.current = e.target.value
             }}
             />
-            <button className={styles.formSubmit} type="submit" disabled={isLoading}>送信</button>
+            <button className={button.button} type="submit" disabled={isLoading}>送信</button>
         </div>
     </form>
 }

@@ -19,21 +19,3 @@
     border: none;
     border-radius: 4px;
 }
-
-.formSubmit {
-    font-size: 14px;
-    padding: 0 12px;
-    background-color: var(--bg-color-action);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.formSubmit:hover {
-    filter: brightness(90%);
-}
-.formSubmit:disabled {
-    filter: brightness(70%);
-    cursor: not-allowed;
-}
