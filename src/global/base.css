@@ -1,5 +1,7 @@
 html {
     --text-color-primary: #333;
+    --text-color-bright: #333;
+    --text-color-action: #FFFFFF;
     --bg-color-main:#ECD7BF;
     --bg-color-accent: #FFFFFF;
     --bg-color-accent-secondary: #FDF8F1;

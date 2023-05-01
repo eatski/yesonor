@@ -2,7 +2,7 @@
     font-size: 14px;
     padding: 0 12px;
     background-color: var(--bg-color-action);
-    color: white;
+    color: var(--text-color-action);
     border: none;
     border-radius: 8px;
     cursor: pointer;
