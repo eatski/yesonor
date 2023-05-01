@@ -1,0 +1,18 @@
+.button {
+    font-size: 14px;
+    padding: 0 12px;
+    background-color: var(--bg-color-action);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    height: 100%;
+}
+
+.button:hover {
+    filter: brightness(90%);
+}
+.button:disabled {
+    filter: brightness(70%);
+    cursor: not-allowed;
+}

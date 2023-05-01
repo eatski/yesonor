@@ -9,8 +9,9 @@ export type FeedProps = {
 }
 
 export const Feed: React.FC<FeedProps> = (props) => {
-    return <section>
-        <ul className={styles.feed}>
+    return <section className={styles.feed}>
+        <h3>今までの質問</h3>
+        <ul>
             {props.items.map((item) => {
                 return <li key={item.id} className={styles.feedItem}>
                     <div>

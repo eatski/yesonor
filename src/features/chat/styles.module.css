@@ -1,13 +1,13 @@
 .mainTitle {
     font-size: 20px;
     text-align: center;
-    margin-top:  28px;
+    margin-top:  32px;
 }
 
 .problemStatement {
     font-size: 16px;
     font-weight: 600;
-    margin:  28px 20px 0;
+    margin:  32px 20px 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17,13 +17,8 @@
     padding: 16px;
 }
 
-.bottom {
-    position: sticky;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: var(--bg-color-main);
-    margin-top: 16px;
+.questionFormContainer {
+    margin-top: 24px;
 }
 
 .main {
@@ -34,4 +29,9 @@
 
 .feedWrapper {
     margin-top: 40px;
+}
+
+.questionResultContainer {
+    margin-top: 40px;
+    min-height: 220px
 }

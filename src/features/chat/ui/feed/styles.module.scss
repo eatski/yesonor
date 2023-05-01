@@ -1,10 +1,18 @@
 .feed {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    gap: 12px;
-    padding-left: 0;
+    
     margin: 0;
+    h3 {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+    }
+    ul {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        gap: 12px;
+        padding-left: 0;
+    }
     li {
         display: flex;
         font-size: 16px;
