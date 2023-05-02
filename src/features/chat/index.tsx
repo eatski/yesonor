@@ -14,19 +14,20 @@ type Props = {
     quiz: string;
 }
 
-const AnswerFormContainer: React.FC<{storyId: string,onAnswered: (arg: {input: string,result: string}) => void,onCancel: () => void}> = ({storyId,onAnswered,onCancel}) => {
-    const {mutate,isLoading} = trpc.truth.useMutation();
-    return <AnswerForm isLoading={isLoading} onCancel={onCancel} onSubmit={(input) => {
+const AnswerFormContainer: React.FC<{storyId: string,onCancel: () => void}> = ({storyId,onCancel}) => {
+    const {mutate,isLoading,data} = trpc.truth.useMutation();
+    return data ? <div>
+        <p>
+            {data.input}
+        </p>
+        <p>
+            {data.result ? "正解！" : "不正解！"}
+        </p>
+    </div>
+    : <AnswerForm isLoading={isLoading} onCancel={onCancel} onSubmit={(input) => {
         mutate({
             storyId,
             text: input
-        },{
-            onSuccess: (data) => {
-                onAnswered({
-                    input,
-                    result: data.toString()
-                })
-            }
         })
     }}/>
 }
@@ -91,14 +92,6 @@ export function Chat(props: Props) {
                     onCancel={() => {
                         setIsAnswerMode(false);
                     }}
-                    onAnswered={(arg) => {
-                        setHistory((prev) => {
-                            return [...prev,{
-                                id: prev.length,
-                                ...arg
-                            }]
-                        })
-                    }} 
                 />
             </>
         }

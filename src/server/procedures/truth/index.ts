@@ -10,5 +10,8 @@ export const truth = procedure.input(z.object({
     text: z.string(),
 })).mutation(async ({ input }) => {
     const [inputEmbedding, ...truthEmbeddings] = await Promise.all([getEmbedding(input.text), getEmbedding(sampleStory.truth), ...sampleStory.truthExamples.map(getEmbedding)])
-    return truthEmbeddings.some(truthEmbedding => cosineSimilarity(inputEmbedding, truthEmbedding) > THRESHOLD);
+    return {
+        result: truthEmbeddings.some(truthEmbedding => cosineSimilarity(inputEmbedding, truthEmbedding) > THRESHOLD),
+        input: input.text,
+    };
 })
