@@ -1,6 +1,6 @@
 import { Chat } from '@/features/chat';
 import { Header } from '@/features/header';
-import { getSampleStory, sample1 } from '@/sample/story';
+import { getSampleStory } from '@/sample/story';
 import { GetServerSideProps } from 'next';
 import { z } from 'zod';
 
