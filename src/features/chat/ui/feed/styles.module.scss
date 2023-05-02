@@ -26,6 +26,7 @@
             padding: 4px 12px;
             border-radius: 4px;
             text-align: center;
+            filter: var(--filter-shadow);
         }
         div:nth-child(1) {
             background-color: var(--bg-color-accent-secondary);
