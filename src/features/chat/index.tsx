@@ -14,9 +14,9 @@ type Props = {
     quiz: string;
 }
 
-const AnswerFormContainer: React.FC<{storyId: string,onAnswered: (arg: {input: string,result: string}) => void}> = ({storyId,onAnswered}) => {
+const AnswerFormContainer: React.FC<{storyId: string,onAnswered: (arg: {input: string,result: string}) => void,onCancel: () => void}> = ({storyId,onAnswered,onCancel}) => {
     const {mutate,isLoading} = trpc.truth.useMutation();
-    return <AnswerForm isLoading={isLoading} onSubmit={(input) => {
+    return <AnswerForm isLoading={isLoading} onCancel={onCancel} onSubmit={(input) => {
         mutate({
             storyId,
             text: input
@@ -51,37 +51,59 @@ const QuestionFormContainer: React.FC<{storyId: string,onAnswered: (arg: {input:
 export function Chat(props: Props) {
     const [history,setHistory] = useState<{id: number,input: string,result: string}[]>([]);
     const latest = history.at(-1);
+    const [isAnswerMode,setIsAnswerMode] = useState(false);
      return <main className={styles.main}>
         <StoryTitle title={props.title} description={props.quiz}/>
-        <div className={styles.questionResultContainer}>
+        <div className={styles.mainControll}>
         {
-            latest && <QuestionResult question={latest.input} answer={latest.result} />
+            !isAnswerMode ? <>
+                <div>
+                {
+                    latest && <QuestionResult 
+                        question={latest.input} 
+                        answer={latest.result} 
+                        onAnswerButtonClicked={() => {
+                            setIsAnswerMode(true);
+                        }}
+                    />
+                }
+                </div>
+                <div className={styles.bottom}>
+                    <QuestionFormContainer storyId={props.storyId} onAnswered={(arg) => {
+                        setHistory((prev) => {
+                            return [...prev,{
+                                id: prev.length,
+                                input: arg.input,
+                                result: ({
+                                    "FALSE": "いいえ",
+                                    "TRUE": "はい",
+                                    "UNKNOWN": "わからない",
+                                    "INVALID": "不正な質問"
+                                } as const satisfies Record<Answer,string>)[arg.result],
+                            }]
+                        })
+                    }} />
+                    
+                </div>
+            </> : <>
+                <AnswerFormContainer 
+                    storyId={props.storyId} 
+                    onCancel={() => {
+                        setIsAnswerMode(false);
+                    }}
+                    onAnswered={(arg) => {
+                        setHistory((prev) => {
+                            return [...prev,{
+                                id: prev.length,
+                                ...arg
+                            }]
+                        })
+                    }} 
+                />
+            </>
         }
         </div>
-        <div className={styles.questionFormContainer}>
-            <QuestionFormContainer storyId={props.storyId} onAnswered={(arg) => {
-                setHistory((prev) => {
-                    return [...prev,{
-                        id: prev.length,
-                        input: arg.input,
-                        result: ({
-                            "FALSE": "いいえ",
-                            "TRUE": "はい",
-                            "UNKNOWN": "わからない",
-                            "INVALID": "不正な質問"
-                        } as const satisfies Record<Answer,string>)[arg.result],
-                    }]
-                })
-            }} />
-            <AnswerFormContainer storyId={props.storyId} onAnswered={(arg) => {
-                setHistory((prev) => {
-                    return [...prev,{
-                        id: prev.length,
-                        ...arg
-                    }]
-                })
-            }} />
-        </div>
+        
         {
             history.length > 0 && <div className={styles.feedWrapper}>
             <Feed items={history.map(({id,input,result}) => ({

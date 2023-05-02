@@ -10,10 +10,30 @@
     filter: var(--filter-shadow);
 }
 
+.buttonSecondary {
+    font-size: 14px;
+    padding: 0 12px;
+    background-color: var(--bg-color-action-secondary);
+    color: var(--text-color-action);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    height: 100%;
+    filter: var(--filter-shadow);
+}
+
 .button:hover {
     filter: brightness(90%);
 }
 .button:disabled {
+    filter: brightness(70%);
+    cursor: not-allowed;
+}
+
+.buttonSecondary:hover {
+    filter: brightness(90%);
+}
+.buttonSecondary:disabled {
     filter: brightness(70%);
     cursor: not-allowed;
 }
