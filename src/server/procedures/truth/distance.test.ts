@@ -48,13 +48,13 @@ describe.each([{
                 a: sample2.truthExamples[0],
                 b: sample2.truthExamples[1],
             },
-            abnormal: "山田は人を殺し、女性用トイレに隠した。",
+            abnormal: "山田さんは人を殺し、その死体が他の男に見つからないように隠すために女性用トイレに入った。",
         },{
             normals: {
                 a: sample2.truthExamples[0],
                 b: sample2.truthExamples[1],
             },
-            abnormal: "山田さんは子供で母親に連れられて女性トイレに入った。",
+            abnormal: "山田さんはまだ小さな子供であり、母親に連れられて女性トイレに入った。",
         }
     ])("正常値の類似度が異常値の類似度より高いこと", async (args) => {
         const [aEmbedding, bEmbedding,abnormalsEmbedding] = await Promise.all([
