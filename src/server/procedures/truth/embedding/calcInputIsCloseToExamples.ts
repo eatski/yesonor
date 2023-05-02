@@ -1,5 +1,5 @@
 import { euclideanDistance } from "./euclideanDistance";
-import { Embedding } from "./type";
+import { Embedding } from "../type";
 
 import {kmeans} from "ml-kmeans";
 

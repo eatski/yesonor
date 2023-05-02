@@ -2,9 +2,9 @@ import { getSampleStory } from "@/sample/story";
 import { procedure } from "@/server/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { getEmbedding } from "./adapter";
-import { THRESHOLD } from "./constants";
-import { cosineSimilarity } from "./cosineSimilarity";
+import { getEmbedding } from "./embedding/adapter";
+import { THRESHOLD } from "./embedding/constants";
+import { cosineSimilarity } from "./embedding/cosineSimilarity";
 
 export const truth = procedure.input(z.object({
     storyId: z.string(),
