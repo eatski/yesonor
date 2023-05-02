@@ -1,8 +1,5 @@
-type Embedding = number[];
-
-export const euclideanDistance = (a: Embedding, b: Embedding): number => {
-  return Math.sqrt(a.reduce((sum, _, i) => sum + Math.pow(a[i] - b[i], 2), 0));
-};
+import { euclideanDistance } from "./euclideanDistance";
+import { Embedding } from "./type";
 
 const calculateAverageDistance = (examples: Embedding[]): number => {
   let totalDistances = 0;

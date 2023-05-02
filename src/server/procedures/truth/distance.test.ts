@@ -1,10 +1,10 @@
-import {euclideanDistance} from "./calcInputIsCloseToExamples";
+import {euclideanDistance} from "./euclideanDistance";
 import { describe, test, expect } from "vitest";
 
 import Cache from "file-system-cache";
 import { resolve } from "path";
 import { getEmbedding } from "./adapter";
-import { cosineSimilarity } from "./math";
+import { cosineSimilarity } from "./cosineSimilarity";
 
 const cache = Cache({
     basePath: resolve(process.cwd(), ".cache"),

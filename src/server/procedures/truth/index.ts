@@ -4,7 +4,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { getEmbedding } from "./adapter";
 import { THRESHOLD } from "./constants";
-import { cosineSimilarity } from "./math";
+import { cosineSimilarity } from "./cosineSimilarity";
 
 export const truth = procedure.input(z.object({
     storyId: z.string(),
