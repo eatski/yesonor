@@ -1,11 +1,12 @@
 import { trpc } from "@/libs/trpc";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Feed } from "./ui/feed";
 import styles from "./styles.module.scss";
 import { QuestionForm } from "./ui/questionForm";
 import { AnswerForm } from "./ui/answerForm";
 import { Answer } from "@/server/model/types";
 import { QuestionResult } from "./ui/questionResult";
+import { StoryTitle } from "./ui/storyTItle";
 
 type Props = {
     storyId: string;
@@ -51,21 +52,12 @@ export function Chat(props: Props) {
     const [history,setHistory] = useState<{id: number,input: string,result: string}[]>([]);
     const latest = history.at(-1);
      return <main className={styles.main}>
-        <div className={styles.problemStatement}>
-            <h2>
-                {props.title}
-            </h2>
-            <p>
-                {props.quiz}
-            </p>
-        </div>
+        <StoryTitle title={props.title} description={props.quiz}/>
         <div className={styles.questionResultContainer}>
         {
             latest && <QuestionResult question={latest.input} answer={latest.result} />
         }
         </div>
-
-       
         <div className={styles.questionFormContainer}>
             <QuestionFormContainer storyId={props.storyId} onAnswered={(arg) => {
                 setHistory((prev) => {
