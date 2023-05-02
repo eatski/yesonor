@@ -5,7 +5,7 @@ import { httpBatchLink } from '@trpc/client';
 import React, { useMemo } from 'react';
 import { trpc } from "@/libs/trpc";
 import 'sanitize.css';
-import '@/global/base.css';
+import '@/styles/base.css';
 import Head from 'next/head';
 
 export default function App({ Component, pageProps }: AppProps) {
