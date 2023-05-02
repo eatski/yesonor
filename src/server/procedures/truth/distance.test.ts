@@ -1,6 +1,5 @@
 import {euclideanDistance} from "./calcInputIsCloseToExamples";
 import { describe, test, expect } from "vitest";
-import { sample1, sample2 } from "@/sample/story";
 
 import Cache from "file-system-cache";
 import { resolve } from "path";
@@ -31,32 +30,32 @@ describe.each([{
     test.each([
         {
             normals: {
-                a: sample1.truthExamples[0],
-                b: sample1.truthExamples[1],
+                a:  "太郎さんはファッションとして伊達メガネをかけている。",
+                b: "太郎さんは伊達メガネをオシャレのためにかけている。",
             },
             abnormal: "太郎さんは目が良いことを隠すためにメガネをかけている。", 
         },
         {
             normals: {
-                a: sample1.truthExamples[0],
-                b: sample1.truthExamples[1],
+                a: "太郎さんはファッションとして伊達メガネをかけている。",
+                b: "太郎さんは伊達メガネをオシャレのためにかけている。",
             },
             abnormal: "太郎さんは賢く見られるためにメガネをかけている。",
         },
         {
             normals: {
-                a: sample2.truthExamples[0],
-                b: sample2.truthExamples[1],
+                a: "山田さんは人を殺害し男性用トイレに死体を隠そうとしたが、用を足しに来た男性に見つかりそうになり女性用トイレに逃げ込んだ。",
+                b: "山田さんは人を殺し、男用のトイレにそれを隠していたが、他の男たちに見つかりそうになり女用のトイレに入った。",
             },
             abnormal: "山田さんは人を殺し、その死体が他の男に見つからないように隠すために女性用トイレに入った。",
         },{
             normals: {
-                a: sample2.truthExamples[0],
-                b: sample2.truthExamples[1],
+                a: "山田さんは人を殺害し男性用トイレに死体を隠そうとしたが、用を足しに来た男性に見つかりそうになり女性用トイレに逃げ込んだ。",
+                b: "山田さんは人を殺し、男用のトイレにそれを隠していたが、他の男たちに見つかりそうになり女用のトイレに入った。",
             },
             abnormal: "山田さんはまだ小さな子供であり、母親に連れられて女性トイレに入った。",
         }
-    ])("正常値の類似度が異常値の類似度より高いこと", async (args) => {
+    ])("意味的に同じ文章同士の類似度が異なる文章との類似度より高いこと", async (args) => {
         const [aEmbedding, bEmbedding,abnormalsEmbedding] = await Promise.all([
             getEmbeddingCached(args.normals.a),
             getEmbeddingCached(args.normals.b),
