@@ -1,7 +1,8 @@
 import { Chat } from '@/features/chat';
 import { Header } from '@/features/header';
-import { sampleStory } from '@/sample/story';
+import { getSampleStory, sample1 } from '@/sample/story';
 import { GetServerSideProps } from 'next';
+import { z } from 'zod';
 
 type Props = {
     storyId: string;
@@ -9,11 +10,26 @@ type Props = {
     quiz: string;
 }
 
+const querySchema = z.object({
+    storyId: z.string()
+})
+
 export const getServerSideProps: GetServerSideProps<Props> = async ({query}) => {
-    const story = sampleStory;
+    const validated = querySchema.safeParse(query);
+    if (!validated.success) {
+        return {
+            notFound: true
+        }
+    }
+    const story = getSampleStory(validated.data.storyId);
+    if(!story) {
+        return {
+            notFound: true
+        }
+    }
     return {
       props: {
-        storyId: "sample",
+        storyId: validated.data.storyId,
         title: story.title,
         quiz: story.mystery,
       }

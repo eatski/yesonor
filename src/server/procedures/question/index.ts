@@ -1,5 +1,6 @@
 import { openai } from "@/libs/openapi"
-import { sampleStory } from "@/sample/story"
+import { getSampleStory } from "@/sample/story"
+import { TRPCError } from "@trpc/server"
 import { readFile } from "fs/promises"
 import { resolve } from "path"
 import { z } from "zod"
@@ -14,7 +15,12 @@ export const question = procedure.input(z.object({
     text: z.string()
 })).mutation(async ({input}) => {
     const systemPrompt = await systemPromptPromise;
-    const story = sampleStory;
+    const story = getSampleStory(input.storyId);
+    if (!story) {
+        throw new TRPCError({
+            code: "NOT_FOUND"
+        })
+    }
     const response = await openai.createChatCompletion({
         model: "gpt-4",
         messages: [
