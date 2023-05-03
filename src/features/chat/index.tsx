@@ -17,11 +17,12 @@ type Props = {
 }
 
 const AnswerFormContainer: React.FC<{storyId: string,onCancel: () => void}> = ({storyId,onCancel}) => {
-    const {mutate,isLoading,data} = trpc.truth.useMutation();
-    return data ? <AnswerResult reasoning={data.input} result={({
+    const {mutate,isLoading,data,reset} = trpc.truth.useMutation();
+    return data ? <AnswerResult reasoning={data.input} onBackButtonClicked={reset} result={({
         Covers: "正解",
         Wrong: "間違いがあります",
-        Insufficient: "説明が不十分です。"
+        Insufficient: "説明が不十分です。",
+
     } as const satisfies Record<typeof data.result,string>)[data.result]} truth={data.truth} />
     : <AnswerForm isLoading={isLoading} onCancel={onCancel} onSubmit={(input) => {
         mutate({

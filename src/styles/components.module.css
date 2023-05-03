@@ -1,6 +1,6 @@
 .button {
     font-size: 14px;
-    padding: 0 12px;
+    padding: 4px 12px;
     background-color: var(--bg-color-action);
     color: var(--text-color-action);
     border: none;
@@ -12,7 +12,7 @@
 
 .buttonSecondary {
     font-size: 14px;
-    padding: 0 12px;
+    padding: 4px 12px;
     background-color: var(--bg-color-action-secondary);
     color: var(--text-color-action);
     border: none;

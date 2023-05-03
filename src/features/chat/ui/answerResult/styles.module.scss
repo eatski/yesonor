@@ -24,21 +24,19 @@
             width: fit-content;
             padding: 2px 4px;
             border-bottom: 1px solid var(--bg-color-brand);
-            &.small {
-                font-size: 14px;
-                
-            }
         }
         dd {
             padding: 8px 12px;
             font-size: 14px;
             text-align: center;
             margin-left: 0;
-            &.small {
-                font-size: 12px;
-
-            }
         }
         
     }
+    .buttonContainer {
+        display: flex;
+        justify-content: center;
+        margin-top: 16px;
+    }
 }
+

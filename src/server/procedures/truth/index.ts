@@ -46,10 +46,10 @@ export const truth = procedure.input(z.object({
     if (!message) {
         throw new Error("No message")
     }
-    console.log(truthCoincidence)
+    const result = truthCoincidence.parse(message.content);
     return {
-        result: truthCoincidence.parse(message.content),
+        result,
         input: input.text,
-        truth: story.truth
+        truth: result === "Covers" ? story.truth : null
     };
 })
