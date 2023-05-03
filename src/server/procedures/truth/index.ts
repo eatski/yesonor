@@ -50,5 +50,6 @@ export const truth = procedure.input(z.object({
     return {
         result: truthCoincidence.parse(message.content),
         input: input.text,
+        truth: story.truth
     };
 })

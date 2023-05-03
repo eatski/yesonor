@@ -8,6 +8,7 @@ import { Answer } from "@/server/model/types";
 import { QuestionResult } from "./ui/questionResult";
 import { StoryTitle } from "./ui/storyTItle";
 import { FirstGuidance } from "./ui/firsGuidance";
+import { AnswerResult } from "./ui/answerResult";
 
 type Props = {
     storyId: string;
@@ -17,14 +18,11 @@ type Props = {
 
 const AnswerFormContainer: React.FC<{storyId: string,onCancel: () => void}> = ({storyId,onCancel}) => {
     const {mutate,isLoading,data} = trpc.truth.useMutation();
-    return data ? <div>
-        <p>
-            {data.input}
-        </p>
-        <p>
-            {data.result}
-        </p>
-    </div>
+    return data ? <AnswerResult reasoning={data.input} result={({
+        Covers: "正解",
+        Wrong: "間違いがあります",
+        Insufficient: "説明が不十分です。"
+    } as const satisfies Record<typeof data.result,string>)[data.result]} truth={data.truth} />
     : <AnswerForm isLoading={isLoading} onCancel={onCancel} onSubmit={(input) => {
         mutate({
             storyId,

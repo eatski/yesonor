@@ -23,7 +23,7 @@
 }
 
 .button:hover {
-    filter: brightness(90%);
+    filter: brightness(95%);
 }
 .button:disabled {
     filter: brightness(70%);
@@ -31,7 +31,7 @@
 }
 
 .buttonSecondary:hover {
-    filter: brightness(90%);
+    filter: brightness(95%);
 }
 .buttonSecondary:disabled {
     filter: brightness(70%);
