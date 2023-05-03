@@ -17,8 +17,8 @@ export const AnswerResult: React.FC<Props> = ({result,reasoning,truth}) => {
                         <dd>{truth}</dd>
                     </>
                 }
-                <dt>あなたの推理</dt>
-                <dd>{reasoning}</dd>
+                <dt className={styles.small}>あなたの推理</dt>
+                <dd className={styles.small}>{reasoning}</dd>
             </dl>
         </div>
 }
