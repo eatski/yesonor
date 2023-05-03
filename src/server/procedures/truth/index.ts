@@ -1,10 +1,13 @@
+import { openai } from "@/libs/openapi";
 import { getSampleStory } from "@/sample/story";
+import { truthCoincidence } from "@/server/model/schemas";
 import { procedure } from "@/server/trpc";
 import { TRPCError } from "@trpc/server";
+import { readFile } from "fs/promises";
+import { resolve } from "path";
 import { z } from "zod";
-import { getEmbedding } from "./embedding/adapter";
-import { THRESHOLD } from "./embedding/constants";
-import { cosineSimilarity } from "./embedding/cosineSimilarity";
+
+const systemPromptPromise = readFile(resolve(process.cwd(),"prompts","truth.md")) ;
 
 export const truth = procedure.input(z.object({
     storyId: z.string(),
@@ -16,11 +19,36 @@ export const truth = procedure.input(z.object({
             code: "NOT_FOUND"
         })
     }
-    const [inputEmbedding, ...truthEmbeddings] = await Promise.all([getEmbedding(input.text), getEmbedding(story.truth), ...story.truthExamples.map(getEmbedding)])
-    const mapped = truthEmbeddings.map(truthEmbedding => cosineSimilarity(inputEmbedding, truthEmbedding))
-    console.log(mapped);
+
+    const systemPrompt = await systemPromptPromise;
+
+    const response = await openai.createChatCompletion({
+        model: "gpt-4",
+        messages: [
+            {
+                role: "system",
+                content: systemPrompt.toString()
+            },
+            {
+                role: "assistant",
+                content: story.truthExamples[0]
+            },
+            {
+                role: "user",
+                content: input.text
+            }
+        ],
+        temperature: 0,
+        max_tokens: 10,
+    })
+    
+    const message = response.data.choices[0].message
+    if (!message) {
+        throw new Error("No message")
+    }
+    console.log(truthCoincidence)
     return {
-        result: mapped.some(s => s > THRESHOLD),
+        result: truthCoincidence.parse(message.content),
         input: input.text,
     };
 })

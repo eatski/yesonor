@@ -14,3 +14,5 @@ export const story = z.object({
         supplement: z.string(),
     }))
 });
+
+export const truthCoincidence = z.enum(["Covers", "Wrong","Insufficient"]);

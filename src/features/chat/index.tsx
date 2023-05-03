@@ -21,7 +21,7 @@ const AnswerFormContainer: React.FC<{storyId: string,onCancel: () => void}> = ({
             {data.input}
         </p>
         <p>
-            {data.result ? "正解！" : "不正解！"}
+            {data.result}
         </p>
     </div>
     : <AnswerForm isLoading={isLoading} onCancel={onCancel} onSubmit={(input) => {
