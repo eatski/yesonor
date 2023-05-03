@@ -1,13 +1,15 @@
 html {
     --text-color-primary: rgb(61, 61, 61);
-    --text-color-bright: rgb(61, 61, 61);
+    --text-color-secondary: rgb(102, 102, 102);
+    --text-color-bright: rgb(33, 33, 33);
     --text-color-action: #FFFFFF;
     --bg-color-main:#f1dfc8;
+    --bg-color-main-secondary: #f1cec8;
     --bg-color-accent: #FFFFFF;
     --bg-color-accent-secondary: #FDF8F1;
     --bg-color-brand: #dcc096;
     --bg-color-action: #5D901C;
-    --bg-color-action-secondary: #ba6565;
+    --bg-color-action-secondary: #d28787;
     --filter-shadow: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.25));
     color: var(--text-color-primary);
     background-color: var(--bg-color-main);

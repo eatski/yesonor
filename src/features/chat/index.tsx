@@ -7,6 +7,7 @@ import { AnswerForm } from "./ui/answerForm";
 import { Answer } from "@/server/model/types";
 import { QuestionResult } from "./ui/questionResult";
 import { StoryTitle } from "./ui/storyTItle";
+import { FirstGuidance } from "./ui/firsGuidance";
 
 type Props = {
     storyId: string;
@@ -58,16 +59,16 @@ export function Chat(props: Props) {
         <div className={styles.mainControll}>
         {
             !isAnswerMode ? <>
-                <div>
-                {
-                    latest && <QuestionResult 
-                        question={latest.input} 
-                        answer={latest.result} 
-                        onAnswerButtonClicked={() => {
-                            setIsAnswerMode(true);
-                        }}
-                    />
-                }
+                <div className={styles.centerContent}>
+                    {
+                        latest ? <QuestionResult 
+                            question={latest.input} 
+                            answer={latest.result} 
+                            onAnswerButtonClicked={() => {
+                                setIsAnswerMode(true);
+                            }}
+                        /> : <FirstGuidance />
+                    }
                 </div>
                 <div className={styles.bottom}>
                     <QuestionFormContainer storyId={props.storyId} onAnswered={(arg) => {
