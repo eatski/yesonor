@@ -11,17 +11,19 @@ export const AnswerForm: React.FC<{
     return <form className={styles.form} onSubmit={
         (e) => {
             e.preventDefault();
-            onSubmit(inputRef.current);
+            if(e.target instanceof HTMLFormElement && e.target.checkValidity()){
+                onSubmit(inputRef.current);
+            }
         }
     }>
         <label className={styles.formLabel}>あなたの推理</label>
-        <textarea className={styles.formTextarea} onChange={(e) => {
+        <textarea required className={styles.formTextarea} onChange={(e) => {
             inputRef.current = e.target.value
         }}
         />
         <div className={styles.buttonContainer}>
-            <button className={components.buttonSecondary} type="button" onClick={onCancel} disabled={isLoading}>まだ分からない</button>
-            <button className={components.button} type="submit" disabled={isLoading}>回答</button>
+            <button className={components.buttonSecondary} type="button" onClick={onCancel} disabled={isLoading}>まだわからない</button>
+            <button className={components.button} type="submit" disabled={isLoading}>回答する</button>
         </div>
     </form>
 }

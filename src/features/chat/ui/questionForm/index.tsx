@@ -10,15 +10,17 @@ export const QuestionForm: React.FC<{
     return <form className={styles.form} onSubmit={
         (e) => {
             e.preventDefault();
-            onSubmit(inputRef.current);
+            if(e.target instanceof HTMLFormElement && e.target.checkValidity()){
+                onSubmit(inputRef.current);
+            }
         }
     }>
         <label className={styles.formLabel}>質問をする</label>
         <div className={styles.formContent}>
-            <input className={styles.formInput} placeholder="はいorいいえで答えられる質問" onChange={(e) => {
+            <input className={styles.formInput} required placeholder="はいorいいえで答えられる質問" onChange={(e) => {
                 inputRef.current = e.target.value
             }}
-            />
+             />
             <button className={button.button} type="submit" disabled={isLoading}>送信</button>
         </div>
     </form>
