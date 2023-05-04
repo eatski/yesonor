@@ -1,17 +1,17 @@
 html {
-    --text-color-primary: rgb(61, 61, 61);
-    --text-color-secondary: rgb(102, 102, 102);
-    --text-color-bright: rgb(33, 33, 33);
+    --text-color-primary: #151515;
+    --text-color-secondary: #555555;
+    --text-color-bright: #ffffff;
     --text-color-action: #FFFFFF;
-    --bg-color-main:#f1dfc8;
+    --bg-color-main:#FFFFFF;
     --bg-color-main-secondary: #F7FFF4;
-    --bg-color-accent: #FFFFFF;
+    --bg-color-accent: #F3F8FB;
     --bg-color-accent-secondary: #FDF8F1;
-    --bg-color-brand: #dcc096;
-    --bg-color-action: #5D901C;
+    --bg-color-brand: #495A60;
+    --bg-color-action: #7F9E8A;
     --bg-color-action-secondary: #d28787;
-    --boader-color: #E5E5E5;
-    --filter-shadow: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.25));
+    --border-color: #d4d7e2;
+    --filter-shadow: none;
     color: var(--text-color-primary);
     background-color: var(--bg-color-main);
     line-height: 1.4;

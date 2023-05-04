@@ -17,7 +17,7 @@ export const QuestionResult: React.FC<Props> = (props) => {
         </dl>
         <div className={styles.buttonContainer}>
             <button className={button.button} onClick={props.onAnswerButtonClicked}>
-                謎が解けた！
+                謎は解けましたか？
             </button>
         </div>
     </section>

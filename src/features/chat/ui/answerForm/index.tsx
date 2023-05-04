@@ -14,7 +14,7 @@ export const AnswerForm: React.FC<{
             onSubmit(inputRef.current);
         }
     }>
-        <label className={styles.formLabel}>あなたの推理を聞かせて！</label>
+        <label className={styles.formLabel}>あなたの推理</label>
         <textarea className={styles.formTextarea} onChange={(e) => {
             inputRef.current = e.target.value
         }}

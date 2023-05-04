@@ -6,10 +6,14 @@ export type Props = {
 }
 
 export const StoryTitle: React.FC<Props> = ({title,description}) => {
-    return  <div className={styles.problemStatement}>
+    return  <div className={styles.container}>
             <h2>
                 {title}
             </h2>
+            <dl>
+                <dt>投稿日</dt>
+                <dd>2021/01/01</dd>
+            </dl>
             <p>
                 {description}
             </p>

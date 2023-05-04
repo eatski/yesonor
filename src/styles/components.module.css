@@ -4,7 +4,7 @@
     background-color: var(--bg-color-action);
     color: var(--text-color-action);
     border: none;
-    border-radius: 8px;
+    border-radius: 2px;
     cursor: pointer;
     height: 100%;
     filter: var(--filter-shadow);
@@ -16,7 +16,7 @@
     background-color: var(--bg-color-action-secondary);
     color: var(--text-color-action);
     border: none;
-    border-radius: 8px;
+    border-radius: 2px;
     cursor: pointer;
     height: 100%;
     filter: var(--filter-shadow);

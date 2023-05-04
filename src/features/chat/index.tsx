@@ -6,8 +6,7 @@ import { QuestionForm } from "./ui/questionForm";
 import { AnswerForm } from "./ui/answerForm";
 import { Answer } from "@/server/model/types";
 import { QuestionResult } from "./ui/questionResult";
-import { StoryTitle } from "./ui/storyTItle";
-import { FirstGuidance } from "./ui/firsGuidance";
+import { StoryTitle } from "./ui/storyMeta";
 import { AnswerResult } from "./ui/answerResult";
 
 type Props = {
@@ -66,10 +65,10 @@ export function Chat(props: Props) {
                             onAnswerButtonClicked={() => {
                                 setIsAnswerMode(true);
                             }}
-                        /> : <FirstGuidance />
+                        /> : null
                     }
                 </div>
-                <div className={styles.bottom}>
+                <div>
                     <QuestionFormContainer storyId={props.storyId} onAnswered={(arg) => {
                         setHistory((prev) => {
                             return [...prev,{

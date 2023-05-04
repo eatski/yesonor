@@ -2,10 +2,10 @@
     
     margin: 0;
     h3 {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: bold;
         margin: 0;
-        color: var(--text-color-bright);
+        color: var(--text-color-secondary);
     }
     ul {
         display: flex;
@@ -13,6 +13,7 @@
         list-style: none;
         gap: 12px;
         padding-left: 0;
+        margin: 4px 0 0;
     }
     li {
         display: flex;
@@ -24,19 +25,19 @@
         }
         div {
             padding: 4px 12px;
-            border-radius: 4px;
+            border-radius: 2px;
             text-align: center;
             filter: var(--filter-shadow);
         }
         div:nth-child(1) {
-            background-color: var(--bg-color-accent-secondary);
+            background-color: var(--bg-color-accent);
             flex-grow: 1;
         }
         div:nth-child(2) {
-            background-color: var(--bg-color-accent);
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 1px solid var(--border-color);
             min-width: 112px;
         }
     }

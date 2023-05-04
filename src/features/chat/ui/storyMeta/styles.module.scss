@@ -1,0 +1,29 @@
+.container {
+    filter: var(--filter-shadow);
+    margin:  32px 12px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    h2 {
+        font-size: 28px;
+        font-weight: 400;
+        margin: 0;
+        border-bottom: 1px solid var(--bg-color-brand);
+    }
+    dl {
+        display: flex;
+        margin: 0;
+        color: var(--text-color-secondary);
+        dt::after {
+            content: ":";
+        }
+        dd {
+            margin: 0 0 0 4px;
+        }
+    }
+    p {
+        margin: 0;
+        font-size: 16px;
+    }
+}

@@ -1,12 +1,16 @@
 .header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 52px;
+    padding: 4px 16px;
     background-color: var(--bg-color-brand);
     color: var(--text-color-bright);
+    font-family: Sen; //FIXME: ロゴを作る
     filter: var(--filter-shadow);
     h1 {
         font-size: 24px;
+        margin: 0;
+        line-height: 1.2;
+    }
+    p {
+        font-size: 10px;
+        margin: 0;
     }
 }
