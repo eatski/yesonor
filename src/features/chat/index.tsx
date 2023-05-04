@@ -53,58 +53,58 @@ export function Chat(props: Props) {
     const latest = history.at(-1);
     const [isAnswerMode,setIsAnswerMode] = useState(false);
      return <main className={styles.main}>
-        <StoryTitle title={props.title} description={props.quiz}/>
-        <div className={styles.mainControll}>
-        {
-            !isAnswerMode ? <>
-                <div className={styles.centerContent}>
-                    {
-                        latest ? <QuestionResult 
+        <div className={styles.centerContent}>
+            <StoryTitle title={props.title} description={props.quiz}/>
+            {
+                !isAnswerMode && latest && 
+                    <div className={styles.sectionWrapper}>
+                        <QuestionResult 
                             question={latest.input} 
                             answer={latest.result} 
                             onAnswerButtonClicked={() => {
                                 setIsAnswerMode(true);
                             }}
-                        /> : null
-                    }
+                        /> 
+                    </div>
+            }
+            {
+                isAnswerMode && 
+                <div className={styles.sectionWrapper}>
+                    <AnswerFormContainer 
+                        storyId={props.storyId} 
+                        onCancel={() => {
+                            setIsAnswerMode(false);
+                        }}
+                    />
                 </div>
-                <div>
-                    <QuestionFormContainer storyId={props.storyId} onAnswered={(arg) => {
-                        setHistory((prev) => {
-                            return [...prev,{
-                                id: prev.length,
-                                input: arg.input,
-                                result: ({
-                                    "FALSE": "いいえ",
-                                    "TRUE": "はい",
-                                    "UNKNOWN": "わからない",
-                                    "INVALID": "不正な質問"
-                                } as const satisfies Record<Answer,string>)[arg.result],
-                            }]
-                        })
-                    }} />
-                    
-                </div>
-            </> : <>
-                <AnswerFormContainer 
-                    storyId={props.storyId} 
-                    onCancel={() => {
-                        setIsAnswerMode(false);
-                    }}
-                />
-            </>
-        }
+            }
         </div>
-        
         {
-            history.length > 0 && <div className={styles.feedWrapper}>
-            <Feed items={history.map(({id,input,result}) => ({
-                id: id.toString(),
-                question: input,
-                answer: result
-            }))} />
-        </div>
+            !isAnswerMode && <div className={styles.sectionWrapper}>
+                <QuestionFormContainer storyId={props.storyId} onAnswered={(arg) => {
+                    setHistory((prev) => {
+                        return [...prev,{
+                            id: prev.length,
+                            input: arg.input,
+                            result: ({
+                                "FALSE": "いいえ",
+                                "TRUE": "はい",
+                                "UNKNOWN": "わからない",
+                                "INVALID": "不正な質問"
+                            } as const satisfies Record<Answer,string>)[arg.result],
+                        }]
+                    })
+                }} />
+            </div>
         }
-        
+        {
+            history.length > 0 && <div className={styles.sectionWrapper}>
+                <Feed items={history.map(({id,input,result}) => ({
+                    id: id.toString(),
+                    question: input,
+                    answer: result
+                }))} />
+            </div>
+        }
      </main>
 }
