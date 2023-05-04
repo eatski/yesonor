@@ -1,5 +1,4 @@
-import { Chat } from '@/features/chat';
-import { Header } from '@/features/header';
+import { Play } from '@/features/play';
 import { Layout } from '@/features/layout';
 import { StoryDescription } from '@/features/storyDescription';
 import { getSampleStory } from '@/sample/story';
@@ -41,6 +40,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({query}) => 
 export default function Story(props: Props) {
     return <Layout>
         <StoryDescription title={props.title} description={props.quiz}/>
-        <Chat storyId={props.storyId} />
+        <Play storyId={props.storyId} />
     </Layout>
 }

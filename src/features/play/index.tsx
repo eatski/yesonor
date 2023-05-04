@@ -45,7 +45,7 @@ const QuestionFormContainer: React.FC<{storyId: string,onAnswered: (arg: {input:
     }}/>
 }
 
-export function Chat(props: Props) {
+export function Play(props: Props) {
     const [history,setHistory] = useState<{id: number,input: string,result: string}[]>([]);
     const latest = history.at(-1);
     const [isAnswerMode,setIsAnswerMode] = useState(false);
