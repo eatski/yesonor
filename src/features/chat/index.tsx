@@ -6,13 +6,10 @@ import { QuestionForm } from "./ui/questionForm";
 import { AnswerForm } from "./ui/answerForm";
 import { Answer } from "@/server/model/types";
 import { QuestionResult } from "./ui/questionResult";
-import { StoryTitle } from "./ui/storyMeta";
 import { AnswerResult } from "./ui/answerResult";
 
 type Props = {
     storyId: string;
-    title: string;
-    quiz: string;
 }
 
 const AnswerFormContainer: React.FC<{storyId: string,onCancel: () => void}> = ({storyId,onCancel}) => {
@@ -52,31 +49,30 @@ export function Chat(props: Props) {
     const [history,setHistory] = useState<{id: number,input: string,result: string}[]>([]);
     const latest = history.at(-1);
     const [isAnswerMode,setIsAnswerMode] = useState(false);
-     return <main className={styles.main}>
-        <StoryTitle title={props.title} description={props.quiz}/>
-            {
-                !isAnswerMode && latest && 
-                    <div className={styles.sectionWrapper}>
-                        <QuestionResult 
-                            question={latest.input} 
-                            answer={latest.result} 
-                            onAnswerButtonClicked={() => {
-                                setIsAnswerMode(true);
-                            }}
-                        /> 
-                    </div>
-            }
-            {
-                isAnswerMode && 
+     return <>
+        {
+            !isAnswerMode && latest && 
                 <div className={styles.sectionWrapper}>
-                    <AnswerFormContainer 
-                        storyId={props.storyId} 
-                        onCancel={() => {
-                            setIsAnswerMode(false);
+                    <QuestionResult 
+                        question={latest.input} 
+                        answer={latest.result} 
+                        onAnswerButtonClicked={() => {
+                            setIsAnswerMode(true);
                         }}
-                    />
+                    /> 
                 </div>
-            }
+        }
+        {
+            isAnswerMode && 
+            <div className={styles.sectionWrapper}>
+                <AnswerFormContainer 
+                    storyId={props.storyId} 
+                    onCancel={() => {
+                        setIsAnswerMode(false);
+                    }}
+                />
+            </div>
+        }
         {
             !isAnswerMode && <div className={styles.sectionWrapper}>
                 <QuestionFormContainer storyId={props.storyId} onAnswered={(arg) => {
@@ -104,5 +100,5 @@ export function Chat(props: Props) {
                 }))} />
             </div>
         }
-     </main>
+     </>
 }

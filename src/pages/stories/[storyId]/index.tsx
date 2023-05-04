@@ -1,5 +1,7 @@
 import { Chat } from '@/features/chat';
 import { Header } from '@/features/header';
+import { Layout } from '@/features/layout';
+import { StoryDescription } from '@/features/storyDescription';
 import { getSampleStory } from '@/sample/story';
 import { GetServerSideProps } from 'next';
 import { z } from 'zod';
@@ -37,8 +39,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({query}) => 
 }
 
 export default function Story(props: Props) {
-    return <>
-        <Header />
-        <Chat {...props}/>
-    </>
+    return <Layout>
+        <StoryDescription title={props.title} description={props.quiz}/>
+        <Chat storyId={props.storyId} />
+    </Layout>
 }

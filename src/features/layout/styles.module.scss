@@ -1,0 +1,22 @@
+.header {
+    padding: 4px 16px;
+    background-color: var(--bg-color-brand);
+    color: var(--text-color-bright);
+    font-family: Sen; //FIXME: ロゴを作る
+    filter: var(--filter-shadow);
+    h1 {
+        font-size: 24px;
+        margin: 0;
+        line-height: 1.2;
+    }
+    p {
+        font-size: 10px;
+        margin: 0;
+    }
+}
+
+.main {
+    max-width: 640px;
+    margin: 0 auto 40px;
+    padding: 0 16px;
+}

@@ -9,7 +9,7 @@ import '@/styles/base.css';
 import Head from 'next/head';
 
 export default function App({ Component, pageProps }: AppProps) {
-  const queryClient = useMemo(() => new QueryClient(),[]);
+  const queryClient = useMemo(() => new QueryClient(), []);
   const trpcClient = useMemo(() =>
     trpc.createClient({
       links: [
@@ -18,21 +18,18 @@ export default function App({ Component, pageProps }: AppProps) {
         }),
       ],
     })
-  ,[]);
+    , []);
 
   return (
     <>
-     <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      
         <QueryClientProvider client={queryClient}>
-          
           <Component {...pageProps} />
         </QueryClientProvider>
       </trpc.Provider>
     </>
-    
   );
 }
