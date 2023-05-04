@@ -53,8 +53,7 @@ export function Chat(props: Props) {
     const latest = history.at(-1);
     const [isAnswerMode,setIsAnswerMode] = useState(false);
      return <main className={styles.main}>
-        <div className={styles.centerContent}>
-            <StoryTitle title={props.title} description={props.quiz}/>
+        <StoryTitle title={props.title} description={props.quiz}/>
             {
                 !isAnswerMode && latest && 
                     <div className={styles.sectionWrapper}>
@@ -78,7 +77,6 @@ export function Chat(props: Props) {
                     />
                 </div>
             }
-        </div>
         {
             !isAnswerMode && <div className={styles.sectionWrapper}>
                 <QuestionFormContainer storyId={props.storyId} onAnswered={(arg) => {

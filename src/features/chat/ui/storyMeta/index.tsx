@@ -11,11 +11,15 @@ export const StoryTitle: React.FC<Props> = ({title,description}) => {
                 {title}
             </h2>
             <dl>
-                <dt>投稿日</dt>
-                <dd>2021/01/01</dd>
+                <div className={styles.basic}>
+                    <dt>投稿日</dt>
+                    <dd>2021/01/01</dd>
+                </div>
+                <div className={styles.content}>
+                    <dt>問題</dt>
+                    <dd>{description}</dd>
+                </div>
+                
             </dl>
-            <p>
-                {description}
-            </p>
         </div>
 }

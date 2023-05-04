@@ -13,14 +13,30 @@
         padding-bottom: 2px;
     }
     dl {
-        display: flex;
         margin: 0;
-        color: var(--text-color-secondary);
-        dt::after {
-            content: ":";
+        .basic {
+            display: flex;
+            justify-content: center;
+            color: var(--text-color-secondary);
+            dt::after {
+                content: ":";
+            }
+            dd {
+                margin: 0 0 0 4px;
+            }
         }
-        dd {
-            margin: 0 0 0 4px;
+        .content {
+            margin-top: 16px;
+            dt {
+                font-size: 14px;
+                font-weight: bold;
+                color: var(--text-color-secondary);
+            }
+            dd {
+                font-size: 16px;
+                color: var(--text-color-primary);
+                margin: 4px 0 0 0;
+            }
         }
     }
     p {
