@@ -20,7 +20,7 @@ export const AnswerForm: React.FC<{
         }}
         />
         <div className={styles.buttonContainer}>
-            <button className={components.buttonSecondary} type="button" onClick={onCancel} disabled={isLoading}>やっぱりわからない</button>
+            <button className={components.buttonSecondary} type="button" onClick={onCancel} disabled={isLoading}>まだ分からない</button>
             <button className={components.button} type="submit" disabled={isLoading}>回答</button>
         </div>
     </form>
