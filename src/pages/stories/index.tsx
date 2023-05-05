@@ -1,6 +1,5 @@
 import { Layout } from '@/features/layout';
 import { GetStaticProps } from 'next';
-import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
 
 type Props = {

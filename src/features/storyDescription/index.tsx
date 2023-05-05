@@ -1,11 +1,12 @@
 import styles from "./styles.module.scss";
 
-export type Props = {
+export type Story = {
     title: string,
-    description: string
+    quiz: string,
+    createdAt: number
 }
 
-export const StoryDescription: React.FC<Props> = ({title,description}) => {
+export const StoryDescription: React.FC<Story> = ({title,quiz,createdAt}) => {
     return  <div className={styles.container}>
         <h2>
             {title}
@@ -13,11 +14,11 @@ export const StoryDescription: React.FC<Props> = ({title,description}) => {
         <dl>
             <div className={styles.basic}>
                 <dt>投稿日</dt>
-                <dd>2021/01/01</dd>
+                <dd>{new Date(createdAt).toLocaleDateString()}</dd>
             </div>
             <div className={styles.content}>
                 <dt>問題</dt>
-                <dd>{description}</dd>
+                <dd>{quiz}</dd>
             </div>
             
         </dl>

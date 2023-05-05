@@ -13,6 +13,7 @@
         padding-bottom: 2px;
     }
     dl {
+        width: 100%;
         margin: 0;
         .basic {
             display: flex;
@@ -23,6 +24,7 @@
             }
             dd {
                 margin: 0 0 0 4px;
+                
             }
         }
         .content {
@@ -36,6 +38,7 @@
                 font-size: 16px;
                 color: var(--text-color-primary);
                 margin: 4px 0 0 0;
+                text-align: center;
             }
         }
     }

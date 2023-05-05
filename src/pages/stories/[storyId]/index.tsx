@@ -1,14 +1,13 @@
 import { Play } from '@/features/play';
 import { Layout } from '@/features/layout';
-import { StoryDescription } from '@/features/storyDescription';
+import { Story, StoryDescription } from '@/features/storyDescription';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
 
 type Props = {
     storyId: number;
-    title: string;
-    quiz: string;
+    story: Story;
 }
 
 const querySchema = z.object({
@@ -37,8 +36,11 @@ export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
     return {
       props: {
         storyId: validated.data.storyId,
-        title: story.title,
-        quiz: story.quiz,
+        story: {
+            title: story.title,
+            quiz: story.quiz,
+            createdAt: story.createdAt.getTime()
+        }
       },
       revalidate: 60 * 60 * 24
     }
@@ -59,7 +61,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export default function Story(props: Props) {
     return <Layout>
-        <StoryDescription title={props.title} description={props.quiz}/>
+        <StoryDescription title={props.story.title} quiz={props.story.quiz} createdAt={props.story.createdAt}/>
         <Play storyId={props.storyId} />
     </Layout>
 }
