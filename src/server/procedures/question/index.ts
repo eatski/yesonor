@@ -7,15 +7,24 @@ import { z } from "zod"
 import { answer } from "../../model/schemas"
 import { procedure } from "../../trpc"
 import { parseHeadToken } from "./parse"
+import { PrismaClient } from '@prisma/client';
 
 const systemPromptPromise = readFile(resolve(process.cwd(),"prompts","question.md")) ;
 
 export const question = procedure.input(z.object({
-    storyId: z.string(),
+    storyId: z.number(),
     text: z.string()
 })).mutation(async ({input}) => {
     const systemPrompt = await systemPromptPromise;
-    const story = getSampleStory(input.storyId);
+    const prisma = new PrismaClient();
+    const story = await prisma.story.findFirst({
+        where: {
+            id: input.storyId
+        },
+        include: {
+            questionExamples: true
+        }
+    })
     if (!story) {
         throw new TRPCError({
             code: "NOT_FOUND"

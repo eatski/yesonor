@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+  directUrl         = env("POSTGRES_URL_NON_POOLING")
+  shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") 
+}
+
+model Story {
+  id                Int              @id @default(autoincrement())
+  title             String
+  description       String
+  quiz              String
+  truth             String
+  simpleTruth       String
+  questionExamples  QuestionExample[]
+  createdAt         DateTime         @default(now())
+}
+
+model QuestionExample {
+  id                Int              @id @default(autoincrement())
+  storyId           Int
+  question          String
+  answer            Answer
+  supplement        String
+  Story             Story            @relation(fields: [storyId], references: [id])
+
+  @@index([storyId], name: "idx_story")
+}
+
+enum Answer {
+  TRUE
+  FALSE
+  UNKNOWN
+  INVALID
+}

@@ -2,7 +2,7 @@ import { trpc } from "@/libs/trpc";
 import { Answer } from "@/server/model/types";
 import { useState } from "react";
 
-export const useQuestion = (storyId: string) => {
+export const useQuestion = (storyId: number) => {
     const [history,setHistory] = useState<{id: number,input: string,result: string}[]>([]);
     const {mutate,isLoading,variables} = trpc.question.useMutation();
     return {

@@ -2,6 +2,7 @@ import { openai } from "@/libs/openapi";
 import { getSampleStory } from "@/sample/story";
 import { truthCoincidence } from "@/server/model/schemas";
 import { procedure } from "@/server/trpc";
+import { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { readFile } from "fs/promises";
 import { resolve } from "path";
@@ -10,10 +11,15 @@ import { z } from "zod";
 const systemPromptPromise = readFile(resolve(process.cwd(),"prompts","truth.md")) ;
 
 export const truth = procedure.input(z.object({
-    storyId: z.string(),
+    storyId: z.number(),
     text: z.string(),
 })).mutation(async ({ input }) => {
-    const story = getSampleStory(input.storyId);
+    const prisma = new PrismaClient();
+    const story = await prisma.story.findFirst({
+        where: {
+            id: input.storyId
+        },
+    })
     if (!story) {
         throw new TRPCError({
             code: "NOT_FOUND"

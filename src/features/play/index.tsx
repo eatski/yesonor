@@ -10,10 +10,10 @@ import { AnswerResult } from "./ui/answerResult";
 import { useQuestion } from "./useQuestion";
 
 type Props = {
-    storyId: string;
+    storyId: number;
 }
 
-const AnswerFormContainer: React.FC<{ storyId: string, onCancel: () => void }> = ({ storyId, onCancel }) => {
+const AnswerFormContainer: React.FC<{ storyId: number, onCancel: () => void }> = ({ storyId, onCancel }) => {
     const { mutate, isLoading, data, reset } = trpc.truth.useMutation();
     return data ? <AnswerResult reasoning={data.input} onBackButtonClicked={reset} result={({
         Covers: "正解",

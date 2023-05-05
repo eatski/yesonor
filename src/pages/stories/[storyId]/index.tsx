@@ -1,18 +1,18 @@
 import { Play } from '@/features/play';
 import { Layout } from '@/features/layout';
 import { StoryDescription } from '@/features/storyDescription';
-import { getSampleStory } from '@/sample/story';
 import { GetServerSideProps } from 'next';
 import { z } from 'zod';
+import { PrismaClient } from '@prisma/client';
 
 type Props = {
-    storyId: string;
+    storyId: number;
     title: string;
     quiz: string;
 }
 
 const querySchema = z.object({
-    storyId: z.string()
+    storyId: z.string().transform(e => parseInt(e)).refine(e => !Number.isNaN(e))
 })
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({query}) => {
@@ -22,7 +22,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({query}) => 
             notFound: true
         }
     }
-    const story = getSampleStory(validated.data.storyId);
+
+    const prisma = new PrismaClient();
+    const story = await prisma.story.findFirst({
+        where: {
+            id: validated.data.storyId
+        }
+    })
     if(!story) {
         return {
             notFound: true
