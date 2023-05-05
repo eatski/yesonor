@@ -31,7 +31,7 @@ export const truth = procedure.input(z.object({
             },
             {
                 role: "assistant",
-                content: story.truthExamples[0]
+                content: story.simpleTruth
             },
             {
                 role: "user",

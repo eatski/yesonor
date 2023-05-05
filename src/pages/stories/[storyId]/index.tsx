@@ -32,7 +32,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({query}) => 
       props: {
         storyId: validated.data.storyId,
         title: story.title,
-        quiz: story.mystery,
+        quiz: story.quiz,
       }
     }
 }

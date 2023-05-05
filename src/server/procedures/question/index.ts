@@ -30,13 +30,13 @@ export const question = procedure.input(z.object({
             },
             {
                 role: "assistant",
-                content: story.mystery
+                content: story.quiz
             },
             {
                 role: "assistant",
                 content: story.truth
             },
-            ...story.examples.flatMap(({ question: question, answer: answer, supplement }) => {
+            ...story.questionExamples.flatMap(({ question: question, answer: answer, supplement }) => {
                 return [
                     {
                         role: "user",
