@@ -1,5 +1,5 @@
 import { Layout } from '@/features/layout';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
 
@@ -9,7 +9,8 @@ type Props = {
         title: string;
     }[]
 }
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
     const prisma = new PrismaClient();
     const stories = await prisma.story.findMany();
     return {
@@ -18,7 +19,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
                 id,
                 title
             }))
-        }
+        
+        },
+        revalidate: 60
     }
 }
 
