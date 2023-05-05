@@ -40,7 +40,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
         title: story.title,
         quiz: story.quiz,
       },
-      revalidate: 60
+      revalidate: 60 * 60 * 24
     }
 }
 
