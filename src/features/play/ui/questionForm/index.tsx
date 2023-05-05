@@ -17,7 +17,7 @@ export const QuestionForm: React.FC<{
     }>
         <label className={styles.formLabel}>質問をする</label>
         <div className={styles.formContent}>
-            <input className={styles.formInput} required placeholder="はいorいいえで答えられる質問" onChange={(e) => {
+            <input className={styles.formInput} required placeholder="はい or いいえ で答えられる質問" onChange={(e) => {
                 inputRef.current = e.target.value
             }}
              />

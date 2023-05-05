@@ -33,6 +33,11 @@ export function Play(props: Props) {
     const question = useQuestion(props.storyId);
     const [isAnswerMode, setIsAnswerMode] = useState(false);
     return <>
+     {
+            !isAnswerMode && <div className={styles.sectionWrapper}>
+                <QuestionForm onSubmit={question.onSubmit} isLoading={question.isLoading} />
+            </div>
+        }
         {
             !isAnswerMode && question.latest &&
             <div className={styles.sectionWrapper}>
@@ -45,6 +50,7 @@ export function Play(props: Props) {
                 />
             </div>
         }
+       
         {
             isAnswerMode &&
             <div className={styles.sectionWrapper}>
@@ -56,11 +62,7 @@ export function Play(props: Props) {
                 />
             </div>
         }
-        {
-            !isAnswerMode && <div className={styles.sectionWrapper}>
-                <QuestionForm onSubmit={question.onSubmit} isLoading={question.isLoading} />
-            </div>
-        }
+        
         {
             question.history.length > 0 && <div className={styles.sectionWrapper}>
                 <Feed items={question.history.map(({ id, input, result }) => ({
