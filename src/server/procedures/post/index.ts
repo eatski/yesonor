@@ -1,26 +1,11 @@
 import { procedure } from "@/server/trpc";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
+import { storyInput } from "./type";
 
-const answer = z.enum(["True", "False", "Unknown", "Invalid"]);
+export type Input = z.infer<typeof storyInput>;
 
-const questionExample = z.object({
-  question: z.string(),
-  answer,
-  supplement: z.string(),
-});
-
-const input = z.object({
-  title: z.string(),
-  quiz: z.string(),
-  truth: z.string(),
-  simpleTruth: z.string(),
-  questionExamples: z.array(questionExample),
-});
-
-export type Input = z.infer<typeof input>;
-
-export const post = procedure.input(input).mutation(async ({input,ctx} ) => {
+export const post = procedure.input(storyInput).mutation(async ({input,ctx} ) => {
     const prisma = new PrismaClient();
     const { questionExamples, ...storyData } = input;
 
