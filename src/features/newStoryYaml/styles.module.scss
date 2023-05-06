@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h2 {
+        font-size: 24px;
+        font-weight: 400;
+        margin: 0;
+        margin-bottom: 16px;
+        + p {
+            margin: 0 0 24px;
+            font-size: 14px;
+            color: var(--text-color-secondary);
+        }
+    }
+
+    .drag {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px dashed var(--border-color);
+        width: 100%;
+        height: 240px;
+        border-radius: 2px;
+        color: var(--text-color-secondary);
+        font-size: 14px;
+    }
+}
+
+.beforeSubmit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    dl {
+        background-color: var(--bg-color-accent);
+        padding: 16px;
+        border-radius: 2px;
+        dt {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-color-secondary);
+        }
+        dd {
+            font-size: 14px;
+        }
+    }
+}
