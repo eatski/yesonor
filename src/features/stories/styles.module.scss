@@ -1,10 +1,11 @@
 .container {
    display: flex;
    flex-direction: column;
+   padding: 0 16px;
     li {
         border-top: 1px solid var(--border-color);
         list-style: none;
-        padding: 16px 60px;
+        padding: 16px 40px;
     }
     a {
         text-decoration: none;
