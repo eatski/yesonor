@@ -6,6 +6,7 @@ export const Landing: React.FC = () => {
     return <div className={styles.container}>
         <h2>{texts.serviceDescription}</h2>
         <p>「はい」か「いいえ」で答えられる質問をAIが回答する</p>
+        <p>このアプリケーションは開発中です。</p>
         <Link href={"/stories"}>
             ゲームを探す
         </Link>
