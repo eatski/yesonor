@@ -1,0 +1,30 @@
+name: 機能追加
+description: 機能追加の提案
+title: "[機能追加]: "
+assignees:
+  - eatski
+body:
+  - type: markdown
+    attributes:
+      value: |
+        機能追加を提案します。
+  - type: textarea
+    id: problem
+    attributes:
+      label: 何を解決したいか？
+      placeholder: ユーザーがログインできない
+    validations:
+      required: true
+  - type: textarea
+    id: tobe
+    attributes:
+      label: どうあって欲しいか？
+      placeholder: ユーザーがログインできるようになる
+    validations:
+      required: false
+  - type: textarea
+    id: solution
+    attributes:
+      label: どうやって実現するか？
+    validations:
+      required: false
