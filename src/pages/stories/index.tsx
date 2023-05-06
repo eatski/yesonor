@@ -1,11 +1,14 @@
 import { Layout } from '@/features/layout';
 import { GetStaticProps } from 'next';
 import { PrismaClient } from '@prisma/client';
+import { Stories } from '@/features/stories';
+import { ListHead } from '@/features/listHead';
 
 type Props = {
     stories: {
         id: number;
         title: string;
+        quiz: string;
     }[]
 }
 
@@ -14,9 +17,10 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     const stories = await prisma.story.findMany();
     return {
       props: {
-        stories: stories.map(({id, title}) => ({
+        stories: stories.map(({id,title,quiz}) => ({
                 id,
-                title
+                title,
+                quiz
             }))
         
         },
@@ -27,12 +31,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 export default function Story(props: Props) {
     return <Layout>
         <main>
-            <h2>リスト</h2>
-            <ul>
-                {
-                    props.stories.map(({id, title}) => <li key={id}><a href={`/stories/${id}`}>{title}</a></li>)
-                }
-            </ul>
+            <ListHead />
+            <Stories stories={props.stories} />
         </main>
     </Layout>
 }
