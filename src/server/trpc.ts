@@ -5,13 +5,15 @@ import { getServerSession } from 'next-auth/next';
 
 export const createContext = async (context: CreateNextContextOptions) => {
     const session = await getServerSession(context.req, context.res, authConfig);
-    if(!session){
+    if(!session || !session.user?.email){
         throw new TRPCError({
             code: 'UNAUTHORIZED',
         })
     }
     return {
-      user: session.user,
+      user: {
+        email: session.user.email,
+      },
     };
 };
 

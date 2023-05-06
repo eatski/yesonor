@@ -1,11 +1,11 @@
 -- CreateEnum
-CREATE TYPE "Answer" AS ENUM ('TRUE', 'FALSE', 'UNKNOWN', 'INVALID');
+CREATE TYPE "Answer" AS ENUM ('True', 'False', 'Unknown', 'Invalid');
 
 -- CreateTable
 CREATE TABLE "Story" (
     "id" SERIAL NOT NULL,
+    "authorEmail" TEXT NOT NULL,
     "title" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
     "quiz" TEXT NOT NULL,
     "truth" TEXT NOT NULL,
     "simpleTruth" TEXT NOT NULL,

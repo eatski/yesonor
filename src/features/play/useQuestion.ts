@@ -17,10 +17,10 @@ export const useQuestion = (storyId: number) => {
                             id: history.length,
                             input: text,
                             result: ({
-                                "FALSE": "いいえ",
-                                "TRUE": "はい",
-                                "UNKNOWN": "わからない",
-                                "INVALID": "不正な質問"
+                                "False": "いいえ",
+                                "True": "はい",
+                                "Unknown": "わからない",
+                                "Invalid": "不正な質問"
                             } as const satisfies Record<Answer,string>)[result]
                         }
                     ]);

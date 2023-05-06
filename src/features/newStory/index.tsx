@@ -24,7 +24,6 @@ export const NewStory = () => {
         <h2>新しいストーリーを作成する</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
             <input {...register("title")} placeholder="タイトル" />
-            <input {...register("description")} placeholder="説明" />
             <input {...register("quiz")} placeholder="クイズ" />
             <input {...register("truth")} placeholder="真相" />
             <input {...register("simpleTruth")} placeholder="真相を最低限にしたもの" />
@@ -35,17 +34,17 @@ export const NewStory = () => {
                         <input {...register(`questionExamples.${index}.question`)} placeholder="質問" />
                         <input {...register(`questionExamples.${index}.supplement`)} placeholder="補足" />
                         <select {...register(`questionExamples.${index}.answer`)}>
-                            <option value="TRUE">TRUE</option>
-                            <option value="FALSE">FALSE</option>
-                            <option value="UNKNOWN">UNKNOWN</option>
-                            <option value="INVALID">INVALID</option>
+                            <option value="True">True</option>
+                            <option value="False">False</option>
+                            <option value="Unknown">Unknown</option>
+                            <option value="Invalid">Invalid</option>
                         </select>
                         <button onClick={() => remove(index)}>削除</button>
                     </div>
                 ))}
             </div>
 
-            <button type="button" className={components.button} onClick={() => append({ question: '', supplement: '', answer: 'TRUE' })}>
+            <button type="button" className={components.button} onClick={() => append({ question: '', supplement: '', answer: 'True' })}>
                 新しい質問を追加する
             </button>
 

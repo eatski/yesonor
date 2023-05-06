@@ -11,8 +11,8 @@ datasource db {
 
 model Story {
   id                Int              @id @default(autoincrement())
+  authorEmail       String
   title             String
-  description       String
   quiz              String
   truth             String
   simpleTruth       String
@@ -32,8 +32,8 @@ model QuestionExample {
 }
 
 enum Answer {
-  TRUE
-  FALSE
-  UNKNOWN
-  INVALID
+  True
+  False
+  Unknown
+  Invalid
 }

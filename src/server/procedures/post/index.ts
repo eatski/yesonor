@@ -2,7 +2,7 @@ import { procedure } from "@/server/trpc";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 
-const answer = z.enum(["TRUE", "FALSE", "UNKNOWN", "INVALID"]);
+const answer = z.enum(["True", "False", "Unknown", "Invalid"]);
 
 const questionExample = z.object({
   question: z.string(),
@@ -12,7 +12,6 @@ const questionExample = z.object({
 
 const input = z.object({
   title: z.string(),
-  description: z.string(),
   quiz: z.string(),
   truth: z.string(),
   simpleTruth: z.string(),
@@ -21,7 +20,7 @@ const input = z.object({
 
 export type Input = z.infer<typeof input>;
 
-export const post = procedure.input(input).mutation(async ({input} ) => {
+export const post = procedure.input(input).mutation(async ({input,ctx} ) => {
     const prisma = new PrismaClient();
     const { questionExamples, ...storyData } = input;
 
@@ -32,6 +31,7 @@ export const post = procedure.input(input).mutation(async ({input} ) => {
       questionExamples: {
         create: questionExamples,
       },
+      authorEmail: ctx.user.email,
     },
     include: {
       questionExamples: true,

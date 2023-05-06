@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-export const answer = z.enum(["TRUE", "FALSE","UNKNOWN","INVALID"]);
+export const answer = z.enum(["True", "False","Unknown","Invalid"]);
 
 export const story = z.object({
     title: z.string(),
-    description: z.string(),
+    authorEmail: z.string().email(),
     quiz: z.string(),
     truth: z.string(),
     simpleTruth: z.string(),
