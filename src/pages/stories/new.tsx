@@ -1,8 +1,8 @@
 import { Layout } from "@/features/layout";
-import { NewStory } from "@/features/newStory";
+import { NewStoryYaml } from "@/features/newStoryYaml";
 
 export default function NewStoryPage() {
     return <Layout>
-        <NewStory />
+        <NewStoryYaml />
     </Layout>
 }

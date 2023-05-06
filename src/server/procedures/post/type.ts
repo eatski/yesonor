@@ -8,10 +8,13 @@ const questionExample = z.object({
   supplement: z.string(),
 });
 
-export const storyInput = z.object({
+export const storyInit = z.object({
   title: z.string(),
   quiz: z.string(),
   truth: z.string(),
   simpleTruth: z.string(),
   questionExamples: z.array(questionExample),
 });
+
+
+export type StoryInit = z.infer<typeof storyInit>;

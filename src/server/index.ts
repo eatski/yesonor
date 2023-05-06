@@ -8,7 +8,7 @@ export const appRouter = router({
   hello,
   question,
   truth,
-  post
+  post,
 });
 
 // Export type router type signature,
