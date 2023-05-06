@@ -1,4 +1,5 @@
 import { hello } from './procedures/hello';
+import { post } from './procedures/post';
 import { question } from './procedures/question';
 import { truth } from './procedures/truth';
 import { router } from './trpc';
@@ -6,7 +7,8 @@ import { router } from './trpc';
 export const appRouter = router({
   hello,
   question,
-  truth
+  truth,
+  post
 });
 
 // Export type router type signature,

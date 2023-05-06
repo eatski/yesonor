@@ -118,13 +118,64 @@ export const sample2: Story = {
     createdAt: new Date(),
 }
 
-export const getSampleStory = (id: string): Story | null => {
-    switch (id) {
-        case "sample1":
-            return sample1
-        case "sample2":
-            return sample2
-        default:
-            return null
-    }
+export const sample3 : Story = {
+    title: "あなたに向かって",
+    description: "サンプルです。",
+    quiz: "残業中の森田さんは気になってビルの窓から下の路地裏を眺めた。森田さんには男性が自分のいる方向に向かって指を差して何かを喋っているのが見える。男性を言っているのだろうか？",
+    truth: `
+    残業中の森田さんは窓の外から聞こえた悲鳴が気になってビルの窓から下の路地裏を眺めた。
+    そこには横たわる死体とそのすぐそばにいる男性。森田さんは男性が人を殺しているのを見てしまったのだ。
+    男性は窓から殺人を目撃したであろう森田さんに気づき、窓に向かって指を差して「1階,2階,３階...」と数えている。
+    男性は目撃者である森田さんを口封じに殺すために、森田さんが今ビルの何階にいるかを指差し数えているのだ。
+    `,
+    simpleTruth: "森田さんは路地裏で男性が人を殺しているのを目撃してしまった。男性は目撃者である森田さんを殺そうと、森田さんが今ビルの何階にいるかをビルの方を指差し口に出してそれを数えている。",
+    questionExamples: [
+        {
+            question: "森田さんは人を殺害しましたか？",
+            answer: "FALSE",
+            supplement: "人を殺害したのは路地裏の男性で、森田さんは人を殺害していません。",
+        },
+        {
+            question: "森田さんは殺人を目撃しましたか？",
+            answer: "TRUE",
+            supplement: "森田さんは路地裏で男性が人を殺害しているのを目撃しました。",
+        },
+        {
+            question: "男性は人を殺害しましたか？",
+            answer: "TRUE",
+            supplement: "男性は路地裏で人を殺害しました。",
+        },
+        {
+            question: "男性は森田さんを殺害しようとしていますか？",
+            answer: "TRUE",
+            supplement: "男性は森田さんを殺害しようと、今ビルの何階にいるかを数えています。",
+        },
+        {
+            question: "男性は森田さんに何かを伝えようとしていますか？",
+            answer: "FALSE",
+            supplement: "男性は森田さんに伝えたいことがあるわけではなく、単に森田さんが今ビルの何階にいるかを数えています。",
+        },
+        {
+            question: "男性の声は森田さんに聞こえていますか？",
+            answer: "UNKNOWN",
+            supplement: "男性の声が森田さんに聞こえているかは言及されていません。",
+        },
+        {
+            question: "森田さんの他にビルの中に人はいますか？",
+            answer: "UNKNOWN",
+            supplement: "森田さんの他にビルの中に人がいるかは言及されていません。",
+        },
+        {
+            question: "森田さんはビルの高い階にいますか？",
+            answer: "TRUE",
+            supplement: "男性がわざわざ森田さんが今ビルの何階にいるかを数えているので、森田さんはビルの高い階にいると考えられます。",
+        },
+        {
+            question: "森田さんが何の仕事の残業中かは真相に関係ありますか？",
+            answer: "FALSE",
+            supplement: "森田さんが何の仕事の残業中かは真相に関係ありません。",
+        },
+    ],
+    createdAt: new Date(),
+
 }

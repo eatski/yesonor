@@ -1,5 +1,4 @@
 import { openai } from "@/libs/openapi";
-import { getSampleStory } from "@/sample/story";
 import { truthCoincidence } from "@/server/model/schemas";
 import { procedure } from "@/server/trpc";
 import { PrismaClient } from "@prisma/client";

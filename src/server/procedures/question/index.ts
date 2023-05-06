@@ -1,5 +1,4 @@
 import { openai } from "@/libs/openapi"
-import { getSampleStory } from "@/sample/story"
 import { TRPCError } from "@trpc/server"
 import { readFile } from "fs/promises"
 import { resolve } from "path"
