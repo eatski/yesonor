@@ -27,23 +27,11 @@
                 
             }
         }
-        .content {
-            margin-top: 16px;
-            dt {
-                font-size: 14px;
-                font-weight: bold;
-                color: var(--text-color-secondary);
-            }
-            dd {
-                font-size: 16px;
-                color: var(--text-color-primary);
-                margin: 4px 0 0 0;
-                text-align: center;
-            }
+        p {
+            font-size: 16px;
+            color: var(--text-color-primary);
+            margin: 24px 0 0 0;
+            text-align: center;
         }
-    }
-    p {
-        margin: 0;
-        font-size: 16px;
     }
 }

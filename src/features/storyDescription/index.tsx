@@ -16,11 +16,7 @@ export const StoryDescription: React.FC<Story> = ({title,quiz,createdAt}) => {
                 <dt>投稿日</dt>
                 <dd>{new Date(createdAt).toLocaleDateString()}</dd>
             </div>
-            <div className={styles.content}>
-                <dt>問題</dt>
-                <dd>{quiz}</dd>
-            </div>
-            
+            <p>{quiz}</p>
         </dl>
     </div>
 }
