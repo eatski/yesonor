@@ -1,15 +1,23 @@
 import { texts } from "@/texts";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import styles from "./styles.module.scss";
 
 export const Layout: React.FC<PropsWithChildren> = ({children}) => {
+    const session = useSession();
     return <>
         <header className={styles.header}>
-            <Link href="/">
+             <Link href="/">
                 <h1>{texts.serviceName}</h1>
                 <p>{texts.serviceDescription}</p>
             </Link>
+            
+            <div className={styles.right}>
+                {
+                    session.data?.user ? <Link href="/api/auth/signout">ログアウト</Link> : <Link href="/api/auth/signin">ログイン</Link>
+                }
+            </div>
         </header>
         <main className={styles.main}>
             {children}
