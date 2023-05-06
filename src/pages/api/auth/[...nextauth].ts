@@ -5,7 +5,7 @@ if(!process.env.GOOGLE_ID || !process.env.GOOGLE_SECRET || !process.env.NEXTAUTH
   throw new Error("Google OAuth is not configured")
 }
 
-export default NextAuth({
+export const authConfig = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
@@ -13,5 +13,6 @@ export default NextAuth({
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-  debug: true,
-})
+}
+
+export default NextAuth(authConfig)
