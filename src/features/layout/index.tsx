@@ -1,5 +1,5 @@
 import { texts } from "@/texts";
-import { useSession } from "next-auth/react";
+import { signIn,signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import styles from "./styles.module.scss";
@@ -15,7 +15,15 @@ export const Layout: React.FC<PropsWithChildren> = ({children}) => {
             
             <div className={styles.right}>
                 {
-                    session.data?.user ? <Link href="/api/auth/signout">ログアウト</Link> : <Link href="/api/auth/signin">ログイン</Link>
+                    session.data?.user ? <button onClick={() => {
+                        signOut();
+                    }}>
+                        ログアウト
+                    </button> : <button onClick={() => {
+                        signIn();
+                    }}>
+                        ログイン
+                    </button>
                 }
             </div>
         </header>
