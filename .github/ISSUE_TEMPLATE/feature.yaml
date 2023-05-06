@@ -9,17 +9,17 @@ body:
       value: |
         機能追加を提案します。
   - type: textarea
-    id: problem
+    id: value
     attributes:
-      label: 何を解決したいか？
-      placeholder: ユーザーがログインできない
+      label: どういった価値をもたらしたいか？何を解決したいか？
+      placeholder: ログインなしでもクイズで遊べるようになる
     validations:
       required: true
-  - type: textarea
-    id: tobe
+   - type: textarea
+    id: hindrance
     attributes:
-      label: どうあって欲しいか？
-      placeholder: ユーザーがログインできるようになる
+      label: 何がこれを実現するのを妨げているか？
+      placeholder: bot等での不正利用
     validations:
       required: false
   - type: textarea
