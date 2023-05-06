@@ -28,7 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="google-site-verification" content="IOUrzGJWxf4PAzsbT3sjOdM63TI1ELMEpDhmtX0QlWQ" />
       </Head>
-      <SessionProvider session={pageProps.session} basePath={"http://localhost:3000"}>
+      <SessionProvider session={pageProps.session}>
         <trpc.Provider client={trpcClient} queryClient={queryClient}>
           <QueryClientProvider client={queryClient}>
             <Component {...pageProps} />
