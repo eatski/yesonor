@@ -3,13 +3,13 @@
     height: 40px;
     display: flex;
     gap: 8px;
-    margin-top: 4px;
 }
 
 .formLabel {
     font-size: 14px;
     color: var(--text-color-secondary);
     font-weight: bold;
+    margin-bottom: 4px;
 }
 
 .formInput {

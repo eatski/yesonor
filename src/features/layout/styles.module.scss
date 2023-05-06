@@ -28,8 +28,8 @@
 .main {
     max-width: 640px;
     margin: 0 auto 40px;
-    padding: 0 16px;
-    min-height: 90vh;
+    padding: 40px 16px 0;
+    min-height: 80vh;
 }
 
 .footer {
@@ -39,7 +39,6 @@
     align-items: center;
     font-size: 20px;
     gap: 4px;
-    margin-top: 40px;
     padding: 8px;
     color: var(--text-color-bright);
     background-color: var(--bg-color-brand);

@@ -14,17 +14,17 @@
         font-size: 16px;
         margin: 0;
         color: var(--text-color-primary);
+        margin-bottom: 8px;
     }
     p {
         margin: 0;
         font-size: 14px;
         color: var(--text-color-secondary);
-        margin-top: 12px;
+        margin-bottom: 12px;
     }
     .buttonContainer {
         display: flex;
         justify-content: center;
-        margin-top: 16px;
         a {
             font-size: 11px;
         }
