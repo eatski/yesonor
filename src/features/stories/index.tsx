@@ -21,7 +21,7 @@ export const Stories: React.FC<{stories: Story[]}> = ({stories}) => {
                     </p>
                 </Link>
                 <div className={styles.buttonContainer}>
-                    <button className={components.button}>謎を解く</button>
+                    <Link href={`/stories/${story.id}`} className={components.button}>謎を解く</Link>
                 </div>
                 
             </li>

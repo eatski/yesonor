@@ -8,11 +8,11 @@
     }
     a {
         text-decoration: none;
-        color: var(--text-color-primary);
     }
     .title {
         font-size: 16px;
         margin: 0;
+        color: var(--text-color-primary);
     }
     p {
         margin: 0;
@@ -24,7 +24,7 @@
         display: flex;
         justify-content: center;
         margin-top: 16px;
-        button {
+        a {
             font-size: 11px;
         }
     }
