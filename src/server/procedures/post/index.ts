@@ -34,6 +34,6 @@ export const post = procedure.input(storyInit).mutation(async ({ input, ctx }) =
       cause: error
     }))
   }
-  await retryable(10);
+  await retryable(20);
   return story;
 })
