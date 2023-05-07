@@ -2,6 +2,7 @@ import { procedure } from "@/server/trpc";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 import { storyInit } from "./type";
+import { setTimeout } from "timers/promises";
 
 export type Input = z.infer<typeof storyInit>;
 
@@ -23,14 +24,13 @@ export const post = procedure.input(storyInit).mutation(async ({ input, ctx }) =
     },
   });
 
-  const retryable = (count: number): Promise<void> => {
+  const retryable = (count: number,error?: any): Promise<void> => {
     if(count){
-      return ctx.doRevalidate(`/stories/${story.id}`).catch((e) => {
-        console.error(e);
-        return retryable(count - 1)
-      })
+      return setTimeout(300).then(() => ctx.doRevalidate(`/stories/${story.id}`).catch((e) => {
+        return retryable(count - 1,e)
+      }))
     }
-    return Promise.reject("Failed to revalidate")
+    return Promise.reject(error ?? new Error("revalidation failed"))
   }
   await retryable(10);
   return story;
