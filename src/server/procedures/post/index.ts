@@ -22,6 +22,14 @@ export const post = procedure.input(storyInit).mutation(async ({ input, ctx }) =
       questionExamples: true,
     },
   });
-  await ctx.doRevalidate(`/stories/${story.id}`)
+
+  const retryable = async (count: number) => {
+    if(count){
+      return ctx.doRevalidate(`/stories/${story.id}`).catch(() => {
+        retryable(count - 1)
+      })
+    }
+  }
+  await retryable(5);
   return story;
 })
