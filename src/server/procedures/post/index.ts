@@ -23,7 +23,6 @@ export const post = procedure.input(storyInit).mutation(async ({ input, ctx }) =
       questionExamples: true,
     },
   });
-  prisma.$disconnect();
 
   const retryable = (count: number,error?: any): Promise<void> => {
     if(count){
