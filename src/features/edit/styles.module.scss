@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 16px;
+    p {
+        font-size: 14px;
+        margin: 0 0 16px;
+        font-weight: bold;
+    }
+    button {
+        background-color: var(--bg-color-action-danger);
+        margin-bottom: 16px;
+    }
+    label {
+        margin-bottom: 4px;
+        font-size: 14px;
+        color: var(--text-color-secondary);
+    }
+    .fileDropContainer {
+        height: 100px;
+        width: 100%;
+    }
+    
+}

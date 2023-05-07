@@ -2,7 +2,6 @@ import { procedure } from "@/server/trpc";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 import { storyInit } from "./type";
-import { setTimeout } from "timers/promises";
 
 export type Input = z.infer<typeof storyInit>;
 
@@ -23,6 +22,5 @@ export const post = procedure.input(storyInit).mutation(async ({ input, ctx }) =
       questionExamples: true,
     },
   });
-  await ctx.doRevalidate(`/stories/${story.id}`);
   return story;
 })

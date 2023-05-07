@@ -1,10 +1,10 @@
 import { texts } from "@/texts";
 import { signIn,signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { PropsWithChildren } from "react";
+import React, { PropsWithChildren } from "react";
 import styles from "./styles.module.scss";
 
-export const Layout: React.FC<PropsWithChildren> = ({children}) => {
+export const Layout: React.FC<PropsWithChildren<{upper?: React.ReactElement}>> = ({children,upper}) => {
     const session = useSession();
     return <>
         <header className={styles.header}>
@@ -12,7 +12,6 @@ export const Layout: React.FC<PropsWithChildren> = ({children}) => {
                 <h1>{texts.serviceName}</h1>
                 <p>{texts.serviceDescription}</p>
             </Link>
-            
             <div className={styles.right}>
                 {
                     session.data?.user ? <button onClick={() => {
@@ -27,6 +26,13 @@ export const Layout: React.FC<PropsWithChildren> = ({children}) => {
                 }
             </div>
         </header>
+        {
+            upper && <div className={styles.upper}>
+                <div className={styles.content}>
+                    {upper}
+                </div>
+            </div>
+        }
         <main className={styles.main}>
             {children}
         </main>

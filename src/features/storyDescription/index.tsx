@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 export type Story = {
     title: string,
     quiz: string,
-    createdAt: number
+    createdAt: number | null
 }
 
 export const StoryDescription: React.FC<Story> = ({title,quiz,createdAt}) => {
@@ -11,12 +11,15 @@ export const StoryDescription: React.FC<Story> = ({title,quiz,createdAt}) => {
         <h2>
             {title}
         </h2>
-        <dl>
-            <div className={styles.basic}>
-                <dt>投稿日</dt>
-                <dd>{new Date(createdAt).toLocaleDateString()}</dd>
-            </div>
-            <p>{quiz}</p>
-        </dl>
+        {
+            createdAt && 
+                <dl>
+                    <div className={styles.basic}>
+                        <dt>投稿日</dt>
+                        <dd>{new Date(createdAt).toLocaleDateString()}</dd>
+                    </div>
+                </dl>
+        }
+        <p>{quiz}</p>
     </div>
 }
