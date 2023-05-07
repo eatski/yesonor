@@ -27,9 +27,11 @@ export const post = procedure.input(storyInit).mutation(async ({ input, ctx }) =
   const retryable = (count: number,error?: any): Promise<void> => {
     if(count){
       return setTimeout(3000).then(() => ctx.doRevalidate(`/stories/${story.id}`).catch((e) => {
+        
         return retryable(count - 1,e)
       }))
     }
+    console.error(error);
     return Promise.reject( new Error("revalidation failed",{
       cause: error
     }))
