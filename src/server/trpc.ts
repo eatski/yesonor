@@ -14,6 +14,9 @@ export const createContext = async (context: CreateNextContextOptions) => {
       user: {
         email: session.user.email,
       },
+      doRevalidate(url: string){
+        return context.res.revalidate(url)
+      }
     };
 };
 

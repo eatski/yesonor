@@ -5,9 +5,9 @@ import { storyInit } from "./type";
 
 export type Input = z.infer<typeof storyInit>;
 
-export const post = procedure.input(storyInit).mutation(async ({input,ctx} ) => {
-    const prisma = new PrismaClient();
-    const { questionExamples, ...storyData } = input;
+export const post = procedure.input(storyInit).mutation(async ({ input, ctx }) => {
+  const prisma = new PrismaClient();
+  const { questionExamples, ...storyData } = input;
 
   // create story and associated questionExamples
   const story = await prisma.story.create({
@@ -22,6 +22,6 @@ export const post = procedure.input(storyInit).mutation(async ({input,ctx} ) => 
       questionExamples: true,
     },
   });
-
+  await ctx.doRevalidate(`/stories/${story.id}`)
   return story;
 })
