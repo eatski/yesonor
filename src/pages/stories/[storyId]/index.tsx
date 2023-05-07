@@ -56,7 +56,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
                 storyId: id.toString()
             }
         })),
-        fallback: false
+        fallback: "blocking"
     }
 }
 
