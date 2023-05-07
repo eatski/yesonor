@@ -9,6 +9,7 @@ CREATE TABLE "Story" (
     "quiz" TEXT NOT NULL,
     "truth" TEXT NOT NULL,
     "simpleTruth" TEXT NOT NULL,
+    "draft" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Story_pkey" PRIMARY KEY ("id")

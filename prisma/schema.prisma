@@ -17,6 +17,7 @@ model Story {
   truth             String
   simpleTruth       String
   questionExamples  QuestionExample[]
+  draft             Boolean          @default(true)
   createdAt         DateTime         @default(now())
 }
 
