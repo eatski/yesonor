@@ -27,7 +27,7 @@ export const createContext = async (context: CreateNextContextOptions) => {
             cause: error
           }))
         }
-        return context.res.revalidate(url)
+        return retryable(10)
       }
     };
 };
