@@ -26,7 +26,7 @@ export const post = procedure.input(storyInit).mutation(async ({ input, ctx }) =
 
   const retryable = (count: number,error?: any): Promise<void> => {
     if(count){
-      return setTimeout(1000).then(() => ctx.doRevalidate(`/stories/${story.id}`).catch((e) => {
+      return setTimeout(3000).then(() => ctx.doRevalidate(`/stories/${story.id}`).catch((e) => {
         return retryable(count - 1,e)
       }))
     }
@@ -34,6 +34,6 @@ export const post = procedure.input(storyInit).mutation(async ({ input, ctx }) =
       cause: error
     }))
   }
-  await retryable(10);
+  await retryable(6);
   return story;
 })
