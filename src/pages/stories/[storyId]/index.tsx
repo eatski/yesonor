@@ -30,7 +30,8 @@ export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
     })
     if(!story) {
         return {
-            notFound: true
+            notFound: true,
+            revalidate: 30
         }
     }
     return {
