@@ -23,13 +23,15 @@ export const post = procedure.input(storyInit).mutation(async ({ input, ctx }) =
     },
   });
 
-  const retryable = async (count: number): Promise<void> => {
+  const retryable = (count: number): Promise<void> => {
     if(count){
-      return ctx.doRevalidate(`/stories/${story.id}`).catch(() => {
+      return ctx.doRevalidate(`/stories/${story.id}`).catch((e) => {
+        console.error(e);
         return retryable(count - 1)
       })
     }
+    return Promise.reject("Failed to revalidate")
   }
-  await retryable(5);
+  await retryable(10);
   return story;
 })
