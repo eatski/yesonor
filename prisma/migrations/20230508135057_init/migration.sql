@@ -30,4 +30,4 @@ CREATE TABLE "QuestionExample" (
 CREATE INDEX "idx_story" ON "QuestionExample"("storyId");
 
 -- AddForeignKey
-ALTER TABLE "QuestionExample" ADD CONSTRAINT "QuestionExample_storyId_fkey" FOREIGN KEY ("storyId") REFERENCES "Story"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "QuestionExample" ADD CONSTRAINT "QuestionExample_storyId_fkey" FOREIGN KEY ("storyId") REFERENCES "Story"("id") ON DELETE CASCADE ON UPDATE CASCADE;

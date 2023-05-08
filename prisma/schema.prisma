@@ -27,7 +27,7 @@ model QuestionExample {
   question          String
   answer            Answer
   supplement        String
-  Story             Story            @relation(fields: [storyId], references: [id])
+  Story             Story            @relation(fields: [storyId], references: [id], onDelete: Cascade)
 
   @@index([storyId], name: "idx_story")
 }
