@@ -24,8 +24,48 @@
         align-items: center;
     }
     .iconWrapper {
+        color: var(--text-color-action);
         border: none;
         background-color: unset;
+    }
+    .loginButtonWrapper {
+        button {
+            border: 1px solid var(--border-color);
+            color: var(--text-color-action);
+        }
+    }
+}
+
+.menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    top: 60px;
+    right: 8px;
+    padding: 8px 16px;
+    background-color: var(--bg-color-main);
+    border-radius: 2px;
+    border: 1px solid var(--border-color);
+    filter: drop-shadow(0 0 2px var(--border-color));
+    button,a {
+        padding: 4px 8px;
+        color: var(--text-color-secondary);
+        border: none;
+        background-color: unset;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+        &:hover {
+            filter: brightness(10%);
+        }
+    }
+    hr {
+        margin: 0;
+        border: none;
+        height: 1px;
+        background-color: var(--border-color);
     }
 }
 

@@ -16,6 +16,11 @@
     }
 }
 
+.buttonPure {
+    @include buttonBase;
+    background-color: unset;
+}
+
 .button {
     @include buttonBase;
     background-color: var(--bg-color-action);
@@ -51,6 +56,6 @@
 .iconButtonLink {
     width: 30px;
     height: 30px;
-    color: var(--text-color-bright);
+    color: var(--text-color-brand);
     cursor: pointer;
 }

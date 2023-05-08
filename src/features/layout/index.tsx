@@ -8,6 +8,7 @@ import components from "@/styles/components.module.scss";
 
 export const Layout: React.FC<PropsWithChildren<{upper?: React.ReactElement}>> = ({children,upper}) => {
     const session = useSession();
+    const [menuOpen,setMenuOpen] = React.useState<boolean>(false);
     return <>
         <header className={styles.header}>
              <Link href="/">
@@ -16,18 +17,30 @@ export const Layout: React.FC<PropsWithChildren<{upper?: React.ReactElement}>> =
             </Link>
             <div className={styles.right}>
                 {
-                    session.data?.user ? <button className={styles.iconWrapper} onClick={() => {
-                        signOut();
+                    session.data ? session.data.user ? <button className={styles.iconWrapper} onClick={() => {
+                        setMenuOpen((flg) => !flg);
                     }}>
                         <Menu className={components.iconButtonLink}/>
-                    </button> : <button onClick={() => {
-                        signIn();
-                    }}>
-                        ログイン
-                    </button>
+                    </button> : 
+                    <div className={styles.loginButtonWrapper}>
+                        <button className={components.buttonPure} onClick={() => {
+                            signIn();
+                            }}>
+                            ログイン
+                        </button>
+                    </div> : null
                 }
             </div>
         </header>
+        {
+            menuOpen && <div className={styles.menu}>
+                <Link href={"/stories/new"}>ストーリーを作成</Link>
+                <Link href={"/my/latest"}>自分のストーリー</Link>
+                <Link href={"/my"}>マイページ</Link>
+                <hr />
+                <button className={styles.danger} onClick={() => {signOut();}}>ログアウト</button>
+            </div>
+        }
         {
             upper && <div className={styles.upper}>
                 <div className={styles.content}>
