@@ -1,6 +1,8 @@
 import React, {useRef} from "react";
 import styles from "./styles.module.css";
-import button from "@/styles/components.module.scss"
+import components from "@/styles/components.module.scss"
+import { AiOutlineSend } from "react-icons/ai";
+
 
 export const QuestionForm: React.FC<{
     onSubmit: (text: string) => void;
@@ -21,7 +23,9 @@ export const QuestionForm: React.FC<{
                 inputRef.current = e.target.value
             }}
              />
-            <button className={button.button} type="submit" disabled={isLoading}>送信</button>
+            <button className={components.button} type="submit" disabled={isLoading}>
+                <AiOutlineSend size={"16px"} />
+            </button>
         </div>
     </form>
 }

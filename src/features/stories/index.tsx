@@ -1,6 +1,7 @@
 import Link from "next/link";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss"
+import { AiFillRightCircle as StartIcon } from "react-icons/ai";
 
 export type Story = {
     id: number,
@@ -13,6 +14,7 @@ export const Stories: React.FC<{stories: Story[]}> = ({stories}) => {
         {stories.map((story) => {
             return <li key={story.id}>
                 <Link href={`/stories/${story.id}`}>
+                        
                     <div className={styles.title}>
                         {story.title}
                     </div>
@@ -20,10 +22,9 @@ export const Stories: React.FC<{stories: Story[]}> = ({stories}) => {
                         {story.quiz}
                     </p>
                 </Link>
-                <div className={styles.buttonContainer}>
-                    <Link href={`/stories/${story.id}`} className={components.button}>謎を解く</Link>
-                </div>
-                
+                <Link href={`/stories/${story.id}`} className={styles.iconContainer}>
+                    <StartIcon className={components.iconButton} />
+                </Link>
             </li>
         })}
     </ul>

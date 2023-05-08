@@ -2,7 +2,9 @@ import { texts } from "@/texts";
 import { signIn,signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { PropsWithChildren } from "react";
+import { AiOutlineUnorderedList as Menu } from "react-icons/ai";
 import styles from "./styles.module.scss";
+import components from "@/styles/components.module.scss";
 
 export const Layout: React.FC<PropsWithChildren<{upper?: React.ReactElement}>> = ({children,upper}) => {
     const session = useSession();
@@ -14,10 +16,10 @@ export const Layout: React.FC<PropsWithChildren<{upper?: React.ReactElement}>> =
             </Link>
             <div className={styles.right}>
                 {
-                    session.data?.user ? <button onClick={() => {
+                    session.data?.user ? <button className={styles.iconWrapper} onClick={() => {
                         signOut();
                     }}>
-                        ログアウト
+                        <Menu className={components.iconButtonLink}/>
                     </button> : <button onClick={() => {
                         signIn();
                     }}>

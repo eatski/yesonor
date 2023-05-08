@@ -40,3 +40,17 @@
     color: var(--text-color-primary);
     border: 1px solid var(--border-color);
 }
+
+.iconButton {
+    width: 24px;
+    height: 24px;
+    color: var(--bg-color-action);
+    cursor: pointer;
+}
+
+.iconButtonLink {
+    width: 30px;
+    height: 30px;
+    color: var(--text-color-bright);
+    cursor: pointer;
+}
