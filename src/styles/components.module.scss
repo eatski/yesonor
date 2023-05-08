@@ -6,6 +6,13 @@
     cursor: pointer;
     height: 100%;
     filter: var(--filter-shadow);
+    &:hover {
+        filter: brightness(95%);
+    }
+    &:disabled {
+        filter: brightness(70%);
+        cursor: not-allowed;
+    }
 }
 
 .button {
@@ -31,20 +38,4 @@
     background-color: var(--bg-color-main);
     color: var(--text-color-primary);
     border: 1px solid var(--border-color);
-}
-
-.button:hover {
-    filter: brightness(95%);
-}
-.button:disabled {
-    filter: brightness(70%);
-    cursor: not-allowed;
-}
-
-.buttonSecondary:hover {
-    filter: brightness(95%);
-}
-.buttonSecondary:disabled {
-    filter: brightness(70%);
-    cursor: not-allowed;
 }
