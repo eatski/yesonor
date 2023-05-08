@@ -12,35 +12,37 @@ export const put = procedure.input(z.object({
 })).mutation(async ({ input, ctx }) => {
 
   const prisma = new PrismaClient();
-  const prevStory = await prisma.story.findFirst({
-    where: {
-      id: input.id
-    }
-  })
-  if(prevStory === null) throw new TRPCError({
-    code: "NOT_FOUND",
-  })
-  if(prevStory.authorEmail !== ctx.user.email) throw new Error("You are not the author of this story")
   const { id, story } = input;
   const { questionExamples, ...storyData } = story;
-
   await prisma.$transaction(async () => {
-    await prisma.questionExample.deleteMany({
-      where: {
-        storyId: id
-      }
-    })
-    await prisma.story.update({
-      where: {
-        id: id
-      },
-      data :{
-        ...storyData,
-        questionExamples: {
-          create: questionExamples,
+    return Promise.all([
+      prisma.story.findFirst({
+        where: {
+          id: input.id,
+          authorEmail: ctx.user.email
+        }
+      }).then(story => {
+        if(story === null) throw new TRPCError({
+          code: "NOT_FOUND",
+        })
+      }),
+      prisma.questionExample.deleteMany({
+        where: {
+          storyId: id
+        }
+      }),
+      prisma.story.update({
+        where: {
+          id: id
         },
-      }
-    });
+        data :{
+          ...storyData,
+          questionExamples: {
+            create: questionExamples,
+          },
+        }
+      })
+    ])
   },{
     // HACK: 中が遅すぎるのでtimeoutを長めに設定
     timeout: 10000 
