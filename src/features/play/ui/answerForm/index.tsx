@@ -1,6 +1,6 @@
 import React, {useRef} from "react";
 import styles from "./styles.module.scss";
-import components from "@/styles/components.module.css"
+import components from "@/styles/components.module.scss"
 
 export const AnswerForm: React.FC<{
     onSubmit: (text: string) => void;

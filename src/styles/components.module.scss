@@ -1,8 +1,6 @@
-.button {
+@mixin buttonBase {
     font-size: 14px;
     padding: 4px 12px;
-    background-color: var(--bg-color-action);
-    color: var(--text-color-action);
     border: none;
     border-radius: 2px;
     cursor: pointer;
@@ -10,16 +8,29 @@
     filter: var(--filter-shadow);
 }
 
+.button {
+    @include buttonBase;
+    background-color: var(--bg-color-action);
+    color: var(--text-color-action);
+}
+
 .buttonSecondary {
-    font-size: 14px;
-    padding: 4px 12px;
+    @include buttonBase;
     background-color: var(--bg-color-action-secondary);
     color: var(--text-color-action);
-    border: none;
-    border-radius: 2px;
-    cursor: pointer;
-    height: 100%;
-    filter: var(--filter-shadow);
+}
+
+.buttonDanger {
+    @include buttonBase;
+    background-color: var(--bg-color-action-danger);
+    color: var(--text-color-action);
+}
+
+.buttonLink {
+    @include buttonBase;
+    background-color: var(--bg-color-main);
+    color: var(--text-color-primary);
+    border: 1px solid var(--border-color);
 }
 
 .button:hover {

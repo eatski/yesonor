@@ -2,7 +2,7 @@ import { trpc } from "@/libs/trpc";
 import { Input } from "@/server/procedures/post"
 import { useForm, useFieldArray } from "react-hook-form"
 import styles from './styles.module.scss';
-import components from "@/styles/components.module.css"
+import components from "@/styles/components.module.scss"
 
 export const NewStory = () => {
     const { register, control, handleSubmit, reset } = useForm<Input>();

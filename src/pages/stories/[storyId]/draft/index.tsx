@@ -4,7 +4,7 @@ import { StoryDescription } from '@/features/storyDescription';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
-import { EditStory } from '@/features/edit';
+import { Draft } from '@/features/draft';
 
 type Story = {
     title: string,
@@ -63,8 +63,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
 }
 
-export default function Story(props: Props) {
-    return <Layout upper={<EditStory draft={props.story.draft} storyId={props.storyId} />}>
+export default function StoryDraftPage(props: Props) {
+    return <Layout upper={<Draft storyId={props.storyId} />}>
         <StoryDescription title={props.story.title} quiz={props.story.quiz} createdAt={null}/>
         <Play storyId={props.storyId} />
     </Layout>

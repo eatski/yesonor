@@ -1,12 +1,14 @@
 
+import { StoryInit } from '@/server/procedures/post/type';
 import { useCallback } from 'react';
+import { parseYaml } from './parseYaml';
 import styles from './styles.module.scss';
 
 interface FileDropZoneProps {
-    onFileRead: (fileContent: string) => void;
+    onFileRead: (story: StoryInit) => void;
 }
 
-export const FileDrop: React.FC<FileDropZoneProps> = ({ onFileRead }) => {
+export const YamlFileDrop: React.FC<FileDropZoneProps> = ({ onFileRead }) => {
     const handleFileRead = useCallback(
         (e: React.DragEvent<HTMLDivElement>) => {
             e.preventDefault();
@@ -20,9 +22,16 @@ export const FileDrop: React.FC<FileDropZoneProps> = ({ onFileRead }) => {
 
             reader.onload = (event: ProgressEvent<FileReader>) => {
                 const fileContent = event.target?.result;
-                if (typeof fileContent === 'string') {
-                    onFileRead(fileContent);
+                if (typeof fileContent !== 'string') {
+                    // TODO: error handling
+                    return;
                 }
+                const story = parseYaml(fileContent);
+                if(!story.success) {
+                    // TODO: error handling
+                    return;
+                }
+                onFileRead(story.data);
             };
             reader.readAsText(file);
         },

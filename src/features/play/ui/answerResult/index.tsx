@@ -1,6 +1,6 @@
 
 import styles from "./styles.module.scss";
-import components from "@/styles/components.module.css"
+import components from "@/styles/components.module.scss"
 
 export type Props = {
     result: string,

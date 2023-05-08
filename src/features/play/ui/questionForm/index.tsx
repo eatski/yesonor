@@ -1,6 +1,6 @@
 import React, {useRef} from "react";
 import styles from "./styles.module.css";
-import button from "@/styles/components.module.css"
+import button from "@/styles/components.module.scss"
 
 export const QuestionForm: React.FC<{
     onSubmit: (text: string) => void;
