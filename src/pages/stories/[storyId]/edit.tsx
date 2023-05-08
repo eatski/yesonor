@@ -1,14 +1,11 @@
-import { Play } from '@/features/play';
 import { Layout } from '@/features/layout';
-import { StoryDescription } from '@/features/storyDescription';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
-import { Draft } from '@/features/draft';
+import { EditStoryYaml } from '@/features/editStory';
 
 type Story = {
     title: string,
-    quiz: string,
 }
 
 type Props = {
@@ -27,7 +24,6 @@ export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
             notFound: true
         }
     }
-
     const prisma = new PrismaClient();
     const story = await prisma.story.findFirst({
         where: {
@@ -62,8 +58,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export default function StoryDraftPage(props: Props) {
-    return <Layout upper={<Draft storyId={props.storyId} />}>
-        <StoryDescription title={props.story.title} quiz={props.story.quiz} createdAt={null}/>
-        <Play storyId={props.storyId} />
+    return <Layout>
+        <EditStoryYaml title={props.story.title} storyId={props.storyId} />
     </Layout>
 }

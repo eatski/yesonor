@@ -6,6 +6,7 @@
     cursor: pointer;
     height: 100%;
     filter: var(--filter-shadow);
+    text-decoration: none;
     &:hover {
         filter: brightness(95%);
     }
