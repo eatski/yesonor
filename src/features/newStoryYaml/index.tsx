@@ -12,7 +12,7 @@ export const NewStoryYaml = () => {
     const handleFileRead = useCallback((story: StoryInit) => {
         mutate(story, {
             onSuccess: (data) => {
-                router.push(`/stories/${data.id}/draft`);
+                router.push(`/my/stories/${data.id}`);
             }
         });
     }, [mutate, router]);

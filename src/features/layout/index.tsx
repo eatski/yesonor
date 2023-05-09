@@ -1,17 +1,17 @@
 import { texts } from "@/texts";
-import { signIn,signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { PropsWithChildren } from "react";
 import { AiOutlineUnorderedList as Menu } from "react-icons/ai";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 
-export const Layout: React.FC<PropsWithChildren<{upper?: React.ReactElement}>> = ({children,upper}) => {
+export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>> = ({ children, upper }) => {
     const session = useSession();
-    const [menuOpen,setMenuOpen] = React.useState<boolean>(false);
+    const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
     return <>
         <header className={styles.header}>
-             <Link href="/">
+            <Link href="/">
                 <h1>{texts.serviceName}</h1>
                 <p>{texts.serviceDescription}</p>
             </Link>
@@ -20,15 +20,15 @@ export const Layout: React.FC<PropsWithChildren<{upper?: React.ReactElement}>> =
                     session.status !== "loading" ? session.data?.user ? <button className={styles.iconWrapper} onClick={() => {
                         setMenuOpen((flg) => !flg);
                     }}>
-                        <Menu className={components.iconButtonLink}/>
-                    </button> : 
-                    <div className={styles.loginButtonWrapper}>
-                        <button className={components.buttonPure} onClick={() => {
-                            signIn();
+                        <Menu className={components.iconButtonLink} />
+                    </button> :
+                        <div className={styles.loginButtonWrapper}>
+                            <button className={components.buttonPure} onClick={() => {
+                                signIn();
                             }}>
-                            ログイン
-                        </button>
-                    </div> : null
+                                ログイン
+                            </button>
+                        </div> : null
                 }
             </div>
         </header>
@@ -38,21 +38,21 @@ export const Layout: React.FC<PropsWithChildren<{upper?: React.ReactElement}>> =
                 <Link href={"/my/stories"}>自分のストーリー</Link>
                 <Link href={"/my"}>マイページ</Link>
                 <hr />
-                <button className={styles.danger} onClick={() => {signOut();}}>ログアウト</button>
+                <button className={styles.danger} onClick={() => { signOut(); }}>ログアウト</button>
             </div>
         }
         {
-            upper && <div className={styles.upper}>
+            upper ? <div className={styles.upper}>
                 <div className={styles.content}>
                     {upper}
                 </div>
-            </div>
+            </div> : <p className={styles.alert}>
+                このWebサイトは開発中です。
+            </p>
         }
-        <p className={styles.alert}>
-            このWebサイトは開発中です。
-        </p>
+
         <main className={styles.main}>
-            
+
             {children}
         </main>
         <footer className={styles.footer}>

@@ -5,15 +5,18 @@ import { useRouter } from "next/router";
 
 export type Props = {
     storyId: number;
+    draft: boolean;
 }
 
-export const Draft: React.FC<Props> = ({storyId}) => {
+export const MyStoryMenu: React.FC<Props> = ({storyId,draft}) => {
     const {mutate} = trpc.delete.useMutation();
     const router = useRouter();
     return  <div className={styles.container}>
-        <p>
-            このストーリーは未公開です。
-        </p>
+        {
+            draft && <p>
+                このストーリーは未公開です。
+            </p>
+        }
         <div className={styles.buttons}>
             <button className={components.buttonLink} onClick={() => {
                 mutate({

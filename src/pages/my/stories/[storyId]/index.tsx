@@ -3,13 +3,14 @@ import { Layout } from '@/features/layout';
 import { StoryDescription } from '@/features/storyDescription';
 import { GetServerSideProps } from 'next';
 import { z } from 'zod';
-import { Draft } from '@/features/draft';
+import { MyStoryMenu } from '@/features/myStoryMenu';
 import { getStoryPrivate } from '@/server/services/story';
 import { getUserInGetServerSideProps } from '@/server/session/getUserInGetServerSideProps';
 
 type Story = {
     title: string,
     quiz: string,
+    draft: boolean
 }
 
 type Props = {
@@ -57,7 +58,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
 }
 
 export default function StoryDraftPage(props: Props) {
-    return <Layout upper={<Draft storyId={props.storyId} />}>
+    return <Layout upper={<MyStoryMenu storyId={props.storyId} draft={props.story.draft}/>}>
         <StoryDescription title={props.story.title} quiz={props.story.quiz} createdAt={null}/>
         <Play storyId={props.storyId} />
     </Layout>

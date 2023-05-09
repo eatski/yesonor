@@ -7,6 +7,7 @@ export type Story = {
     id: number,
     title: string,
     quiz: string,
+    url: string,
 }
 
 export const Stories: React.FC<{stories: Story[]}> = ({stories}) => {
@@ -21,7 +22,7 @@ export const Stories: React.FC<{stories: Story[]}> = ({stories}) => {
                         {story.quiz}
                     </p>
                 </Link>
-                <Link href={`/stories/${story.id}`} className={styles.iconContainer}>
+                <Link href={story.url} className={styles.iconContainer}>
                     <StartIcon className={components.iconButton} />
                 </Link>
             </li>

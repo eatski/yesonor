@@ -10,6 +10,7 @@ type Props = {
         id: number;
         title: string;
         quiz: string;
+        url: string;
     }[]
 }
 
@@ -28,7 +29,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
         stories: stories.map(({id,title,quiz}) => ({
                 id,
                 title,
-                quiz
+                quiz,
+                url: `/my/stories/${id}`
             }))
         },
     }

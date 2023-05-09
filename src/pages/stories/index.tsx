@@ -9,6 +9,7 @@ type Props = {
         id: number;
         title: string;
         quiz: string;
+        url: string;
     }[]
 }
 
@@ -21,9 +22,9 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
         stories: stories.map(({id,title,quiz}) => ({
                 id,
                 title,
-                quiz
+                quiz,
+                url: `/stories/${id}`
             }))
-        
         },
         revalidate: 60 * 5
     }
