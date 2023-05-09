@@ -48,10 +48,11 @@ export const Layout: React.FC<PropsWithChildren<{upper?: React.ReactElement}>> =
                 </div>
             </div>
         }
+        <p className={styles.alert}>
+            このWebサイトは開発中です。
+        </p>
         <main className={styles.main}>
-            <div className={styles.alert}>
-                このWebサイトは開発中です。
-            </div>
+            
             {children}
         </main>
         <footer className={styles.footer}>
