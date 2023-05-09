@@ -84,6 +84,14 @@
     margin: 0 auto 40px;
     padding: 40px 16px 0;
     min-height: 80vh;
+    position: relative;
+}
+
+.alert {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 8px;
 }
 
 .footer {
