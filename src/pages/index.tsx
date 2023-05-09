@@ -3,9 +3,9 @@ import { texts } from '@/texts';
 import { Layout } from '@/features/layout';
 import { Landing } from '@/features/landing';
 import { GetStaticProps } from 'next';
-import { PrismaClient } from '@prisma/client';
 import { Stories } from '@/features/stories';
 import { ListHead } from '@/features/listHead';
+import { getStories } from '@/server/services/story';
 
 type Props = {
   stories: {
@@ -16,10 +16,9 @@ type Props = {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const prisma = new PrismaClient();
-  const stories = await prisma.story.findMany({
-    take: 5
-  });
+  const stories = await getStories({
+    count: 5
+  })
   return {
     props: {
       stories: stories.map(({id,title,quiz}) => ({

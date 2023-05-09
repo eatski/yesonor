@@ -1,8 +1,9 @@
 import { Layout } from '@/features/layout';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
 import { EditStoryYaml } from '@/features/editStory';
+import { getStoryPrivate } from '@/server/services/story';
+import { getUserInGetServerSideProps } from '@/server/session/getUserInGetServerSideProps';
 
 type Story = {
     title: string,
@@ -17,23 +18,26 @@ const querySchema = z.object({
     storyId: z.string().transform(e => parseInt(e)).refine(e => !Number.isNaN(e))
 })
 
-export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
-    const validated = querySchema.safeParse(params);
+export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+    const validated = querySchema.safeParse(context.params);
     if (!validated.success) {
         return {
             notFound: true
         }
     }
-    const prisma = new PrismaClient();
-    const story = await prisma.story.findFirst({
-        where: {
-            id: validated.data.storyId
+    const user = await getUserInGetServerSideProps(context);
+    if(!user) {
+        return {
+            notFound: true
         }
+    }
+    const story = await getStoryPrivate({
+        storyId: validated.data.storyId,
+        autherEmail: user.email
     })
     if(!story) {
         return {
             notFound: true,
-            revalidate: 1
         }
     }
     return {
@@ -46,14 +50,6 @@ export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
             draft: story.draft
         }
       },
-      revalidate: 1
-    }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-    return {
-        paths: [],
-        fallback: "blocking"
     }
 }
 

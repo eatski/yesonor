@@ -1,7 +1,7 @@
 import { openai } from "@/libs/openapi";
 import { truthCoincidence } from "@/server/model/schemas";
+import { getStory } from "@/server/services/story";
 import { procedure } from "@/server/trpc";
-import { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { readFile } from "fs/promises";
 import { resolve } from "path";
@@ -13,11 +13,8 @@ export const truth = procedure.input(z.object({
     storyId: z.number(),
     text: z.string(),
 })).mutation(async ({ input }) => {
-    const prisma = new PrismaClient();
-    const story = await prisma.story.findFirst({
-        where: {
-            id: input.storyId
-        },
+    const story = await getStory({
+        storyId: input.storyId,
     })
     if (!story) {
         throw new TRPCError({

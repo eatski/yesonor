@@ -6,7 +6,7 @@ import { z } from "zod"
 import { answer } from "../../model/schemas"
 import { procedure } from "../../trpc"
 import { parseHeadToken } from "./parse"
-import { PrismaClient } from '@prisma/client';
+import { getStoryDeep } from "@/server/services/story"
 
 const systemPromptPromise = readFile(resolve(process.cwd(),"prompts","question.md")) ;
 
@@ -15,14 +15,8 @@ export const question = procedure.input(z.object({
     text: z.string()
 })).mutation(async ({input}) => {
     const systemPrompt = await systemPromptPromise;
-    const prisma = new PrismaClient();
-    const story = await prisma.story.findFirst({
-        where: {
-            id: input.storyId
-        },
-        include: {
-            questionExamples: true
-        }
+    const story = await getStoryDeep({
+        storyId: input.storyId,
     })
     if (!story) {
         throw new TRPCError({

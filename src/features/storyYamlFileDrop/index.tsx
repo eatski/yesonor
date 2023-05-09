@@ -1,5 +1,5 @@
 
-import { StoryInit } from '@/server/procedures/post/type';
+import { StoryInit } from "@/server/services/story/schema";;
 import { useCallback } from 'react';
 import { parseYaml } from './parseYaml';
 import styles from './styles.module.scss';

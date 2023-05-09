@@ -3,7 +3,7 @@ import { trpc } from "@/libs/trpc";
 import { useRouter } from "next/router";
 import styles from './styles.module.scss';
 import { YamlFileDrop } from "../storyYamlFileDrop";
-import { StoryInit } from "@/server/procedures/schema";
+import { StoryInit } from "@/server/services/story/schema";
 
 export const NewStoryYaml = () => {
     const router = useRouter();

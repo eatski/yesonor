@@ -22,6 +22,7 @@ async function insertStory(name: string) {
     await prisma.story.create({
         data: {
             ...rest,
+            draft: false,
             authorEmail: "yesonor@example.com",
             questionExamples: {
                 create: questionExamplesInput

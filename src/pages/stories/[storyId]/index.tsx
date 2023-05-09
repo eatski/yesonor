@@ -3,7 +3,7 @@ import { Layout } from '@/features/layout';
 import { Story, StoryDescription } from '@/features/storyDescription';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
+import { getStories, getStory } from '@/server/services/story';
 
 type Props = {
     storyId: number;
@@ -22,11 +22,8 @@ export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
         }
     }
 
-    const prisma = new PrismaClient();
-    const story = await prisma.story.findFirst({
-        where: {
-            id: validated.data.storyId
-        }
+    const story = await getStory({
+        storyId: validated.data.storyId
     })
     if(!story) {
         return {
@@ -48,8 +45,9 @@ export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const prisma = new PrismaClient();
-    const stories = await prisma.story.findMany();
+    const stories = await getStories({
+        count: 20
+    });
     return {
         paths: stories.map(({id}) => ({
             params: {
