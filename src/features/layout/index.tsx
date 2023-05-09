@@ -1,15 +1,35 @@
 import { texts } from "@/texts";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { PropsWithChildren, useEffect } from "react";
+import React, { PropsWithChildren, useEffect, useState } from "react";
 import { AiOutlineUnorderedList as Menu } from "react-icons/ai";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
+import { useRouter } from "next/router";
 
 export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>> = ({ children, upper }) => {
     const session = useSession();
-    const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const ref = React.useRef<HTMLDivElement>(null);
+    const router = useRouter();
+    
+    const [loading,setLoading] = useState(false)
+
+    useEffect(() => {
+        const onStart = () => {
+            setLoading(true)
+        }
+        const onEnd = () => {
+            setLoading(false)
+        }
+        router.events.on("routeChangeStart", onStart)
+        router.events.on("routeChangeComplete",onEnd)
+        return () => {
+            router.events.off("routeChangeStart",onStart)
+            router.events.off("routeChangeComplete",onEnd)
+        }
+    },[router])
+
     useEffect(() => {
         const listener = (e: MouseEvent) => {
             if (e.target instanceof HTMLElement) {
@@ -47,6 +67,7 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
                 }
             </div>
         </header>
+        {loading && <div className={styles.transitionStatus} />}
         {
             menuOpen && <div className={styles.menu} ref={ref}>
                 <Link href={"/stories/new"}>ストーリーを作成</Link>
@@ -65,9 +86,9 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
                 このWebサイトは開発中です。
             </p>
         }
-
+        
         <main className={styles.main}>
-
+            
             {children}
         </main>
         <footer className={styles.footer}>
