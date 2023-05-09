@@ -1,7 +1,7 @@
 import { texts } from "@/texts";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useEffect } from "react";
 import { AiOutlineUnorderedList as Menu } from "react-icons/ai";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
@@ -9,6 +9,21 @@ import components from "@/styles/components.module.scss";
 export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>> = ({ children, upper }) => {
     const session = useSession();
     const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
+    const ref = React.useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const listener = (e: MouseEvent) => {
+            if (e.target instanceof HTMLElement) {
+                if (ref.current?.contains(e.target)) {
+                    return;
+                }
+                setMenuOpen(false);
+            }
+        };
+        document.addEventListener("click", listener);
+        return () => {
+            document.removeEventListener("click", listener);
+        };
+    }, [menuOpen])
     return <>
         <header className={styles.header}>
             <Link href="/">
@@ -33,7 +48,7 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
             </div>
         </header>
         {
-            menuOpen && <div className={styles.menu}>
+            menuOpen && <div className={styles.menu} ref={ref}>
                 <Link href={"/stories/new"}>ストーリーを作成</Link>
                 <Link href={"/my/stories"}>自分のストーリー</Link>
                 <Link href={"/my"}>マイページ</Link>
