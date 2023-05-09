@@ -42,3 +42,12 @@ export const getStoryPrivate = async (args: { storyId: number, autherEmail: stri
         }
     });
 }
+
+export const getStoriesPrivate = async (args: { autherEmail: string }) => {
+    const prisma = new PrismaClient();
+    return prisma.story.findMany({
+        where: {
+            authorEmail: args.autherEmail,
+        }
+    });
+}

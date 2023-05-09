@@ -3,8 +3,8 @@ import { texts } from '@/texts';
 import { Layout } from '@/features/layout';
 import { Landing } from '@/features/landing';
 import { GetStaticProps } from 'next';
-import { Stories } from '@/features/stories';
-import { ListHead } from '@/features/listHead';
+import { Stories } from '@/common/components/stories';
+import { H2 } from '@/common/components/h2';
 import { getStories } from '@/server/services/story';
 
 type Props = {
@@ -45,7 +45,7 @@ export default function Home(props: Props) {
           <Landing />
         </div>
         
-        <ListHead />
+        <H2 label='ストーリーを探す'/>
         <Stories stories={props.stories}/>
       </Layout> 
     </>

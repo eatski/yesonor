@@ -14,7 +14,6 @@ export const Stories: React.FC<{stories: Story[]}> = ({stories}) => {
         {stories.map((story) => {
             return <li key={story.id}>
                 <Link href={`/stories/${story.id}`}>
-                        
                     <div className={styles.title}>
                         {story.title}
                     </div>

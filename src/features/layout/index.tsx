@@ -35,7 +35,7 @@ export const Layout: React.FC<PropsWithChildren<{upper?: React.ReactElement}>> =
         {
             menuOpen && <div className={styles.menu}>
                 <Link href={"/stories/new"}>ストーリーを作成</Link>
-                <Link href={"/my/latest"}>自分のストーリー</Link>
+                <Link href={"/my/stories"}>自分のストーリー</Link>
                 <Link href={"/my"}>マイページ</Link>
                 <hr />
                 <button className={styles.danger} onClick={() => {signOut();}}>ログアウト</button>

@@ -1,8 +1,9 @@
 import { Layout } from '@/features/layout';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { Stories } from '@/common/components/stories';
 import { H2 } from '@/common/components/h2';
-import { getStories } from '@/server/services/story';
+import { getStoriesPrivate } from '@/server/services/story';
+import { getUserInGetServerSideProps } from '@/server/session/getUserInGetServerSideProps';
 
 type Props = {
     stories: {
@@ -12,9 +13,15 @@ type Props = {
     }[]
 }
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-    const stories = await getStories({
-        count: 20
+export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+    const user = await getUserInGetServerSideProps(context);
+    if(!user) {
+        return {
+            notFound: true
+        }
+    }
+    const stories = await getStoriesPrivate({
+        autherEmail: user.email,
     });
     return {
       props: {
@@ -23,16 +30,14 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
                 title,
                 quiz
             }))
-        
         },
-        revalidate: 60 * 5
     }
 }
 
 export default function Story(props: Props) {
     return <Layout>
         <main>
-            <H2 label='ストーリーを探す'/>
+            <H2 label="自分のストーリー"/>
             <Stories stories={props.stories} />
         </main>
     </Layout>
