@@ -1,5 +1,5 @@
 import React, {useRef} from "react";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss"
 import { AiOutlineSend } from "react-icons/ai";
 

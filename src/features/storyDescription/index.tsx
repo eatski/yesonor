@@ -1,3 +1,4 @@
+import { H2 } from "@/common/components/h2";
 import styles from "./styles.module.scss";
 
 export type Story = {
@@ -8,9 +9,7 @@ export type Story = {
 
 export const StoryDescription: React.FC<Story> = ({title,quiz,createdAt}) => {
     return  <div className={styles.container}>
-        <h2>
-            {title}
-        </h2>
+        <H2 label={title} />
         {
             createdAt && 
                 <dl>
