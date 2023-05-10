@@ -1,4 +1,5 @@
 import { delete_ } from './procedures/delete';
+import { deleteAccount } from './procedures/deleteAccount';
 import { hello } from './procedures/hello';
 import { post } from './procedures/post';
 import { put } from './procedures/put';
@@ -12,7 +13,8 @@ export const appRouter = router({
   truth,
   post,
   put,
-  delete: delete_
+  delete: delete_,
+  deleteAccount
 });
 
 // Export type router type signature,
