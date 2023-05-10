@@ -2,6 +2,7 @@
 import { texts } from "@/texts"
 import styles from "./styles.module.scss"
 import { QuestionAndAnswer } from "@/common/components/questionAndAnswer"
+import { useCallback, useState } from "react"
 
 const QUESTIONS = [
     {
@@ -40,10 +41,22 @@ const QUESTIONS = [
 ]
 
 export const Landing: React.FC = () => {
+    const [answer,setAnswer] = useState<string | null | undefined>(undefined);
+    const questionIndex = 0
+    const onQuestionTypingEnd = useCallback(() => {
+        // setAnswer(null);
+        setTimeout(() => {
+            setAnswer(QUESTIONS[questionIndex].answer)
+        },1000)
+    },[])
     return <div className={styles.container}>
         <h2>{texts.serviceDescription}</h2>
-        <p>あなたの質問にAIが「はい」か「いいえ」で答えます。</p>
-        <QuestionAndAnswer question={QUESTIONS[0].question} answer={"はい"}/>
-        
+        <QuestionAndAnswer 
+        hasColorSurroundingSpace={false}
+            // hasColorSurroundingSpace={typeof answer === "string"} 
+            question={QUESTIONS[questionIndex].question} 
+            answer={answer}
+            onQuestionTypingEnd={onQuestionTypingEnd}
+        />
     </div>
 }

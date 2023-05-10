@@ -1,6 +1,9 @@
 .container {
     margin: 0;
-    background-color: var(--bg-color-accent);
+    transition: background-color 1s ease-in-out;
+    &[data-background-accent=true]{
+        background-color: var(--bg-color-accent);
+    }
     padding: 24px 24px;
     border-radius: 2px;
     width: 100%;
@@ -15,8 +18,11 @@
         font-size: 16px;
         border-radius: 2px;
         justify-content: center;
-        &[data-loading=true] {
+        &[data-status=loading] {
             filter: opacity(50%)
+        }
+        &[data-status=idle] {
+            filter: opacity(0%)
         }
     }
     hr {
@@ -24,6 +30,15 @@
         border: none;
         height: 1px;
         background-color: var(--border-color);
+        &[data-status=loading] {
+            filter: opacity(50%)
+        }
+        &[data-status=idle] {
+            filter: opacity(0%)
+        }
+        &[data-status=success] {
+            filter: opacity(100%)
+        }
     }
     dt {
         font-size: 14px;
