@@ -6,17 +6,18 @@ import { z } from "zod"
 import { answer } from "../../model/schemas"
 import { procedure } from "../../trpc"
 import { parseHeadToken } from "./parse"
-import { getStoryDeep } from "@/server/services/story"
+import { getStoryDeepPrivate } from "@/server/services/story"
 
 const systemPromptPromise = readFile(resolve(process.cwd(),"prompts","question.md")) ;
 
 export const question = procedure.input(z.object({
     storyId: z.number(),
     text: z.string()
-})).mutation(async ({input}) => {
+})).mutation(async ({input,ctx}) => {
     const systemPrompt = await systemPromptPromise;
-    const story = await getStoryDeep({
+    const story = await getStoryDeepPrivate({
         storyId: input.storyId,
+        autherEmail: ctx.user.email
     })
     if (!story) {
         throw new TRPCError({

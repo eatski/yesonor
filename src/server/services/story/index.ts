@@ -20,12 +20,20 @@ export const getStory = (args: { storyId: number }) => {
     });
 }
 
-export const getStoryDeep = (args: { storyId: number }) => {
+export const getStoryDeepPrivate = (args: { storyId: number, autherEmail: string }) => {
     const prisma = new PrismaClient();
     return prisma.story.findFirst({
         where: {
-            id: args.storyId,
-            draft: false,
+            OR: [
+                {
+                    id: args.storyId,
+                    authorEmail: args.autherEmail,
+                },
+                {
+                    id: args.storyId,
+                    draft: false,
+                }
+            ]
         },
         include: {
             questionExamples: true
