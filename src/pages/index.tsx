@@ -43,7 +43,7 @@ export default function Home(props: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div style={{"marginBottom": "120px"}}>
+        <div style={{"marginBottom": "132px"}}>
           <Landing />
         </div>
         <H2 label='ストーリーを探す'/>

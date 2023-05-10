@@ -26,18 +26,21 @@
     @include buttonBase;
     background-color: var(--bg-color-action);
     color: var(--text-color-action);
+    border: 1px solid var(--border-color);
 }
 
 .buttonSecondary {
     @include buttonBase;
     background-color: var(--bg-color-action-secondary);
     color: var(--text-color-action);
+    border: 1px solid var(--border-color);
 }
 
 .buttonDanger {
     @include buttonBase;
     background-color: var(--bg-color-action-danger);
     color: var(--text-color-action);
+    border: 1px solid var(--border-color);
 }
 
 .buttonLink {
