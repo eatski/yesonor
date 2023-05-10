@@ -1,6 +1,6 @@
 @mixin buttonBase {
     font-size: 14px;
-    padding: 4px 12px;
+    padding: 4px 8px;
     border: none;
     border-radius: 2px;
     cursor: pointer;
@@ -19,6 +19,7 @@
 .buttonPure {
     @include buttonBase;
     background-color: unset;
+    color: var(--text-color-primary);
 }
 
 .button {

@@ -82,7 +82,7 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
                 <div className={styles.content}>
                     {upper}
                 </div>
-            </div> : <p className={styles.alert}>
+            </div> : process.env.NODE_ENV === "production" && <p className={styles.alert}>
                 このWebサイトは開発中です。
             </p>
         }
