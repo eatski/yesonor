@@ -13,6 +13,7 @@ export type Props = {
 export const MyStoryMenu: React.FC<Props> = ({storyId,published}) => {
     const {mutate} = trpc.delete.useMutation();
     const { mutate: put } = trpc.put.useMutation();
+    const { mutate: publish } = trpc.publish.useMutation();
     const handleFileRead = (story: StoryInit) => {
         put({
             id: storyId,
@@ -30,26 +31,34 @@ export const MyStoryMenu: React.FC<Props> = ({storyId,published}) => {
                 このストーリーは未公開です。
             </p>
         }
+        
+        <p>YAMLファイルでストーリーを修正</p>
+        <div className={styles.fileDropContainer}>
+            <YamlFileDrop onFileRead={handleFileRead} />
+        </div>
         <div className={styles.buttons}>
-            <button className={components.buttonLink} onClick={() => {
+            <button className={published ? components.buttonDanger : components.buttonLink} onClick={() => {
                 mutate({
                     id: storyId
                 },{
                     onSuccess: () => {
-                        router.push(`/stories`);
+                        router.push(`/my/stories`);
                     }
                 })
             }}>
                 削除
             </button>
-            <button className={components.buttonDanger}>
+            {published || <button className={components.buttonDanger} onClick={() => {
+                publish({
+                    id: storyId,
+                },{
+                    onSuccess: () => {
+                        router.reload();
+                    }
+                })
+            }}>
                 公開
-            </button>
+            </button>}
         </div>
-        <p>YAMLファイルでストーリーを修正</p>
-        <div className={styles.fileDropContainer}>
-            <YamlFileDrop onFileRead={handleFileRead} />
-        </div>
-        
     </div>
 }
