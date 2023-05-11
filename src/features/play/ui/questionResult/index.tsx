@@ -10,7 +10,9 @@ export type Props = {
 
 export const QuestionResult: React.FC<Props> = (props) => {
     return <section>
-        <QuestionAndAnswer hasColorSurroundingSpace {...props}/>
+        <div className={styles.resultContainer}>
+            <QuestionAndAnswer {...props}/>
+        </div>
         <div className={styles.buttonContainer}>
             <button className={button.button} onClick={props.onAnswerButtonClicked}>
                 謎は解けましたか？

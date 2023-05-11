@@ -6,7 +6,6 @@ type Props = {
     question: string,
     answer: string | null | undefined,
     onQuestionTypingEnd?: () => void;
-    hasColorSurroundingSpace: boolean;
 }
 
 interface TypingTextProps {
@@ -42,20 +41,18 @@ const TypingText: React.FC<TypingTextProps> = ({ children:text, onTypingEnd }) =
 
 export const QuestionAndAnswer: React.FC<Props> = (props) => {
 
-    return <dl className={styles.container} data-background-accent={props.hasColorSurroundingSpace}>
-    <div className={styles.content}>
-        <div className={styles.row}>
-            <dt><AiOutlineComment /></dt>
-            <dd className={styles.question}><TypingText onTypingEnd={props.onQuestionTypingEnd}>{props.question}</TypingText></dd>
-        </div>
-        <hr />
-        <div className={styles.row} data-status={
-          props.answer === undefined ? "idle" : 
-          props.answer === null ? "loading" : "success"
-        }>
-            <dt><AiFillRobot /></dt>
-            <dd>{!props.answer ? "考え中..." : <TypingText>{props.answer}</TypingText>}</dd>
-        </div>
-    </div>
-</dl>
+    return  <div className={styles.container}>
+      <div className={styles.row}>
+          <dt><AiOutlineComment /></dt>
+          <dd className={styles.question}><TypingText onTypingEnd={props.onQuestionTypingEnd}>{props.question}</TypingText></dd>
+      </div>
+      <hr />
+      <div className={styles.row} data-status={
+        props.answer === undefined ? "idle" : 
+        props.answer === null ? "loading" : "success"
+      }>
+          <dt><AiFillRobot /></dt>
+          <dd>{!props.answer ? "考え中..." : <TypingText>{props.answer}</TypingText>}</dd>
+      </div>
+  </div>
 }

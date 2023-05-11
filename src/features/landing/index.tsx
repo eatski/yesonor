@@ -55,8 +55,7 @@ export const Landing: React.FC = () => {
         <H2 label={texts.serviceName} />
         <p>{texts.serviceName}({texts.serviceNickname})は{texts.serviceDescription}</p>
         <div className={styles.content}>
-            <QuestionAndAnswer 
-                hasColorSurroundingSpace={false}
+            <QuestionAndAnswer
                 question={QUESTIONS[questionIndex].question} 
                 answer={answer}
                 onQuestionTypingEnd={onQuestionTypingEnd}

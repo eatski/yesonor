@@ -1,17 +1,7 @@
 .container {
-    margin: 0;
-    transition: background-color 1s ease-in-out;
-    &[data-background-accent=true]{
-        background-color: var(--bg-color-accent);
-    }
-    padding: 24px 24px;
+    background-color: var(--bg-color-main);
     border-radius: 2px;
-    width: 100%;
-    .content {
-        background-color: var(--bg-color-main);
-        border-radius: 2px;
-        padding: 4px 16px;
-    }
+    padding: 4px 16px;
     .row {
         display: flex;
         padding: 8px 12px 8px 0;
@@ -59,5 +49,4 @@
         justify-content: center;
         filter: var(--filter-shadow);
     }
-    margin-bottom: 16px;
 }

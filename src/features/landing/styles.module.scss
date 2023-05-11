@@ -3,12 +3,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 48px;
-    h2 {
-        font-size: 24px;
-        font-weight: 400;
-        margin: 0 0 16px;
-    }
+    padding-top: 72px;
     p {
         margin: 0 0 24px;
         font-size: 16px;
@@ -16,7 +11,7 @@
         text-align: center;
     }
     .content {
-        min-height: 180px;
+        min-height: 140px;
         width: 100%;
         margin-bottom: 16px;
     }
