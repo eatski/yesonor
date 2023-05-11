@@ -4,7 +4,6 @@ import { Feed } from "./ui/feed";
 import styles from "./styles.module.scss";
 import { QuestionForm } from "./ui/questionForm";
 import { AnswerForm } from "./ui/answerForm";
-import { Answer } from "@/server/model/types";
 import { QuestionResult } from "./ui/questionResult";
 import { AnswerResult } from "./ui/answerResult";
 import { useQuestion } from "./useQuestion";
