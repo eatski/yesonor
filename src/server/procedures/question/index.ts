@@ -3,7 +3,7 @@ import { TRPCError } from "@trpc/server"
 import { readFile } from "fs/promises"
 import { resolve } from "path"
 import { z } from "zod"
-import { answer } from "../../model/schemas"
+import { answer, questionExample as questionExampleSchema} from "../../model/schemas"
 import { procedure } from "../../trpc"
 import { parseHeadToken } from "./parse"
 import { getStoryDeepPrivate } from "@/server/services/story"
@@ -24,6 +24,8 @@ export const question = procedure.input(z.object({
             code: "NOT_FOUND"
         })
     }
+    const questionExamples = z.array(questionExampleSchema)
+        .parse(JSON.parse(story.questionExamples))
     const response = await openai.createChatCompletion({
         model: "gpt-4",
         messages: [
@@ -39,7 +41,7 @@ export const question = procedure.input(z.object({
                 role: "assistant",
                 content: story.truth
             },
-            ...story.questionExamples.flatMap(({ question: question, answer: answer, supplement }) => {
+            ...questionExamples.flatMap(({ question: question, answer: answer, supplement }) => {
                 return [
                     {
                         role: "user",

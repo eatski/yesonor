@@ -13,13 +13,8 @@ export const post = procedure.input(storyInit).mutation(async ({ input, ctx }) =
   const story = await prisma.story.create({
     data: {
       ...storyData,
-      questionExamples: {
-        create: questionExamples,
-      },
+      questionExamples: JSON.stringify(questionExamples),
       authorEmail: ctx.user.email,
-    },
-    include: {
-      questionExamples: true,
     },
   });
   return story;

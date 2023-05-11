@@ -26,20 +26,13 @@ export const put = procedure.input(z.object({
           code: "NOT_FOUND",
         })
       }),
-      prisma.questionExample.deleteMany({
-        where: {
-          storyId: id
-        }
-      }),
       prisma.story.update({
         where: {
           id: id
         },
         data :{
           ...storyData,
-          questionExamples: {
-            create: questionExamples,
-          },
+          questionExamples: JSON.stringify(questionExamples),
         }
       })
     ])

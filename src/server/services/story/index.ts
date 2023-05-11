@@ -5,7 +5,7 @@ export const getStories = (args: { count: number }) => {
     return prisma.story.findMany({
         take: args.count,
         where: {
-            draft: false,
+            published: true,
         }
     });
 }
@@ -15,7 +15,7 @@ export const getStory = (args: { storyId: number }) => {
     return prisma.story.findFirst({
         where: {
             id: args.storyId,
-            draft: false,
+            published: true,
         }
     });
 }
@@ -31,13 +31,10 @@ export const getStoryDeepPrivate = (args: { storyId: number, autherEmail: string
                 },
                 {
                     id: args.storyId,
-                    draft: false,
+                    published: true,
                 }
             ]
         },
-        include: {
-            questionExamples: true
-        }
     });
 }
 

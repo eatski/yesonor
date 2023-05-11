@@ -1,4 +1,4 @@
-import { PrismaClient, Answer } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import dotenv from "dotenv";
 import { parseYaml } from "../src/features/storyYamlFileDrop/parseYaml";
 import { readFileSync } from "fs";
@@ -14,19 +14,12 @@ async function insertStory(name: string) {
         return;
     }
     const { questionExamples, ...rest } = story.data;
-    const questionExamplesInput = questionExamples.map(qe => ({
-        ...qe,
-        answer: Answer[qe.answer],
-
-    }));
     await prisma.story.create({
         data: {
             ...rest,
-            draft: false,
+            published: true,
             authorEmail: "yesonor@example.com",
-            questionExamples: {
-                create: questionExamplesInput
-            },
+            questionExamples: JSON.stringify(questionExamples),
         },
     });
 }

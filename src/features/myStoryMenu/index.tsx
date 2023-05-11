@@ -7,10 +7,10 @@ import { YamlFileDrop } from "../storyYamlFileDrop";
 
 export type Props = {
     storyId: number;
-    draft: boolean;
+    published: boolean;
 }
 
-export const MyStoryMenu: React.FC<Props> = ({storyId,draft}) => {
+export const MyStoryMenu: React.FC<Props> = ({storyId,published}) => {
     const {mutate} = trpc.delete.useMutation();
     const { mutate: put } = trpc.put.useMutation();
     const handleFileRead = (story: StoryInit) => {
@@ -26,7 +26,7 @@ export const MyStoryMenu: React.FC<Props> = ({storyId,draft}) => {
     const router = useRouter();
     return  <div className={styles.container}>
         {
-            draft && <p>
+            published || <p>
                 このストーリーは未公開です。
             </p>
         }
