@@ -15,7 +15,7 @@ export const MyStoryMenu: React.FC<Props> = ({ storyId, published }) => {
     const put = trpc.put.useMutation();
     const publish = trpc.publish.useMutation();
     const isLoading = del.isLoading || put.isLoading || publish.isLoading;
-    const isIdling = del.isIdle && put.isIdle && publish.isIdle;
+    const isError = del.error || put.error || publish.error;
     const handleFileRead = (story: StoryInit) => {
         put.mutate({
             id: storyId,
@@ -27,7 +27,7 @@ export const MyStoryMenu: React.FC<Props> = ({ storyId, published }) => {
         });
     };
     const router = useRouter();
-    return <div className={styles.container} data-loading={!isIdling}>
+    return <div className={styles.container} data-loading={isLoading}>
         {isLoading ? <div className={styles.loader}/> : null}
         <div className={styles.content}>
             {
@@ -51,7 +51,7 @@ export const MyStoryMenu: React.FC<Props> = ({ storyId, published }) => {
                             }
                         })
                     }}
-                    disabled={!isIdling}
+                    disabled={isLoading}
                 >
                     削除
                 </button>
@@ -66,11 +66,16 @@ export const MyStoryMenu: React.FC<Props> = ({ storyId, published }) => {
                             }
                         })
                     }}
-                    disabled={!isIdling}
+                    disabled={isLoading}
                 >
                     公開
                 </button>}
             </div>
+            {
+                isError ? <p className={styles.error}>
+                    エラーが発生しました。
+                </p> : null
+            }
         </div>
     </div>
 }

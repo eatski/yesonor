@@ -1,0 +1,38 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`parseYaml > should parse input yaml 1`] = `
+{
+  "data": {
+    "questionExamples": [
+      {
+        "answer": "False",
+        "question": "yesonorの裏側で開発者が頑張って回答を考えている？",
+        "supplement": "頑張っているのはAIであり、開発者ではありません。",
+      },
+      {
+        "answer": "True",
+        "question": "yesonorでは回答者の質問に対してAIが回答を考えている？",
+        "supplement": "yesonorではGPT-4によって質問に対する回答を生成しています。",
+      },
+      {
+        "answer": "Unknown",
+        "question": "yesonorの開発者はこのサイトを作るのに苦労した？",
+        "supplement": "開発者の苦労については言及されておりません。",
+      },
+    ],
+    "quiz": "水平思考クイズとは通常、真相を知る「出題者」と質問をして謎を解き明かす「回答者」とで遊ぶゲームです。
+しかし、Yesonorでは水平思考クイズを回答者のみで遊べます。なぜでしょう？
+",
+    "simpleTruth": "YesonorではAIが質問に対する回答を行う。",
+    "title": "Yesonorの謎",
+    "truth": "YesonorではAI（GPT-4）が質問に対する回答を行うため出題者が不要です。",
+  },
+  "error": null,
+}
+`;
+
+exports[`parseYaml > should return error when input is invalid 1`] = `
+{
+  "error": "値に不備もしくは不足があります: truth,simpleTruth",
+}
+`;

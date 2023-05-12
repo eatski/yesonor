@@ -1,6 +1,6 @@
 
 import { StoryInit } from "@/server/services/story/schema";;
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { parseYaml } from './parseYaml';
 import styles from './styles.module.scss';
 
@@ -9,6 +9,7 @@ interface FileDropZoneProps {
 }
 
 export const YamlFileDrop: React.FC<FileDropZoneProps> = ({ onFileRead }) => {
+    const [error,setError] = useState<string | null>(null);
     const handleFileRead = useCallback(
         (e: React.DragEvent<HTMLDivElement>) => {
             e.preventDefault();
@@ -23,12 +24,12 @@ export const YamlFileDrop: React.FC<FileDropZoneProps> = ({ onFileRead }) => {
             reader.onload = (event: ProgressEvent<FileReader>) => {
                 const fileContent = event.target?.result;
                 if (typeof fileContent !== 'string') {
-                    // TODO: error handling
+                    setError('ファイルの読み込みに失敗しました。');
                     return;
                 }
                 const story = parseYaml(fileContent);
-                if(!story.success) {
-                    // TODO: error handling
+                if(story.error != null) {
+                    setError(story.error);
                     return;
                 }
                 onFileRead(story.data);
@@ -49,7 +50,10 @@ export const YamlFileDrop: React.FC<FileDropZoneProps> = ({ onFileRead }) => {
             onDrop={handleFileRead}
             onDragOver={handleDragOver}
         >
-            ドラッグしてYAMLファイルを読み込む
+            <p>
+                ドラッグしてYAMLファイルを読み込む
+            </p>
+            {error && <p className={styles.error}>{error}</p>}
         </div>
     );
 };
