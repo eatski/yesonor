@@ -1,0 +1,27 @@
+name: 質問
+description: 質問を提出します
+title: "[質問]: "
+labels: ["question"]
+assignees:
+  - eatski
+body:
+  - type: markdown
+    attributes:
+      value: |
+        質問を提出していただき、ありがとうございます！
+  - type: input
+    id: contact
+    attributes:
+      label: 連絡先
+      description: もし詳細が必要な場合、どのように連絡すればよいですか？
+      placeholder: 例. email@example.com
+    validations:
+      required: false
+  - type: textarea
+    id: question
+    attributes:
+      label: あなたの質問は何ですか？
+      description: できるだけ詳細を記載してください。
+      placeholder: あなたの質問をここに記入してください。
+    validations:
+      required: true

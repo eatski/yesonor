@@ -1,5 +1,5 @@
 name: 機能追加
-description: 機能追加の提案
+description: 機能追加
 title: "[機能追加]: "
 assignees:
   - eatski
@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        機能追加を提案します。
+        機能の追加について
   - type: textarea
     id: value
     attributes:
@@ -18,13 +18,13 @@ body:
   - type: textarea
     id: hindrance
     attributes:
-      label: 何がこれを実現するのを妨げているか？
+      label: 何がこれを実現するのを妨げているか？（開発者の場合は入力）
       placeholder: bot等での不正利用
     validations:
       required: false
   - type: textarea
     id: solution
     attributes:
-      label: どうやって実現するか？
+      label: どうやって実現するか？（開発者の場合は入力）
     validations:
       required: false

@@ -1,0 +1,46 @@
+name: 不具合報告
+description: 不具合報告を作成します
+title: "[不具合]: "
+labels: ["bug"]
+assignees:
+  - eatski
+body:
+  - type: markdown
+    attributes:
+      value: |
+        この不具合報告を記入していただき、ありがとうございます！
+  - type: input
+    id: contact
+    attributes:
+      label: 連絡先
+      description: もし詳細が必要な場合、どのように連絡すればよいですか？
+      placeholder: 例. email@example.com
+    validations:
+      required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 何が起こりましたか？
+      description: また、何が起こると予想していましたか？
+      placeholder: 見たことを教えてください！
+    validations:
+      required: true
+  - type: input
+    id: when-happened
+    attributes:
+      label: 発見日時
+      description: バグを発見した日時を教えてください。
+      placeholder: 例. 2021/01/01 12:00
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: 問題が発生するブラウザは何ですか？
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+
