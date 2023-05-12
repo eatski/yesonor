@@ -5,12 +5,15 @@ import { useState } from "react";
 export const useQuestion = (storyId: number) => {
     const [history,setHistory] = useState<{id: number,input: string,result: string}[]>([]);
     const {mutate,isLoading,variables,isError} = trpc.question.useMutation();
-    const latest = ((isLoading || isError) && variables?.text) 
+    const latest = variables?.text ? ((isLoading || isError)) 
         ? {
             input: variables.text,
-            result: isLoading ? null : "エラーです。AIが回答を生成できませんでした。"
+            result: isError ? "エラーです。AIが回答を生成できませんでした。" : null 
         } 
-        : history.at(-1)
+        : history.at(-1) ?? {
+            input: variables.text,
+            result: null
+        } : null;
     return {
         onSubmit(text: string) {
             mutate({
