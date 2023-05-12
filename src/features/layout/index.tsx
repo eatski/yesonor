@@ -96,8 +96,8 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
             <div className={styles.footerLinks}>
                 <Link href="/terms">利用規約</Link>
                 <Link href="/privacy">プライバシーポリシー</Link>
-                <a href="https://github.com/eatski/yesonor/issues">報告</a>
-                <a href="https://twitter.com/eatski629">問い合わせ</a>
+                <Link href="/about">このサイトについて</Link>
+                <a href="https://github.com/eatski/yesonor">開発</a>
             </div>
         </footer>
     </>
