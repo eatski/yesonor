@@ -5,6 +5,8 @@ import styles from './styles.module.scss';
 import { YamlFileDrop } from "../storyYamlFileDrop";
 import { StoryInit } from "@/server/services/story/schema";
 import { H2 } from '@/common/components/h2';
+import components from '@/styles/components.module.scss';
+import Link from 'next/link';
 
 export const NewStoryYaml = () => {
     const router = useRouter();
@@ -24,13 +26,21 @@ export const NewStoryYaml = () => {
             <p>当アプリはbeta版のため、YAML形式でのストーリーの投稿のみサポートしています。</p>
             {
                 isIdle ? <>
-                   <h3>YAMLファイルをアップロードして投稿する</h3>
+                    <h3>YAMLファイルをアップロードして投稿する</h3>
+                    
                     <div className={styles.fileDropContainer}>
                         <YamlFileDrop onFileRead={handleFileRead} />
-                    </div></> : <p>
+                    </div>
+                    <Link href="/howToWriteStory" className={components.button}>
+                        ストーリーの書き方
+                    </Link>
+                    </> : <p>
                     投稿中
+                    
                 </p>
+                
             }
+            
         </div>
     );
 }

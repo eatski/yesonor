@@ -3,7 +3,6 @@ import { Layout } from '@/features/layout';
 import { readFile } from 'fs/promises';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { resolve } from 'path';
-import ReactMarkdown from 'react-markdown';
 
 type Props = {
     markdown: string;
@@ -41,6 +40,11 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
             {
                 params: {
                     markdownName: "about"
+                }
+            },
+            {
+                params: {
+                    markdownName: "howToWriteStory"
                 }
             }
         ],
