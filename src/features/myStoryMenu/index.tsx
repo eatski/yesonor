@@ -31,7 +31,7 @@ export const MyStoryMenu: React.FC<Props> = ({ storyId, published }) => {
         {isLoading ? <div className={styles.loader}/> : null}
         <div className={styles.content}>
             {
-                published || <p>
+                published || <p className={styles.important}>
                     このストーリーは未公開です。
                 </p>
             }

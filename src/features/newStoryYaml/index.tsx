@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import styles from './styles.module.scss';
 import { YamlFileDrop } from "../storyYamlFileDrop";
 import { StoryInit } from "@/server/services/story/schema";
+import { H2 } from '@/common/components/h2';
 
 export const NewStoryYaml = () => {
     const router = useRouter();
@@ -19,7 +20,7 @@ export const NewStoryYaml = () => {
 
     return (
         <div className={styles.container}>
-            <h2>新しいストーリーを投稿</h2>
+            <H2>新しいストーリーを投稿</H2>
             <p>当アプリはbeta版のため、YAML形式でのストーリーの投稿のみサポートしています。</p>
             {
                 isIdle ? <>

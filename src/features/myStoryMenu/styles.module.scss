@@ -2,10 +2,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
     p {
         font-size: 14px;
         margin: 0 0 8px;
-        font-weight: bold;
+        &.important {
+          font-weight: bold;
+        }
     }
     .buttons {
         display: flex;
