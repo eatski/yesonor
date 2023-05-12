@@ -46,6 +46,10 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
                 params: {
                     markdownName: "howToWriteStory"
                 }
+            },{
+                params: {
+                    markdownName: "situationPuzzle"
+                }
             }
         ],
         fallback: false
