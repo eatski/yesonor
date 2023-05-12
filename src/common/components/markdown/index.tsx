@@ -24,7 +24,7 @@ const CopyButton = ({ text }: {text:string}) => {
 export const Markdown: React.FC<Props> = ({ source }) => {
   return (
     <ReactMarkdown 
-      className={styles.markdown}
+      className={styles.container}
       components={{
         code: (props) => {
           const language = "yaml";

@@ -31,9 +31,9 @@ export const NewStoryYaml = () => {
                     <div className={styles.fileDropContainer}>
                         <YamlFileDrop onFileRead={handleFileRead} />
                     </div>
-                    <Link href="/howToWriteStory" className={components.button}>
+                    <a href="/howToWriteStory" target="_blank" className={components.button}>
                         ストーリーの書き方
-                    </Link>
+                    </a>
                     </> : <p>
                     投稿中
                     
