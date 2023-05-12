@@ -18,7 +18,7 @@ body:
     validations:
       required: false
   - type: textarea
-    id: question
+    id: what-your-question
     attributes:
       label: あなたの質問は何ですか？
       description: できるだけ詳細を記載してください。
