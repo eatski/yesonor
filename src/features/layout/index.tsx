@@ -24,9 +24,11 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
         }
         router.events.on("routeChangeStart", onStart)
         router.events.on("routeChangeComplete",onEnd)
+        router.events.on("routeChangeError",onEnd)
         return () => {
             router.events.off("routeChangeStart",onStart)
             router.events.off("routeChangeComplete",onEnd)
+            router.events.off("routeChangeError",onEnd)
         }
     },[router])
 
