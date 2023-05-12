@@ -9,6 +9,7 @@ import '@/styles/base.css';
 import { SessionProvider } from "next-auth/react"
 
 import Head from 'next/head';
+import { texts } from '@/texts';
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = useMemo(() => new QueryClient(), []);
@@ -25,8 +26,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
+        <title>{`${texts.serviceName}(${texts.serviceNickname}) - ${texts.serviceDescription}`}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="google-site-verification" content="IOUrzGJWxf4PAzsbT3sjOdM63TI1ELMEpDhmtX0QlWQ" />
+        <meta name="description" content={texts.serviceDescription} />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <SessionProvider session={pageProps.session}>
         <trpc.Provider client={trpcClient} queryClient={queryClient}>

@@ -37,11 +37,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 export default function Home(props: Props) {
   return (
     <>
-      <Head>
-        <title>{`${texts.serviceName}(${texts.serviceNickname}) - ${texts.serviceDescription}`}</title>
-        <meta name="description" content={texts.serviceDescription} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <Layout>
         <div style={{"marginBottom": "132px"}}>
           <Landing />
