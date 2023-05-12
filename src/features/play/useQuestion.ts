@@ -4,7 +4,13 @@ import { useState } from "react";
 
 export const useQuestion = (storyId: number) => {
     const [history,setHistory] = useState<{id: number,input: string,result: string}[]>([]);
-    const {mutate,isLoading,variables} = trpc.question.useMutation();
+    const {mutate,isLoading,variables,isError} = trpc.question.useMutation();
+    const latest = ((isLoading || isError) && variables?.text) 
+        ? {
+            input: variables.text,
+            result: isLoading ? null : "エラーです。AIが回答を生成できませんでした。"
+        } 
+        : history.at(-1)
     return {
         onSubmit(text: string) {
             mutate({
@@ -27,10 +33,7 @@ export const useQuestion = (storyId: number) => {
                 }
             });
         },
-        latest: isLoading && variables?.text ? {
-            input: variables.text,
-            result: null
-        } : history.at(-1),
+        latest,
         history,
         isLoading
     }
