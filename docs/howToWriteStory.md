@@ -14,7 +14,7 @@ quiz: |
   水平思考クイズとは通常、真相を知る「出題者」と質問をして謎を解き明かす「回答者」とで遊ぶゲームです。
   しかし、Yesonorでは水平思考クイズを回答者のみで遊べます。なぜでしょう？
 # ストーリーの真相
-truth: YesonorではAI（ChatGPT）が質問に対する回答を行うため出題者が不要です。
+truth: YesonorではAI（GPT-4）が質問に対する回答を行うため出題者が不要です。
 # 真相のうち、核心を最低限の言葉で表現したもの
 simpleTruth: YesonorではAIが質問に対する回答を行う。
 # 質問と答えの例
@@ -24,7 +24,7 @@ questionExamples:
     supplement: 頑張っているのはAIであり、開発者ではありません。 #回答に対する補足を記述
   - question: yesonorでは回答者の質問に対してAIが回答を考えている？ 
     answer: はい 
-    supplement: yesonorではChatGPTによって質問に対する回答を生成しています。
+    supplement: yesonorではGPT-4によって質問に対する回答を生成しています。
   - question: yesonorの開発者はこのサイトを作るのに苦労した？ 
     answer: わからない 
     supplement: 開発者の苦労については言及されておりません。
