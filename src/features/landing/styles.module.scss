@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 72px;
+    padding-top: 60px;
     p {
         margin: 0 0 24px;
         font-size: 16px;
@@ -11,7 +11,10 @@
         text-align: center;
     }
     .content {
-        min-height: 140px;
+        min-height: 130px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
         margin-bottom: 16px;
     }
