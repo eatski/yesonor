@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 
 export const publishFirst = procedure.input(z.object({
-  id: z.number(),
+  id: z.string(),
 })).mutation(async ({ input, ctx }) => {
   const prisma = new PrismaClient();
   const { id } = input;

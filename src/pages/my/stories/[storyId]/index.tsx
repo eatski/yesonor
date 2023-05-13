@@ -17,13 +17,13 @@ type Story = {
 }
 
 type Props = {
-    storyId: number;
+    storyId: string;
     story: Story;
     device: Device;
 }
 
 const querySchema = z.object({
-    storyId: z.string().transform(e => parseInt(e)).refine(e => !Number.isNaN(e))
+    storyId: z.string()
 })
 
 export const getServerSideProps: GetServerSideProps<Props> = async (context) => {

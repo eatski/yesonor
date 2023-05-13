@@ -11,7 +11,7 @@ import { getStoryDeepPrivate } from "@/server/services/story"
 const systemPromptPromise = readFile(resolve(process.cwd(),"prompts","question.md")) ;
 
 export const question = procedure.input(z.object({
-    storyId: z.number(),
+    storyId: z.string(),
     text: z.string()
 })).mutation(async ({input,ctx}) => {
     const systemPrompt = await systemPromptPromise;

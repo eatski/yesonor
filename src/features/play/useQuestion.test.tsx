@@ -51,7 +51,7 @@ describe("useQuestion", () => {
 
   it("should return the latest question and answer", async () => {
     // Arrange
-    const storyId = 1;
+    const storyId = "testes";
     const text = "What is the capital of France?";
     server.use(
         trpcMsw.question.mutation((_, res, ctx) => {

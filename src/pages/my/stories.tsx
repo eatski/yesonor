@@ -7,7 +7,7 @@ import { getUser } from '@/server/getServerSideProps/getUser';
 
 type Props = {
     stories: {
-        id: number;
+        id: string;
         title: string;
         quiz: string;
         url: string;

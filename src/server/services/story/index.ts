@@ -13,7 +13,7 @@ export const getStories = (args: { count: number }) => {
     });
 }
 
-export const getStory = (args: { storyId: number }) => {
+export const getStory = (args: { storyId: string }) => {
     const prisma = new PrismaClient();
     return prisma.story.findFirst({
         where: {
@@ -23,7 +23,7 @@ export const getStory = (args: { storyId: number }) => {
     });
 }
 
-export const getStoryDeepPrivate = (args: { storyId: number, autherEmail: string }) => {
+export const getStoryDeepPrivate = (args: { storyId: string, autherEmail: string }) => {
     const prisma = new PrismaClient();
     return prisma.story.findFirst({
         where: {
@@ -41,7 +41,7 @@ export const getStoryDeepPrivate = (args: { storyId: number, autherEmail: string
     });
 }
 
-export const getStoryPrivate = async (args: { storyId: number, autherEmail: string }) => {
+export const getStoryPrivate = async (args: { storyId: string, autherEmail: string }) => {
     const prisma = new PrismaClient();
     return prisma.story.findFirst({
         where: {

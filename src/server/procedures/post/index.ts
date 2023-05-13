@@ -2,6 +2,7 @@ import { procedure } from "@/server/trpc";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 import { storyInit } from "@/server/services/story/schema";
+import { generateId } from "@/common/util/id";
 
 export type Input = z.infer<typeof storyInit>;
 
@@ -13,6 +14,7 @@ export const post = procedure.input(storyInit).mutation(async ({ input, ctx }) =
   const story = await prisma.story.create({
     data: {
       ...storyData,
+      id: generateId(),
       questionExamples: JSON.stringify(questionExamples),
       authorEmail: ctx.user.email,
     },

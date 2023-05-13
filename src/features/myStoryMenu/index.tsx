@@ -6,7 +6,7 @@ import { StoryInit } from "@/server/services/story/schema";
 import { YamlFileDrop } from "../storyYamlFileDrop";
 
 export type Props = {
-    storyId: number;
+    storyId: string;
     published: boolean;
     canUseFileDrop: boolean;
 }

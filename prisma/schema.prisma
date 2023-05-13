@@ -10,7 +10,7 @@ datasource db {
 }
 
 model Story {
-  id                Int              @id @default(autoincrement())
+  id                String           @id
   authorEmail       String
   title             String
   quiz              String

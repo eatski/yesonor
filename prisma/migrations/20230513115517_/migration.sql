@@ -3,7 +3,7 @@ CREATE TYPE "Answer" AS ENUM ('True', 'False', 'Unknown', 'Invalid');
 
 -- CreateTable
 CREATE TABLE "Story" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "authorEmail" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "quiz" TEXT NOT NULL,
