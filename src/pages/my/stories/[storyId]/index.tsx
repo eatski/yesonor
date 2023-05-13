@@ -8,6 +8,7 @@ import { getStoryPrivate } from '@/server/services/story';
 import { getUser } from '@/server/getServerSideProps/getUser';
 import { getDeviceServer } from '@/server/getServerSideProps/getDevice';
 import { Device } from '@/common/util/device';
+import { HeadMetaOverride } from '@/features/headMeta';
 
 type Story = {
     title: string,
@@ -63,14 +64,18 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
 }
 
 export default function StoryDraftPage(props: Props) {
-    return <Layout upper={<MyStoryMenu storyId={props.storyId} published={props.story.published} canUseFileDrop={props.device === "desktop"}/>}>
-        <StoryDescription 
-            id={props.storyId} 
-            title={props.story.title} 
-            quiz={props.story.quiz} 
-            publishedAt={props.story.publishedAt}
-            published={props.story.published}
-        />
-        <Play storyId={props.storyId} />
-    </Layout>
+    return <>
+        <HeadMetaOverride titleHeadOverride={props.story.title} descriptionOverride={props.story.quiz}/>
+            <Layout upper={<MyStoryMenu storyId={props.storyId} published={props.story.published} canUseFileDrop={props.device === "desktop"}/>}>
+            <StoryDescription 
+                id={props.storyId} 
+                title={props.story.title} 
+                quiz={props.story.quiz} 
+                publishedAt={props.story.publishedAt}
+                published={props.story.published}
+            />
+            <Play storyId={props.storyId} />
+        </Layout>
+    </> 
+        
 }

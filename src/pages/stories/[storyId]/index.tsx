@@ -5,6 +5,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { z } from 'zod';
 import { getStories, getStory } from '@/server/services/story';
 import { revalidateTime } from '@/common/revalidate';
+import { HeadMetaOverride } from '@/features/headMeta';
 
 type Props = {
     storyId: string;
@@ -62,14 +63,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export default function Story(props: Props) {
-    return <Layout>
-        <StoryDescription
-            id={props.storyId} 
-            title={props.story.title} 
-            quiz={props.story.quiz} 
-            publishedAt={props.story.publishedAt} 
-            published={props.story.published}
-        />
-        <Play storyId={props.storyId} />
-    </Layout>
+    return <>
+        <HeadMetaOverride titleHeadOverride={props.story.title} descriptionOverride={props.story.quiz}/>
+        <Layout>
+            <StoryDescription
+                id={props.storyId} 
+                title={props.story.title} 
+                quiz={props.story.quiz} 
+                publishedAt={props.story.publishedAt} 
+                published={props.story.published}
+            />
+            <Play storyId={props.storyId} />
+        </Layout>
+    </>
 }
