@@ -1,6 +1,6 @@
 import { openai } from "@/libs/openapi";
 import { truthCoincidence } from "@/server/model/schemas";
-import { getStory } from "@/server/services/story";
+import { getStoryPrivate } from "@/server/services/story";
 import { procedure } from "@/server/trpc";
 import { TRPCError } from "@trpc/server";
 import { readFile } from "fs/promises";
@@ -12,9 +12,10 @@ const systemPromptPromise = readFile(resolve(process.cwd(),"prompts","truth.md")
 export const truth = procedure.input(z.object({
     storyId: z.string(),
     text: z.string(),
-})).mutation(async ({ input }) => {
-    const story = await getStory({
+})).mutation(async ({ input,ctx }) => {
+    const story = await getStoryPrivate({
         storyId: input.storyId,
+        autherEmail: ctx.user.email
     })
     if (!story) {
         throw new TRPCError({
