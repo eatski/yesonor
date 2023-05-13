@@ -38,9 +38,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
 
 export default function Story(props: Props) {
     return <Layout>
-        <main>
-            <H2 label="自分のストーリー"/>
-            <Stories stories={props.stories} />
-        </main>
+       <H2 label="自分のストーリー"/>
+        <Stories stories={props.stories} />
     </Layout>
 }
