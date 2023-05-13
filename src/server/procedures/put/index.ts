@@ -14,31 +14,16 @@ export const put = procedure.input(z.object({
   const prisma = new PrismaClient();
   const { id, story } = input;
   const { questionExamples, ...storyData } = story;
-  await prisma.$transaction(async () => {
-    return Promise.all([
-      prisma.story.findFirst({
-        where: {
-          id: input.id,
-          authorEmail: ctx.user.email
-        }
-      }).then(story => {
-        if(story === null) throw new TRPCError({
-          code: "NOT_FOUND",
-        })
-      }),
-      prisma.story.update({
-        where: {
-          id: id
-        },
-        data :{
-          ...storyData,
-          questionExamples: JSON.stringify(questionExamples),
-        }
-      })
-    ])
-  },{
-    // HACK: 中が遅すぎるのでtimeoutを長めに設定
-    timeout: 10000 
+  await prisma.story.updateMany({
+    where: {
+      id: id,
+      authorEmail: ctx.user.email
+    },
+    data :{
+      ...storyData,
+      questionExamples: JSON.stringify(questionExamples),
+    }
   })
+  await ctx.doRevalidate(`/stories/${input.id}`).catch();
   return true;
 })
