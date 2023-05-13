@@ -10,11 +10,12 @@ export type Story = {
     id: number,
     title: string,
     quiz: string,
-    publishedAt: number | null
+    publishedAt: number | null,
+    published: boolean
 }
 dayjs.locale('ja');
 
-export const StoryDescription: React.FC<Story> = ({id,title,quiz,publishedAt}) => {
+export const StoryDescription: React.FC<Story> = ({id,title,quiz,publishedAt,published}) => {
     const url = `https://yesonor.vercel.app/stories/${id}`;
     return  <div className={styles.container}>
         <H2 label={title} />
@@ -28,7 +29,8 @@ export const StoryDescription: React.FC<Story> = ({id,title,quiz,publishedAt}) =
                 </dl>
         }
         <p>{quiz}</p>
-        <div className={styles.share}>
+        {
+            published && <div className={styles.share}>
             <a  
                 href={`https://twitter.com/intent/tweet?url=${encodeURI(url)}&text=${encodeURI(quiz)}&hashtags=${encodeURI(texts.serviceNickname)},${encodeURI("水平思考クイズ")}`} 
                 className={components.buttonLink}
@@ -47,5 +49,7 @@ export const StoryDescription: React.FC<Story> = ({id,title,quiz,publishedAt}) =
             </CopyToClipboard>
             
         </div>
+        }
+        
     </div>
 }

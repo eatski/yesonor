@@ -64,7 +64,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
 
 export default function StoryDraftPage(props: Props) {
     return <Layout upper={<MyStoryMenu storyId={props.storyId} published={props.story.published} canUseFileDrop={props.device === "desktop"}/>}>
-        <StoryDescription id={props.storyId} title={props.story.title} quiz={props.story.quiz} publishedAt={props.story.publishedAt}/>
+        <StoryDescription 
+            id={props.storyId} 
+            title={props.story.title} 
+            quiz={props.story.quiz} 
+            publishedAt={props.story.publishedAt}
+            published={props.story.published}
+        />
         <Play storyId={props.storyId} />
     </Layout>
 }
