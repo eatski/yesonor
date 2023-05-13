@@ -6,6 +6,9 @@ export const getStories = (args: { count: number }) => {
         take: args.count,
         where: {
             published: true,
+        },
+        orderBy: {
+            publishedAt: 'desc',
         }
     });
 }
@@ -53,6 +56,14 @@ export const getStoriesPrivate = async (args: { autherEmail: string }) => {
     return prisma.story.findMany({
         where: {
             authorEmail: args.autherEmail,
-        }
+        },
+        orderBy: [
+            {
+              publishedAt: 'desc',
+            },
+            {
+              createdAt: 'desc',
+            },
+        ],
     });
 }

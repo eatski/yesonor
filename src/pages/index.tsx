@@ -41,7 +41,7 @@ export default function Home(props: Props) {
         <div style={{"marginBottom": "132px"}}>
           <Landing />
         </div>
-        <H2 label='新着'/>
+        <H2 label='新着ストーリー'/>
         <Stories stories={props.stories}/>
       </Layout> 
     </>

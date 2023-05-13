@@ -33,7 +33,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 export default function Story(props: Props) {
     return <Layout>
         <main>
-            <H2 label='新着'/>
+            <H2 label='新着ストーリー'/>
             <Stories stories={props.stories} />
         </main>
     </Layout>

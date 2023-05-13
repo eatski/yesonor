@@ -19,6 +19,7 @@ async function insertStory(name: string) {
             ...rest,
             published: true,
             authorEmail: "yesonor@example.com",
+            publishedAt: new Date(),
             questionExamples: JSON.stringify(questionExamples),
         },
     });
