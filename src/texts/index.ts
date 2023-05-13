@@ -1,5 +1,5 @@
 export const texts = {
     serviceName: "Yesonor",
     serviceNickname: "いえそな",
-    serviceDescription: "AIと楽しむ水平思考クイズのプラットフォーム",
+    serviceDescription: "AIと楽しむ水平思考クイズの投稿プラットフォーム",
 }
