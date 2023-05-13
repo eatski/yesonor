@@ -10,6 +10,7 @@ import { SessionProvider } from "next-auth/react"
 
 import Head from 'next/head';
 import { texts } from '@/texts';
+import Script from 'next/script';
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = useMemo(() => new QueryClient(), []);
@@ -32,6 +33,18 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="description" content={texts.serviceDescription} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-1VTTNL7SR2"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-1VTTNL7SR2');
+        `}
+      </Script>
       <SessionProvider session={pageProps.session}>
         <trpc.Provider client={trpcClient} queryClient={queryClient}>
           <QueryClientProvider client={queryClient}>
