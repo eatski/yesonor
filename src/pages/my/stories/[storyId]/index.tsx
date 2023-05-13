@@ -6,7 +6,8 @@ import { z } from 'zod';
 import { MyStoryMenu } from '@/features/myStoryMenu';
 import { getStoryPrivate } from '@/server/services/story';
 import { getUser } from '@/server/getServerSideProps/getUser';
-import { Device, getDevice } from '@/server/getServerSideProps/getDevice';
+import { getDeviceServer } from '@/server/getServerSideProps/getDevice';
+import { Device } from '@/common/util/device';
 
 type Story = {
     title: string,
@@ -56,7 +57,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
             publishedAt: story.publishedAt?.getTime() ?? null,
             published: story.published
         },
-        device: getDevice(context)
+        device: getDeviceServer(context)
       },
     }
 }

@@ -6,14 +6,20 @@ import { AiOutlineUnorderedList as Menu } from "react-icons/ai";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import { useRouter } from "next/router";
+import { Device, getDevice } from "@/common/util/device";
 
 export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>> = ({ children, upper }) => {
     const session = useSession();
+    const [device,setDevice] = useState<Device | null>(null)
+    useEffect(() => {
+        setDevice(getDevice(window.navigator.userAgent))
+    },[])
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const ref = React.useRef<HTMLDivElement>(null);
     const router = useRouter();
     
     const [loading,setLoading] = useState(false)
+
 
     useEffect(() => {
         const onStart = () => {
@@ -72,7 +78,7 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
         {loading && <div className={styles.transitionStatus} />}
         {
             menuOpen && <div className={styles.menu} ref={ref}>
-                <Link href={"/stories/new"}>ストーリーを作成</Link>
+                {device === "desktop" && <Link href={"/stories/new"}>ストーリーを作成</Link>}
                 <Link href={"/my/stories"}>自分のストーリー</Link>
                 <Link href={"/my/settings"}>設定</Link>
                 <hr />
