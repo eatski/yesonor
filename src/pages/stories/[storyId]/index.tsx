@@ -39,7 +39,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
         story: {
             title: story.title,
             quiz: story.quiz,
-            createdAt: story.createdAt.getTime()
+            publishedAt: story.publishedAt?.getTime() ?? null,
         }
       },
       revalidate: 30
@@ -63,7 +63,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export default function Story(props: Props) {
     const session = useSession();
     return <Layout>
-        <StoryDescription title={props.story.title} quiz={props.story.quiz} createdAt={props.story.createdAt}/>
+        <StoryDescription title={props.story.title} quiz={props.story.quiz} publishedAt={props.story.publishedAt}/>
         {session.status === "loading" ? null : session.status === "authenticated" ? <Play storyId={props.storyId} /> : <RequireLogin />}
     </Layout>
 }

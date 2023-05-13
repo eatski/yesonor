@@ -10,7 +10,8 @@ import { getUserInGetServerSideProps } from '@/server/session/getUserInGetServer
 type Story = {
     title: string,
     quiz: string,
-    published: boolean
+    published: boolean,
+    publishedAt: number | null
 }
 
 type Props = {
@@ -50,7 +51,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
         story: {
             title: story.title,
             quiz: story.quiz,
-            createdAt: story.createdAt.getTime(),
+            publishedAt: story.publishedAt?.getTime() ?? null,
             published: story.published
         }
       },
@@ -59,7 +60,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
 
 export default function StoryDraftPage(props: Props) {
     return <Layout upper={<MyStoryMenu storyId={props.storyId} published={props.story.published}/>}>
-        <StoryDescription title={props.story.title} quiz={props.story.quiz} createdAt={null}/>
+        <StoryDescription title={props.story.title} quiz={props.story.quiz} publishedAt={props.story.publishedAt}/>
         <Play storyId={props.storyId} />
     </Layout>
 }
