@@ -22,7 +22,7 @@ export const NewStoryYaml: React.FC<{ canUseFileDrop: boolean }> = ({ canUseFile
     return (
         <div className={styles.container}>
             <H2>新しいストーリーを投稿</H2>
-            <p>当アプリはbeta版のため、YAML形式でのストーリーの投稿のみサポートしています。</p>
+            <p>当アプリはベータ版のため、YAML形式でのストーリーの投稿のみサポートしています。</p>
             {
                 isIdle ? <>
                     <h3>YAMLファイルをアップロードして投稿する</h3>

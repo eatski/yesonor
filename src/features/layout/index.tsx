@@ -94,7 +94,6 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
         }
         
         <main className={styles.main}>
-            
             {children}
         </main>
         <footer className={styles.footer}>
@@ -102,7 +101,7 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
             <div className={styles.footerLinks}>
                 <Link href="/terms">利用規約</Link>
                 <Link href="/privacy">プライバシーポリシー</Link>
-                <Link href="/about">このサイトについて</Link>
+                <Link href="/about">ベータ版について</Link>
                 <a href="https://github.com/eatski/yesonor">開発</a>
             </div>
         </footer>

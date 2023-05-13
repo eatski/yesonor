@@ -55,6 +55,6 @@ export const YamlFileDrop: React.FC<FileDropZoneProps> = ({ onFileRead,canUseFil
                 ドラッグしてYAMLファイルを読み込む
             </p>
             {error && <p className={styles.error}>{error}</p>}
-        </div> :  <p>モバイル端末でのストーリーの投稿はbeta版ではサポートされていません。<a href={"https://github.com/eatski/yesonor/issues/4"}>（詳しく）</a></p>
+        </div> :  <p>モバイル端末でのストーリーの投稿は版ではサポートされていません。<a href={"https://github.com/eatski/yesonor/issues/4"}>（詳しく）</a></p>
     );
 };
