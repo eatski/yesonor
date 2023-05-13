@@ -4,8 +4,6 @@ import { Story, StoryDescription } from '@/features/storyDescription';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { z } from 'zod';
 import { getStories, getStory } from '@/server/services/story';
-import { useSession } from 'next-auth/react';
-import { RequireLogin } from '@/features/requireLogin';
 
 type Props = {
     storyId: number;
@@ -61,9 +59,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export default function Story(props: Props) {
-    const session = useSession();
     return <Layout>
         <StoryDescription title={props.story.title} quiz={props.story.quiz} publishedAt={props.story.publishedAt}/>
-        {session.status === "loading" ? null : session.status === "authenticated" ? <Play storyId={props.storyId} /> : <RequireLogin />}
+        <Play storyId={props.storyId} />
     </Layout>
 }
