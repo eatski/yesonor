@@ -22,7 +22,7 @@ export const Stories: React.FC<{stories: Story[]}> = ({stories}) => {
                         {story.quiz}
                     </p>
                 </Link>
-                <Link href={story.url} className={styles.iconContainer}>
+                <Link aria-label="このストーリーの謎を解く" href={story.url} className={styles.iconContainer}>
                     <StartIcon className={components.iconButton} />
                 </Link>
             </li>

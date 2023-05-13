@@ -60,7 +60,7 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
             </Link>
             <div className={styles.right}>
                 {
-                    session.status !== "loading" ? session.data?.user ? <button className={styles.iconWrapper} onClick={() => {
+                    session.status !== "loading" ? session.data?.user ? <button aria-label="メニュー" className={styles.iconWrapper} onClick={() => {
                         setMenuOpen((flg) => !flg);
                     }}>
                         <Menu className={components.iconButtonLink} />

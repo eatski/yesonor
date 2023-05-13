@@ -36,7 +36,7 @@ export const QuestionForm: React.FC<{
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                             />
-                            <button className={components.button} type="submit" disabled={isLoading}>
+                            <button className={components.button} type="submit" disabled={isLoading} aria-label="質問を送信">
                                 <AiOutlineSend size={"16px"} />
                             </button>
                         </div> : <RequireLogin />
