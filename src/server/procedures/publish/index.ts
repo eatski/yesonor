@@ -8,30 +8,24 @@ export const publishFirst = procedure.input(z.object({
 })).mutation(async ({ input, ctx }) => {
   const prisma = new PrismaClient();
   const { id } = input;
-  await prisma.$transaction(async () => {
-    return Promise.all([
-      prisma.story.findFirst({
-        where: {
-          id: input.id,
-          authorEmail: ctx.user.email,
-          published: false,
-          publishedAt: null
-        }
-      }).then(story => {
-        if(story === null) throw new TRPCError({
-          code: "NOT_FOUND",
-        })
-      }),
-      prisma.story.update({
-        where: {
-          id: id
-        },
-        data : {
-            published: true,
-            publishedAt: new Date()
-        }
-      })
-    ])
+  const result = await prisma.story.updateMany({
+    where: {
+      id: id,
+      authorEmail: ctx.user.email,
+      published: false,
+      publishedAt: null
+    },
+    data : {
+        published: true,
+        publishedAt: new Date()
+    }
   })
+
+  if(result.count == 0){
+    throw new TRPCError({
+      code: "NOT_FOUND",
+    })
+  }
+  await ctx.doRevalidate(`/stories/${id}`).catch();
   return true;
 })
