@@ -51,6 +51,12 @@
     border: 1px solid var(--border-color);
 }
 
+.buttonBright {
+    @include buttonBase;
+    color: var(--text-color-bright);
+    border: 1px solid var(--text-color-bright);
+}
+
 .iconButton {
     width: 24px;
     height: 24px;

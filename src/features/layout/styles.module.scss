@@ -28,6 +28,12 @@
         margin-left: auto;
         display: flex;
         align-items: center;
+        a {
+            display: flex;
+            align-items: center;
+            height: fit-content;
+            margin-right: 8px;
+        }
     }
     .iconWrapper {
         color: var(--text-color-action);

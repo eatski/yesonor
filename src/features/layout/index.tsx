@@ -60,6 +60,9 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
             </Link>
             <div className={styles.right}>
                 {
+                    router.asPath !== "/stories/new" && device === "desktop" && session.data?.user && <Link className={components.buttonBright} href={"/stories/new"}>ストーリーを作成</Link>
+                }
+                {
                     session.status !== "loading" ? session.data?.user ? <button aria-label="メニュー" className={styles.iconWrapper} onClick={() => {
                         setMenuOpen((flg) => !flg);
                     }}>
@@ -78,7 +81,6 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
         {loading && <div className={styles.transitionStatus} />}
         {
             menuOpen && <div className={styles.menu} ref={ref}>
-                {device === "desktop" && <Link href={"/stories/new"}>ストーリーを作成</Link>}
                 <Link href={"/my/stories"}>自分のストーリー</Link>
                 <Link href={"/my/settings"}>設定</Link>
                 <hr />
