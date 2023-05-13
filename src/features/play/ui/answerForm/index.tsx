@@ -6,7 +6,8 @@ export const AnswerForm: React.FC<{
     onSubmit: (text: string) => void;
     onCancel: () => void;
     isLoading: boolean;
-}> = ({isLoading,onSubmit,onCancel}) => {
+    isError: boolean;
+}> = ({isLoading,onSubmit,onCancel,isError}) => {
     const inputRef = useRef<string>("");
     return <form className={styles.form} onSubmit={
         (e) => {
@@ -25,5 +26,8 @@ export const AnswerForm: React.FC<{
             <button className={components.buttonSecondary} type="button" onClick={onCancel} disabled={isLoading}>まだわからない</button>
             <button className={components.button} type="submit" disabled={isLoading}>回答する</button>
         </div>
+        {
+            isError && <p className={styles.error}>エラーが発生しました。</p>
+        }
     </form>
 }
