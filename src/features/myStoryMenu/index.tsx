@@ -47,6 +47,9 @@ export const MyStoryMenu: React.FC<Props> = ({ storyId, published,canUseFileDrop
                         <button
                             className={published ? components.buttonDanger : components.buttonLink}
                             onClick={() => {
+                                if(!confirm("本当に削除しますか？")){
+                                    return;
+                                }
                                 del.mutate({
                                     id: storyId
                                 }, {
