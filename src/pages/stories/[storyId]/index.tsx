@@ -4,6 +4,7 @@ import { Story, StoryDescription } from '@/features/storyDescription';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { z } from 'zod';
 import { getStories, getStory } from '@/server/services/story';
+import { revalidateTime } from '@/common/revalidate';
 
 type Props = {
     storyId: number;
@@ -28,7 +29,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
     if(!story) {
         return {
             notFound: true,
-            revalidate: 30
+            revalidate: revalidateTime.medium
         }
     }
     return {
@@ -40,7 +41,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
             publishedAt: story.publishedAt?.getTime() ?? null,
         }
       },
-      revalidate: 30
+      revalidate: revalidateTime.medium
     }
 }
 

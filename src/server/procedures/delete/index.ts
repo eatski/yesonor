@@ -21,5 +21,6 @@ export const delete_ = procedure.input(z.object({
       code: "NOT_FOUND",
     })
   }
+  await ctx.doRevalidate(`/stories/${input.id}`).catch();
   return true;
 })
