@@ -1,7 +1,9 @@
 .container {
     filter: var(--filter-shadow);
     margin:  32px 12px 0;
-    background-color: var(--bg-color-main-secondary);
+    &[data-truth="true"]{
+        background-color: var(--bg-color-main-secondary);
+    }
     border-radius: 8px;
     padding: 20px;
     border: 1px solid var(--border-color);

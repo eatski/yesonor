@@ -10,7 +10,7 @@ export type Props = {
 }
 
 export const AnswerResult: React.FC<Props> = ({result,reasoning,truth,onBackButtonClicked}) => {
-    return  <div className={styles.container}>
+    return  <div className={styles.container} data-truth={truth !== null}>
             <h3>{result}</h3>
             <dl>
                 {
