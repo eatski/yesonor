@@ -36,14 +36,14 @@ const TypingText: React.FC<TypingTextProps> = ({ children:text, onTypingEnd }) =
     return () => clearInterval(typingInterval);
   }, [text, onTypingEnd]);
 
-  return <>{displayedText}</>;
+  return <span role="img" aria-label={text}>{displayedText}</span>;
 };
 
 export const QuestionAndAnswer: React.FC<Props> = (props) => {
 
     return  <div className={styles.container}>
       <div className={styles.row}>
-          <dt><AiOutlineComment /></dt>
+          <dt><AiOutlineComment role="img" aria-label="あなたの質問"/></dt>
           <dd className={styles.question}><TypingText onTypingEnd={props.onQuestionTypingEnd}>{props.question}</TypingText></dd>
       </div>
       <hr />
@@ -51,7 +51,7 @@ export const QuestionAndAnswer: React.FC<Props> = (props) => {
         props.answer === undefined ? "idle" : 
         props.answer === null ? "loading" : "success"
       }>
-          <dt><AiFillRobot /></dt>
+          <dt><AiFillRobot role="img" aria-label="AIからの回答"/></dt>
           <dd>{!props.answer ? "考え中..." : <TypingText>{props.answer}</TypingText>}</dd>
       </div>
   </div>
