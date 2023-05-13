@@ -55,8 +55,8 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
     return <>
         <header className={styles.header}>
             <Link href="/">
-                <h1>{texts.serviceName}</h1>
-                <p>{texts.serviceDescription}</p>
+                <h1>{texts.serviceName}<span>beta版</span></h1>
+                <p>{texts.serviceDescription}</p>          
             </Link>
             <div className={styles.right}>
                 {
