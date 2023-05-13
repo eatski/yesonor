@@ -14,6 +14,7 @@ export const MyStoryMenu: React.FC<Props> = ({ storyId, published }) => {
     const del = trpc.delete.useMutation();
     const put = trpc.put.useMutation();
     const publish = trpc.publish.useMutation();
+    const success = del.isSuccess || put.isSuccess || publish.isSuccess;
     const isLoading = del.isLoading || put.isLoading || publish.isLoading;
     const isError = del.error || put.error || publish.error;
     const handleFileRead = (story: StoryInit) => {
@@ -28,49 +29,54 @@ export const MyStoryMenu: React.FC<Props> = ({ storyId, published }) => {
     };
     const router = useRouter();
     return <div className={styles.container} data-loading={isLoading}>
-        {isLoading ? <div className={styles.loader}/> : null}
+        {isLoading ? <div className={styles.loader} /> : null}
         <div className={styles.content}>
             {
-                published || <p className={styles.important}>
+                success || published || <p className={styles.important}>
                     このストーリーは未公開です。
                 </p>
             }
-            <p>YAMLファイルでストーリーを修正</p>
-            <div className={styles.fileDropContainer}>
-                <YamlFileDrop onFileRead={handleFileRead} />
-            </div>
-            <div className={styles.buttons}>
-                <button 
-                    className={published ? components.buttonDanger : components.buttonLink} 
-                    onClick={() => {
-                        del.mutate({
-                            id: storyId
-                        }, {
-                            onSuccess: () => {
-                                router.push(`/my/stories`);
-                            }
-                        })
-                    }}
-                    disabled={isLoading}
-                >
-                    削除
-                </button>
-                {published || <button 
-                    className={components.buttonDanger} 
-                    onClick={() => {
-                        publish.mutate({
-                            id: storyId,
-                        }, {
-                            onSuccess: () => {
-                                router.reload();
-                            }
-                        })
-                    }}
-                    disabled={isLoading}
-                >
-                    公開
-                </button>}
-            </div>
+            {
+                success ? <p>完了しました。画面をリロードします。</p> : <>
+                    <p>YAMLファイルでストーリーを修正</p>
+                    <div className={styles.fileDropContainer}>
+                        <YamlFileDrop onFileRead={handleFileRead} />
+                    </div>
+                    <div className={styles.buttons}>
+                        <button
+                            className={published ? components.buttonDanger : components.buttonLink}
+                            onClick={() => {
+                                del.mutate({
+                                    id: storyId
+                                }, {
+                                    onSuccess: () => {
+                                        router.push(`/my/stories`);
+                                    }
+                                })
+                            }}
+                            disabled={isLoading}
+                        >
+                            削除
+                        </button>
+                        {published || <button
+                            className={components.buttonDanger}
+                            onClick={() => {
+                                publish.mutate({
+                                    id: storyId,
+                                }, {
+                                    onSuccess: () => {
+                                        router.reload();
+                                    }
+                                })
+                            }}
+                            disabled={isLoading}
+                        >
+                            公開
+                        </button>}
+                    </div>
+                </>
+            }
+
             {
                 isError ? <p className={styles.error}>
                     エラーが発生しました。
