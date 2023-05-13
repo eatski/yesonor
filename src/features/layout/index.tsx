@@ -90,9 +90,7 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
                 <div className={styles.content}>
                     {upper}
                 </div>
-            </div> : process.env.NODE_ENV === "production" && <p className={styles.alert}>
-                このWebサイトは開発中です。
-            </p>
+            </div> : null
         }
         
         <main className={styles.main}>
