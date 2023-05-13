@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import { Stories } from '@/common/components/stories';
 import { H2 } from '@/common/components/h2';
 import { getStories } from '@/server/services/story';
+import { revalidateTime } from '@/common/revalidate';
 
 type Props = {
     stories: {
@@ -26,7 +27,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
                 url: `/stories/${id}`
             }))
         },
-        revalidate: 60 * 5
+        revalidate: revalidateTime.short
     }
 }
 
