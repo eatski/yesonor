@@ -7,7 +7,7 @@ import { TRPCError } from "@trpc/server";
 export type Input = z.infer<typeof storyInit>;
 
 export const put = procedure.input(z.object({
-  id: z.number(),
+  id: z.string(),
   story: storyInit
 })).mutation(async ({ input, ctx }) => {
 

@@ -10,7 +10,7 @@ import { z } from "zod";
 const systemPromptPromise = readFile(resolve(process.cwd(),"prompts","truth.md")) ;
 
 export const truth = procedure.input(z.object({
-    storyId: z.number(),
+    storyId: z.string(),
     text: z.string(),
 })).mutation(async ({ input }) => {
     const story = await getStory({

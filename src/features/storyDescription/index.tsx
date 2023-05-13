@@ -7,7 +7,7 @@ import { AiOutlineCopy, AiOutlineTwitter } from "react-icons/ai";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 export type Story = {
-    id: number,
+    id: string,
     title: string,
     quiz: string,
     publishedAt: number | null,

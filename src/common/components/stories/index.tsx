@@ -4,7 +4,7 @@ import components from "@/styles/components.module.scss"
 import { AiFillRightCircle as StartIcon } from "react-icons/ai";
 
 export type Story = {
-    id: number,
+    id: string,
     title: string,
     quiz: string,
     url: string,

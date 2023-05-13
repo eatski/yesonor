@@ -8,7 +8,7 @@ import { revalidateTime } from '@/common/revalidate';
 
 type Props = {
   stories: {
-      id: number;
+      id: string;
       title: string;
       quiz: string;
       url: string;

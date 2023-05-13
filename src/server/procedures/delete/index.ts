@@ -7,7 +7,7 @@ import { TRPCError } from "@trpc/server";
 export type Input = z.infer<typeof storyInit>;
 
 export const delete_ = procedure.input(z.object({
-  id: z.number(),
+  id: z.string(),
 })).mutation(async ({ input, ctx }) => {
   const prisma = new PrismaClient();
   const result = await prisma.story.deleteMany({

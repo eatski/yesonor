@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { parseYaml } from "../src/features/storyYamlFileDrop/parseYaml";
 import { readFileSync } from "fs";
 import { resolve } from "path";
+import { generateId } from '@/common/util/id';
 dotenv.config();
 
 const prisma = new PrismaClient();
@@ -17,6 +18,7 @@ async function insertStory(name: string) {
     await prisma.story.create({
         data: {
             ...rest,
+            id: generateId(),
             published: true,
             authorEmail: "yesonor@example.com",
             publishedAt: new Date(),

@@ -7,12 +7,12 @@ import { getStories, getStory } from '@/server/services/story';
 import { revalidateTime } from '@/common/revalidate';
 
 type Props = {
-    storyId: number;
+    storyId: string;
     story: Story;
 }
 
 const querySchema = z.object({
-    storyId: z.string().transform(e => parseInt(e)).refine(e => !Number.isNaN(e))
+    storyId: z.string()
 })
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
