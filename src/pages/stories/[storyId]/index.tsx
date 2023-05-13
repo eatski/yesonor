@@ -15,7 +15,7 @@ const querySchema = z.object({
     storyId: z.string().transform(e => parseInt(e)).refine(e => !Number.isNaN(e))
 })
 
-export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
+export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     const validated = querySchema.safeParse(params);
     if (!validated.success) {
         return {
@@ -26,22 +26,24 @@ export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
     const story = await getStory({
         storyId: validated.data.storyId
     })
-    if(!story) {
+    if (!story) {
         return {
             notFound: true,
             revalidate: revalidateTime.medium
         }
     }
     return {
-      props: {
-        storyId: validated.data.storyId,
-        story: {
-            title: story.title,
-            quiz: story.quiz,
-            publishedAt: story.publishedAt?.getTime() ?? null,
-        }
-      },
-      revalidate: revalidateTime.medium
+        props: {
+            storyId: validated.data.storyId,
+            story: {
+                id: story.id,
+                title: story.title,
+                quiz: story.quiz,
+                publishedAt: story.publishedAt?.getTime() ?? null,
+                published: story.published
+            }
+        },
+        revalidate: revalidateTime.medium
     }
 }
 
@@ -50,7 +52,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         count: 20
     });
     return {
-        paths: stories.map(({id}) => ({
+        paths: stories.map(({ id }) => ({
             params: {
                 storyId: id.toString()
             }
@@ -61,7 +63,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export default function Story(props: Props) {
     return <Layout>
-        <StoryDescription title={props.story.title} quiz={props.story.quiz} publishedAt={props.story.publishedAt}/>
+        <StoryDescription
+            id={props.storyId} 
+            title={props.story.title} 
+            quiz={props.story.quiz} 
+            publishedAt={props.story.publishedAt} 
+            published={props.story.published}
+        />
         <Play storyId={props.storyId} />
     </Layout>
 }

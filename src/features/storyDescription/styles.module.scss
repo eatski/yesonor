@@ -29,4 +29,23 @@
         margin: 0 0 0 0;
         text-align: center;
     }
+    .share {
+        display: flex;
+        gap: 8px;
+        a,button {
+            color: var(--text-color-secondary);
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            gap: 4px;
+            svg {
+                height: 14px;
+                width: 14px;
+                &.twitter {
+                    color: var(--text-color-twitter);
+                }
+            }
+        }
+        
+    }
 }
