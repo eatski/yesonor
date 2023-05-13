@@ -13,6 +13,7 @@ html {
     --bg-color-action-danger: #EC7854;
     --bg-color-action-secondary: #d28787;
     --border-color: #d4d7e2;
+    --text-color-twitter: #1da1f2;
     --filter-shadow: none;
     color: var(--text-color-primary);
     background-color: var(--bg-color-main);

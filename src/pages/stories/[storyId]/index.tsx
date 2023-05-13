@@ -36,6 +36,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({params}) => {
       props: {
         storyId: validated.data.storyId,
         story: {
+            id: story.id,
             title: story.title,
             quiz: story.quiz,
             publishedAt: story.publishedAt?.getTime() ?? null,
@@ -61,7 +62,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export default function Story(props: Props) {
     return <Layout>
-        <StoryDescription title={props.story.title} quiz={props.story.quiz} publishedAt={props.story.publishedAt}/>
+        <StoryDescription id={props.storyId} title={props.story.title} quiz={props.story.quiz} publishedAt={props.story.publishedAt}/>
         <Play storyId={props.storyId} />
     </Layout>
 }
