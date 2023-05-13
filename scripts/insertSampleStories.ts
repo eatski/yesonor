@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 
 async function insertStory(name: string) {
     const story = parseYaml(readFileSync(resolve(process.cwd(), "samples",name), "utf-8"));
-    if(!story.success){
+    if(story.error != null){
         console.error("Failed to parse sample1.yaml",story.error);
         return;
     }
