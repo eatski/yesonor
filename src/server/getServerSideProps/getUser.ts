@@ -6,7 +6,7 @@ export type User = {
     email: string;
 }
 
-export const getUserInGetServerSideProps = async (context: GetServerSidePropsContext): Promise<User | null> => {
+export const getUser = async (context: GetServerSidePropsContext): Promise<User | null> => {
     const session = await getServerSession(context.req, context.res, authConfig);
     if(!session || !session.user?.email){
         return null

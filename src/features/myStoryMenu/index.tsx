@@ -8,9 +8,10 @@ import { YamlFileDrop } from "../storyYamlFileDrop";
 export type Props = {
     storyId: number;
     published: boolean;
+    canUseFileDrop: boolean;
 }
 
-export const MyStoryMenu: React.FC<Props> = ({ storyId, published }) => {
+export const MyStoryMenu: React.FC<Props> = ({ storyId, published,canUseFileDrop }) => {
     const del = trpc.delete.useMutation();
     const put = trpc.put.useMutation();
     const publish = trpc.publish.useMutation();
@@ -40,7 +41,7 @@ export const MyStoryMenu: React.FC<Props> = ({ storyId, published }) => {
                 success ? <p>完了しました。画面をリロードします。</p> : <>
                     <p>YAMLファイルでストーリーを修正</p>
                     <div className={styles.fileDropContainer}>
-                        <YamlFileDrop onFileRead={handleFileRead} />
+                        <YamlFileDrop onFileRead={handleFileRead} canUseFileDrop={canUseFileDrop} />
                     </div>
                     <div className={styles.buttons}>
                         <button

@@ -6,9 +6,8 @@ import { YamlFileDrop } from "../storyYamlFileDrop";
 import { StoryInit } from "@/server/services/story/schema";
 import { H2 } from '@/common/components/h2';
 import components from '@/styles/components.module.scss';
-import Link from 'next/link';
 
-export const NewStoryYaml = () => {
+export const NewStoryYaml: React.FC<{ canUseFileDrop: boolean }> = ({ canUseFileDrop }) => {
     const router = useRouter();
     const { mutate, isIdle } = trpc.post.useMutation();
 
@@ -27,20 +26,14 @@ export const NewStoryYaml = () => {
             {
                 isIdle ? <>
                     <h3>YAMLファイルをアップロードして投稿する</h3>
-                    
                     <div className={styles.fileDropContainer}>
-                        <YamlFileDrop onFileRead={handleFileRead} />
+                        <YamlFileDrop onFileRead={handleFileRead} canUseFileDrop={canUseFileDrop} />
                     </div>
                     <a href="/howToWriteStory" target="_blank" className={components.button}>
                         ストーリーの書き方
                     </a>
-                    </> : <p>
-                    投稿中
-                    
-                </p>
-                
+                </> : <p>投稿中</p>
             }
-            
         </div>
     );
 }

@@ -5,7 +5,8 @@ import { GetServerSideProps } from 'next';
 import { z } from 'zod';
 import { MyStoryMenu } from '@/features/myStoryMenu';
 import { getStoryPrivate } from '@/server/services/story';
-import { getUserInGetServerSideProps } from '@/server/session/getUserInGetServerSideProps';
+import { getUser } from '@/server/getServerSideProps/getUser';
+import { Device, getDevice } from '@/server/getServerSideProps/getDevice';
 
 type Story = {
     title: string,
@@ -17,6 +18,7 @@ type Story = {
 type Props = {
     storyId: number;
     story: Story;
+    device: Device;
 }
 
 const querySchema = z.object({
@@ -30,7 +32,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
             notFound: true
         }
     }
-    const user = await getUserInGetServerSideProps(context);
+    const user = await getUser(context);
     if(!user) {
         return {
             notFound: true
@@ -53,13 +55,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
             quiz: story.quiz,
             publishedAt: story.publishedAt?.getTime() ?? null,
             published: story.published
-        }
+        },
+        device: getDevice(context)
       },
     }
 }
 
 export default function StoryDraftPage(props: Props) {
-    return <Layout upper={<MyStoryMenu storyId={props.storyId} published={props.story.published}/>}>
+    return <Layout upper={<MyStoryMenu storyId={props.storyId} published={props.story.published} canUseFileDrop={props.device === "desktop"}/>}>
         <StoryDescription title={props.story.title} quiz={props.story.quiz} publishedAt={props.story.publishedAt}/>
         <Play storyId={props.storyId} />
     </Layout>

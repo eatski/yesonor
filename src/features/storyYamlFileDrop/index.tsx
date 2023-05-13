@@ -6,9 +6,10 @@ import styles from './styles.module.scss';
 
 interface FileDropZoneProps {
     onFileRead: (story: StoryInit) => void;
+    canUseFileDrop: boolean;
 }
 
-export const YamlFileDrop: React.FC<FileDropZoneProps> = ({ onFileRead }) => {
+export const YamlFileDrop: React.FC<FileDropZoneProps> = ({ onFileRead,canUseFileDrop }) => {
     const [error,setError] = useState<string | null>(null);
     const handleFileRead = useCallback(
         (e: React.DragEvent<HTMLDivElement>) => {
@@ -45,7 +46,7 @@ export const YamlFileDrop: React.FC<FileDropZoneProps> = ({ onFileRead }) => {
     }, []);
 
     return (
-        <div
+        canUseFileDrop ? <div
             className={styles.container}
             onDrop={handleFileRead}
             onDragOver={handleDragOver}
@@ -54,6 +55,6 @@ export const YamlFileDrop: React.FC<FileDropZoneProps> = ({ onFileRead }) => {
                 ドラッグしてYAMLファイルを読み込む
             </p>
             {error && <p className={styles.error}>{error}</p>}
-        </div>
+        </div> :  <p>モバイル端末でのストーリーの投稿はbeta版ではサポートされていません。<a href={"https://github.com/eatski/yesonor/issues/4"}>（詳しく）</a></p>
     );
 };

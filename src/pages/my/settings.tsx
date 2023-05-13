@@ -1,6 +1,6 @@
 import { H2 } from "@/common/components/h2";
 import { Layout } from "@/features/layout";
-import { getUserInGetServerSideProps, User } from "@/server/session/getUserInGetServerSideProps";
+import { getUser, User } from "@/server/getServerSideProps/getUser";
 import { GetServerSideProps } from "next";
 import components from "@/styles/components.module.scss"
 import { trpc } from "@/libs/trpc";
@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-    const user = await getUserInGetServerSideProps(ctx);
+    const user = await getUser(ctx);
     if (!user) {
         return {
             notFound: true
