@@ -55,10 +55,13 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
     return <>
         <header className={styles.header}>
             <Link href="/">
-                <h1>{texts.serviceName}</h1>
-                <p>{texts.serviceDescription}</p>
+                <h1>{texts.serviceName}<span>beta版</span></h1>
+                <p>{texts.serviceDescription}</p>          
             </Link>
             <div className={styles.right}>
+                {
+                    router.asPath !== "/stories/new" && device === "desktop" && session.data?.user && <Link className={components.buttonBright} href={"/stories/new"}>ストーリーを作成</Link>
+                }
                 {
                     session.status !== "loading" ? session.data?.user ? <button aria-label="メニュー" className={styles.iconWrapper} onClick={() => {
                         setMenuOpen((flg) => !flg);
@@ -78,7 +81,6 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
         {loading && <div className={styles.transitionStatus} />}
         {
             menuOpen && <div className={styles.menu} ref={ref}>
-                {device === "desktop" && <Link href={"/stories/new"}>ストーリーを作成</Link>}
                 <Link href={"/my/stories"}>自分のストーリー</Link>
                 <Link href={"/my/settings"}>設定</Link>
                 <hr />
@@ -90,13 +92,10 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
                 <div className={styles.content}>
                     {upper}
                 </div>
-            </div> : process.env.NODE_ENV === "production" && <p className={styles.alert}>
-                このWebサイトは開発中です。
-            </p>
+            </div> : null
         }
         
         <main className={styles.main}>
-            
             {children}
         </main>
         <footer className={styles.footer}>
@@ -104,7 +103,7 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
             <div className={styles.footerLinks}>
                 <Link href="/terms">利用規約</Link>
                 <Link href="/privacy">プライバシーポリシー</Link>
-                <Link href="/about">このサイトについて</Link>
+                <Link href="/about">ベータ版について</Link>
                 <a href="https://github.com/eatski/yesonor">開発</a>
             </div>
         </footer>
