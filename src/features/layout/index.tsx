@@ -6,14 +6,11 @@ import { AiOutlineUnorderedList as Menu } from "react-icons/ai";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import { useRouter } from "next/router";
-import { Device, getDevice } from "@/common/util/device";
+import { useDevice } from "@/common/hooks/useDevice";
 
 export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>> = ({ children, upper }) => {
     const session = useSession();
-    const [device,setDevice] = useState<Device | null>(null)
-    useEffect(() => {
-        setDevice(getDevice(window.navigator.userAgent))
-    },[])
+    const device = useDevice();
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const ref = React.useRef<HTMLDivElement>(null);
     const router = useRouter();

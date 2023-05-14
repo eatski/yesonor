@@ -5,6 +5,7 @@ import { Stories } from '@/common/components/stories';
 import { H2 } from '@/common/components/h2';
 import { getStories } from '@/server/services/story';
 import { revalidateTime } from '@/common/revalidate';
+import { RecommendCreateStory } from '@/features/recommendCreateStory';
 
 type Props = {
   stories: {
@@ -40,8 +41,11 @@ export default function Home(props: Props) {
         <div style={{"marginBottom": "132px"}}>
           <Landing />
         </div>
-        <H2 label='新着ストーリー'/>
-        <Stories stories={props.stories}/>
+        <div style={{"marginBottom": "24px"}}>
+          <H2 label='新着ストーリー'/>
+          <Stories stories={props.stories}/>
+        </div>
+        <RecommendCreateStory />
       </Layout> 
     </>
   )

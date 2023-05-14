@@ -5,7 +5,7 @@ import components from "@/styles/components.module.scss";
 export const RequireLogin: React.FC<{
 
 }> = () => {
-    return <div className={styles.container}>
+    return <section className={styles.container}>
         <p>ログインをすると以下のことができるようになります。</p>
         <ul>
             <li>ストーリーの謎についてAIに質問</li>
@@ -16,6 +16,6 @@ export const RequireLogin: React.FC<{
                 signIn();
             }}>ログイン</button>
         </div>
-        
-    </div>
+
+    </section>
 }
