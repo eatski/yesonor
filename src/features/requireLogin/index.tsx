@@ -1,3 +1,4 @@
+"use client"
 import { signIn } from "next-auth/react";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
