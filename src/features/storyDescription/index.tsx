@@ -16,7 +16,7 @@ export type Story = {
 dayjs.locale('ja');
 
 export const StoryDescription: React.FC<Story> = ({id,title,quiz,publishedAt,published}) => {
-    const url = `https://yesonor.vercel.app/stories/${id}`;
+    const url = `https://iesona.com/stories/${id}`;
     return  <div className={styles.container}>
         <H2 label={title} />
         {

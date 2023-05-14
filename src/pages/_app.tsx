@@ -48,7 +48,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="google-site-verification" content="IOUrzGJWxf4PAzsbT3sjOdM63TI1ELMEpDhmtX0QlWQ" />
         <meta key={keysOverride.description} name="description" content={texts.serviceDescription} />
         <link rel="icon" href="/favicon.ico" />
-        <meta property="og:url" content="https://yesonor.vercel.app"></meta>
+        <meta property="og:url" content="https://iesona.com"></meta>
         <meta key={keysOverride.metaOgpTitle}  property="og:title" content={`${texts.serviceName}(${texts.serviceNickname}) - ${texts.serviceDescription}`} />
         <meta key={keysOverride.metaOgpDescription} property="og:description" content={texts.serviceDescription} />
         <meta property="og:type" content="website" />
