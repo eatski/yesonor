@@ -1,20 +1,25 @@
+.logo {
+    margin: 0;
+    line-height: 0.7;
+    font-weight: 400;
+    display: flex;
+    span {
+        font-size: 12px;
+        margin-left: 8px;
+        font-weight: 400;
+        color: var(--border-color);
+        line-height: 1;
+    }
+}
+
 .header {
-    padding: 4px 16px;
+    padding: 8px 16px;
     background-color: var(--bg-color-brand);
     color: var(--text-color-bright);
     display: flex;
     filter: var(--filter-shadow);
     h1 {
-        font-family: Sen; //FIXME: ロゴを作る
-        font-size: 24px;
         margin: 0;
-        line-height: 1.2;
-        font-weight: 400;
-        span {
-            font-size: 14px;
-            margin-left: 4px;
-            font-weight: 400;
-        }
     }
     p {
         font-size: 10px;
@@ -143,9 +148,10 @@
     padding: 8px;
     color: var(--text-color-bright);
     background-color: var(--bg-color-brand);
-    p {
-        font-family: Sen; //FIXME: ロゴを作る
+    h2 {
         margin: 0;
+        font-size: 24px;
+        
     }
     .footerLinks {
         display: flex;

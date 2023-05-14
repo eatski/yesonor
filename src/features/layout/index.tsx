@@ -7,6 +7,11 @@ import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import { useRouter } from "next/router";
 import { useDevice } from "@/common/hooks/useDevice";
+import Image from "next/image";
+
+const Logo = () => {
+    return <div className={styles.logo}><Image loading="eager" width={92} height={24} src={"/Yesonor.svg"} alt="Yesonor" /><span>beta版</span></div>
+}
 
 export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>> = ({ children, upper }) => {
     const session = useSession();
@@ -52,8 +57,10 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
     return <>
         <header className={styles.header}>
             <Link href="/">
-                <h1>{texts.serviceName}<span>beta版</span></h1>
-                <p>{texts.serviceDescription}</p>          
+                <h1>
+                    <Logo />
+                </h1>
+                <p>{texts.serviceDescription}</p>
             </Link>
             <div className={styles.right}>
                 {
@@ -96,7 +103,7 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
             {children}
         </main>
         <footer className={styles.footer}>
-            <p>{texts.serviceName}</p>
+            <Logo></Logo>
             <div className={styles.footerLinks}>
                 <Link href="/terms">利用規約</Link>
                 <Link href="/privacy">プライバシーポリシー</Link>
