@@ -45,8 +45,16 @@ export const getStoryPrivate = async (args: { storyId: string, autherEmail: stri
     const prisma = new PrismaClient();
     return prisma.story.findFirst({
         where: {
-            id: args.storyId,
-            authorEmail: args.autherEmail,
+            OR: [
+                {
+                    id: args.storyId,
+                    authorEmail: args.autherEmail,
+                },
+                {
+                    id: args.storyId,
+                    published: true,
+                }
+            ]
         }
     });
 }
