@@ -1,11 +1,12 @@
 import { Layout } from '@/rsc/layout';
 import { Landing } from '@/features/landing';
-import { GetStaticProps } from 'next';
 import { Stories } from '@/common/components/stories';
 import { H2 } from '@/common/components/h2';
 import { getStories } from '@/server/services/story';
 import { revalidateTime } from '@/common/revalidate';
 import { RecommendCreateStory } from '@/features/recommendCreateStory';
+
+export const revalidate = revalidateTime.short;
 
 export default async function Home() {
   const storiesData = await getStories({
