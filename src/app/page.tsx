@@ -1,4 +1,4 @@
-import { Layout } from '@/features/layout';
+import { Layout } from '@/rsc/layout';
 import { Landing } from '@/features/landing';
 import { GetStaticProps } from 'next';
 import { Stories } from '@/common/components/stories';
@@ -7,34 +7,16 @@ import { getStories } from '@/server/services/story';
 import { revalidateTime } from '@/common/revalidate';
 import { RecommendCreateStory } from '@/features/recommendCreateStory';
 
-type Props = {
-  stories: {
-      id: string;
-      title: string;
-      quiz: string;
-      url: string;
-  }[]
-}
-
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const stories = await getStories({
-    count: 5
+export default async function Home() {
+  const storiesData = await getStories({
+        count: 5
   })
-  return {
-    props: {
-      stories: stories.map(({id,title,quiz}) => ({
-              id,
-              title,
-              quiz,
-              url: `/stories/${id}`
-          }))
-      
-      },
-      revalidate: revalidateTime.short
-  }
-}
-
-export default function Home(props: Props) {
+  const stories = storiesData.map(({id,title,quiz}) => ({
+    id,
+    title,
+    quiz,
+    url: `/stories/${id}`
+}))
   return (
     <>
       <Layout>
@@ -43,7 +25,7 @@ export default function Home(props: Props) {
         </div>
         <div style={{"marginBottom": "24px"}}>
           <H2 label='新着ストーリー'/>
-          <Stories stories={props.stories}/>
+          <Stories stories={stories}/>
         </div>
         <RecommendCreateStory />
       </Layout> 

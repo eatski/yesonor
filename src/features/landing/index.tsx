@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
 import { texts } from "@/texts"
 import styles from "./styles.module.scss"
