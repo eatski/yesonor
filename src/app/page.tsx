@@ -5,19 +5,24 @@ import { H2 } from '@/common/components/h2';
 import { getStories } from '@/server/services/story';
 import { revalidateTime } from '@/common/revalidate';
 import { RecommendCreateStory } from '@/features/recommendCreateStory';
+import { cache } from 'react';
 
 export const revalidate = revalidateTime.short;
 
-export default async function Home() {
-  const storiesData = await getStories({
+const getStoriesForPage = cache(async () => {
+    const storiesData = await getStories({
         count: 5
   })
-  const stories = storiesData.map(({id,title,quiz}) => ({
+  return storiesData.map(({id,title,quiz}) => ({
     id,
     title,
     quiz,
     url: `/stories/${id}`
 }))
+})
+
+export default async function Home() {
+  
   return (
     <>
       <Layout>
@@ -26,7 +31,7 @@ export default async function Home() {
         </div>
         <div style={{"marginBottom": "24px"}}>
           <H2 label='新着ストーリー'/>
-          <Stories stories={stories}/>
+          <Stories stories={await getStoriesForPage()}/>
         </div>
         <RecommendCreateStory />
       </Layout> 
