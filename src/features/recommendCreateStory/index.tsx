@@ -24,7 +24,7 @@ export const RecommendCreateStory: React.FC = () => {
 
     return <section className={styles.container}>
         <h3>
-            あなたの謎を投稿しませんか？
+            自作のストーリーを投稿しませんか？
         </h3>
         <Link onClick={() => {
             gtag("click_recommend_create_story");
