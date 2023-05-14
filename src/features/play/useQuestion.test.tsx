@@ -52,7 +52,6 @@ describe("useQuestion", () => {
   it("should return the latest question and answer", async () => {
     // Arrange
     const storyId = "testes";
-    const text = "What is the capital of France?";
     server.use(
         trpcMsw.question.mutation((_, res, ctx) => {
             return res(ctx.status(200), ctx.data("True"),ctx.delay(100))
@@ -63,52 +62,51 @@ describe("useQuestion", () => {
 
     const useQuestionMock = vitest.fn(useQuestion)
 
-    const {result} = renderHook(
+    const {result,rerender} = renderHook(
         () => useQuestionMock(storyId),
         {
             wrapper: Provider
         }
     );
 
-    result.current.onSubmit(text);
+    result.current.onSubmit("太郎は犬ですか？");
 
     // Assert
     await waitFor(() => {
       expect(result.current.latest?.result).toEqual("はい");
     })
 
-    expect(useQuestionMock.mock.results.map(e => e.value)).toMatchInlineSnapshot(`
+    result.current.onSubmit("太郎は猫ですか？");
+
+     
+
+    rerender();
+
+    // Assert
+    await waitFor(() => {
+      expect(result.current.latest?.result).toEqual("はい");
+    })
+
+    expect(useQuestionMock.mock.results.map(e => e.value.latest)).toMatchInlineSnapshot(`
       [
+        null,
         {
-          "history": [],
-          "isLoading": false,
-          "latest": null,
-          "onSubmit": [Function],
+          "input": "太郎は犬ですか？",
+          "result": null,
         },
         {
-          "history": [],
-          "isLoading": true,
-          "latest": {
-            "input": "What is the capital of France?",
-            "result": null,
-          },
-          "onSubmit": [Function],
+          "id": 0,
+          "input": "太郎は犬ですか？",
+          "result": "はい",
         },
         {
-          "history": [
-            {
-              "id": 0,
-              "input": "What is the capital of France?",
-              "result": "はい",
-            },
-          ],
-          "isLoading": false,
-          "latest": {
-            "id": 0,
-            "input": "What is the capital of France?",
-            "result": "はい",
-          },
-          "onSubmit": [Function],
+          "input": "太郎は猫ですか？",
+          "result": null,
+        },
+        {
+          "id": 1,
+          "input": "太郎は猫ですか？",
+          "result": "はい",
         },
       ]
     `)
