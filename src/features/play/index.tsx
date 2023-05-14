@@ -7,6 +7,7 @@ import { AnswerForm } from "./ui/answerForm";
 import { QuestionResult } from "./ui/questionResult";
 import { AnswerResult } from "./ui/answerResult";
 import { useQuestion } from "./useQuestion";
+import { gtag } from "@/common/util/gtag";
 
 type Props = {
     storyId: string;
@@ -21,6 +22,7 @@ const AnswerFormContainer: React.FC<{ storyId: string, onCancel: () => void }> =
 
     } as const satisfies Record<typeof data.result, string>)[data.result]} truth={data.truth} />
         : <AnswerForm isLoading={isLoading} onCancel={onCancel} isError={isError} onSubmit={(input) => {
+            gtag("click_submit_answer");
             mutate({
                 storyId,
                 text: input

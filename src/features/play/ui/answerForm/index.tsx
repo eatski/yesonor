@@ -1,6 +1,7 @@
 import React, {useRef} from "react";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss"
+import { gtag } from "@/common/util/gtag";
 
 export const AnswerForm: React.FC<{
     onSubmit: (text: string) => void;

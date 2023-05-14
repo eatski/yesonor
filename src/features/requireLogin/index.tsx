@@ -1,6 +1,7 @@
 import { signIn } from "next-auth/react";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
+import { gtag } from "@/common/util/gtag";
 
 export const RequireLogin: React.FC<{
 
@@ -13,6 +14,7 @@ export const RequireLogin: React.FC<{
         </ul>
         <div>
             <button className={components.button} onClick={() => {
+                gtag("click_login_recommend");
                 signIn();
             }}>ログイン</button>
         </div>

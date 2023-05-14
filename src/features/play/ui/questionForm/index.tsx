@@ -4,6 +4,7 @@ import components from "@/styles/components.module.scss"
 import { AiOutlineSend } from "react-icons/ai";
 import { useSession } from "next-auth/react";
 import { RequireLogin } from "@/features/requireLogin";
+import { gtag } from "@/common/util/gtag";
 
 
 export const QuestionForm: React.FC<{
@@ -18,6 +19,7 @@ export const QuestionForm: React.FC<{
             onSubmit={(e) => {
                 e.preventDefault();
                 if (e.target instanceof HTMLFormElement && e.target.checkValidity()) {
+                    gtag("click_submit_question");
                     onSubmit(inputValue);
                     setInputValue(""); // reset form input after submission
                 }

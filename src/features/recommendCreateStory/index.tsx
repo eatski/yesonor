@@ -4,6 +4,7 @@ import { RequireLogin } from "../requireLogin";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import Link from "next/link";
+import { gtag } from "@/common/util/gtag";
 
 
 export const RecommendCreateStory: React.FC = () => {
@@ -25,7 +26,9 @@ export const RecommendCreateStory: React.FC = () => {
         <h3>
             あなたの謎を投稿しませんか？
         </h3>
-        <Link href="/stories/new" className={components.button}>投稿する</Link>
+        <Link onClick={() => {
+            gtag("click_recommend_create_story");
+        }} href="/stories/new" className={components.button}>投稿する</Link>
     </section>
    
 }
