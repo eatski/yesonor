@@ -23,24 +23,6 @@ export const getStory = (args: { storyId: string }) => {
     });
 }
 
-export const getStoryDeepPrivate = (args: { storyId: string, autherEmail: string }) => {
-    const prisma = new PrismaClient();
-    return prisma.story.findFirst({
-        where: {
-            OR: [
-                {
-                    id: args.storyId,
-                    authorEmail: args.autherEmail,
-                },
-                {
-                    id: args.storyId,
-                    published: true,
-                }
-            ]
-        },
-    });
-}
-
 export const getStoryPrivate = async (args: { storyId: string, autherEmail: string }) => {
     const prisma = new PrismaClient();
     return prisma.story.findFirst({

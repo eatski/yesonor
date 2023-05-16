@@ -6,6 +6,8 @@ import { z } from 'zod';
 import { getStories, getStory } from '@/server/services/story';
 import { revalidateTime } from '@/common/revalidate';
 import { HeadMetaOverride } from '@/features/headMeta';
+import Script from 'next/script';
+import { CLIENT_KEY } from '@/common/util/grecaptcha';
 
 type Props = {
     storyId: string;
@@ -64,6 +66,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export default function Story(props: Props) {
     return <>
+        <Script strategy="lazyOnload" src={"https://www.google.com/recaptcha/api.js?render="+ CLIENT_KEY }></Script>
         <HeadMetaOverride titleHeadOverride={props.story.title} descriptionOverride={props.story.quiz}/>
         <Layout>
             <StoryDescription
@@ -73,7 +76,7 @@ export default function Story(props: Props) {
                 publishedAt={props.story.publishedAt} 
                 published={props.story.published}
             />
-            <Play storyId={props.storyId} />
+            <Play storyId={props.storyId} requireBotCheck />
         </Layout>
     </>
 }

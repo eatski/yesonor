@@ -8,12 +8,14 @@ import { QuestionResult } from "./ui/questionResult";
 import { AnswerResult } from "./ui/answerResult";
 import { useQuestion } from "./useQuestion";
 import { gtag } from "@/common/util/gtag";
+import { getRecaptchaToken } from "@/common/util/grecaptcha";
 
 type Props = {
     storyId: string;
+    requireBotCheck: boolean;
 }
 
-const AnswerFormContainer: React.FC<{ storyId: string, onCancel: () => void }> = ({ storyId, onCancel }) => {
+const AnswerFormContainer: React.FC<{ storyId: string, onCancel: () => void, requireBotCheck: boolean; }> = ({ storyId, onCancel }) => {
     const { mutate, isLoading, data, reset,isError } = trpc.truth.useMutation();
     return data ? <AnswerResult reasoning={data.input} onBackButtonClicked={reset} result={({
         Covers: "正解",
@@ -21,17 +23,18 @@ const AnswerFormContainer: React.FC<{ storyId: string, onCancel: () => void }> =
         Insufficient: "説明が不十分です。",
 
     } as const satisfies Record<typeof data.result, string>)[data.result]} truth={data.truth} />
-        : <AnswerForm isLoading={isLoading} onCancel={onCancel} isError={isError} onSubmit={(input) => {
+        : <AnswerForm isLoading={isLoading} onCancel={onCancel} isError={isError} onSubmit={async (input) => {
             gtag("click_submit_answer");
             mutate({
                 storyId,
-                text: input
+                text: input,
+                recaptchaToken: await getRecaptchaToken()
             })
         }} />
 }
 
 export function Play(props: Props) {
-    const question = useQuestion(props.storyId);
+    const question = useQuestion(props.storyId,props.requireBotCheck);
     const [isAnswerMode, setIsAnswerMode] = useState(false);
     return <>
      {
@@ -51,7 +54,6 @@ export function Play(props: Props) {
                 />
             </div>
         }
-       
         {
             isAnswerMode &&
             <div className={styles.sectionWrapper}>
@@ -60,6 +62,7 @@ export function Play(props: Props) {
                     onCancel={() => {
                         setIsAnswerMode(false);
                     }}
+                    requireBotCheck={props.requireBotCheck}
                 />
             </div>
         }

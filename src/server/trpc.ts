@@ -1,19 +1,16 @@
 import { authConfig } from '@/pages/api/auth/[...nextauth]';
-import { initTRPC, TRPCError } from '@trpc/server';
+import { initTRPC } from '@trpc/server';
 import { CreateNextContextOptions } from '@trpc/server/adapters/next';
 import { getServerSession } from 'next-auth/next';
 import { setTimeout } from 'timers/promises';
 
 export const createContext = async (context: CreateNextContextOptions) => {
-    const session = await getServerSession(context.req, context.res, authConfig);
-    if(!session || !session.user?.email){
-        throw new TRPCError({
-            code: 'UNAUTHORIZED',
-        })
-    }
     return {
-      user: {
-        email: session.user.email,
+      getUser: async () => {
+        const session = await getServerSession(context.req, context.res, authConfig);
+        return session?.user?.email ? {
+          email: session.user.email,
+        } : null;
       },
       doRevalidate(url: string){
         const retryable = (count: number,error?: any): Promise<void> => {

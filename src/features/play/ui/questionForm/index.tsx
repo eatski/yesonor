@@ -2,17 +2,13 @@ import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss"
 import { AiOutlineSend } from "react-icons/ai";
-import { useSession } from "next-auth/react";
-import { RequireLogin } from "@/features/requireLogin";
 import { gtag } from "@/common/util/gtag";
-
 
 export const QuestionForm: React.FC<{
     onSubmit: (text: string) => void;
     isLoading: boolean;
 }> = ({ isLoading, onSubmit }) => {
     const [inputValue, setInputValue] = useState("");
-    const session = useSession();
     return (
         <form
             className={styles.form}
@@ -25,26 +21,19 @@ export const QuestionForm: React.FC<{
                 }
             }}
         >
-            {session.status === "loading" ? null : 
-                <>
-                    <label className={styles.formLabel}>AIに質問をする</label>
-                    {
-                        session.status === "authenticated" ?
-                        <div className={styles.formContent}>
-                            <input
-                                className={styles.formInput}
-                                required
-                                placeholder="はい or いいえ で答えられる質問"
-                                value={inputValue}
-                                onChange={(e) => setInputValue(e.target.value)}
-                            />
-                            <button className={components.button} type="submit" disabled={isLoading} aria-label="質問を送信">
-                                <AiOutlineSend size={"16px"} />
-                            </button>
-                        </div> : <RequireLogin />
-                    }
-                </>
-            }
+            <label className={styles.formLabel}>AIに質問をする</label>
+            <div className={styles.formContent}>
+                <input
+                    className={styles.formInput}
+                    required
+                    placeholder="はい or いいえ で答えられる質問"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                />
+                <button className={components.button} type="submit" disabled={isLoading} aria-label="質問を送信">
+                    <AiOutlineSend size={"16px"} />
+                </button>
+            </div>
 
         </form>
     );
