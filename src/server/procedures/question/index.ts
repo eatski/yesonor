@@ -23,7 +23,7 @@ export const question = procedure.input(z.object({
             cause: e
         })
     });
-    const user = await ctx.getUser();
+    const user = await ctx.getUserOptional();
     const story = user ? 
         await getStoryPrivate({
             storyId: input.storyId,

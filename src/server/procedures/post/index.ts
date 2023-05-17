@@ -16,7 +16,7 @@ export const post = procedure.input(storyInit).mutation(async ({ input, ctx }) =
       ...storyData,
       id: generateId(),
       questionExamples: JSON.stringify(questionExamples),
-      authorEmail: ctx.user.email,
+      authorEmail: await ctx.getUser().then((user) => user.email),
     },
   });
   return story;
