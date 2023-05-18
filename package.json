@@ -45,6 +45,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.33.0",
     "@testing-library/react": "^14.0.0",
     "@types/randomstring": "^1.1.8",
     "@types/react-copy-to-clipboard": "^5.0.4",
