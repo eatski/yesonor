@@ -8,7 +8,8 @@ import { QuestionResult } from "./ui/questionResult";
 import { AnswerResult } from "./ui/answerResult";
 import { useQuestion } from "./useQuestion";
 import { gtag } from "@/common/util/gtag";
-import { getRecaptchaToken } from "@/common/util/grecaptcha";
+import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
+import Script from "next/script";
 
 type Props = {
     storyId: string;
@@ -37,7 +38,8 @@ export function Play(props: Props) {
     const question = useQuestion(props.storyId,props.requireBotCheck);
     const [isAnswerMode, setIsAnswerMode] = useState(false);
     return <>
-     {
+        <Script strategy="lazyOnload" src={"https://www.google.com/recaptcha/api.js?render="+ CLIENT_KEY }></Script>
+        {
             !isAnswerMode && <div className={styles.sectionWrapper}>
                 <QuestionForm onSubmit={question.onSubmit} isLoading={question.isLoading} />
             </div>
