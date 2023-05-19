@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss"
 import { AiOutlineSend } from "react-icons/ai";
@@ -9,6 +9,7 @@ export const QuestionForm: React.FC<{
     isLoading: boolean;
 }> = ({ isLoading, onSubmit }) => {
     const [inputValue, setInputValue] = useState("");
+    const questionInputId = useId();
     return (
         <form
             className={styles.form}
@@ -21,9 +22,10 @@ export const QuestionForm: React.FC<{
                 }
             }}
         >
-            <label className={styles.formLabel}>AIに質問をする</label>
+            <label htmlFor={questionInputId} className={styles.formLabel}>AIに質問をする</label>
             <div className={styles.formContent}>
                 <input
+                    id={questionInputId}
                     className={styles.formInput}
                     required
                     placeholder="はい or いいえ で答えられる質問"

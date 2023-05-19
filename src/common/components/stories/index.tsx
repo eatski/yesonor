@@ -11,13 +11,13 @@ export type Story = {
 }
 
 export const Stories: React.FC<{stories: Story[]}> = ({stories}) => {
-    return <ul className={styles.container}>
+    return <div className={styles.container}>
         {stories.map((story) => {
-            return <li key={story.id}>
+            return <article key={story.id}>
                 <Link href={story.url}>
-                    <div className={styles.title}>
+                    <h3 className={styles.title}>
                         {story.title}
-                    </div>
+                    </h3>
                     <p>
                         {story.quiz}
                     </p>
@@ -25,7 +25,7 @@ export const Stories: React.FC<{stories: Story[]}> = ({stories}) => {
                 <Link aria-label="このストーリーの謎を解く" href={story.url} className={styles.iconContainer}>
                     <StartIcon className={components.iconButton} />
                 </Link>
-            </li>
+            </article>
         })}
-    </ul>
+    </div>
 }
