@@ -9,10 +9,10 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
-    "sample": "ts-node -P ./tsconfig.node.json scripts/insertSampleStories.ts",
-    "e2e:prepare": "cross-env NEXT_PUBLIC_DISABLE_RECAPTCHA='$(date)' npm run build && npm run start",
+    "e2e:prepare": "ts-node -P ./tsconfig.node.json scripts/initTestData.ts",
+    "e2e:server": "cross-env NEXT_PUBLIC_DISABLE_RECAPTCHA='$(date)' npm run build && npm run start",
     "e2e:dev": "npx playwright test --ui",
-    "e2e:prepare:dev": "cross-env NEXT_PUBLIC_DISABLE_RECAPTCHA='$(date)' npm run dev"
+    "e2e:server:dev": "cross-env NEXT_PUBLIC_DISABLE_RECAPTCHA='$(date)' npm run dev"
   },
   "dependencies": {
     "@prisma/client": "^4.13.0",

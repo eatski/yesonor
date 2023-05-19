@@ -3,10 +3,11 @@ import dotenv from "dotenv";
 import { parseYaml } from "../src/features/storyYamlFileDrop/parseYaml";
 import { readFileSync } from "fs";
 import { resolve } from "path";
-import { generateId } from '@/common/util/id';
-dotenv.config();
 
+dotenv.config();
 const prisma = new PrismaClient();
+
+const TEST_EMAIL = "yesonor@example.com"
 
 async function insertStory(name: string) {
     const story = parseYaml(readFileSync(resolve(process.cwd(), "samples",name), "utf-8"));
@@ -18,19 +19,26 @@ async function insertStory(name: string) {
     await prisma.story.create({
         data: {
             ...rest,
-            id: generateId(),
+            id: "test",
             published: true,
-            authorEmail: "yesonor@example.com",
+            authorEmail: TEST_EMAIL,
             publishedAt: new Date(),
             questionExamples: JSON.stringify(questionExamples),
         },
     });
 }
 
+const deleteAll = async () => {
+    await prisma.story.deleteMany({
+        where: {
+            authorEmail: TEST_EMAIL
+        }
+    });
+}
+
 (async () => {
-    await insertStory("sample1.yaml");
-    await insertStory("sample2.yaml");
-    await insertStory("sample3.yaml");
+    await deleteAll();
+    await insertStory("test.yaml");
     await prisma.$disconnect();
     console.info("Done.");
 })();
