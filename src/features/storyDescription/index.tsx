@@ -17,6 +17,10 @@ dayjs.locale('ja');
 
 export const StoryDescription: React.FC<Story> = ({id,title,quiz,publishedAt,published}) => {
     const url = `https://iesona.com/stories/${id}`;
+    const twitterUrl = new URL("https://twitter.com/intent/tweet");
+    twitterUrl.searchParams.set("url", url);
+    twitterUrl.searchParams.set("text", quiz);
+    twitterUrl.searchParams.set("hashtags", `${texts.serviceNickname},水平思考クイズ,ウミガメのスープ`);
     return  <div className={styles.container}>
         <H2 label={title} />
         {
@@ -32,7 +36,7 @@ export const StoryDescription: React.FC<Story> = ({id,title,quiz,publishedAt,pub
         {
             published && <div className={styles.share}>
             <a  
-                href={`https://twitter.com/intent/tweet?url=${encodeURI(url)}&text=${encodeURI(quiz)}&hashtags=${encodeURI(texts.serviceNickname)},${encodeURI("水平思考クイズ")}`} 
+                href={twitterUrl.toString()} 
                 className={components.buttonLink}
                 target="_blank"
             >
