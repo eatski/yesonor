@@ -73,7 +73,7 @@ export default function Story(props: Props) {
                 publishedAt={props.story.publishedAt} 
                 published={props.story.published}
             />
-            <Play storyId={props.storyId} />
+            <Play storyId={props.storyId} requireBotCheck />
         </Layout>
     </>
 }

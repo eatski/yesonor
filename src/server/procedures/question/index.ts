@@ -6,24 +6,38 @@ import { z } from "zod"
 import { answer, questionExample as questionExampleSchema} from "../../model/schemas"
 import { procedure } from "../../trpc"
 import { parseHeadToken } from "./parse"
-import { getStoryDeepPrivate } from "@/server/services/story"
+import { getStory,getStoryPrivate } from "@/server/services/story"
+import { verifyRecaptcha } from "@/server/services/recaptcha"
 
 const systemPromptPromise = readFile(resolve(process.cwd(),"prompts","question.md")) ;
 
 export const question = procedure.input(z.object({
     storyId: z.string(),
-    text: z.string()
+    text: z.string(),
+    recaptchaToken: z.string()
 })).mutation(async ({input,ctx}) => {
     const systemPrompt = await systemPromptPromise;
-    const story = await getStoryDeepPrivate({
-        storyId: input.storyId,
-        autherEmail: ctx.user.email
-    })
+    const verifyPromise = verifyRecaptcha(input.recaptchaToken).catch(e => {
+        throw new TRPCError({
+            code: "BAD_REQUEST",
+            cause: e
+        })
+    });
+    const user = await ctx.getUserOptional();
+    const story = user ? 
+        await getStoryPrivate({
+            storyId: input.storyId,
+            autherEmail: user.email
+        }) : 
+        await getStory({
+            storyId: input.storyId
+        })
     if (!story) {
         throw new TRPCError({
             code: "NOT_FOUND"
         })
     }
+    await verifyPromise;
     const questionExamples = z.array(questionExampleSchema)
         .parse(JSON.parse(story.questionExamples))
     const response = await openai.createChatCompletion({

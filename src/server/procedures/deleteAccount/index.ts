@@ -9,7 +9,7 @@ export const deleteAccount = procedure.mutation(async ({ ctx }) => {
   const prisma = new PrismaClient();
   await prisma.story.deleteMany({
     where: {
-      authorEmail: ctx.user.email
+      authorEmail: await ctx.getUser().then((user) => user.email),
     },
   });
   return true;

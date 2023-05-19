@@ -9,7 +9,7 @@ export type Props = {
 }
 
 export const QuestionResult: React.FC<Props> = (props) => {
-    return <section>
+    return <section aria-label="質問の結果">
         <div className={styles.resultContainer}>
             <QuestionAndAnswer {...props}/>
         </div>

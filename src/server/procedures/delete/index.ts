@@ -13,7 +13,7 @@ export const delete_ = procedure.input(z.object({
   const result = await prisma.story.deleteMany({
     where: {
       id: input.id,
-      authorEmail: ctx.user.email
+      authorEmail: await ctx.getUser().then((user) => user.email),
     },
   });
   if(result.count === 0){

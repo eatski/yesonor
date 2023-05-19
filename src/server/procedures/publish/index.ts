@@ -11,7 +11,7 @@ export const publishFirst = procedure.input(z.object({
   const result = await prisma.story.updateMany({
     where: {
       id: id,
-      authorEmail: ctx.user.email,
+      authorEmail: (await ctx.getUser()).email,
       published: false,
       publishedAt: null
     },

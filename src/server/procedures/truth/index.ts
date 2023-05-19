@@ -1,6 +1,7 @@
 import { openai } from "@/libs/openapi";
 import { truthCoincidence } from "@/server/model/schemas";
-import { getStoryPrivate } from "@/server/services/story";
+import { verifyRecaptcha } from "@/server/services/recaptcha";
+import { getStory, getStoryPrivate } from "@/server/services/story";
 import { procedure } from "@/server/trpc";
 import { TRPCError } from "@trpc/server";
 import { readFile } from "fs/promises";
@@ -12,19 +13,30 @@ const systemPromptPromise = readFile(resolve(process.cwd(),"prompts","truth.md")
 export const truth = procedure.input(z.object({
     storyId: z.string(),
     text: z.string(),
+    recaptchaToken: z.string()
 })).mutation(async ({ input,ctx }) => {
-    const story = await getStoryPrivate({
-        storyId: input.storyId,
-        autherEmail: ctx.user.email
-    })
+    const verifyPromise = verifyRecaptcha(input.recaptchaToken).catch(e => {
+        throw new TRPCError({
+            code: "BAD_REQUEST",
+            cause: e
+        })
+    });
+    const user = await ctx.getUserOptional();
+    const story = user ? 
+        await getStoryPrivate({
+            storyId: input.storyId,
+            autherEmail: user.email
+        }) : 
+        await getStory({
+            storyId: input.storyId
+        })
     if (!story) {
         throw new TRPCError({
             code: "NOT_FOUND"
         })
     }
-
+    await verifyPromise;
     const systemPrompt = await systemPromptPromise;
-
     const response = await openai.createChatCompletion({
         model: "gpt-4",
         messages: [

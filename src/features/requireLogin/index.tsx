@@ -9,7 +9,6 @@ export const RequireLogin: React.FC<{
     return <section className={styles.container}>
         <p>ログインをすると以下のことができるようになります。</p>
         <ul>
-            <li>ストーリーの謎についてAIに質問</li>
             <li>自作のストーリーを投稿</li>
         </ul>
         <div>

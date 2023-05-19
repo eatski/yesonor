@@ -63,7 +63,7 @@ describe("useQuestion", () => {
     const useQuestionMock = vitest.fn(useQuestion)
 
     const {result,rerender} = renderHook(
-        () => useQuestionMock(storyId),
+        () => useQuestionMock(storyId,false),
         {
             wrapper: Provider
         }
