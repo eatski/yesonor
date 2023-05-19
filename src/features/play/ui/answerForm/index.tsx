@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useId, useRef} from "react";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss"
 import { gtag } from "@/common/util/gtag";
@@ -10,6 +10,7 @@ export const AnswerForm: React.FC<{
     isError: boolean;
 }> = ({isLoading,onSubmit,onCancel,isError}) => {
     const inputRef = useRef<string>("");
+    const answerInputId = useId();
     return <form className={styles.form} onSubmit={
         (e) => {
             e.preventDefault();
@@ -18,8 +19,8 @@ export const AnswerForm: React.FC<{
             }
         }
     }>
-        <label className={styles.formLabel}>あなたの推理</label>
-        <textarea required className={styles.formTextarea} onChange={(e) => {
+        <label htmlFor={answerInputId} className={styles.formLabel}>あなたの推理</label>
+        <textarea required id={answerInputId} className={styles.formTextarea} onChange={(e) => {
             inputRef.current = e.target.value
         }}
         />
