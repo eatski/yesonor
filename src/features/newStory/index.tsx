@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import styles from './styles.module.scss';
 import components from '@/styles/components.module.scss';
-import { AiOutlineMinusCircle } from 'react-icons/ai';
+import { AiFillPlayCircle, AiOutlineMinusCircle, AiOutlinePlus } from 'react-icons/ai';
 
 type Answer = 'True' | 'False' | 'Unknown' | 'Invalid';
 
@@ -44,6 +44,17 @@ export const NewStory: React.FC = () => {
 
   return (
     <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
+    
+      <div className={styles.upperMenu}>
+        
+        <button  type="submit" className={components.button}>
+            <span>
+
+            テストプレイ
+            </span>
+            <AiFillPlayCircle />
+        </button>
+      </div>
       <label>
         タイトル
         <input {...register('title')} />
@@ -98,15 +109,13 @@ export const NewStory: React.FC = () => {
             </div>
         ))}
         <div className={styles.questionExampleFoot}>
-            <button className={components.button}  type="button" onClick={() => append({ question: '', answer: 'True', supplement: '' })}>
-                質問の例を追加
+            <button type="button" onClick={() => append({ question: '', answer: "Unknown", supplement: '' })}>
+                <AiOutlinePlus className={components.iconButtonLink} />
             </button>
         </div>
        
       </fieldset>
-      <div className={styles.buttonsRow}>
-        <button className={components.button} type="submit">作成</button>
-      </div>
+      
      
     </form>
   );

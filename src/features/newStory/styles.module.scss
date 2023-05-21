@@ -94,11 +94,32 @@
             border-top: 4px solid var(--text-color-secondary);
         }
     }
-    .buttonsRow{
-        margin: 0 auto;
+    .upperMenu{
+        position: sticky;
+        top: 8px;
+        margin-left: auto;
+        z-index: 1;
+        button {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            padding: 8px;
+            svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
     }
     .questionExampleFoot {
         display: flex;
         justify-content: center;
+        margin-bottom: 8px;
+        button {
+            border: none;
+            background-color: unset;
+            color: var(--text-color-secondary);
+        }
     }
 }

@@ -1,9 +1,9 @@
 @mixin buttonBase {
     font-size: 14px;
-    padding: 4px 8px;
+    padding: 2px 8px;
     border: none;
     border-radius: 2px;
-    line-height: 1.4;
+    line-height: 1.6;
     cursor: pointer;
     height: 100%;
     filter: var(--filter-shadow);
