@@ -67,6 +67,9 @@ export const StoryForm: React.FC<Props> = ({onSubmit,isError,isLoading,storyInit
             <div className={styles.field}>
                 <label>
                     真相
+                    <p className={styles.description}>
+                        AIは質問に対する回答を生成する際にこの文章を参照します。そのため、真相は詳細まで記述することをお勧めします。
+                    </p>
                     <textarea {...register('truth')} placeholder='例: 太郎さんはオシャレ好きであり、おしゃれのために伊達メガネをかけている。' />
                     {errors.truth && <p>{errors.truth.message}</p>}
                 </label>
@@ -86,7 +89,7 @@ export const StoryForm: React.FC<Props> = ({onSubmit,isError,isLoading,storyInit
                 <legend>質問の例を教えてください。</legend>
                 <p className={styles.description}>
                     AIは質問に対する回答を生成する際にこれらを参照するため、より多くの例を参照させることで解答の精度が上がります。<br />
-                    AIが最低限有用な質問を返せるようにするために3つ以上（答えが「はい」「いいえ」「わからない」の質問を1つずつ）の例を記述してください。<br />
+                    AIが最低限有用な回答を返せるようにするために3つ以上（答えが「はい」「いいえ」「わからない」の質問を1つずつ）の例を記述してください。<br />
                 </p>
                 {
                     errors.questionExamples && <p className={styles.error}>{errors.questionExamples.message}</p>
