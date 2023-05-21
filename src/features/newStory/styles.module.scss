@@ -1,0 +1,16 @@
+.navigation {
+    display: flex;
+    a {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--text-color-secondary);
+        font-size: 12px;
+        margin-bottom: 8px;
+        margin-left: auto;
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+}

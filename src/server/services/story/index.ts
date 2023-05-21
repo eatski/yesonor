@@ -1,4 +1,6 @@
+import { questionExample } from "@/server/model/schemas";
 import { PrismaClient } from "@prisma/client";
+import { z } from "zod";
 
 export const getStories = (args: { count: number }) => {
     const prisma = new PrismaClient();
@@ -20,6 +22,14 @@ export const getStory = (args: { storyId: string }) => {
             id: args.storyId,
             published: true,
         }
+    }).then(story => {
+        if(story == null) return null;
+        const { questionExamples, ...rest } = story;
+        return {
+            ...rest,
+            questionExamples: z.array(questionExample)
+                .parse(JSON.parse(story.questionExamples)),
+        }
     });
 }
 
@@ -37,6 +47,14 @@ export const getStoryPrivate = async (args: { storyId: string, autherEmail: stri
                     published: true,
                 }
             ]
+        }
+    }).then(story => {
+        if(story == null) return null;
+        const { questionExamples, ...rest } = story;
+        return {
+            ...rest,
+            questionExamples: z.array(questionExample)
+                .parse(JSON.parse(story.questionExamples)),
         }
     });
 }
