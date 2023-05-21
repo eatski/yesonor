@@ -24,6 +24,6 @@ export const put = procedure.input(z.object({
       questionExamples: JSON.stringify(questionExamples),
     }
   })
-  await ctx.doRevalidate(`/stories/${input.id}`).catch();
+  ctx.doRevalidate(`/stories/${input.id}`).catch();
   return true;
 })
