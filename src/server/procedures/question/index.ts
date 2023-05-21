@@ -38,8 +38,6 @@ export const question = procedure.input(z.object({
         })
     }
     await verifyPromise;
-    const questionExamples = z.array(questionExampleSchema)
-        .parse(JSON.parse(story.questionExamples))
     const response = await openai.createChatCompletion({
         model: "gpt-4",
         messages: [
@@ -55,7 +53,7 @@ export const question = procedure.input(z.object({
                 role: "assistant",
                 content: story.truth
             },
-            ...questionExamples.flatMap(({ question: question, answer: answer, supplement }) => {
+            ...story.questionExamples.flatMap(({ question: question, answer: answer, supplement }) => {
                 return [
                     {
                         role: "user",

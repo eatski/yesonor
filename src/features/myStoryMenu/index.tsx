@@ -4,6 +4,7 @@ import { trpc } from "@/libs/trpc";
 import { useRouter } from "next/router";
 import { StoryInit } from "@/server/services/story/schema";
 import { YamlFileDrop } from "../storyYamlFileDrop";
+import Link from "next/link";
 
 export type Props = {
     storyId: string;
@@ -44,6 +45,9 @@ export const MyStoryMenu: React.FC<Props> = ({ storyId, published,canUseFileDrop
                         <YamlFileDrop onFileRead={handleFileRead} canUseFileDrop={canUseFileDrop} />
                     </div>
                     <div className={styles.buttons}>
+                        <Link className={components.buttonLink} href={`/my/stories/${storyId}/edit` }>
+                            編集
+                        </Link>
                         <button
                             className={published ? components.buttonDanger : components.buttonLink}
                             onClick={() => {
