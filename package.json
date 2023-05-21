@@ -15,6 +15,7 @@
     "e2e:server:dev": "cross-env NEXT_PUBLIC_DISABLE_RECAPTCHA='$(date)' npm run dev"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.1.0",
     "@prisma/client": "^4.13.0",
     "@tanstack/react-query": "^4.29.5",
     "@trpc/client": "^10.22.0",
