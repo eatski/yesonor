@@ -4,15 +4,16 @@ import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 import styles from './styles.module.scss';
 import components from '@/styles/components.module.scss';
-import { AiFillPlayCircle, AiOutlineMinusCircle, AiOutlinePlus } from 'react-icons/ai';
+import { AiFillPlayCircle, AiOutlineMinusCircle, AiOutlinePlus, AiOutlineUpload } from 'react-icons/ai';
 import { z } from 'zod';
 import { storyInit } from '@/server/services/story/schema';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 type StoryInit = z.infer<typeof storyInit>;
 
 export const NewStory: React.FC = () => {
-    const { mutate } = trpc.post.useMutation();
+    const { mutate,isError,isLoading } = trpc.post.useMutation();
     const router = useRouter();
     const { register, control, handleSubmit, formState: { errors } } = useForm<StoryInit>({
         defaultValues: {
@@ -45,8 +46,15 @@ export const NewStory: React.FC = () => {
 
     return (
         <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
+            <Link href="/stories/newYaml" className={components.buttonPure}>
+                <AiOutlineUpload />
+                YAMLファイルをアップロードして投稿する
+
+            </Link>
+            {isError && <p className={styles.error}>エラーが発生しました</p>}
+            
             <div className={styles.upperMenu}>
-                <button type="submit" className={components.button}>
+                <button disabled={isLoading} type="submit" className={components.button}>
                     <span>
                         テストプレイ
                     </span>
