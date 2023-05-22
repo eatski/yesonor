@@ -29,9 +29,9 @@ html {
 @media (prefers-color-scheme: dark) {
     html {
         --color-base-bg: #000000;
-        --color-base-bg-success: #2E2E2E;
-        --color-base-bg-info: #3C474D;
-        --color-base-bg-accent: #343839;
+        --color-base-bg-success: #1e252a;
+        --color-base-bg-info: #1e252a;
+        --color-base-bg-accent: #1e252a;
         --color-base-fg: #d6d6d6;
         --color-base-fg-secondary: #c7c7c7;
         --color-base-fg-danger: #b93c16;
