@@ -79,7 +79,7 @@
             border-radius: 8px;
             font-size: 14px;
             padding: 6px 8px;
-            filter: var(--filter-shadow);
+            box-shadow: 0 0 2px var(--border-color);
             svg {
                 width: 24px;
                 height: 24px;
