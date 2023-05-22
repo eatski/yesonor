@@ -1,6 +1,6 @@
 @mixin buttonBase {
     font-size: 14px;
-    padding: 2px 8px;
+    padding: 3px 8px;
     border: none;
     box-sizing: border-box;
     border-radius: 2px;
@@ -46,6 +46,7 @@
     background-color: var(--bg-color-main);
     color: var(--text-color-primary);
     border: var(--border-primary);
+    padding: 2px 8px;
 }
 
 .buttonBright {
@@ -57,7 +58,7 @@
 .iconButton {
     width: 24px;
     height: 24px;
-    color: var(--bg-color-action);
+    color: var(--color-action);
     cursor: pointer;
 }
 

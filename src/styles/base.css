@@ -12,6 +12,7 @@ html {
     --bg-color-action: #7F9E8A;
     --bg-color-action-danger: #EC7854;
     --bg-color-action-secondary: #d28787;
+    --color-action: #7F9E8A;
     --border-color: #d4d7e2;
     --text-color-twitter: #1da1f2;
     --filter-shadow: drop-shadow(0 0 2px var(--border-color));
@@ -30,15 +31,17 @@ html {
         --text-color-primary: #d6d6d6;
         --text-color-secondary: #c7c7c7;
         --text-color-bright: #d6d6d6;
-        --text-color-action: #000000;
+        --text-color-action: #d6d6d6;
         --text-color-danger: #b93c16;
         --bg-color-main: #000000;
         --bg-color-main-secondary: #2E2E2E;
-        --bg-color-action: #bbcfcb;
+        --bg-color-brand: #0a1316;
+        --bg-color-action: #42615b;
+        --color-action: #c7c7c7;
         --bg-color-action-danger: #b93c16;
         --bg-color-accent: #3C474D;
         --bg-color-accent-secondary: #343839;
-        --bg-color-action-secondary: #e9acac;
+        --bg-color-action-secondary: #b24646;
         --border-color: #4B5156;
         --filter-brightness-feedback: brightness(90%);
         --filter-brightness-disabled: brightness(70%);
