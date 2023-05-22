@@ -49,7 +49,7 @@ export const QuestionExampleForm = ({
                     >
                         <option value="True">はい</option>
                         <option value="False">いいえ</option>
-                        <option value="Unknown">わからない（言及されてない・真相には関係ない）</option>
+                        <option value="Unknown">わからない</option>
                     </select>
                 </div>
             </label>
