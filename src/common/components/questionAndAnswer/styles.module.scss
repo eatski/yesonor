@@ -1,8 +1,9 @@
 .container {
-    background-color: var(--bg-color-main);
+    background-color: var(--color-base-bg);
     border-radius: 2px;
     padding: 4px 16px;
     width: 100%;
+    margin: 0;
     .row {
         display: flex;
         padding: 8px 12px 8px 0;
@@ -20,7 +21,7 @@
         margin: 0;
         border: none;
         height: 1px;
-        background-color: var(--border-color);
+        background-color: var(--color-base-fg-silent);
         &[data-status=loading] {
             filter: opacity(50%)
         }
@@ -36,7 +37,7 @@
         font-weight: bold;
         display: flex;
         align-items: center;
-        color: var(--text-color-secondary);
+        color: var(--color-base-fg-secondary);
         svg {
             height: 22px;
             width: 22px;
@@ -48,6 +49,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        filter: var(--filter-shadow);
+        
     }
 }

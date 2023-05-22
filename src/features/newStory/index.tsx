@@ -15,7 +15,7 @@ export const NewStory: React.FC = () => {
     return <>
         <H2>新しいストーリーを投稿</H2>
         <div className={styles.navigation}>
-            <Link href="/stories/newYaml" className={components.buttonPure}>
+            <Link href="/stories/newYaml" className={components.button0}>
                 <AiOutlineUpload />
                 YAMLファイルをアップロードして投稿する
             </Link>

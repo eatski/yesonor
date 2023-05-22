@@ -20,12 +20,12 @@ export const AnswerForm: React.FC<{
         }
     }>
         <label htmlFor={answerInputId} className={styles.formLabel}>あなたの推理</label>
-        <textarea required id={answerInputId} className={styles.formTextarea} onChange={(e) => {
+        <textarea required id={answerInputId} className={components.textarea} onChange={(e) => {
             inputRef.current = e.target.value
         }}
         />
         <div className={styles.buttonContainer}>
-            <button className={components.buttonSecondary} type="button" onClick={onCancel} disabled={isLoading}>まだわからない</button>
+            <button className={components.button2} type="button" onClick={onCancel} disabled={isLoading}>まだわからない</button>
             <button className={components.button} type="submit" disabled={isLoading}>回答する</button>
         </div>
         {

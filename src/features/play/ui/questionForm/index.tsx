@@ -12,7 +12,7 @@ export const QuestionForm: React.FC<{
     const questionInputId = useId();
     return (
         <form
-            className={styles.form}
+            className={styles.container}
             onSubmit={(e) => {
                 e.preventDefault();
                 if (e.target instanceof HTMLFormElement && e.target.checkValidity()) {
@@ -26,7 +26,7 @@ export const QuestionForm: React.FC<{
             <div className={styles.formContent}>
                 <input
                     id={questionInputId}
-                    className={styles.formInput}
+                    className={components.input}
                     required
                     placeholder="はい or いいえ で答えられる質問"
                     value={inputValue}

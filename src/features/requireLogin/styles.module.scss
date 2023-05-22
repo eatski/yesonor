@@ -6,13 +6,13 @@
     justify-content: center;
     padding: 32px;
     border-radius: 2px;
-    background-color: var(--bg-color-accent-secondary);
+    background-color: var(--color-base-bg-accent);
     p {
         font-size: 16px;
         margin: 0;
         font-weight: bold;
     }
     li {
-        color: var(--text-color-secondary);
+        color: var(--color-base-fg-secondary);
     }
 }

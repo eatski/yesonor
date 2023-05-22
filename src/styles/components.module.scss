@@ -1,79 +1,149 @@
 @mixin buttonBase {
     font-size: 14px;
-    padding: 2px 8px;
+    padding: 3px 8px;
     border: none;
+    box-sizing: border-box;
     border-radius: 2px;
     line-height: 1.6;
     cursor: pointer;
     height: 100%;
-    filter: var(--filter-shadow);
     text-decoration: none;
     &:hover {
-        filter: brightness(95%);
+        filter: var(--filter-brightness-feedback);
     }
     &:disabled {
-        filter: brightness(70%);
+        filter: var(--filter-brightness-disabled);
         cursor: not-allowed;
     }
 }
 
-.buttonPure {
+.button0 {
     @include buttonBase;
-    background-color: unset;
-    color: var(--text-color-primary);
+    background-color: var(--color-base-bg);
+    color: var(--color-base-fg);
 }
 
 .button {
     @include buttonBase;
-    background-color: var(--bg-color-action);
-    color: var(--text-color-action);
-    border: 1px solid var(--border-color);
+    background-color: var(--color-accent-bg);
+    color: var(--color-accent-fg);
 }
 
-.buttonSecondary {
+.button2 {
     @include buttonBase;
-    background-color: var(--bg-color-action-secondary);
-    color: var(--text-color-action);
-    border: 1px solid var(--border-color);
+    background-color: var(--color-accent-bg-secondary);
+    color: var(--color-accent-fg);
 }
 
 .buttonDanger {
     @include buttonBase;
-    background-color: var(--bg-color-action-danger);
-    color: var(--text-color-action);
-    border: 1px solid var(--border-color);
+    background-color: var(--color-accent-bg-danger);
+    color: var(--color-accent-fg);
 }
 
 .buttonLink {
     @include buttonBase;
-    background-color: var(--bg-color-main);
-    color: var(--text-color-primary);
-    border: 1px solid var(--border-color);
+    background-color: var(--color-base-bg);
+    color: var(--color-base-fg);
+    border: var(--border-primary);
 }
 
-.buttonBright {
+.buttonBrandFg {
     @include buttonBase;
-    color: var(--text-color-bright);
-    border: 1px solid var(--text-color-bright);
+    color: var(--color-brand-fg);
+    border: 1px solid var(--color-brand-fg);
 }
 
 .iconButton {
     width: 24px;
     height: 24px;
-    color: var(--bg-color-action);
+    color: var(--color-accent);
     cursor: pointer;
 }
 
 .iconButtonLink {
     width: 30px;
     height: 30px;
-    color: var(--text-color-brand);
+    color: var(--color-base-fg);
+    cursor: pointer;
+}
+
+.iconButtonBrandFg {
+    width: 30px;
+    height: 30px;
+    color: var(--color-brand-fg);
     cursor: pointer;
 }
 
 .iconButtonDanger {
     width: 24px;
     height: 24px;
-    color: var(--text-color-danger);
+    color: var(--color-base-fg-danger);
     cursor: pointer;
+}
+
+.input {
+    border: var(--border-primary);
+    border-radius: 2px;
+    padding: 4px 8px;
+    font-size: 16px;
+    background-color: var(--color-base-bg);
+    color: var(--color-base-fg);
+    font-weight: 400;
+    &:focus {
+        outline: none;
+    }
+    &::placeholder {
+        font-weight: 400;
+    }
+}
+
+.textarea {
+    border: var(--border-primary);
+    border-radius: 2px;
+    padding: 4px 8px;
+    font-size: 16px;
+    background-color: var(--color-base-bg);
+    color: var(--color-base-fg);
+    font-weight: 400;
+    &:focus {
+        outline: none;
+    }
+    &::placeholder {
+        font-weight: 400;
+    }
+}
+
+.selectWrapper {
+    position: relative;
+    select {
+        border: var(--border-primary);
+        border-radius: 2px;
+        padding: 4px 8px;
+        font-size: 16px;
+        background-color: var(--color-base-bg);
+        color: var(--color-base-fg);
+        font-weight: 400;
+        position: relative;
+        appearance: none;
+        &:focus {
+            outline: none;
+        }
+        &::placeholder {
+            font-weight: 400;
+        }
+        width: 100%;
+    }
+    &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid var(--color-base-fg-secondary);
+    }
 }

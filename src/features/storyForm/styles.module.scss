@@ -6,42 +6,26 @@
         font-size: 14px;
         padding: 12px;
         word-wrap: break-word;
-        color: var(--text-color-secondary);
-        background-color: var(--bg-color-accent);
+        color: var(--color-base-fg-secondary);
+        background-color: var(--color-base-bg-info);
         border-radius: 8px;
         font-weight: 400;
     }
     textarea {
-        padding: 8px;
         min-height: 100px;
-        border: none;
-        border-radius: 2px;
-        filter: var(--filter-shadow);
-        font-size: 16px;
-        border: 1px solid var(--border-color);
-        color: var(--text-color-secondary);
-    }
-    input {
-        padding: 4px;
-        border: none;
-        border-radius: 2px;
-        filter: var(--filter-shadow);
-        font-size: 16px;
-        border: 1px solid var(--border-color);
-        color: var(--text-color-secondary);
     }
     label {
         display: flex;
         flex-direction: column;
         gap: 4px;
         font-size: 14px;
-        color: var(--text-color-secondary);
+        color: var(--color-base-fg-secondary);
         font-weight: bold;
     }
     .error,label p {
         margin: 0;
         font-size: 12px;
-        color: var(--text-color-danger);
+        color: var(--color-base-fg-danger);
         font-weight: bold;
     }
     .field {
@@ -52,7 +36,7 @@
         .questionExampleHead {
             height: 24px;
             font-size: 16px;
-            color: var(--text-color-secondary);
+            color: var(--color-base-fg-secondary);
             font-weight: bold;
             margin-bottom: 8px;
             display: flex;
@@ -64,19 +48,6 @@
             }
         }
     }
-   
-    select {
-        padding: 5px;
-        border-radius: 2px;
-        filter: var(--filter-shadow);
-        font-size: 16px;
-        border: 1px solid var(--border-color);
-        color: var(--text-color-secondary);
-        appearance: none;
-        background: transparent;
-        width: 100%;
-        
-    }
     fieldset {
         margin: 0 0 24px;
         padding: 8px 16px;
@@ -84,32 +55,16 @@
         flex-direction: column;
         legend {
             font-size: 14px;
-            color: var(--text-color-secondary);
+            color: var(--color-base-fg-secondary);
             font-weight: bold;
             margin-bottom: 4px;
         }
-        border: 1px solid var(--border-color);
+        border: var(--border-primary);
         border-radius: 2px;
         .field {
             margin-bottom: 8px;
         }
 
-    }
-    .selectWrapper {
-        position: relative;
-       
-        &:after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: 16px;
-            transform: translateY(-50%);
-            width: 0;
-            height: 0;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-top: 4px solid var(--text-color-secondary);
-        }
     }
     .upperMenu{
         position: sticky;
@@ -121,10 +76,10 @@
             display: flex;
             gap: 8px;
             align-items: center;
-            border: 1px solid var(--border-color);
             border-radius: 8px;
             font-size: 14px;
-            padding: 4px 8px;
+            padding: 6px 8px;
+            box-shadow: 0 0 2px var(--color-base-fg-silent);
             svg {
                 width: 24px;
                 height: 24px;
@@ -138,7 +93,7 @@
         button {
             border: none;
             background-color: unset;
-            color: var(--text-color-secondary);
+            color: var(--color-base-fg-secondary);
         }
     }
 }

@@ -1,5 +1,5 @@
 .container {
-    filter: var(--filter-shadow);
+    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,7 +11,7 @@
         .basic {
             display: flex;
             justify-content: center;
-            color: var(--text-color-secondary);
+            color: var(--color-base-fg-secondary);
             dt::after {
                 content: ":";
             }
@@ -25,7 +25,7 @@
     p {
         font-size: 16px;
         white-space: pre-wrap;
-        color: var(--text-color-primary);
+        color: var(--color-base-fg);
         margin: 0 0 0 0;
         text-align: center;
     }
@@ -33,7 +33,7 @@
         display: flex;
         gap: 8px;
         a,button {
-            color: var(--text-color-secondary);
+            color: var(--color-base-fg-secondary);
             display: flex;
             align-items: center;
             font-size: 12px;
@@ -42,7 +42,7 @@
                 height: 14px;
                 width: 14px;
                 &.twitter {
-                    color: var(--text-color-twitter);
+                    color: var(--color-twitter-bg);
                 }
             }
         }
