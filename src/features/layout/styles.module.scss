@@ -7,15 +7,15 @@
         font-size: 12px;
         margin-left: 8px;
         font-weight: 400;
-        color: var(--text-color-bright);
+        color: var(--color-brand-fg);
         line-height: 1;
     }
 }
 
 .header {
     padding: 8px 16px;
-    background-color: var(--bg-color-brand);
-    color: var(--text-color-bright);
+    background-color: var(--color-brand-bg);
+    color: var(--color-brand-fg);
     display: flex;
     
     h1 {
@@ -26,7 +26,7 @@
         margin: 0;
     }
     a {
-        color: var(--text-color-bright);
+        color: var(--color-brand-fg);
         text-decoration: none;
     }
     .right {
@@ -41,14 +41,14 @@
         }
     }
     .iconWrapper {
-        color: var(--text-color-bright);
+        color: var(--color-brand-fg);
         border: none;
         background-color: unset;
     }
     .loginButtonWrapper {
         button {
             border: var(--border-primary);
-            color: var(--text-color-action);
+            color: var(--color-accent-fg);
         }
     }
 }
@@ -59,7 +59,7 @@
     z-index: 1;
     position: sticky;
     top: 0;
-    background-color: var(--bg-color-action); /* 任意の色に変更可能 */
+    background-color: var(--color-accent-bg); /* 任意の色に変更可能 */
     transition: width 1s ease-in-out;
     animation: expandWidth 1s forwards;
 }
@@ -88,7 +88,7 @@
     top: 60px;
     right: 8px;
     padding: 8px 4px;
-    background-color: var(--bg-color-main);
+    background-color: var(--color-base-bg);
     border-radius: 2px;
     border: var(--border-primary);
     filter: var(--filter-shadow);
@@ -99,13 +99,13 @@
         margin: 0;
         border: none;
         height: 1px;
-        background-color: var(--border-color);
+        background-color: var(--color-base-fg-silent);
     }
 }
 
 .upper {
     padding-top: 16px;
-    background-color: var(--bg-color-accent-secondary);
+    background-color: var(--color-base-bg-accent);
     .content {
         margin: 0 auto;
         max-width: 640px;
@@ -136,8 +136,8 @@
     font-size: 20px;
     gap: 4px;
     padding: 8px;
-    color: var(--text-color-bright);
-    background-color: var(--bg-color-brand);
+    color: var(--color-brand-fg);
+    background-color: var(--color-brand-bg);
     h2 {
         margin: 0;
         font-size: 24px;
@@ -147,7 +147,7 @@
         display: flex;
         gap: 16px;
         a {
-            color: var(--text-color-bright);
+            color: var(--color-brand-fg);
             text-decoration: none;
             font-size: 12px;
         }

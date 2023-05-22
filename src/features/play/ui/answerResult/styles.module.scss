@@ -2,7 +2,7 @@
     
     margin:  32px 12px 0;
     &[data-truth="true"]{
-        background-color: var(--bg-color-main-secondary);
+        background-color: var(--color-base-bg-success);
     }
     border-radius: 8px;
     padding: 20px;
@@ -21,7 +21,7 @@
         dt {
             font-size: 16px;
             font-weight: bold;
-            color: var(--text-color-secondary);
+            color: var(--color-base-fg-secondary);
             margin: 0 auto;
             width: fit-content;
             padding: 0px 4px;

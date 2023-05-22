@@ -9,7 +9,7 @@
 
 .formLabel {
     font-size: 14px;
-    color: var(--text-color-secondary);
+    color: var(--color-base-fg-secondary);
     font-weight: bold;
     margin-bottom: 4px;
 }
@@ -25,7 +25,7 @@
 }
 
 .error {
-    color: var(--text-color-danger);
+    color: var(--color-base-fg-danger);
     font-size: 14px;
     margin-bottom: 8px;
 }

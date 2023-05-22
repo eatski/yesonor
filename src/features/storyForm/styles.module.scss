@@ -6,8 +6,8 @@
         font-size: 14px;
         padding: 12px;
         word-wrap: break-word;
-        color: var(--text-color-secondary);
-        background-color: var(--bg-color-accent);
+        color: var(--color-base-fg-secondary);
+        background-color: var(--color-base-bg-info);
         border-radius: 8px;
         font-weight: 400;
     }
@@ -19,13 +19,13 @@
         flex-direction: column;
         gap: 4px;
         font-size: 14px;
-        color: var(--text-color-secondary);
+        color: var(--color-base-fg-secondary);
         font-weight: bold;
     }
     .error,label p {
         margin: 0;
         font-size: 12px;
-        color: var(--text-color-danger);
+        color: var(--color-base-fg-danger);
         font-weight: bold;
     }
     .field {
@@ -36,7 +36,7 @@
         .questionExampleHead {
             height: 24px;
             font-size: 16px;
-            color: var(--text-color-secondary);
+            color: var(--color-base-fg-secondary);
             font-weight: bold;
             margin-bottom: 8px;
             display: flex;
@@ -55,7 +55,7 @@
         flex-direction: column;
         legend {
             font-size: 14px;
-            color: var(--text-color-secondary);
+            color: var(--color-base-fg-secondary);
             font-weight: bold;
             margin-bottom: 4px;
         }
@@ -79,7 +79,7 @@
             border-radius: 8px;
             font-size: 14px;
             padding: 6px 8px;
-            box-shadow: 0 0 2px var(--border-color);
+            box-shadow: 0 0 2px var(--color-base-fg-silent);
             svg {
                 width: 24px;
                 height: 24px;
@@ -93,7 +93,7 @@
         button {
             border: none;
             background-color: unset;
-            color: var(--text-color-secondary);
+            color: var(--color-base-fg-secondary);
         }
     }
 }
