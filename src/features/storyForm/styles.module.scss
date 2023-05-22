@@ -76,10 +76,10 @@
             display: flex;
             gap: 8px;
             align-items: center;
-            border: var(--border-primary);
             border-radius: 8px;
             font-size: 14px;
-            padding: 4px 8px;
+            padding: 6px 8px;
+            filter: var(--filter-shadow);
             svg {
                 width: 24px;
                 height: 24px;
