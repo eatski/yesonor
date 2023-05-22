@@ -73,7 +73,7 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
                         <Menu className={components.iconButtonLink} />
                     </button> :
                         <div className={styles.loginButtonWrapper}>
-                            <button className={components.buttonPure} onClick={() => {
+                            <button className={components.button0} onClick={() => {
                                 signIn();
                             }}>
                                 ログイン
@@ -85,10 +85,10 @@ export const Layout: React.FC<PropsWithChildren<{ upper?: React.ReactElement }>>
         {loading && <div className={styles.transitionStatus} />}
         {
             menuOpen && <div className={styles.menu} ref={ref}>
-                <Link href={"/my/stories"}>自分のストーリー</Link>
-                <Link href={"/my/settings"}>設定</Link>
+                <Link className={components.button0} href={"/my/stories"}>自分のストーリー</Link>
+                <Link className={components.button0} href={"/my/settings"}>設定</Link>
                 <hr />
-                <button className={styles.danger} onClick={() => { signOut(); }}>ログアウト</button>
+                <button className={components.button0} onClick={() => { signOut(); }}>ログアウト</button>
             </div>
         }
         {
