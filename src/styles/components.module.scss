@@ -147,3 +147,9 @@
         border-top: 4px solid var(--color-base-fg-secondary);
     }
 }
+
+.formErrorMessage {
+    font-size: 12px;
+    color: var(--color-base-fg-danger);
+    font-weight: bold;
+}
