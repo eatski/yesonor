@@ -31,14 +31,14 @@ html {
         --text-color-secondary: #c7c7c7;
         --text-color-bright: #d6d6d6;
         --text-color-action: #000000;
-        --text-color-danger: #a93815;
+        --text-color-danger: #b93c16;
         --bg-color-main: #000000;
         --bg-color-main-secondary: #2E2E2E;
-        --bg-color-action: #8c9a97;
-        --bg-color-action-danger: #a93815;
+        --bg-color-action: #bbcfcb;
+        --bg-color-action-danger: #b93c16;
         --bg-color-accent: #3C474D;
         --bg-color-accent-secondary: #343839;
-        --bg-color-action-secondary: #2D3E43;
+        --bg-color-action-secondary: #e9acac;
         --border-color: #4B5156;
         --filter-brightness-feedback: brightness(90%);
         --filter-brightness-disabled: brightness(70%);
