@@ -11,7 +11,7 @@ exports[`parseYaml > should parse input yaml 1`] = `
       },
       {
         "answer": "True",
-        "question": "yesonorでは回答者の質問に対してAIが回答を考えている？",
+        "question": "yesonorでは解答者の質問に対してAIが回答を考えている？",
         "supplement": "yesonorではGPT-4によって質問に対する回答を生成しています。",
       },
       {
@@ -20,8 +20,8 @@ exports[`parseYaml > should parse input yaml 1`] = `
         "supplement": "開発者の苦労については言及されておりません。",
       },
     ],
-    "quiz": "水平思考クイズとは通常、真相を知る「出題者」と質問をして謎を解き明かす「回答者」とで遊ぶゲームです。
-しかし、Yesonorでは水平思考クイズを回答者のみで遊べます。なぜでしょう？
+    "quiz": "水平思考クイズとは通常、真相を知る「出題者」と質問をして謎を解き明かす「解答者」とで遊ぶゲームです。
+しかし、Yesonorでは水平思考クイズを解答者のみで遊べます。なぜでしょう？
 ",
     "simpleTruth": "YesonorではAIが質問に対する回答を行う。",
     "title": "Yesonorの謎",

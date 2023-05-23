@@ -1,63 +1,71 @@
-import { Markdown } from '@/common/components/markdown';
-import { Layout } from '@/features/layout';
-import { readFile } from 'fs/promises';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import { resolve } from 'path';
+import { Markdown } from "@/common/components/markdown";
+import { Layout } from "@/features/layout";
+import { readFile } from "fs/promises";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { resolve } from "path";
 
 type Props = {
-    markdown: string;
-}
+	markdown: string;
+};
 
 type Params = {
-    markdownName: string;
-}
+	markdownName: string;
+};
 
-export const getStaticProps: GetStaticProps<Props,Params> = async ({params}) => {
-    if(!params){
-        throw new Error("params not found");
-    }
-    const markdown = await readFile(resolve(process.cwd(), "docs",`${params.markdownName}.md`), "utf-8");
-    return {
-        props: {
-            markdown
-        }
-    }
-}
+export const getStaticProps: GetStaticProps<Props, Params> = async ({
+	params,
+}) => {
+	if (!params) {
+		throw new Error("params not found");
+	}
+	const markdown = await readFile(
+		resolve(process.cwd(), "docs", `${params.markdownName}.md`),
+		"utf-8",
+	);
+	return {
+		props: {
+			markdown,
+		},
+	};
+};
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
-    return {
-        paths: [
-            {
-                params: {
-                    markdownName: "privacy"
-                },
-            },
-            {
-                params: {
-                    markdownName: "terms"
-                },
-            },
-            {
-                params: {
-                    markdownName: "about"
-                }
-            },
-            {
-                params: {
-                    markdownName: "howToWriteStory"
-                }
-            },{
-                params: {
-                    markdownName: "situationPuzzle"
-                }
-            }
-        ],
-        fallback: false
-    }
-}
+	return {
+		paths: [
+			{
+				params: {
+					markdownName: "privacy",
+				},
+			},
+			{
+				params: {
+					markdownName: "terms",
+				},
+			},
+			{
+				params: {
+					markdownName: "about",
+				},
+			},
+			{
+				params: {
+					markdownName: "howToWriteStory",
+				},
+			},
+			{
+				params: {
+					markdownName: "situationPuzzle",
+				},
+			},
+		],
+		fallback: false,
+	};
+};
 
-export default function MarkdownDocumentPage({markdown}: Props) {
-    return <Layout>
-        <Markdown source={markdown}/>
-    </Layout>
-}    
+export default function MarkdownDocumentPage({ markdown }: Props) {
+	return (
+		<Layout>
+			<Markdown source={markdown} />
+		</Layout>
+	);
+}

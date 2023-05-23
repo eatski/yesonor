@@ -12,7 +12,8 @@
     "e2e:prepare": "ts-node -P ./tsconfig.node.json scripts/initTestData.ts",
     "e2e:server": "cross-env NEXT_PUBLIC_DISABLE_RECAPTCHA='$(date)' npm run build && npm run start",
     "e2e:dev": "npx playwright test --ui",
-    "e2e:server:dev": "cross-env NEXT_PUBLIC_DISABLE_RECAPTCHA='$(date)' npm run dev"
+    "e2e:server:dev": "cross-env NEXT_PUBLIC_DISABLE_RECAPTCHA='$(date)' npm run dev",
+    "format": "rome format --write src"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",
@@ -41,6 +42,7 @@
     "react-icons": "^4.8.0",
     "react-markdown": "^8.0.7",
     "react-syntax-highlighter": "^15.5.0",
+    "rome": "^12.1.2",
     "sanitize.css": "^13.0.0",
     "sass": "^1.62.1",
     "typescript": "5.0.4",
