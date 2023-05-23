@@ -1,18 +1,22 @@
-import NextAuth from 'next-auth'
-import GoogleProvider from 'next-auth/providers/google'
+import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
 
-if(!process.env.GOOGLE_ID || !process.env.GOOGLE_SECRET || !process.env.NEXTAUTH_SECRET){
-  throw new Error("Google OAuth is not configured")
+if (
+	!process.env.GOOGLE_ID ||
+	!process.env.GOOGLE_SECRET ||
+	!process.env.NEXTAUTH_SECRET
+) {
+	throw new Error("Google OAuth is not configured");
 }
 
 export const authConfig = {
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-    }),
-  ],
-  secret: process.env.NEXTAUTH_SECRET,
-}
+	providers: [
+		GoogleProvider({
+			clientId: process.env.GOOGLE_ID,
+			clientSecret: process.env.GOOGLE_SECRET,
+		}),
+	],
+	secret: process.env.NEXTAUTH_SECRET,
+};
 
-export default NextAuth(authConfig)
+export default NextAuth(authConfig);

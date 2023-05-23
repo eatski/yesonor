@@ -45,12 +45,6 @@
         border: none;
         background-color: unset;
     }
-    .loginButtonWrapper {
-        button {
-            border: var(--border-primary);
-            color: var(--color-accent-fg);
-        }
-    }
 }
 .transitionStatus {
     width: 0%;
@@ -81,7 +75,7 @@
 
 .menu {
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     gap: 4px;
