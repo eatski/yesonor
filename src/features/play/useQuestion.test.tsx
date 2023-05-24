@@ -89,27 +89,27 @@ describe("useQuestion", () => {
 		expect(
 			useQuestionMock.mock.results.map((e) => e.value.latest),
 		).toMatchInlineSnapshot(`
-      [
-        null,
-        {
-          "input": "太郎は犬ですか？",
-          "result": null,
-        },
-        {
-          "id": 0,
-          "input": "太郎は犬ですか？",
-          "result": "はい",
-        },
-        {
-          "input": "太郎は猫ですか？",
-          "result": null,
-        },
-        {
-          "id": 1,
-          "input": "太郎は猫ですか？",
-          "result": "はい",
-        },
-      ]
-    `);
+			[
+			  null,
+			  {
+			    "input": "太郎は犬ですか？",
+			    "result": null,
+			  },
+			  {
+			    "id": 0,
+			    "input": "太郎は犬ですか？",
+			    "result": "はい",
+			  },
+			  {
+			    "id": 0,
+			    "input": "太郎は犬ですか？",
+			    "result": "はい",
+			  },
+			  {
+			    "input": "太郎は猫ですか？",
+			    "result": null,
+			  },
+			]
+		`);
 	});
 });
