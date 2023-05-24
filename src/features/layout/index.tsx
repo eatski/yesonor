@@ -110,6 +110,12 @@ export const Layout: React.FC<
 			{loading && <div className={styles.transitionStatus} />}
 			{menuOpen && (
 				<div className={styles.menu} ref={ref}>
+					{
+						device !== "desktop" &&
+							<Link className={components.button0} href={"/stories/new"}>
+								ストーリーを投稿
+							</Link>
+					}
 					<Link className={components.button0} href={"/my/stories"}>
 						自分のストーリー
 					</Link>

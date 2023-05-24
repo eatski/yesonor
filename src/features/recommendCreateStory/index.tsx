@@ -8,8 +8,7 @@ import { gtag } from "@/common/util/gtag";
 
 export const RecommendCreateStory: React.FC = () => {
 	const session = useSession();
-	const device = useDevice();
-	if (session.status === "loading" || device !== "desktop") {
+	if (session.status === "loading") {
 		return null;
 	}
 
