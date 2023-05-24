@@ -1,33 +1,17 @@
-.logo {
-    margin: 0;
-    line-height: 0.7;
-    font-weight: 400;
-    display: flex;
-    span {
-        font-size: 12px;
-        margin-left: 8px;
-        font-weight: 400;
-        color: var(--color-brand-fg);
-        line-height: 1;
-    }
-}
-
 .header {
-    padding: 8px 16px;
+    height: 52px;
+    padding: 8px 8px;
     background-color: var(--color-brand-bg);
     color: var(--color-brand-fg);
     display: flex;
-    
     h1 {
         margin: 0 0 2px;
-    }
-    p {
-        font-size: 10px;
-        margin: 0;
     }
     a {
         color: var(--color-brand-fg);
         text-decoration: none;
+        display: flex;
+        align-items: center;
     }
     .right {
         margin-left: auto;
@@ -45,6 +29,7 @@
         border: none;
         background-color: unset;
     }
+    border-bottom: var(--border-primary);
 }
 .transitionStatus {
     width: 0%;
@@ -132,6 +117,7 @@
     padding: 8px;
     color: var(--color-brand-fg);
     background-color: var(--color-brand-bg);
+    border-top: var(--border-primary);
     h2 {
         margin: 0;
         font-size: 24px;

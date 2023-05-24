@@ -1,4 +1,3 @@
-import { texts } from "@/texts";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { PropsWithChildren, useEffect, useState } from "react";
@@ -6,29 +5,12 @@ import { AiOutlineUnorderedList as Menu } from "react-icons/ai";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import { useRouter } from "next/router";
-import { useDevice } from "@/common/hooks/useDevice";
-import Image from "next/image";
-
-const Logo = () => {
-	return (
-		<div className={styles.logo}>
-			<Image
-				loading="eager"
-				width={92}
-				height={24}
-				src={"/Yesonor.svg"}
-				alt="Yesonor"
-			/>
-			<span>beta版</span>
-		</div>
-	);
-};
+import { Logo } from "./components/logo";
 
 export const Layout: React.FC<
 	PropsWithChildren<{ upper?: React.ReactElement }>
 > = ({ children, upper }) => {
 	const session = useSession();
-	const device = useDevice();
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 	const ref = React.useRef<HTMLDivElement>(null);
 	const router = useRouter();
@@ -73,11 +55,9 @@ export const Layout: React.FC<
 					<h1>
 						<Logo />
 					</h1>
-					<p>{texts.serviceDescription}</p>
 				</Link>
 				<div className={styles.right}>
 					{router.asPath !== "/stories/new" &&
-						device === "desktop" &&
 						session.data?.user && (
 							<Link className={components.buttonBrandFg} href={"/stories/new"}>
 								ストーリーを投稿
@@ -110,12 +90,6 @@ export const Layout: React.FC<
 			{loading && <div className={styles.transitionStatus} />}
 			{menuOpen && (
 				<div className={styles.menu} ref={ref}>
-					{
-						device !== "desktop" &&
-							<Link className={components.button0} href={"/stories/new"}>
-								ストーリーを投稿
-							</Link>
-					}
 					<Link className={components.button0} href={"/my/stories"}>
 						自分のストーリー
 					</Link>
