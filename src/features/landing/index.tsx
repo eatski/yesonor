@@ -5,7 +5,6 @@ import { QuestionAndAnswer } from "@/common/components/questionAndAnswer";
 import { useCallback, useState } from "react";
 import Link from "next/link";
 import components from "@/styles/components.module.scss";
-import { H2 } from "@/common/components/h2";
 
 const QUESTIONS = [
 	{
@@ -53,7 +52,9 @@ export const Landing: React.FC = () => {
 	}, []);
 	return (
 		<div className={styles.container}>
-			<H2 label={texts.serviceName} />
+			<h2>
+				{texts.serviceName}
+			</h2>
 			<p>
 				{texts.serviceName}({texts.serviceNickname})は{texts.serviceDescription}
 			</p>

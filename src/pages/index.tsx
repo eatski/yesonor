@@ -37,7 +37,7 @@ export default function Home(props: Props) {
 	return (
 		<>
 			<Layout>
-				<div style={{ marginBottom: "132px" }}>
+				<div style={{ marginBottom: "72px" }}>
 					<Landing />
 				</div>
 				<div style={{ marginBottom: "24px" }}>

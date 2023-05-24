@@ -52,7 +52,7 @@
     @include buttonBase;
     background-color: transparent;
     color: var(--color-brand-fg);
-    border: 1px solid var(--color-brand-fg);
+    border: var(--border-primary)
 }
 
 .iconButton {
