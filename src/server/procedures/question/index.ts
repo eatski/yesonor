@@ -1,4 +1,4 @@
-import { openai } from "@/libs/openapi";
+import { openai } from "@/libs/openai";
 import { TRPCError } from "@trpc/server";
 import { readFile } from "fs/promises";
 import { resolve } from "path";

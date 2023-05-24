@@ -1,4 +1,4 @@
-import { openai } from "@/libs/openapi";
+import { openai } from "@/libs/openai";
 import { truthCoincidence } from "@/server/model/schemas";
 import { verifyRecaptcha } from "@/server/services/recaptcha";
 import { getStory, getStoryPrivate } from "@/server/services/story";

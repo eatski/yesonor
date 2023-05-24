@@ -1,4 +1,4 @@
-import { openai } from "@/libs/openapi";
+import { openai } from "@/libs/openai";
 import { procedure } from "../trpc";
 
 export const hello = procedure.mutation(async () => {
