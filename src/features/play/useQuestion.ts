@@ -3,7 +3,7 @@ import { trpc } from "@/libs/trpc";
 import { Answer } from "@/server/model/types";
 import { useState } from "react";
 
-export const useQuestion = (storyId: string, requireBotCheck: boolean) => {
+export const useQuestion = (storyId: string) => {
 	const [history, setHistory] = useState<
 		{ id: number; input: string; result: string }[]
 	>([]);
