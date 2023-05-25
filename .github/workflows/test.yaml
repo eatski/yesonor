@@ -27,7 +27,7 @@ jobs:
       
       - name: Wait for PostgreSQL
         run: |
-          until PGPASSWORD=postgres psql -h localhost -U postgres -c '\q'; do
+          until psql -h localhost -U postgres -c '\q'; do
             echo "Postgres is unavailable - sleeping"
             sleep 1
           done
