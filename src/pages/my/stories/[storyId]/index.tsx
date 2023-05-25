@@ -88,7 +88,7 @@ export default function StoryDraftPage(props: Props) {
 					publishedAt={props.story.publishedAt}
 					published={props.story.published}
 				/>
-				<Play storyId={props.storyId} requireBotCheck={false} />
+				<Play storyId={props.storyId} />
 			</Layout>
 		</>
 	);

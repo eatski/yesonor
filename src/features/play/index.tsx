@@ -13,13 +13,11 @@ import Script from "next/script";
 
 type Props = {
 	storyId: string;
-	requireBotCheck: boolean;
 };
 
 const AnswerFormContainer: React.FC<{
 	storyId: string;
 	onCancel: () => void;
-	requireBotCheck: boolean;
 }> = ({ storyId, onCancel }) => {
 	const { mutate, isLoading, data, reset, isError } = trpc.truth.useMutation();
 	return data ? (
@@ -55,7 +53,7 @@ const AnswerFormContainer: React.FC<{
 };
 
 export function Play(props: Props) {
-	const question = useQuestion(props.storyId, props.requireBotCheck);
+	const question = useQuestion(props.storyId);
 	const [isAnswerMode, setIsAnswerMode] = useState(false);
 	return (
 		<>
@@ -89,7 +87,6 @@ export function Play(props: Props) {
 						onCancel={() => {
 							setIsAnswerMode(false);
 						}}
-						requireBotCheck={props.requireBotCheck}
 					/>
 				</div>
 			)}

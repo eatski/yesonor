@@ -1,4 +1,4 @@
-import { openai } from "@/libs/openapi";
+import { openai } from "@/libs/openai";
 import { truthCoincidence } from "@/server/model/schemas";
 import { verifyRecaptcha } from "@/server/services/recaptcha";
 import { getStory, getStoryPrivate } from "@/server/services/story";
@@ -21,12 +21,7 @@ export const truth = procedure
 		}),
 	)
 	.mutation(async ({ input, ctx }) => {
-		const verifyPromise = verifyRecaptcha(input.recaptchaToken).catch((e) => {
-			throw new TRPCError({
-				code: "BAD_REQUEST",
-				cause: e,
-			});
-		});
+		const verifyPromise = verifyRecaptcha(input.recaptchaToken);
 		const user = await ctx.getUserOptional();
 		const story = user
 			? await getStoryPrivate({
