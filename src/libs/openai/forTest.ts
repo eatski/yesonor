@@ -37,6 +37,8 @@ if(process.env.CI){
 } else {
     axios.interceptors.response.use((res) => {
         const key = configToKey(res.config);
+        res.data.id = "test";
+        res.data.created = new Date("2021-01-01");
         cache.set(key, res.data);
         return res
     })
