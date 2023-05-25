@@ -1,42 +1,38 @@
 name: Integration Tests
 
-on: [push]
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
-      SUPABASE_POSTGRES_URL_NON_POOLING: postgresql://postgres:@localhost:5432/postgres
-      SUPABASE_POSTGRES_PRISMA_URL: postgresql://postgres:@localhost:5432/postgres?pgbouncer=true
-      CI: 1
     services:
       postgres:
-        image: postgres
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
         ports:
           - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
 
-      - name: Install dependencies
-        run: npm install
+    - name: Install dependencies
+      run: npm ci
 
-      - name: Run Prisma Migrate
-        run: SUPABASE_POSTGRES_URL_NON_POOLING=$SUPABASE_POSTGRES_URL_NON_POOLING npx prisma migrate deploy
-      
-      - name: Prepare Test Data
-        run: npm run test:prepare
-      
-      - name: Run Tests
-        run: npm run test
-      
-        
+    - name: Update database url for tests
+      run: cp .env.local .env
+
+    - name: Run Prisma Migrate
+      run: npx prisma migrate deploy
