@@ -9,16 +9,20 @@ jobs:
       SUPABASE_POSTGRES_URL_NON_POOLING: postgresql://postgres:@localhost:5432/postgres
       SUPABASE_POSTGRES_PRISMA_URL: postgresql://postgres:@localhost:5432/postgres?pgbouncer=true
       CI: 1
+    services:
+      postgres:
+        image: postgres:13-alpine
+        # refer: https://hub.docker.com/_/postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
 
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-
-      - name: Start PostgreSQL
-        run: sudo systemctl start postgresql.service
-      
-      - name: Setup PostgreSQL password
-        run: sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';"
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -27,9 +31,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-      
-      - name: Wait for PostgreSQL
-        run: sleep 10
 
       - name: Run Prisma Migrate
         run: npx prisma migrate deploy
