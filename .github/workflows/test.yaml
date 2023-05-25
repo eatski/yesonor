@@ -6,17 +6,15 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
       SUPABASE_POSTGRES_URL_NON_POOLING: postgresql://postgres:@localhost:5432/postgres
       SUPABASE_POSTGRES_PRISMA_URL: postgresql://postgres:@localhost:5432/postgres?pgbouncer=true
       CI: 1
     services:
       postgres:
-        image: postgres:13-alpine
-        # refer: https://hub.docker.com/_/postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
-          POSTGRES_DB: postgres
+        image: postgres
         ports:
           - 5432:5432
 
