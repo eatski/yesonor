@@ -31,7 +31,7 @@ jobs:
         run: npm install
 
       - name: Run Prisma Migrate
-        run: npx prisma migrate deploy
+        run: SUPABASE_POSTGRES_URL_NON_POOLING=$SUPABASE_POSTGRES_URL_NON_POOLING npx prisma migrate deploy
       
       - name: Prepare Test Data
         run: npm run test:prepare
