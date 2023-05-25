@@ -3,7 +3,7 @@ name: Integration Tests
 on: [push]
 
 jobs:
-  migrate:
+  test:
     runs-on: ubuntu-latest
     env:
       SUPABASE_POSTGRES_URL_NON_POOLING: postgresql://postgres:@localhost:5432/postgres
@@ -14,9 +14,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Start PostgreSQL
-        run: sudo systemctl start postgresql.service
-
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -26,10 +23,7 @@ jobs:
         run: npm install
 
       - name: Run Prisma Migrate
-        run: npx prisma migrate deploy
-      
-      - name: Run Prisma Generate
-        run: npx prisma generate
+        run: sudo systemctl start postgresql.service && npx prisma migrate deploy
       
       - name: Prepare Test Data
         run: npm run test:prepare
