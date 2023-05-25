@@ -26,11 +26,7 @@ jobs:
         run: npm install
       
       - name: Wait for PostgreSQL
-        run: |
-          until psql -h localhost -U postgres -c '\q'; do
-            echo "Postgres is unavailable - sleeping"
-            sleep 1
-          done
+        run: sleep 10
 
       - name: Run Prisma Migrate
         run: npx prisma migrate deploy
