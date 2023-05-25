@@ -16,7 +16,10 @@ jobs:
 
       - name: Start PostgreSQL
         run: sudo systemctl start postgresql.service
-
+      
+       - name: Setup PostgreSQL password
+        run: sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';"
+        
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
