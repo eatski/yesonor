@@ -10,7 +10,6 @@ import {
 import { procedure } from "../../trpc";
 import { parseHeadToken } from "./parse";
 import { getStory, getStoryPrivate } from "@/server/services/story";
-import { verifyRecaptcha } from "@/server/services/recaptcha";
 
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),
@@ -26,12 +25,7 @@ export const question = procedure
 	)
 	.mutation(async ({ input, ctx }) => {
 		const systemPrompt = await systemPromptPromise;
-		const verifyPromise = verifyRecaptcha(input.recaptchaToken).catch((e) => {
-			throw new TRPCError({
-				code: "BAD_REQUEST",
-				cause: e,
-			});
-		});
+		const verifyPromise = ctx.verifyRecaptcha(input.recaptchaToken);
 		const user = await ctx.getUserOptional();
 		const story = user
 			? await getStoryPrivate({
@@ -47,7 +41,7 @@ export const question = procedure
 			});
 		}
 		await verifyPromise;
-		const response = await openai.createChatCompletion({
+		const response = await ctx.openai.createChatCompletion({
 			model: "gpt-4",
 			messages: [
 				{
