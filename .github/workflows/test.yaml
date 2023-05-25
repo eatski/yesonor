@@ -1,0 +1,40 @@
+name: Integration Tests
+
+on: [push]
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_POSTGRES_URL_NON_POOLING: postgresql://postgres:@localhost:5432/postgres
+      SUPABASE_POSTGRES_PRISMA_URL: postgresql://postgres:@localhost:5432/postgres?pgbouncer=true
+      CI: 1
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Start PostgreSQL
+        run: sudo systemctl start postgresql.service
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Prisma Migrate
+        run: npx prisma migrate deploy
+      
+      - name: Run Prisma Generate
+        run: npx prisma generate
+      
+      - name: Prepare Test Data
+        run: npm run test:prepare
+      
+      - name: Run Tests
+        run: npm run test
+      
+        
