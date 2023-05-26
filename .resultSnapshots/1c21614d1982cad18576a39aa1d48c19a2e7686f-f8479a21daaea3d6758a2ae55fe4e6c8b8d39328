@@ -1,0 +1,1 @@
+{"value":{"id":"test","object":"chat.completion","created":"2021-01-01T00:00:00.000Z","model":"gpt-4-0314","usage":{"prompt_tokens":379,"completion_tokens":9,"total_tokens":388},"choices":[{"message":{"role":"assistant","content":"False: 太郎さんのメ"},"finish_reason":"length","index":0}]},"type":"Object"}
