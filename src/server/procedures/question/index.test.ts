@@ -9,7 +9,7 @@ const getUserOptionalMock = async () => ({
     email: "aaa",
 } as const) 
 describe("trpc/question", () => {
-    const {openai,clearUnusedCache} = setupOpenaiForTest("proc/question")
+    const openai = setupOpenaiForTest()
     const testee = appRouter.createCaller({
         getUserOptional: getUserOptionalMock,
         getUser: never,
@@ -17,11 +17,6 @@ describe("trpc/question", () => {
         verifyRecaptcha: () => Promise.resolve(),
         openai
     })
-    afterAll(async (res) => {
-        if(res.tasks.every((t) => t.result?.state !== "fail")){
-            await clearUnusedCache();
-        }
-    });
     test.concurrent("真相に対して正しい質問をするとTrueが返る",async  () => {
         const result = await testee.question({
             storyId: "test",
