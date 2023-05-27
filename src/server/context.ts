@@ -54,13 +54,13 @@ export const createContext = async (context: CreateNextContextOptions) => {
 			return retryable(10);
 		},
 		verifyRecaptcha(token: string) {
-			return verifyRecaptcha(token).catch(e => {
+			return verifyRecaptcha(token).catch((e) => {
 				throw new TRPCError({
 					code: "BAD_REQUEST",
 					cause: e,
 				});
-			})
+			});
 		},
-        openai
+		openai,
 	};
 };

@@ -57,12 +57,11 @@ export const Layout: React.FC<
 					</h1>
 				</Link>
 				<div className={styles.right}>
-					{router.asPath !== "/stories/new" &&
-						session.data?.user && (
-							<Link className={components.buttonBrandFg} href={"/stories/new"}>
-								ストーリーを投稿
-							</Link>
-						)}
+					{router.asPath !== "/stories/new" && session.data?.user && (
+						<Link className={components.buttonBrandFg} href={"/stories/new"}>
+							ストーリーを投稿
+						</Link>
+					)}
 					{session.status !== "loading" ? (
 						session.data?.user ? (
 							<button

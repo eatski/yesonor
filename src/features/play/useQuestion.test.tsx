@@ -63,12 +63,9 @@ describe("useQuestion", () => {
 
 		const useQuestionMock = vitest.fn(useQuestion);
 
-		const { result, rerender } = renderHook(
-			() => useQuestionMock(storyId),
-			{
-				wrapper: Provider,
-			},
-		);
+		const { result, rerender } = renderHook(() => useQuestionMock(storyId), {
+			wrapper: Provider,
+		});
 
 		result.current.onSubmit("太郎は犬ですか？");
 

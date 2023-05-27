@@ -52,9 +52,7 @@ export const Landing: React.FC = () => {
 	}, []);
 	return (
 		<div className={styles.container}>
-			<h2>
-				{texts.serviceName}
-			</h2>
+			<h2>{texts.serviceName}</h2>
 			<p>
 				{texts.serviceName}({texts.serviceNickname})は{texts.serviceDescription}
 			</p>
