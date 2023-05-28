@@ -18,31 +18,37 @@ describe("trpc/question", () => {
 		verifyRecaptcha: () => Promise.resolve(),
 		openai,
 	});
-	test.concurrent("真相に対して正しい質問をするとTrueが返る", async () => {
+	test.concurrent.each([
+		"太郎のメガネには度が入っていませんか？",
+		"太郎は自分のためにメガネをかけていますか？",
+	])("真相に対して正しい質問をするとTrueが返る", async (text) => {
 		const result = await testee.question({
 			storyId: "test",
-			text: "太郎のメガネには度が入っていませんか？",
+			text,
 			recaptchaToken: "anytoken",
 		});
 		expect(result).toEqual("True");
 	});
-	test.concurrent("真相に対して正しくない質問をするとFalseが返る", async () => {
+	test.concurrent.each([
+		"太郎のメガネには度が入っていますか？",
+		"太郎は命令されてメガネをかけていますか？",
+	])("真相に対して正しくない質問をするとFalseが返る", async (text) => {
 		const result = await testee.question({
 			storyId: "test",
-			text: "太郎のメガネには度が入っていますか？",
+			text,
 			recaptchaToken: "anytoken",
 		});
 		expect(result).toEqual("False");
 	});
-	test.concurrent(
-		"真相では言及されていない質問をするとUnknownが返る",
-		async () => {
-			const result = await testee.question({
-				storyId: "test",
-				text: "太郎には恋人がいますか？",
-				recaptchaToken: "anytoken",
-			});
-			expect(result).toEqual("Unknown");
-		},
-	);
+	test.concurrent.each([
+		"太郎には恋人がいますか？",
+		"太郎はパンよりライス派？",
+	])("真相では言及されていない質問をするとUnknownが返る", async (text) => {
+		const result = await testee.question({
+			storyId: "test",
+			text,
+			recaptchaToken: "anytoken",
+		});
+		expect(result).toEqual("Unknown");
+	});
 });

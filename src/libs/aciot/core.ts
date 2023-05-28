@@ -60,34 +60,33 @@ export class AciotCore {
 			}
 			throw rejected;
 		};
-        switch (cacheMode) {
-            case "cacheOnly":
-                axios.interceptors.request.use(async (config) => {
-                    const cache = await this.cache.get(config);
-                    if (cache) {
-                        throw new ShouldUseCacheError(cache);
-                    }
-                    throw new Error("Cache not found");
-                });
-                axios.interceptors.response.use(() => {}, useCache);
-                break;
-        
-            case "requestIfNoCacheHit":
-                axios.interceptors.request.use(async (config) => {
-                    const cache = await this.cache.get(config);
-                    if (cache) {
-                        throw new ShouldUseCacheError(cache);
-                    }
-                    return config;
-                });
-                axios.interceptors.response.use((res) => {
-                    if (res.data) {
-                        this.cache.set(res.config, res.data);
-                    }
-                    return res;
-                }, useCache);
+		switch (cacheMode) {
+			case "cacheOnly":
+				axios.interceptors.request.use(async (config) => {
+					const cache = await this.cache.get(config);
+					if (cache) {
+						throw new ShouldUseCacheError(cache);
+					}
+					throw new Error("Cache not found");
+				});
+				axios.interceptors.response.use(() => {}, useCache);
+				break;
 
-        }
+			case "requestIfNoCacheHit":
+				axios.interceptors.request.use(async (config) => {
+					const cache = await this.cache.get(config);
+					if (cache) {
+						throw new ShouldUseCacheError(cache);
+					}
+					return config;
+				});
+				axios.interceptors.response.use((res) => {
+					if (res.data) {
+						this.cache.set(res.config, res.data);
+					}
+					return res;
+				}, useCache);
+		}
 	}
 	public async clearUnusedCache() {
 		this.cache.clearUnusedCache();
