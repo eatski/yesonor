@@ -76,7 +76,7 @@ export const question = procedure
 				},
 			],
 			temperature: 0,
-			max_tokens: 10,
+			max_tokens: 2,
 		});
 		const message = response.data.choices[0].message;
 		if (!message) {
