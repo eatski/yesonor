@@ -6,6 +6,7 @@ questionExamples:
   - question: 太郎さんのメガネには度が入っていますか？
     answer: いいえ
     supplement: 太郎さんのメガネは伊達メガネであり、度は入っていません。
+    customMessage: いい質問ですね！太郎さんのメガネは伊達メガネであり、度は入っていません。
   - question: 太郎さんのメガネはブルーライトカットですか？
     answer: いいえ
     supplement: 太郎さんのメガネにブルーライトカット機能はありません。

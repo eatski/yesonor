@@ -78,6 +78,7 @@ export class AciotCore {
 					if (cache) {
 						throw new ShouldUseCacheError(cache);
 					}
+                    console.info("Cache not found. Requesting...");
 					return config;
 				});
 				axios.interceptors.response.use((res) => {

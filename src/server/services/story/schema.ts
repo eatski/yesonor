@@ -8,7 +8,10 @@ const questionExample = z.object({
 	question: z.string().nonempty(NON_EMPTY_MESSAGE),
 	answer,
 	supplement: z.string().nonempty(NON_EMPTY_MESSAGE),
+	customMessage: z.string().optional(),
 });
+
+export type QuestionExample = z.infer<typeof questionExample>;
 
 export const storyInit = z.object({
 	title: z.string().nonempty(NON_EMPTY_MESSAGE),
@@ -29,3 +32,4 @@ export const storyInit = z.object({
 });
 
 export type StoryInit = z.infer<typeof storyInit>;
+
