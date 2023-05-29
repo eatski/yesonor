@@ -1,4 +1,3 @@
-import { openai } from "@/libs/openai";
 import { TRPCError } from "@trpc/server";
 import { readFile } from "fs/promises";
 import { resolve } from "path";
@@ -49,7 +48,7 @@ export const question = procedure
 		const nearestQuestionExample = questionExampleWithCustomMessage.length ?  await pickSmallDistanceExampleQuestionInput(
 			input.text,
 			questionExampleWithCustomMessage,
-			openai
+			ctx.openai,
 		) : null
 		
 		const response = await ctx.openai.createChatCompletion({

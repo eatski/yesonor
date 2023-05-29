@@ -4,7 +4,7 @@ import { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { getServerSession } from "next-auth/next";
 import { setTimeout } from "timers/promises";
 import { verifyRecaptcha } from "./services/recaptcha";
-import { openai } from "@/libs/openai";
+import { Configuration, OpenAIApi } from "openai";
 
 export const createContext = async (context: CreateNextContextOptions) => {
 	return {
@@ -61,6 +61,8 @@ export const createContext = async (context: CreateNextContextOptions) => {
 				});
 			});
 		},
-		openai,
+		openai: new OpenAIApi(new Configuration({
+			apiKey: process.env.OPENAI_API_KEY,
+		})),
 	};
 };

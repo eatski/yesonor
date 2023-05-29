@@ -11,7 +11,7 @@ export const applyTestHooks = (
 ) => {
 	let aciot: AciotCore | null;
 	beforeAll(({ suite }) => {
-		if (!suite) {
+		if (!suite?.file) {
 			throw new Error("suite is undefined");
 		}
 		aciot = new AciotCore({
