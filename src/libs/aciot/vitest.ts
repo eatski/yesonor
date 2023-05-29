@@ -1,6 +1,7 @@
 import { AxiosInstance } from "axios";
 import { AciotCore, CacheMode } from "./core";
 import { afterAll, beforeAll } from "vitest";
+import path from "path";
 
 export const applyTestHooks = (
 	axios: AxiosInstance,
@@ -10,13 +11,14 @@ export const applyTestHooks = (
 	},
 ) => {
 	let aciot: AciotCore | null;
-	beforeAll(({ suite }) => {
-		if (!suite?.file) {
-			throw new Error("suite is undefined");
+	beforeAll(({ name,file }) => {
+		if (!file?.name) {
+			throw new Error("suite.file.name is not defined");
 		}
+        const parsedPath = path.parse(file.name);
 		aciot = new AciotCore({
-			namespace: suite.name,
-			cacheBasePath: config.cacheBasePath,
+			namespace: name,
+			cacheBasePath:path.resolve(process.cwd(),parsedPath.dir,"__data__",parsedPath.name + parsedPath.ext),
 		});
 		aciot.applyInterceptors(axios, config.mode);
 	});
