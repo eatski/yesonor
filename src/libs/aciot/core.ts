@@ -1,8 +1,8 @@
 import { AxiosInstance, AxiosRequestConfig } from "axios";
-import Cache, { FileSystemCache } from "file-system-cache";
+import FsCache, { FileSystemCache } from "file-system-cache";
 import { unlink } from "fs/promises";
 
-class MyCache {
+class AxiosResponseCache {
 	private readonly usedCachePath = new Set<string>();
 	constructor(private readonly cache: FileSystemCache) {}
 	private static configToKey(config: AxiosRequestConfig): string {
@@ -12,12 +12,12 @@ class MyCache {
 		});
 	}
 	public get(configForKey: AxiosRequestConfig): Promise<unknown> {
-		const key = MyCache.configToKey(configForKey);
+		const key = AxiosResponseCache.configToKey(configForKey);
 		this.usedCachePath.add(this.cache.path(key));
 		return this.cache.get(key);
 	}
 	public async set(configForKey: AxiosRequestConfig, value: unknown) {
-		const key = MyCache.configToKey(configForKey);
+		const key = AxiosResponseCache.configToKey(configForKey);
 		this.usedCachePath.add(this.cache.path(key));
 		await this.cache.set(key, value);
 	}
@@ -36,16 +36,16 @@ class ShouldUseCacheError extends Error {
 	}
 }
 
-export type CacheMode = "always" | "ondemand";
+export type CacheMode = "cacheOnly" | "requestIfNoCacheHit";
 
 export class AciotCore {
-	private readonly cache: MyCache;
+	private readonly cache: AxiosResponseCache;
 	constructor(config: {
 		namespace: string;
 		cacheBasePath: string;
 	}) {
-		this.cache = new MyCache(
-			Cache({
+		this.cache = new AxiosResponseCache(
+			FsCache({
 				basePath: config.cacheBasePath,
 				ns: config.namespace,
 			}),
@@ -60,29 +60,33 @@ export class AciotCore {
 			}
 			throw rejected;
 		};
-		if (cacheMode === "always") {
-			axios.interceptors.request.use(async (config) => {
-				const cache = await this.cache.get(config);
-				if (cache) {
-					throw new ShouldUseCacheError(cache);
-				}
-				throw new Error("Cache not found");
-			});
-			axios.interceptors.response.use(() => {}, useCache);
-		} else {
-			axios.interceptors.request.use(async (config) => {
-				const cache = await this.cache.get(config);
-				if (cache) {
-					throw new ShouldUseCacheError(cache);
-				}
-				return config;
-			});
-			axios.interceptors.response.use((res) => {
-				if (res.data) {
-					this.cache.set(res.config, res.data);
-				}
-				return res;
-			}, useCache);
+		switch (cacheMode) {
+			case "cacheOnly":
+				axios.interceptors.request.use(async (config) => {
+					const cache = await this.cache.get(config);
+					if (cache) {
+						throw new ShouldUseCacheError(cache);
+					}
+					throw new Error("Cache not found");
+				});
+				axios.interceptors.response.use(() => {}, useCache);
+				break;
+
+			case "requestIfNoCacheHit":
+				axios.interceptors.request.use(async (config) => {
+					const cache = await this.cache.get(config);
+					if (cache) {
+						throw new ShouldUseCacheError(cache);
+					}
+                    console.info("Cache not found. Requesting...");
+					return config;
+				});
+				axios.interceptors.response.use((res) => {
+					if (res.data) {
+						this.cache.set(res.config, res.data);
+					}
+					return res;
+				}, useCache);
 		}
 	}
 	public async clearUnusedCache() {

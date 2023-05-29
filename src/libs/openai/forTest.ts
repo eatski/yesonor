@@ -7,7 +7,7 @@ import { applyTestHooks } from "../aciot/vitest";
 export const setupOpenaiForTest = () => {
 	const axios = Axios.create();
 	applyTestHooks(axios, {
-		mode: process.env.CI ? "always" : "ondemand",
+		mode: process.env.CI ? "cacheOnly" : "requestIfNoCacheHit",
 		cacheBasePath: resolve(process.cwd(), ".resultSnapshots"),
 	});
 	return new OpenAIApi(

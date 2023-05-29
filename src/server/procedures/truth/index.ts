@@ -1,4 +1,3 @@
-import { openai } from "@/libs/openai";
 import { truthCoincidence } from "@/server/model/schemas";
 import { verifyRecaptcha } from "@/server/services/recaptcha";
 import { getStory, getStoryPrivate } from "@/server/services/story";
@@ -38,7 +37,7 @@ export const truth = procedure
 		}
 		await verifyPromise;
 		const systemPrompt = await systemPromptPromise;
-		const response = await openai.createChatCompletion({
+		const response = await ctx.openai.createChatCompletion({
 			model: "gpt-4",
 			messages: [
 				{

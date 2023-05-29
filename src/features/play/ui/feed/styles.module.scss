@@ -10,10 +10,7 @@
         display: flex;
         flex-direction: column;
         list-style: none;
-        gap: 4px;
-        @media screen and (max-width:480px) {
-            gap: 12px;
-        }
+        gap: 12px;
         padding-left: 0;
         margin: 4px 0 0;
     }
@@ -22,9 +19,7 @@
         font-size: 14px;
         column-gap: 8px;
         row-gap: 4px;
-        @media screen and (max-width:480px) {
-            flex-direction: column;
-        }
+        flex-direction: column;
         div {
             padding: 4px 12px;
             border-radius: 2px;

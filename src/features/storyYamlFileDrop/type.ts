@@ -15,6 +15,7 @@ const questionExample = z.object({
 	question: z.string(),
 	answer,
 	supplement: z.string(),
+	customMessage: z.string().optional(),
 });
 
 export const storyInitYaml = z.object({

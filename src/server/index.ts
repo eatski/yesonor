@@ -1,6 +1,5 @@
 import { delete_ } from "./procedures/delete";
 import { deleteAccount } from "./procedures/deleteAccount";
-import { hello } from "./procedures/hello";
 import { post } from "./procedures/post";
 import { publishFirst } from "./procedures/publish";
 import { put } from "./procedures/put";
@@ -9,7 +8,6 @@ import { truth } from "./procedures/truth";
 import { router } from "./trpc";
 
 export const appRouter = router({
-	hello,
 	question,
 	truth,
 	post,

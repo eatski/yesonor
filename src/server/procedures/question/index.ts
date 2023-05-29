@@ -1,15 +1,14 @@
-import { openai } from "@/libs/openai";
 import { TRPCError } from "@trpc/server";
 import { readFile } from "fs/promises";
 import { resolve } from "path";
 import { z } from "zod";
 import {
 	answer,
-	questionExample as questionExampleSchema,
 } from "../../model/schemas";
 import { procedure } from "../../trpc";
 import { parseHeadToken } from "./parse";
 import { getStory, getStoryPrivate } from "@/server/services/story";
+import { pickSmallDistanceExampleQuestionInput } from "./pickSmallDistanceExampleQuestionInput";
 
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),
@@ -23,8 +22,10 @@ export const question = procedure
 			recaptchaToken: z.string(),
 		}),
 	)
-	.mutation(async ({ input, ctx }) => {
-		const systemPrompt = await systemPromptPromise;
+	.mutation(async ({ input, ctx }): Promise<{
+		answer: z.infer<typeof answer>;
+		customMessage?: string;
+	}> => {
 		const verifyPromise = ctx.verifyRecaptcha(input.recaptchaToken);
 		const user = await ctx.getUserOptional();
 		const story = user
@@ -41,12 +42,21 @@ export const question = procedure
 			});
 		}
 		await verifyPromise;
+
+		const questionExampleWithCustomMessage = story.questionExamples.filter((questionExample) => questionExample.customMessage);
+
+		const nearestQuestionExample = questionExampleWithCustomMessage.length ?  await pickSmallDistanceExampleQuestionInput(
+			input.text,
+			questionExampleWithCustomMessage,
+			ctx.openai,
+		) : null
+		
 		const response = await ctx.openai.createChatCompletion({
 			model: "gpt-4",
 			messages: [
 				{
 					role: "system",
-					content: systemPrompt.toString(),
+					content: (await systemPromptPromise).toString(),
 				},
 				{
 					role: "assistant",
@@ -76,11 +86,14 @@ export const question = procedure
 				},
 			],
 			temperature: 0,
-			max_tokens: 10,
+			max_tokens: 2,
 		});
 		const message = response.data.choices[0].message;
 		if (!message) {
 			throw new Error("No message");
 		}
-		return answer.parse(parseHeadToken(message.content));
+		return {
+			answer:answer.parse(parseHeadToken(message.content)),
+			customMessage: nearestQuestionExample?.customMessage,
+		};
 	});

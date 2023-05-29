@@ -6,6 +6,7 @@ export const questionExample = z.object({
 	question: z.string(),
 	answer,
 	supplement: z.string(),
+	customMessage: z.string().optional(),
 });
 
 export const story = z.object({
