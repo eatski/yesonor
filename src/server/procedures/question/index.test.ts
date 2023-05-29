@@ -63,6 +63,14 @@ describe("trpc/question", () => {
             });
             expect(result.customMessage).toEqual("いい質問ですね！太郎さんのメガネは伊達メガネであり、度は入っていません。");
         })
+        test("customMessageを持つquestionExamlpeに近しい質問をしてもanswerが異なる場合は、customMessageが返らない",async () => {
+            const result = await testee.question({
+                storyId: "test",
+                text: "太郎さんのメガネは度が入ってませんか？",
+                recaptchaToken: "anytoken",
+            });
+            expect(result.customMessage).not.toBeDefined();
+        })
         test("customMessageを持つquestionExamlpeに近しくない質問をすると、customMessageが返らない",async () => {
             const result = await testee.question({
                 storyId: "test",
