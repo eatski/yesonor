@@ -16,6 +16,7 @@ questionExamples:
   - question: yesonorでは解答者の質問に対してAIが回答を考えている？ 
     answer: はい 
     supplement: yesonorではGPT-4によって質問に対する回答を生成しています。
+    customMessage: yesonorではGPT-4によって質問に対する回答を生成しています。
   - question: yesonorの開発者はこのサイトを作るのに苦労した？ 
     answer: わからない 
     supplement: 開発者の苦労については言及されておりません。

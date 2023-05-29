@@ -11,6 +11,7 @@ exports[`parseYaml > should parse input yaml 1`] = `
       },
       {
         "answer": "True",
+        "customMessage": "yesonorではGPT-4によって質問に対する回答を生成しています。",
         "question": "yesonorでは解答者の質問に対してAIが回答を考えている？",
         "supplement": "yesonorではGPT-4によって質問に対する回答を生成しています。",
       },

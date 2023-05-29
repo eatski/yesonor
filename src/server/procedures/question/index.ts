@@ -3,7 +3,7 @@ import { readFile } from "fs/promises";
 import { resolve } from "path";
 import { z } from "zod";
 import {
-	answer,
+	answer as answerSchema,
 } from "../../model/schemas";
 import { procedure } from "../../trpc";
 import { parseHeadToken } from "./parse";
@@ -23,7 +23,7 @@ export const question = procedure
 		}),
 	)
 	.mutation(async ({ input, ctx }): Promise<{
-		answer: z.infer<typeof answer>;
+		answer: z.infer<typeof answerSchema>;
 		customMessage?: string;
 	}> => {
 		const verifyPromise = ctx.verifyRecaptcha(input.recaptchaToken);
@@ -92,8 +92,9 @@ export const question = procedure
 		if (!message) {
 			throw new Error("No message");
 		}
+		const answer = answerSchema.parse(parseHeadToken(message.content))
 		return {
-			answer:answer.parse(parseHeadToken(message.content)),
-			customMessage: nearestQuestionExample?.customMessage,
+			answer,
+			customMessage: nearestQuestionExample?.answer === answer ? nearestQuestionExample.customMessage : undefined,
 		};
 	});
