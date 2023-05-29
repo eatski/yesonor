@@ -32,6 +32,10 @@ describe("question/pickSmallDistanceExampleQuestionInput",() => {
         },{
             input: "太郎さんは怒っていますか？",
             nearest: "太郎は怒っていますか？"
+        },
+        {
+            input: "太郎はメガネをかけていませんか？",
+            nearest: "太郎はメガネをかけていますか？"
         }
     ])("should return the question example with the smallest distance",async ({input,nearest}) => {
         const result = await pickSmallDistanceExampleQuestionInput(

@@ -11,6 +11,7 @@ questionExamples:
   - question: 山田さんは人を殺害しましたか？
     answer: はい
     supplement: 山田さんは人を殺害し、男性用トイレに死体を隠そうとしました。
+    customMessage: はい！
   - question: 山田さんは心が女性ですか？
     answer: わからない
     supplement: 山田さんの心の性別については言及されていません。
@@ -28,4 +29,9 @@ questionExamples:
     supplement: トイレは山田さんの家にはありません。
   - question: トイレは人目につく場所にありますか？
     answer: わからない
-    supplement: トイレは人目につく場所にはあるかは言及されていませんが、深夜の公園の公衆便所であるため、その時点では人目につくとは考え
+    supplement: トイレは人目につく場所にはあるかは言及されていませんが、深夜の公園の公衆便所であるため、その時点では人目につくとは考えにくいです。
+    customMessage: 難しい質問です。人目には付きづらかったと思います。
+  - question: ヒントはありますか。
+    answer: はい
+    supplement: 山田さんは隠れるために女性用トイレに入りました。
+    customMessage: ヒントです。山田さんは隠れるために女性用トイレに入りました。
