@@ -55,9 +55,13 @@ describe("useQuestion", () => {
 		const storyId = "testes";
 		server.use(
 			trpcMsw.question.mutation((_, res, ctx) => {
-				return res(ctx.status(200), ctx.data({
-					answer: "True",
-				}), ctx.delay(100));
+				return res(
+					ctx.status(200),
+					ctx.data({
+						answer: "True",
+					}),
+					ctx.delay(100),
+				);
 			}),
 		);
 

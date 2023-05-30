@@ -38,7 +38,7 @@ export default function Home(props: Props) {
 		<>
 			<Layout>
 				<div style={{ marginBottom: "72px" }}>
-					<Landing />
+					<Landing stories={props.stories} />
 				</div>
 				<div style={{ marginBottom: "24px" }}>
 					<H2 label="新着ストーリー" />

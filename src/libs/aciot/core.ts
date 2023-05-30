@@ -41,13 +41,11 @@ export type CacheMode = "cacheOnly" | "requestIfNoCacheHit";
 export class AciotCore {
 	private readonly cache: AxiosResponseCache;
 	constructor(config: {
-		namespace: string;
 		cacheBasePath: string;
 	}) {
 		this.cache = new AxiosResponseCache(
 			FsCache({
 				basePath: config.cacheBasePath,
-				ns: config.namespace,
 			}),
 		);
 	}
@@ -78,7 +76,7 @@ export class AciotCore {
 					if (cache) {
 						throw new ShouldUseCacheError(cache);
 					}
-                    console.info("Cache not found. Requesting...");
+					console.info("Cache not found. Requesting...");
 					return config;
 				});
 				axios.interceptors.response.use(async (res) => {
