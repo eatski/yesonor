@@ -36,6 +36,7 @@ export const NewStoryYaml: React.FC = () => {
 						href="/howToWriteStory"
 						target="_blank"
 						className={components.buttonLink}
+						rel="noreferrer"
 					>
 						ストーリーの書き方
 					</a>

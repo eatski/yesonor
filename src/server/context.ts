@@ -61,8 +61,10 @@ export const createContext = async (context: CreateNextContextOptions) => {
 				});
 			});
 		},
-		openai: new OpenAIApi(new Configuration({
-			apiKey: process.env.OPENAI_API_KEY,
-		})),
+		openai: new OpenAIApi(
+			new Configuration({
+				apiKey: process.env.OPENAI_API_KEY,
+			}),
+		),
 	};
 };

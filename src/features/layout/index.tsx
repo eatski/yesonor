@@ -114,7 +114,7 @@ export const Layout: React.FC<
 
 			<main className={styles.main}>{children}</main>
 			<footer className={styles.footer}>
-				<Logo></Logo>
+				<Logo />
 				<div className={styles.footerLinks}>
 					<Link href="/terms">利用規約</Link>
 					<Link href="/privacy">プライバシーポリシー</Link>

@@ -32,4 +32,3 @@ export const storyInit = z.object({
 });
 
 export type StoryInit = z.infer<typeof storyInit>;
-

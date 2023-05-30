@@ -20,7 +20,7 @@ export const truth = procedure
 		}),
 	)
 	.mutation(async ({ input, ctx }) => {
-		const verifyPromise = verifyRecaptcha(input.recaptchaToken);
+		const verifyPromise = ctx.verifyRecaptcha(input.recaptchaToken);
 		const user = await ctx.getUserOptional();
 		const story = user
 			? await getStoryPrivate({

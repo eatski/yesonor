@@ -5,6 +5,14 @@ import { QuestionAndAnswer } from "@/common/components/questionAndAnswer";
 import { useCallback, useState } from "react";
 import Link from "next/link";
 import components from "@/styles/components.module.scss";
+import { useRouter } from "next/router";
+
+export type Story = {
+	id: string;
+	title: string;
+	quiz: string;
+	url: string;
+};
 
 const QUESTIONS = [
 	{
@@ -42,7 +50,7 @@ const QUESTIONS = [
 	},
 ];
 
-export const Landing: React.FC = () => {
+export const Landing: React.FC<{ stories: Story[] }> = ({ stories }) => {
 	const [answer, setAnswer] = useState<string | null | undefined>(undefined);
 	const questionIndex = 0;
 	const onQuestionTypingEnd = useCallback(() => {
@@ -50,6 +58,7 @@ export const Landing: React.FC = () => {
 			setAnswer(QUESTIONS[questionIndex].answer);
 		}, 1000);
 	}, []);
+	const router = useRouter();
 	return (
 		<div className={styles.container}>
 			<h2>{texts.serviceName}</h2>
@@ -67,9 +76,20 @@ export const Landing: React.FC = () => {
 				<Link href="/situationPuzzle" className={components.buttonLink}>
 					水平思考クイズとは？
 				</Link>
-				<Link href="/stories" className={components.button}>
+				<button
+					type="button"
+					onClick={() => {
+						const pickup = stories.at(
+							Math.floor(Math.random() * stories.length),
+						);
+						if (pickup) {
+							router.push(pickup.url);
+						}
+					}}
+					className={components.button}
+				>
 					今すぐ謎を解く
-				</Link>
+				</button>
 			</div>
 		</div>
 	);
