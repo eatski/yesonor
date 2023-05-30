@@ -81,15 +81,15 @@ export class AciotCore {
                     console.info("Cache not found. Requesting...");
 					return config;
 				});
-				axios.interceptors.response.use((res) => {
-					if (res.data) {
-						this.cache.set(res.config, res.data);
+				axios.interceptors.response.use(async (res) => {
+					if (res.status === 200 && res.data) {
+						await this.cache.set(res.config, res.data);
 					}
 					return res;
 				}, useCache);
 		}
 	}
 	public async clearUnusedCache() {
-		this.cache.clearUnusedCache();
+		await this.cache.clearUnusedCache();
 	}
 }
