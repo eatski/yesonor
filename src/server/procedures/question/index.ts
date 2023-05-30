@@ -73,7 +73,7 @@ export const question = procedure
 						content: story.truth,
 					},
 					...story.questionExamples.flatMap(
-						({ question: question, answer: answer, supplement }) => {
+						({ question, answer, supplement }) => {
 							return [
 								{
 									role: "user",
@@ -81,7 +81,7 @@ export const question = procedure
 								},
 								{
 									role: "assistant",
-									content: answer + ": " + supplement,
+									content: `${answer}: ${supplement}`,
 								},
 							] as const;
 						},

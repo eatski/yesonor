@@ -30,7 +30,7 @@ describe("trpc/truth", () => {
 			});
 			expect(result.result).toEqual("Covers");
 		});
-        test.concurrent.each([
+		test.concurrent.each([
 			"太郎はメガネをかけている。",
 			"太郎さんはおしゃれをしている。",
 		])("真相に対して不十分な解答をするとInsufficientが返る", async (text) => {
@@ -41,15 +41,16 @@ describe("trpc/truth", () => {
 			});
 			expect(result.result).toEqual("Insufficient");
 		});
-        test.concurrent.each([
-            "太郎は友達に無理やりメガネをかけさせられた。",
-        ])("真相に対して間違えた解答をするとがWrong返る", async (text) => {
-			const result = await testee.truth({
-				storyId: "test",
-				text,
-				recaptchaToken: "anytoken",
-			});
-			expect(result.result).toEqual("Wrong");
-		});
-	})
+		test.concurrent.each(["太郎は友達に無理やりメガネをかけさせられた。"])(
+			"真相に対して間違えた解答をするとがWrong返る",
+			async (text) => {
+				const result = await testee.truth({
+					storyId: "test",
+					text,
+					recaptchaToken: "anytoken",
+				});
+				expect(result.result).toEqual("Wrong");
+			},
+		);
+	});
 });

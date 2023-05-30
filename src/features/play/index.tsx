@@ -59,8 +59,8 @@ export function Play(props: Props) {
 		<>
 			<Script
 				strategy="lazyOnload"
-				src={"https://www.google.com/recaptcha/api.js?render=" + CLIENT_KEY}
-			></Script>
+				src={`https://www.google.com/recaptcha/api.js?render=${CLIENT_KEY}`}
+			/>
 			{!isAnswerMode && (
 				<div className={styles.sectionWrapper}>
 					<QuestionForm

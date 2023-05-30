@@ -2,7 +2,7 @@ import { AxiosInstance } from "axios";
 import { AciotCore, CacheMode } from "./core";
 import { afterAll, beforeAll } from "vitest";
 import path from "path";
-import filenamify from 'filenamify';
+import filenamify from "filenamify";
 
 export const applyTestHooks = (
 	axios: AxiosInstance,
@@ -23,7 +23,7 @@ export const applyTestHooks = (
 				parsedPath.dir,
 				"__data__",
 				parsedPath.name + parsedPath.ext,
-				filename
+				filename,
 			),
 		});
 		aciot.applyInterceptors(axios, config.mode);

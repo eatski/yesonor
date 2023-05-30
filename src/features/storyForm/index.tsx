@@ -1,14 +1,9 @@
 import React from "react";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
-import {
-	AiFillPlayCircle,
-	AiOutlineMinusCircle,
-	AiOutlinePlus,
-	AiOutlineUpload,
-} from "react-icons/ai";
+import { AiFillPlayCircle, AiOutlinePlus } from "react-icons/ai";
 import { z } from "zod";
 import { storyInit } from "@/server/services/story/schema";
 import { QuestionExampleForm } from "./components/questionExample";
@@ -134,16 +129,12 @@ export const StoryForm: React.FC<Props> = ({
 							index={index}
 							questionInput={register(`questionExamples.${index}.question`)}
 							questionError={
-								(errors.questionExamples &&
-									errors.questionExamples[index]?.question?.message) ??
-								null
+								errors.questionExamples?.[index]?.question?.message ?? null
 							}
 							answerInput={register(`questionExamples.${index}.answer`)}
 							supplementInput={register(`questionExamples.${index}.supplement`)}
 							supplementError={
-								(errors.questionExamples &&
-									errors.questionExamples[index]?.supplement?.message) ??
-								null
+								errors.questionExamples?.[index]?.supplement?.message ?? null
 							}
 							onClickRemove={() => remove(index)}
 						/>

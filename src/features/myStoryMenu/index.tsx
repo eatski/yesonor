@@ -71,7 +71,7 @@ export const MyStoryMenu: React.FC<Props> = ({
 										},
 										{
 											onSuccess: () => {
-												router.push(`/my/stories`);
+												router.push("/my/stories");
 											},
 										},
 									);

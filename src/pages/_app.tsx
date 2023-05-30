@@ -57,7 +57,7 @@ export default function App({ Component, pageProps }: AppProps) {
 					content={texts.serviceDescription}
 				/>
 				<link rel="icon" href="/favicon.ico" />
-				<meta property="og:url" content="https://iesona.com"></meta>
+				<meta property="og:url" content="https://iesona.com" />
 				<meta
 					key={keysOverride.metaOgpTitle}
 					property="og:title"

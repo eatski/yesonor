@@ -48,6 +48,7 @@ export const StoryDescription: React.FC<Story> = ({
 						href={twitterUrl.toString()}
 						className={components.buttonLink}
 						target="_blank"
+						rel="noreferrer"
 					>
 						<AiOutlineTwitter className={styles.twitter} />
 						ツイート
