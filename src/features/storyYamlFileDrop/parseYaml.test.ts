@@ -4,11 +4,11 @@ import { describe, test, expect } from "vitest";
 import { parseYaml } from "./parseYaml";
 
 const sampleYaml = readFileSync(
-	resolve(process.cwd(), "samples", "sample1.yaml"),
+	resolve(process.cwd(), "fixtures", "sample1.yaml"),
 	"utf-8",
 );
 const errorYaml = readFileSync(
-	resolve(process.cwd(), "samples", "error1.yaml"),
+	resolve(process.cwd(), "fixtures", "error1.yaml"),
 	"utf-8",
 );
 
