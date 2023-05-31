@@ -4,22 +4,15 @@ import { StoryDescription } from "@/features/storyDescription";
 import { GetServerSideProps } from "next";
 import { z } from "zod";
 import { MyStoryMenu } from "@/features/myStoryMenu";
-import { getStoryPrivate } from "@/server/services/story";
+import { getStoryHeadPrivate } from "@/server/services/story";
 import { getUser } from "@/server/getServerSideProps/getUser";
 import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
 import { Device } from "@/common/util/device";
 import { HeadMetaOverride } from "@/features/headMeta";
-
-type Story = {
-	title: string;
-	quiz: string;
-	published: boolean;
-	publishedAt: number | null;
-};
+import { StoryHead } from "@/server/model/types";
 
 type Props = {
-	storyId: string;
-	story: Story;
+	story: StoryHead;
 	device: Device;
 };
 
@@ -42,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 			notFound: true,
 		};
 	}
-	const story = await getStoryPrivate({
+	const story = await getStoryHeadPrivate({
 		storyId: validated.data.storyId,
 		autherEmail: user.email,
 	});
@@ -54,12 +47,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 	return {
 		props: {
 			storyId: validated.data.storyId,
-			story: {
-				title: story.title,
-				quiz: story.quiz,
-				publishedAt: story.publishedAt?.getTime() ?? null,
-				published: story.published,
-			},
+			story,
 			device: getDeviceServer(context),
 		},
 	};
@@ -75,20 +63,14 @@ export default function StoryDraftPage(props: Props) {
 			<Layout
 				upper={
 					<MyStoryMenu
-						storyId={props.storyId}
+						storyId={props.story.id}
 						published={props.story.published}
 						canUseFileDrop={props.device === "desktop"}
 					/>
 				}
 			>
-				<StoryDescription
-					id={props.storyId}
-					title={props.story.title}
-					quiz={props.story.quiz}
-					publishedAt={props.story.publishedAt}
-					published={props.story.published}
-				/>
-				<Play storyId={props.storyId} />
+				<StoryDescription story={props.story} />
+				<Play storyId={props.story.id} />
 			</Layout>
 		</>
 	);

@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import { AiFillPlayCircle, AiOutlinePlus } from "react-icons/ai";
 import { z } from "zod";
-import { storyInit } from "@/server/services/story/schema";
+import { storyInit } from "@/server/model/schemas";
 import { QuestionExampleForm } from "./components/questionExample";
 
 type StoryInit = z.infer<typeof storyInit>;

@@ -28,9 +28,8 @@ export const applyTestHooks = (
 		});
 		aciot.applyInterceptors(axios, config.mode);
 	});
-	afterAll(async ({ name, tasks }) => {
+	afterAll(async ({ tasks }) => {
 		if (tasks.every((t) => t.result?.state === "pass")) {
-			console.info(name, "Clearing unused cache...");
 			await aciot?.clearUnusedCache();
 		}
 	});

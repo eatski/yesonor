@@ -2,27 +2,26 @@ import Link from "next/link";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import { AiFillPlayCircle as StartIcon } from "react-icons/ai";
+import { StoryHead } from "@/server/model/types";
 
-export type Story = {
-	id: string;
-	title: string;
-	quiz: string;
+export type Item = {
+	story: StoryHead;
 	url: string;
 };
 
-export const Stories: React.FC<{ stories: Story[] }> = ({ stories }) => {
+export const Stories: React.FC<{ stories: Item[] }> = ({ stories }) => {
 	return (
 		<div className={styles.container}>
-			{stories.map((story) => {
+			{stories.map(({ story, url }) => {
 				return (
 					<article key={story.id}>
-						<Link href={story.url}>
+						<Link href={url}>
 							<h3 className={styles.title}>{story.title}</h3>
 							<p>{story.quiz}</p>
 						</Link>
 						<Link
 							aria-label="このストーリーの謎を解く"
-							href={story.url}
+							href={url}
 							className={styles.iconContainer}
 						>
 							<StartIcon className={components.iconButton} />

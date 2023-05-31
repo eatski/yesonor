@@ -6,7 +6,7 @@ import { getUser } from "@/server/getServerSideProps/getUser";
 import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
 import { Device } from "@/common/util/device";
 import { HeadMetaOverride } from "@/features/headMeta";
-import { StoryInit } from "@/server/services/story/schema";
+import { StoryInit } from "@/server/model/types";
 import { EditStory } from "@/features/editStory";
 
 type Props = {

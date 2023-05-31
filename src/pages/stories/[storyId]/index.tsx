@@ -1,15 +1,15 @@
 import { Play } from "@/features/play";
 import { Layout } from "@/features/layout";
-import { Story, StoryDescription } from "@/features/storyDescription";
+import { StoryDescription } from "@/features/storyDescription";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { z } from "zod";
-import { getStories, getStory } from "@/server/services/story";
+import { getStories, getStoryHead } from "@/server/services/story";
 import { revalidateTime } from "@/common/revalidate";
 import { HeadMetaOverride } from "@/features/headMeta";
+import { StoryHead } from "@/server/model/types";
 
 type Props = {
-	storyId: string;
-	story: Story;
+	story: StoryHead;
 };
 
 const querySchema = z.object({
@@ -24,7 +24,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 		};
 	}
 
-	const story = await getStory({
+	const story = await getStoryHead({
 		storyId: validated.data.storyId,
 	});
 	if (!story) {
@@ -35,14 +35,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 	}
 	return {
 		props: {
-			storyId: validated.data.storyId,
-			story: {
-				id: story.id,
-				title: story.title,
-				quiz: story.quiz,
-				publishedAt: story.publishedAt?.getTime() ?? null,
-				published: story.published,
-			},
+			story,
 		},
 		revalidate: revalidateTime.medium,
 	};
@@ -70,14 +63,8 @@ export default function Story(props: Props) {
 				descriptionOverride={props.story.quiz}
 			/>
 			<Layout>
-				<StoryDescription
-					id={props.storyId}
-					title={props.story.title}
-					quiz={props.story.quiz}
-					publishedAt={props.story.publishedAt}
-					published={props.story.published}
-				/>
-				<Play storyId={props.storyId} />
+				<StoryDescription story={props.story} />
+				<Play storyId={props.story.id} />
 			</Layout>
 		</>
 	);
