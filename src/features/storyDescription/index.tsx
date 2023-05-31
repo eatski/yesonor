@@ -5,23 +5,13 @@ import dayjs from "dayjs";
 import { texts } from "@/texts";
 import { AiOutlineCopy, AiOutlineTwitter } from "react-icons/ai";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { StoryHead } from "@/server/model/types";
 
-export type Story = {
-	id: string;
-	title: string;
-	quiz: string;
-	publishedAt: number | null;
-	published: boolean;
-};
 dayjs.locale("ja");
 
-export const StoryDescription: React.FC<Story> = ({
-	id,
-	title,
-	quiz,
-	publishedAt,
-	published,
-}) => {
+export const StoryDescription: React.FC<{
+	story: StoryHead;
+}> = ({ story: { id, title, quiz, publishedAt, published } }) => {
 	const url = `https://iesona.com/stories/${id}`;
 	const twitterUrl = new URL("https://twitter.com/intent/tweet");
 	twitterUrl.searchParams.set("url", url);

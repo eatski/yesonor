@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import { trpc } from "@/libs/trpc";
 import { useRouter } from "next/router";
-import { StoryInit } from "@/server/services/story/schema";
+import { StoryInit } from "@/server/model/types";
 import { YamlFileDrop } from "../storyYamlFileDrop";
 import Link from "next/link";
 

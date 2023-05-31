@@ -92,13 +92,13 @@ export const question = procedure
 					},
 				],
 				temperature: 0,
-				max_tokens: 2,
+				max_tokens: 1,
 			});
 			const message = response.data.choices[0].message;
 			if (!message) {
 				throw new Error("No message");
 			}
-			const answer = answerSchema.parse(parseHeadToken(message.content));
+			const answer = answerSchema.parse(message.content);
 			return {
 				answer,
 				customMessage:

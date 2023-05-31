@@ -1,8 +1,7 @@
 import { procedure } from "@/server/trpc";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
-import { storyInit } from "@/server/services/story/schema";
-import { TRPCError } from "@trpc/server";
+import { storyInit } from "@/server/model/schemas";
 
 export type Input = z.infer<typeof storyInit>;
 

@@ -1,4 +1,4 @@
-import { StoryInit } from "@/server/services/story/schema";
+import { StoryInit } from "@/server/model/types";
 import { useCallback, useState } from "react";
 import { parseYaml } from "./parseYaml";
 import styles from "./styles.module.scss";

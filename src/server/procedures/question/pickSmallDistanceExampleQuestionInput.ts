@@ -1,4 +1,4 @@
-import { QuestionExample } from "@/server/services/story/schema";
+import { QuestionExample } from "@/server/model/types";
 import { OpenAIApi } from "openai";
 import { calculateEuclideanDistance } from "./calculateEuclideanDistance";
 

@@ -1,17 +1,12 @@
 import { Layout } from "@/features/layout";
 import { GetServerSideProps } from "next";
-import { Stories } from "@/common/components/stories";
+import { Item, Stories } from "@/common/components/stories";
 import { H2 } from "@/common/components/h2";
 import { getStoriesPrivate } from "@/server/services/story";
 import { getUser } from "@/server/getServerSideProps/getUser";
 
 type Props = {
-	stories: {
-		id: string;
-		title: string;
-		quiz: string;
-		url: string;
-	}[];
+	stories: Item[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
@@ -28,11 +23,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 	});
 	return {
 		props: {
-			stories: stories.map(({ id, title, quiz }) => ({
-				id,
-				title,
-				quiz,
-				url: `/my/stories/${id}`,
+			stories: stories.map((story) => ({
+				story,
+				url: `/my/stories/${story.id}`,
 			})),
 		},
 	};

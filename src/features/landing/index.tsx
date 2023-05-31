@@ -6,13 +6,7 @@ import { useCallback, useState } from "react";
 import Link from "next/link";
 import components from "@/styles/components.module.scss";
 import { useRouter } from "next/router";
-
-export type Story = {
-	id: string;
-	title: string;
-	quiz: string;
-	url: string;
-};
+import { Item } from "@/common/components/stories";
 
 const QUESTIONS = [
 	{
@@ -50,7 +44,7 @@ const QUESTIONS = [
 	},
 ];
 
-export const Landing: React.FC<{ stories: Story[] }> = ({ stories }) => {
+export const Landing: React.FC<{ stories: Item[] }> = ({ stories }) => {
 	const [answer, setAnswer] = useState<string | null | undefined>(undefined);
 	const questionIndex = 0;
 	const onQuestionTypingEnd = useCallback(() => {

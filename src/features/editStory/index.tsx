@@ -2,7 +2,7 @@ import { trpc } from "@/libs/trpc";
 import React from "react";
 import { useRouter } from "next/router";
 import { StoryForm } from "../storyForm";
-import { StoryInit } from "@/server/services/story/schema";
+import { StoryInit } from "@/server/model/types";
 import { H2 } from "@/common/components/h2";
 
 export type Props = {
