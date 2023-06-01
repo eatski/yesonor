@@ -4,16 +4,13 @@
         font-size: 14px;
         font-weight: bold;
         margin: 0;
-        color: var(--text-color-secondary);
+        color: var(--color-base-fg-secondary);
     }
     ul {
         display: flex;
         flex-direction: column;
         list-style: none;
-        gap: 4px;
-        @media screen and (max-width:480px) {
-            gap: 12px;
-        }
+        gap: 12px;
         padding-left: 0;
         margin: 4px 0 0;
     }
@@ -22,18 +19,16 @@
         font-size: 14px;
         column-gap: 8px;
         row-gap: 4px;
-        @media screen and (max-width:480px) {
-            flex-direction: column;
-        }
+        flex-direction: column;
         div {
             padding: 4px 12px;
             border-radius: 2px;
             text-align: center;
-            filter: var(--filter-shadow);
-            border: 1px solid var(--border-color);
+            
+            border: var(--border-primary);
         }
         div:nth-child(1) {
-            background-color: var(--bg-color-accent);
+            background-color: var(--color-base-bg-info);
             flex-grow: 1;
         }
         div:nth-child(2) {

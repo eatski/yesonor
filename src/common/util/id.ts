@@ -1,5 +1,5 @@
-import { generate } from "randomstring"
+import { generate } from "randomstring";
 
 export const generateId = () => {
-    return generate(15);
-}
+	return generate(15);
+};
