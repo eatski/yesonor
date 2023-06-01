@@ -6,7 +6,6 @@ datasource db {
   provider          = "postgresql"
   url               = env("SUPABASE_POSTGRES_PRISMA_URL")
   directUrl         = env("SUPABASE_POSTGRES_URL_NON_POOLING")
-  shadowDatabaseUrl = env("SUPABASE_POSTGRES_URL_NON_POOLING")
 }
 
 model Story {
@@ -20,6 +19,7 @@ model Story {
   published        Boolean   @default(false)
   publishedAt      DateTime?
   createdAt        DateTime  @default(now())
+  questionLogs     QuestionLog[]
 }
 
 enum Answer {
@@ -27,4 +27,13 @@ enum Answer {
   False
   Unknown
   Invalid
+}
+
+model QuestionLog {
+  id        String    @id @default(uuid())
+  storyId   String
+  question  String
+  answer    Answer
+  createdAt DateTime  @default(now())
+  Story     Story     @relation(fields: [storyId], references: [id], onDelete: Cascade)
 }
