@@ -4,9 +4,9 @@ import { resolve } from "path";
 import { z } from "zod";
 import { answer as answerSchema } from "../../model/schemas";
 import { procedure } from "../../trpc";
-import { parseHeadToken } from "./parse";
 import { getStory, getStoryPrivate } from "@/server/services/story";
 import { pickSmallDistanceExampleQuestionInput } from "./pickSmallDistanceExampleQuestionInput";
+import { prisma } from "@/libs/prisma";
 
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),
@@ -99,6 +99,17 @@ export const question = procedure
 				throw new Error("No message");
 			}
 			const answer = answerSchema.parse(message.content);
+			prisma.questionLog
+				.create({
+					data: {
+						storyId: story.id,
+						question: input.text,
+						answer,
+					},
+				})
+				.catch((e) => {
+					console.error(e);
+				});
 			return {
 				answer,
 				customMessage:
