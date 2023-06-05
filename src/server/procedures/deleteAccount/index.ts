@@ -7,9 +7,9 @@ export type Input = z.infer<typeof storyInit>;
 
 export const deleteAccount = procedure.mutation(async ({ ctx }) => {
 	const prisma = new PrismaClient();
-	await prisma.story.deleteMany({
+	await prisma.user.delete({
 		where: {
-			authorEmail: await ctx.getUser().then((user) => user.email),
+			id: (await ctx.getUser()).id,
 		},
 	});
 	return true;
