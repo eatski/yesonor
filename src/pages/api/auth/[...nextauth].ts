@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 if (
@@ -9,7 +9,7 @@ if (
 	throw new Error("Google OAuth is not configured");
 }
 
-export const authConfig = {
+export const authConfig: NextAuthOptions = {
 	providers: [
 		GoogleProvider({
 			clientId: process.env.GOOGLE_ID,
