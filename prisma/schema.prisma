@@ -10,7 +10,9 @@ datasource db {
 
 model Story {
   id               String    @id
-  authorEmail      String
+  authorEmail      String?
+  authorId         String?
+  author           User?   @relation(fields: [authorId], references: [id])
   title            String
   quiz             String
   truth            String
@@ -36,4 +38,12 @@ model QuestionLog {
   answer    Answer
   createdAt DateTime  @default(now())
   Story     Story     @relation(fields: [storyId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id        String    @id
+  oauthId   String?   @unique
+  name      String?
+  stories   Story[]
+  createdAt DateTime  @default(now())
 }
