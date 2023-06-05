@@ -11,14 +11,15 @@ export const post = procedure
 	.mutation(async ({ input, ctx }) => {
 		const prisma = new PrismaClient();
 		const { questionExamples, ...storyData } = input;
-
+		const user = await ctx.getUser();
 		// create story and associated questionExamples
 		const story = await prisma.story.create({
 			data: {
 				...storyData,
 				id: generateId(),
 				questionExamples: JSON.stringify(questionExamples),
-				authorEmail: await ctx.getUser().then((user) => user.email),
+				authorEmail: user.email,
+				authorId: user.id,
 			},
 		});
 		return story;
