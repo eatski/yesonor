@@ -14,9 +14,9 @@ export const createContext = async (context: CreateNextContextOptions) => {
 				context.res,
 				authConfig,
 			);
-			return session?.user?.email
+			return session?.user?.email && session.custom?.userId
 				? {
-						id: session.custom?.userId,
+						id: session.custom.userId,
 						email: session.user.email,
 				  }
 				: null;
@@ -27,13 +27,13 @@ export const createContext = async (context: CreateNextContextOptions) => {
 				context.res,
 				authConfig,
 			);
-			if (!session?.user?.email) {
+			if (!session?.user?.email || !session.custom?.userId) {
 				throw new TRPCError({
 					code: "UNAUTHORIZED",
 				});
 			}
 			return {
-				id: session.custom?.userId,
+				id: session.custom.userId,
 				email: session.user.email,
 			};
 		},
