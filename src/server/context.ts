@@ -16,6 +16,7 @@ export const createContext = async (context: CreateNextContextOptions) => {
 			);
 			return session?.user?.email
 				? {
+						id: session.custom?.userId,
 						email: session.user.email,
 				  }
 				: null;
@@ -32,6 +33,7 @@ export const createContext = async (context: CreateNextContextOptions) => {
 				});
 			}
 			return {
+				id: session.custom?.userId,
 				email: session.user.email,
 			};
 		},
