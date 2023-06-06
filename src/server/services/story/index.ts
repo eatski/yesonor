@@ -4,8 +4,7 @@ import { PrismaClient, Story as DbStory } from "@prisma/client";
 import { z } from "zod";
 
 const hydrateStory = (story: DbStory): Story => {
-	const { questionExamples, publishedAt, createdAt, authorEmail, ...rest } =
-		story;
+	const { questionExamples, publishedAt, createdAt, ...rest } = story;
 	return {
 		...rest,
 		publishedAt: publishedAt?.getTime() || null,
@@ -22,7 +21,6 @@ const omitStory = (story: DbStory): StoryHead => {
 		simpleTruth,
 		publishedAt,
 		createdAt,
-		authorEmail,
 		...rest
 	} = story;
 	return {

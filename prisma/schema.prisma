@@ -10,9 +10,8 @@ datasource db {
 
 model Story {
   id               String    @id
-  authorEmail      String?
-  authorId         String?
-  author           User?   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId         String
+  author           User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   title            String
   quiz             String
   truth            String
