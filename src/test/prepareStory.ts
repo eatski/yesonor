@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export const prepareStoryFromYaml = async (
 	yamlPath: string,
 	meta: {
-		authorEmail: string;
+		authorId: string;
 		storyId: string;
 		published: boolean;
 	},
@@ -17,9 +17,9 @@ export const prepareStoryFromYaml = async (
 		console.error(`Failed to parse ${yamlPath}`, story.error);
 		throw new Error("Failed to parse yaml");
 	}
-	await prisma.story.deleteMany({
-		where: {
-			id: meta.storyId,
+	await prisma.user.create({
+		data: {
+			id: meta.authorId,
 		},
 	});
 	const { questionExamples, ...rest } = story.data;
@@ -28,7 +28,7 @@ export const prepareStoryFromYaml = async (
 			...rest,
 			id: meta.storyId,
 			published: meta.published,
-			authorEmail: meta.authorEmail,
+			authorId: meta.authorId,
 			publishedAt: new Date(),
 			questionExamples: JSON.stringify(questionExamples),
 		},

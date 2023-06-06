@@ -24,7 +24,7 @@ export const truth = procedure
 		const story = user
 			? await getStoryPrivate({
 					storyId: input.storyId,
-					autherEmail: user.email,
+					authorId: user.id,
 			  })
 			: await getStory({
 					storyId: input.storyId,

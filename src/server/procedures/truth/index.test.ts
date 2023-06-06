@@ -9,12 +9,12 @@ const never = () => {
 };
 
 const TEST_USER1 = {
-	id: "user1",
+	id: generateId(),
 	email: "yesonor@example.com",
 };
 
 const TEST_USER2 = {
-	id: "user2",
+	id: generateId(),
 	email: "not-yesonor@example.com",
 };
 
@@ -25,12 +25,12 @@ describe("trpc/truth", () => {
 	beforeAll(async () => {
 		const cleanup1 = await prepareStoryFromYaml(testYamlPath, {
 			storyId: TEST_ID,
-			authorEmail: TEST_USER1.email,
+			authorId: TEST_USER1.id,
 			published: true,
 		});
 		const cleanup2 = await prepareStoryFromYaml(testYamlPath, {
 			storyId: TEST_ID_PRIVATE,
-			authorEmail: TEST_USER1.email,
+			authorId: TEST_USER2.id,
 			published: false,
 		});
 		return async () => {
@@ -101,7 +101,7 @@ describe("trpc/truth", () => {
 				expect(result.result).toEqual("Covers");
 			},
 		);
-		test.each([TEST_USER2, null])(
+		test.each([TEST_USER1, null])(
 			"privateなstoryに対して質問すると回答が返ってこない",
 			async (user) => {
 				const testee = appRouter.createCaller({
@@ -123,7 +123,7 @@ describe("trpc/truth", () => {
 		);
 		test("自分の作成したstoryの場合、privateなstoryに対して質問しても回答が返ってくる", async () => {
 			const testee = appRouter.createCaller({
-				getUserOptional: async () => TEST_USER1,
+				getUserOptional: async () => TEST_USER2,
 				getUser: never,
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),

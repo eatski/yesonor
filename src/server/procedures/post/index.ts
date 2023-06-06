@@ -18,7 +18,6 @@ export const post = procedure
 				...storyData,
 				id: generateId(),
 				questionExamples: JSON.stringify(questionExamples),
-				authorEmail: user.email,
 				authorId: user.id,
 			},
 		});

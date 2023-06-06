@@ -4,8 +4,7 @@ import { PrismaClient, Story as DbStory } from "@prisma/client";
 import { z } from "zod";
 
 const hydrateStory = (story: DbStory): Story => {
-	const { questionExamples, authorEmail, publishedAt, createdAt, ...rest } =
-		story;
+	const { questionExamples, publishedAt, createdAt, ...rest } = story;
 	return {
 		...rest,
 		publishedAt: publishedAt?.getTime() || null,
@@ -18,7 +17,6 @@ const hydrateStory = (story: DbStory): Story => {
 const omitStory = (story: DbStory): StoryHead => {
 	const {
 		questionExamples,
-		authorEmail,
 		truth,
 		simpleTruth,
 		publishedAt,
@@ -74,7 +72,7 @@ export const getStoryHead = (args: {
 
 const getStoryPrivateInner = (args: {
 	storyId: string;
-	autherEmail: string;
+	authorId: string;
 }): Promise<DbStory | null> => {
 	const prisma = new PrismaClient();
 	return prisma.story.findFirst({
@@ -82,7 +80,7 @@ const getStoryPrivateInner = (args: {
 			OR: [
 				{
 					id: args.storyId,
-					authorEmail: args.autherEmail,
+					authorId: args.authorId,
 				},
 				{
 					id: args.storyId,
@@ -95,7 +93,7 @@ const getStoryPrivateInner = (args: {
 
 export const getStoryPrivate = async (args: {
 	storyId: string;
-	autherEmail: string;
+	authorId: string;
 }): Promise<Story | null> => {
 	const prisma = new PrismaClient();
 	return getStoryPrivateInner(args).then((story) => {
@@ -106,7 +104,7 @@ export const getStoryPrivate = async (args: {
 
 export const getStoryHeadPrivate = async (args: {
 	storyId: string;
-	autherEmail: string;
+	authorId: string;
 }): Promise<StoryHead | null> => {
 	return getStoryPrivateInner(args).then((story) => {
 		if (story == null) return null;
@@ -114,14 +112,14 @@ export const getStoryHeadPrivate = async (args: {
 	});
 };
 
-export const getStoriesPrivate = async (args: { autherEmail: string }): Promise<
+export const getStoriesPrivate = async (args: { authorId: string }): Promise<
 	StoryHead[]
 > => {
 	const prisma = new PrismaClient();
 	return prisma.story
 		.findMany({
 			where: {
-				authorEmail: args.autherEmail,
+				authorId: args.authorId,
 			},
 			orderBy: [
 				{
