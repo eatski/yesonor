@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 		};
 	}
 	const stories = await getStoriesPrivate({
-		autherEmail: user.email,
+		authorId: user.userId,
 	});
 	return {
 		props: {

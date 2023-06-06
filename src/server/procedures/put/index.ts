@@ -19,7 +19,7 @@ export const put = procedure
 		await prisma.story.updateMany({
 			where: {
 				id: id,
-				authorEmail: (await ctx.getUser()).email,
+				authorId: (await ctx.getUser()).id,
 			},
 			data: {
 				...storyData,

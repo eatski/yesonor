@@ -17,7 +17,7 @@ export const delete_ = procedure
 		const result = await prisma.story.deleteMany({
 			where: {
 				id: input.id,
-				authorEmail: await ctx.getUser().then((user) => user.email),
+				authorId: await ctx.getUser().then((user) => user.id),
 			},
 		});
 		if (result.count === 0) {

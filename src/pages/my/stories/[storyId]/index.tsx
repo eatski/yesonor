@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 	}
 	const story = await getStoryHeadPrivate({
 		storyId: validated.data.storyId,
-		autherEmail: user.email,
+		authorId: user.userId,
 	});
 	if (!story) {
 		return {
