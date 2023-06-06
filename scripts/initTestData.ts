@@ -7,7 +7,7 @@ import { resolve } from "path";
 dotenv.config();
 const prisma = new PrismaClient();
 
-const TEST_EMAIL = "yesonor@example.com";
+const TEST_AUTHOR_ID = "test-author";
 
 async function insertStory(name: string) {
 	const story = parseYaml(
@@ -23,7 +23,7 @@ async function insertStory(name: string) {
 			...rest,
 			id: "test",
 			published: true,
-			authorEmail: TEST_EMAIL,
+			authorId: TEST_AUTHOR_ID,
 			publishedAt: new Date(),
 			questionExamples: JSON.stringify(questionExamples),
 		},
@@ -33,7 +33,7 @@ async function insertStory(name: string) {
 const deleteAll = async () => {
 	await prisma.story.deleteMany({
 		where: {
-			authorEmail: TEST_EMAIL,
+			authorId: TEST_AUTHOR_ID,
 		},
 	});
 };

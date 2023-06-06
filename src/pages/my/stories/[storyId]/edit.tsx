@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 	}
 	const story = await getStoryPrivate({
 		storyId: validated.data.storyId,
-		autherEmail: user.email,
+		authorId: user.userId,
 	}).then<StoryInit | null>((story) => {
 		if (!story) return null;
 		return {
