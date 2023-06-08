@@ -1,65 +1,46 @@
-import { H2 } from "@/common/components/h2";
 import { Layout } from "@/features/layout";
-import { getUser, User } from "@/server/getServerSideProps/getUser";
+import {
+	getUserSession,
+	UserSession,
+} from "@/server/getServerSideProps/getUserSession";
 import { GetServerSideProps } from "next";
-import components from "@/styles/components.module.scss";
-import { trpc } from "@/libs/trpc";
-import {} from "next-auth";
-import { signOut } from "next-auth/react";
+import { Settings } from "@/features/settings";
+import { getUser, User } from "@/server/services/user";
 
 type Props = {
+	session: UserSession;
 	user: User;
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-	const user = await getUser(ctx);
-	if (!user) {
+	const session = await getUserSession(ctx);
+	if (!session) {
 		return {
 			notFound: true,
 		};
 	}
+	const user = await getUser({
+		userId: session.userId,
+	});
+	if (!user) {
+		console.error("user not found but session exists.");
+		return {
+			notFound: true,
+		};
+	}
+
 	return {
 		props: {
-			user,
+			session: session,
+			user: user,
 		},
 	};
 };
 
 export default function MyPage(props: Props) {
-	const { mutateAsync, isLoading, data } = trpc.deleteAccount.useMutation();
 	return (
 		<Layout>
-			<>
-				<H2 label="マイページ" />
-				<dl>
-					<dt>メールアドレス</dt>
-					<dd>{props.user.email}</dd>
-				</dl>
-				{isLoading ? (
-					<p>退会処理中...</p>
-				) : data ? (
-					<p>退会しました</p>
-				) : (
-					<button
-						onClick={async () => {
-							if (
-								confirm(
-									"本当に退会しますか？あなたが作成したストーリーが全て削除されます。",
-								)
-							) {
-								await mutateAsync();
-								signOut({
-									callbackUrl: "/",
-								});
-							}
-						}}
-						className={components.buttonDanger}
-						disabled={isLoading}
-					>
-						退会
-					</button>
-				)}
-			</>
+			<Settings name={props.user.name} email={props.session.email} />
 		</Layout>
 	);
 }

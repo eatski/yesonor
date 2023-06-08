@@ -15,10 +15,10 @@ type Public<T, Private extends keyof T> = {
 
 type DateToNumber<T> = T extends Date ? number : T;
 
-export type Story = Public<z.infer<typeof story>, "authorEmail" | "createdAt">;
+export type Story = Public<z.infer<typeof story>, "createdAt">;
 export type StoryHead = Public<
-	Story,
-	"questionExamples" | "truth" | "simpleTruth" | "authorEmail" | "createdAt"
+	Story & { author: { name: string | null } },
+	"questionExamples" | "truth" | "simpleTruth" | "createdAt"
 >;
 export type Answer = z.infer<typeof answer>;
 export type TruthCoincidence = z.infer<typeof truthCoincidence>;

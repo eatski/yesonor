@@ -2,14 +2,14 @@ import { authConfig } from "@/pages/api/auth/[...nextauth]";
 import { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 
-export type User = {
+export type UserSession = {
 	email: string;
 	userId: string;
 };
 
-export const getUser = async (
+export const getUserSession = async (
 	context: GetServerSidePropsContext,
-): Promise<User | null> => {
+): Promise<UserSession | null> => {
 	const session = await getServerSession(context.req, context.res, authConfig);
 	if (!session || !session.user?.email || !session.custom?.userId) {
 		return null;

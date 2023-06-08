@@ -14,7 +14,6 @@ export const questionExample = z.object({
 export const story = z.object({
 	id: z.string(),
 	title: z.string(),
-	authorEmail: z.string().email(),
 	quiz: z.string(),
 	truth: z.string(),
 	simpleTruth: z.string(),

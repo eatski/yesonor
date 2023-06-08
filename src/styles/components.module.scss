@@ -1,13 +1,17 @@
 @mixin buttonBase {
     font-size: 14px;
     padding: 3px 8px;
-    border: none;
+    border: var(--border-primary);
     box-sizing: border-box;
     border-radius: 2px;
     line-height: 1.6;
     cursor: pointer;
     height: 100%;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--button-text-color);
     &:hover {
         filter: var(--filter-brightness-feedback);
     }
@@ -15,43 +19,61 @@
         filter: var(--filter-brightness-disabled);
         cursor: not-allowed;
     }
+    &[data-loading="true"]::after {
+        content: "";
+        display: inline-block;
+        margin-left: 5px;
+        border: 2px solid var(--button-text-color);
+        border-top: 2px solid transparent;
+        border-radius: 50%;
+        width: 14px;
+        height: 14px;
+        animation: spin 1s linear infinite;
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .button0 {
     @include buttonBase;
     background-color: var(--color-base-bg);
-    color: var(--color-base-fg);
+    --button-text-color: var(--color-base-fg);
+    border: none;
+
 }
 
 .button {
     @include buttonBase;
     background-color: var(--color-accent-bg);
-    color: var(--color-accent-fg);
+    --button-text-color: var(--color-accent-fg);
 }
 
 .button2 {
     @include buttonBase;
     background-color: var(--color-accent-bg-secondary);
-    color: var(--color-accent-fg);
+    --button-text-color: var(--color-accent-fg);
 }
 
 .buttonDanger {
     @include buttonBase;
     background-color: var(--color-accent-bg-danger);
-    color: var(--color-accent-fg);
+    --button-text-color: var(--color-accent-fg);
 }
 
 .buttonLink {
     @include buttonBase;
     background-color: var(--color-base-bg);
-    color: var(--color-base-fg);
+    --button-text-color: var(--color-base-fg);
     border: var(--border-primary);
 }
 
 .buttonBrandFg {
     @include buttonBase;
     background-color: transparent;
-    color: var(--color-brand-fg);
+    --button-text-color: var(--color-brand-fg);
     border: var(--border-primary)
 }
 
