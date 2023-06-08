@@ -39,7 +39,7 @@ const Name: React.FC<Props> = ({ name }) => {
 		data: editedName,
 	} = trpc.user.putName.useMutation();
 
-	const currentName = editedName || name;
+	const currentName = editedName ?? name;
 
 	return (
 		<section>
