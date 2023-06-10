@@ -8,7 +8,6 @@ export type UserSession = {
 
 export const getUserSession = async (): Promise<UserSession | null> => {
 	const session = await getServerSession(authConfig);
-	console.log("session", session);
 	if (!session || !session.user?.email || !session.custom?.userId) {
 		return null;
 	}
