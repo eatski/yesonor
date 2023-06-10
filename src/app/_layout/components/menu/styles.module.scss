@@ -1,0 +1,29 @@
+.iconWrapper {
+    color: var(--color-brand-fg);
+    border: none;
+    background-color: unset;
+}
+
+.menu {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    top: 60px;
+    right: 8px;
+    padding: 8px 4px;
+    background-color: var(--color-base-bg);
+    border-radius: 2px;
+    border: var(--border-primary);
+    filter: var(--filter-shadow);
+    button,a {
+        text-align: center;
+    }
+    hr {
+        margin: 0;
+        border: none;
+        height: 1px;
+        background-color: var(--color-base-fg-silent);
+    }
+}

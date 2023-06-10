@@ -1,9 +1,11 @@
+"use client";
 import { H2 } from "@/common/components/h2";
 import React, { useState } from "react";
 import components from "@/styles/components.module.scss";
 import styles from "./styles.module.scss";
 import { trpc } from "@/libs/trpc";
 import { signOut } from "next-auth/react";
+import { TrpcContextProvider } from "@/context/TrpcContext";
 
 export type Props = {
 	name: string | null;
@@ -163,11 +165,13 @@ const DeleteAccount: React.FC = () => {
 
 export const Settings: React.FC<Props> = ({ name, email }) => {
 	return (
-		<div className={styles.container}>
-			<H2>設定</H2>
-			<LoginInfo name={name} email={email} />
-			<Name name={name} email={email} />
-			<DeleteAccount />
-		</div>
+		<TrpcContextProvider>
+			<div className={styles.container}>
+				<H2>設定</H2>
+				<LoginInfo name={name} email={email} />
+				<Name name={name} email={email} />
+				<DeleteAccount />
+			</div>
+		</TrpcContextProvider>
 	);
 };
