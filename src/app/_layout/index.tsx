@@ -40,8 +40,6 @@ export const Layout = async ({
 					)}
 				</div>
 			</header>
-			{/* {loading && <div className={styles.transitionStatus} />} */}
-
 			{upper ? (
 				<div className={styles.upper}>
 					<div className={styles.content}>{upper}</div>
