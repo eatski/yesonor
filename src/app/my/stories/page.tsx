@@ -3,8 +3,19 @@ import { H2 } from "@/common/components/h2";
 import { getStoriesPrivate } from "@/server/services/story";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { Loading } from "@/app/_components/loading";
 
 export default async function Story() {
+	return (
+		<Suspense fallback={<Loading />}>
+			{/* @ts-expect-error */}
+			<AsyncStory />
+		</Suspense>
+	);
+}
+
+const AsyncStory = async () => {
 	const user = await getUserSession();
 	if (!user) {
 		notFound();
@@ -23,4 +34,4 @@ export default async function Story() {
 			/>
 		</>
 	);
-}
+};
