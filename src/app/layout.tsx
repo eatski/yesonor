@@ -2,6 +2,9 @@ import "sanitize.css";
 import "@/styles/base.css";
 import { Metadata } from "next";
 import { texts } from "@/texts";
+import { Layout } from "./_layout";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
 	title: `${texts.serviceName}(${texts.serviceNickname}) - ${texts.serviceDescription}`,
@@ -25,7 +28,12 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="ja">
-			<body>{children}</body>
+			<body>
+				{/* @ts-expect-error */}
+				<Layout>
+					<Suspense fallback={<Loading />}>{children}</Suspense>
+				</Layout>
+			</body>
 		</html>
 	);
 }
