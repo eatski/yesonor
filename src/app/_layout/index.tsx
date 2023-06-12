@@ -6,11 +6,9 @@ import components from "@/styles/components.module.scss";
 import { Logo } from "./components/logo";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { Menu } from "./components/menu";
+import { LoginButton } from "./components/login";
 
-export const Layout = async ({
-	children,
-	upper,
-}: PropsWithChildren<{ upper?: React.ReactElement }>) => {
+export const Layout = async ({ children }: PropsWithChildren) => {
 	const session = await getUserSession();
 	return (
 		<>
@@ -26,27 +24,10 @@ export const Layout = async ({
 							ストーリーを投稿
 						</Link>
 					)}
-					{session ? (
-						<Menu />
-					) : (
-						<button
-							className={components.buttonBrandFg}
-							onClick={() => {
-								signIn();
-							}}
-						>
-							ログイン
-						</button>
-					)}
+					{session ? <Menu /> : <LoginButton />}
 				</div>
 			</header>
-			{upper ? (
-				<div className={styles.upper}>
-					<div className={styles.content}>{upper}</div>
-				</div>
-			) : null}
-
-			<main className={styles.main}>{children}</main>
+			{children}
 			<footer className={styles.footer}>
 				<Logo />
 				<div className={styles.footerLinks}>

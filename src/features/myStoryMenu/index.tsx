@@ -1,10 +1,12 @@
+"use client";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import { trpc } from "@/libs/trpc";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { StoryInit } from "@/server/model/types";
 import { YamlFileDrop } from "../storyYamlFileDrop";
 import Link from "next/link";
+import { TrpcContextProvider } from "@/context/TrpcContext";
 
 export type Props = {
 	storyId: string;
@@ -12,7 +14,15 @@ export type Props = {
 	canUseFileDrop: boolean;
 };
 
-export const MyStoryMenu: React.FC<Props> = ({
+export const MyStoryMenu: React.FC<Props> = (props) => {
+	return (
+		<TrpcContextProvider>
+			<MyStoryMenuInner {...props} />
+		</TrpcContextProvider>
+	);
+};
+
+const MyStoryMenuInner: React.FC<Props> = ({
 	storyId,
 	published,
 	canUseFileDrop,
@@ -31,7 +41,7 @@ export const MyStoryMenu: React.FC<Props> = ({
 			},
 			{
 				onSuccess: () => {
-					router.reload();
+					router.refresh();
 				},
 			},
 		);
@@ -90,7 +100,7 @@ export const MyStoryMenu: React.FC<Props> = ({
 											},
 											{
 												onSuccess: () => {
-													router.reload();
+													router.refresh();
 												},
 											},
 										);

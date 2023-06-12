@@ -5,13 +5,16 @@ import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Loading } from "@/app/_components/loading";
+import { MainContent } from "@/app/_components/main";
 
 export default async function Story() {
 	return (
-		<Suspense fallback={<Loading />}>
-			{/* @ts-expect-error */}
-			<AsyncStory />
-		</Suspense>
+		<MainContent>
+			<Suspense fallback={<Loading />}>
+				{/* @ts-expect-error */}
+				<AsyncStory />
+			</Suspense>
+		</MainContent>
 	);
 }
 

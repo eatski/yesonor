@@ -1,3 +1,4 @@
+"use client";
 import { trpc } from "@/libs/trpc";
 import { useState } from "react";
 import { Feed } from "./ui/feed";
@@ -10,6 +11,7 @@ import { useQuestion } from "./useQuestion";
 import { gtag } from "@/common/util/gtag";
 import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import Script from "next/script";
+import { TrpcContextProvider } from "@/context/TrpcContext";
 
 type Props = {
 	storyId: string;
@@ -52,7 +54,7 @@ const AnswerFormContainer: React.FC<{
 	);
 };
 
-export function Play(props: Props) {
+function PlayInner(props: Props) {
 	const question = useQuestion(props.storyId);
 	const [isAnswerMode, setIsAnswerMode] = useState(false);
 	return (
@@ -105,3 +107,11 @@ export function Play(props: Props) {
 		</>
 	);
 }
+
+export const Play = (props: Props) => {
+	return (
+		<TrpcContextProvider>
+			<PlayInner {...props} />
+		</TrpcContextProvider>
+	);
+};

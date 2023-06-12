@@ -1,6 +1,7 @@
+"use client";
 import { trpc } from "@/libs/trpc";
 import React from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { StoryForm } from "../storyForm";
 import { H2 } from "@/common/components/h2";
 import Link from "next/link";
@@ -8,12 +9,13 @@ import components from "@/styles/components.module.scss";
 import { AiOutlineUpload } from "react-icons/ai";
 import styles from "./styles.module.scss";
 import { Device } from "@/common/util/device";
+import { TrpcContextProvider } from "@/context/TrpcContext";
 
 export type Props = {
 	device: Device;
 };
 
-export const NewStory: React.FC<Props> = ({ device }) => {
+const NewStoryInner: React.FC<Props> = ({ device }) => {
 	const { mutate, isError, isLoading } = trpc.post.useMutation();
 	const router = useRouter();
 
@@ -40,5 +42,13 @@ export const NewStory: React.FC<Props> = ({ device }) => {
 				isError={isError}
 			/>
 		</>
+	);
+};
+
+export const NewStory: React.FC<Props> = ({ device }) => {
+	return (
+		<TrpcContextProvider>
+			<NewStoryInner device={device} />
+		</TrpcContextProvider>
 	);
 };

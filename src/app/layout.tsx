@@ -3,8 +3,10 @@ import "@/styles/base.css";
 import { Metadata } from "next";
 import { texts } from "@/texts";
 import { Layout } from "./_layout";
+import { URL } from "url";
 
 export const metadata: Metadata = {
+	metadataBase: new URL("https://iesona.com"),
 	title: `${texts.serviceName}(${texts.serviceNickname}) - ${texts.serviceDescription}`,
 	description: texts.serviceDescription,
 	applicationName: texts.serviceName,
