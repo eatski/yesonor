@@ -18,8 +18,6 @@ import { UpperArea } from "./_components/upper";
 import { MyStoryMenu } from "@/features/myStoryMenu";
 import { getDeviceServer } from "@/server/serverComponent/getDevice";
 
-export const dynamicParams = true;
-
 const querySchema = z.object({
 	storyId: z.string(),
 });
@@ -48,14 +46,6 @@ export const generateMetadata: (arg: NextRequestProps) => Promise<Metadata> =
 			description: story.quiz,
 		};
 	};
-export async function generateStaticParams() {
-	const stories = await getStories({
-		count: 20,
-	});
-	return stories.map((story) => ({
-		storyId: story.id,
-	}));
-}
 
 export default function Story({ params }: NextRequestProps) {
 	const validated = querySchema.safeParse(params);

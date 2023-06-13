@@ -1,5 +1,5 @@
 import { NextRequestProps } from "@/libs/next/request";
-import { getStoryHead } from "@/server/services/story";
+import { getStories, getStoryHead } from "@/server/services/story";
 import { texts } from "@/texts";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -9,6 +9,8 @@ import { Play } from "@/features/play";
 import { Suspense } from "react";
 import { Loading } from "@/app/_components/loading";
 import { MainContent } from "@/app/_components/main";
+
+export const revalidate = 10;
 
 const querySchema = z.object({
 	storyId: z.string(),
@@ -33,6 +35,15 @@ export const generateMetadata: (arg: NextRequestProps) => Promise<Metadata> =
 			description: story.quiz,
 		};
 	};
+
+export async function generateStaticParams() {
+	const stories = await getStories({
+		count: 20,
+	});
+	return stories.map((story) => ({
+		storyId: story.id,
+	}));
+}
 
 export default async function Story({ params }: NextRequestProps) {
 	const validated = querySchema.safeParse(params);
