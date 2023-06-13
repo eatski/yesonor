@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth/next";
 import { setTimeout } from "timers/promises";
 import { verifyRecaptcha } from "./services/recaptcha";
 import { Configuration, OpenAIApi } from "openai";
+import { revalidatePath } from "next/cache";
 
 export const createContext = async (context: CreateNextContextOptions) => {
 	return {
@@ -38,22 +39,11 @@ export const createContext = async (context: CreateNextContextOptions) => {
 			};
 		},
 		doRevalidate(url: string) {
-			const retryable = (count: number, error?: any): Promise<void> => {
-				if (count) {
-					return setTimeout(3000).then(() =>
-						context.res.revalidate(url).catch((e) => {
-							return retryable(count - 1, e);
-						}),
-					);
-				}
-				console.error(error);
-				return Promise.reject(
-					new Error("revalidation failed", {
-						cause: error,
-					}),
-				);
-			};
-			return retryable(10);
+			try {
+				revalidatePath(url);
+			} catch (e) {
+				console.error(e);
+			}
 		},
 		verifyRecaptcha(token: string) {
 			return verifyRecaptcha(token).catch((e) => {

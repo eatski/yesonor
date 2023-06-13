@@ -25,6 +25,6 @@ export const delete_ = procedure
 				code: "NOT_FOUND",
 			});
 		}
-		await ctx.doRevalidate(`/stories/${input.id}`).catch();
+		ctx.doRevalidate(`/stories/${input.id}`);
 		return true;
 	});
