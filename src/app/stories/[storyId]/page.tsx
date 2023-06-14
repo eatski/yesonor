@@ -52,11 +52,9 @@ export default async function Story({ params }: NextRequestProps) {
 	}
 	return (
 		<MainContent>
-			<Suspense fallback={<Loading />}>
-				{/* @ts-expect-error */}
-				<ServerStoryDescription storyId={validated.data.storyId} />
-				<Play storyId={validated.data.storyId} />
-			</Suspense>
+			{/* @ts-expect-error */}
+			<ServerStoryDescription storyId={validated.data.storyId} />
+			<Play storyId={validated.data.storyId} />
 		</MainContent>
 	);
 }
