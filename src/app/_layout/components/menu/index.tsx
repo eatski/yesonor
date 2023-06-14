@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import Link from "@/common/components/link";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import { useEffect, useRef, useState } from "react";

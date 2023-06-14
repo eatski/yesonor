@@ -5,7 +5,7 @@ import { trpc } from "@/libs/trpc";
 import { useRouter } from "next/navigation";
 import { StoryInit } from "@/server/model/types";
 import { YamlFileDrop } from "../storyYamlFileDrop";
-import Link from "next/link";
+import Link from "@/common/components/link";
 import { TrpcContextProvider } from "@/context/TrpcContext";
 
 export type Props = {

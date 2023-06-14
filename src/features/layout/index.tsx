@@ -1,5 +1,5 @@
 import { signIn, signOut, useSession } from "next-auth/react";
-import Link from "next/link";
+import Link from "@/common/components/link";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { AiOutlineUnorderedList as Menu } from "react-icons/ai";
 import styles from "./styles.module.scss";

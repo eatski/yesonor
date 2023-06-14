@@ -1,5 +1,5 @@
 import { signIn } from "next-auth/react";
-import Link from "next/link";
+import Link from "@/common/components/link";
 import React, { PropsWithChildren } from "react";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";

@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { StoryForm } from "../storyForm";
 import { H2 } from "@/common/components/h2";
-import Link from "next/link";
+import Link from "@/common/components/link";
 import components from "@/styles/components.module.scss";
 import { AiOutlineUpload } from "react-icons/ai";
 import styles from "./styles.module.scss";

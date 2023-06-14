@@ -3,7 +3,7 @@ import { texts } from "@/texts";
 import styles from "./styles.module.scss";
 import { QuestionAndAnswer } from "@/common/components/questionAndAnswer";
 import { useCallback, useState } from "react";
-import Link from "next/link";
+import Link from "@/common/components/link";
 import components from "@/styles/components.module.scss";
 import { useRouter } from "next/router";
 import { Item } from "@/common/components/stories";
