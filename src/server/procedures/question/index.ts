@@ -58,7 +58,7 @@ export const question = procedure
 				: null;
 
 			const response = await ctx.openai.createChatCompletion({
-				model: "gpt-4",
+				model: "gpt-4-0613",
 				messages: [
 					{
 						role: "system",
