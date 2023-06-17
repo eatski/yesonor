@@ -7,7 +7,7 @@ export const answer = z.enum(["True", "False", "Unknown", "Invalid"]);
 export const questionExample = z.object({
 	question: z.string().nonempty(NON_EMPTY_MESSAGE),
 	answer,
-	supplement: z.string().nonempty(NON_EMPTY_MESSAGE),
+	supplement: z.string().optional(),
 	customMessage: z.string().optional(),
 });
 

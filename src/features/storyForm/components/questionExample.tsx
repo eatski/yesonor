@@ -8,8 +8,8 @@ export type Props = {
 	questionInput: HTMLProps<HTMLInputElement>;
 	questionError: string | null;
 	answerInput: HTMLProps<HTMLSelectElement>;
-	supplementInput: HTMLProps<HTMLInputElement>;
-	supplementError: string | null;
+	customMessageInput: HTMLProps<HTMLInputElement>;
+	customMessageError: string | null;
 	onClickRemove: () => void;
 };
 
@@ -18,8 +18,8 @@ export const QuestionExampleForm = ({
 	questionInput,
 	questionError,
 	answerInput,
-	supplementInput,
-	supplementError,
+	customMessageInput,
+	customMessageError,
 	onClickRemove,
 }: Props) => {
 	return (
@@ -39,7 +39,7 @@ export const QuestionExampleForm = ({
 					質問
 					<input
 						{...questionInput}
-						placeholder="例: 太郎さんは男ですか？"
+						placeholder="例: 太郎さんはオシャレ好きですか？"
 						className={components.input}
 					/>
 					{questionError && (
@@ -61,14 +61,14 @@ export const QuestionExampleForm = ({
 			</div>
 			<div className={styles.field}>
 				<label>
-					補足説明
+					カスタムメッセージ
 					<input
-						{...supplementInput}
-						placeholder="例: 太郎さんの性別については言及されていません。"
+						{...customMessageInput}
+						placeholder="例: いい質問です！オシャレ好きです。"
 						className={components.input}
 					/>
-					{supplementError && (
-						<p className={components.formErrorMessage}>{supplementError}</p>
+					{customMessageError && (
+						<p className={components.formErrorMessage}>{customMessageError}</p>
 					)}
 				</label>
 			</div>

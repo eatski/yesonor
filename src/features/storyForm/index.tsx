@@ -35,9 +35,9 @@ export const StoryForm: React.FC<Props> = ({
 			truth: "",
 			simpleTruth: "",
 			questionExamples: [
-				{ question: "", answer: "True", supplement: "" },
-				{ question: "", answer: "False", supplement: "" },
-				{ question: "", answer: "Unknown", supplement: "" },
+				{ question: "", answer: "True", customMessage: "" },
+				{ question: "", answer: "False", customMessage: "" },
+				{ question: "", answer: "Unknown", customMessage: "" },
 			],
 		},
 		resolver: zodResolver(storyInit),
@@ -119,6 +119,7 @@ export const StoryForm: React.FC<Props> = ({
 					<br />
 					AIが最低限有用な回答を返せるようにするために3つ以上（答えが「はい」「いいえ」「わからない」の質問を1つずつ）の例を記述してください。
 					<br />
+					また、カスタムメッセージを設定することで、AIの回答を決めることができます。
 				</p>
 				{errors.questionExamples && (
 					<p className={styles.error}>{errors.questionExamples.message}</p>
@@ -132,9 +133,11 @@ export const StoryForm: React.FC<Props> = ({
 								errors.questionExamples?.[index]?.question?.message ?? null
 							}
 							answerInput={register(`questionExamples.${index}.answer`)}
-							supplementInput={register(`questionExamples.${index}.supplement`)}
-							supplementError={
-								errors.questionExamples?.[index]?.supplement?.message ?? null
+							customMessageInput={register(
+								`questionExamples.${index}.customMessage`,
+							)}
+							customMessageError={
+								errors.questionExamples?.[index]?.customMessage?.message ?? null
 							}
 							onClickRemove={() => remove(index)}
 						/>
@@ -145,7 +148,7 @@ export const StoryForm: React.FC<Props> = ({
 						type="button"
 						aria-label="質問例を追加"
 						onClick={() =>
-							append({ question: "", answer: "Unknown", supplement: "" })
+							append({ question: "", answer: "Unknown", customMessage: "" })
 						}
 					>
 						<AiOutlinePlus className={components.iconButtonLink} />

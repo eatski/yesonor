@@ -59,6 +59,24 @@ export const question = procedure
 
 			const response = await ctx.openai.createChatCompletion({
 				model: "gpt-4-0613",
+				function_call: {
+					name: "asnwer",
+				},
+				functions: [
+					{
+						name: "asnwer",
+						description: "Anser the question",
+						parameters: {
+							type: "object",
+							properties: {
+								answer: {
+									type: "string",
+									enum: ["True", "False", "Unknown"],
+								},
+							},
+						},
+					},
+				],
 				messages: [
 					{
 						role: "system",
@@ -81,7 +99,7 @@ export const question = procedure
 								},
 								{
 									role: "assistant",
-									content: `${answer}: ${supplement}`,
+									content: supplement ? `${answer}:${supplement}` : answer,
 								},
 							] as const;
 						},
@@ -92,13 +110,13 @@ export const question = procedure
 					},
 				],
 				temperature: 0,
-				max_tokens: 1,
 			});
-			const message = response.data.choices[0].message;
-			if (!message) {
-				throw new Error("No message");
+
+			const args = response.data.choices[0].message?.function_call?.arguments;
+			if (!args) {
+				throw new Error("No args");
 			}
-			const answer = answerSchema.parse(message.content);
+			const answer = answerSchema.parse(JSON.parse(args).answer);
 			prisma.questionLog
 				.create({
 					data: {
