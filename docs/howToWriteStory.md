@@ -20,14 +20,12 @@ simpleTruth: YesonorではAIが質問に対する回答を行う。
 questionExamples:
   - question: yesonorの裏側で開発者が頑張って回答を考えている？ #質問
     answer: いいえ #それに対する回答を「はい」「いいえ」「わからない」のいずれかで記述
-    supplement: 頑張っているのはAIであり、開発者ではありません。 #回答に対する補足を記述
   - question: yesonorでは解答者の質問に対してAIが回答を考えている？ 
     answer: はい 
-    supplement: yesonorではGPT-4によって質問に対する回答を生成しています。
-    customMessage: yesonorではGPT-4によって質問に対する回答を生成しています。
+    customMessage: yesonorではGPT-4によって質問に対する回答を生成しています。 #質問の答えを自分で好きに指定
   - question: yesonorの開発者はこのサイトを作るのに苦労した？ 
     answer: わからない 
-    supplement: 開発者の苦労については言及されておりません。
+    customMessage: 開発者の苦労については言及されておりません。
 ```
 
 このように、それぞれの属性に文章を埋めていくことでストーリーを記述していきます。
@@ -54,8 +52,8 @@ questionExamples:
 AIは質問に対する回答を生成する際にこれらを参照します。回答例を参照させることで解答の精度が上がります。  
 各例は以下の3つの部分で構成されます。  
 
-- **question**: 質問を記述します。
-- **answer**: 質問に対する答えを「はい」「いいえ」「わからない」のいずれかで記述します。
+- **question**: 【必須】質問を記述します。
+- **answer**: 【必須】質問に対する答えを「はい」「いいえ」「わからない」のいずれかで記述します。
 - **supplement**: 質問の答えに対する補足情報を記述します。AIが論理的な回答をするのに使用します。ストーリーに挑戦中の解答者には*この文章は表示されません。*
 - **customMessage**: 質問の答えを自分で好きに指定できます。AIはquestionに近い質問をされた場合にここで指定された文章を出力します。
 
@@ -79,11 +77,9 @@ simpleTruth:
 questionExamples:
   - question: #質問
     answer: はい #それに対する回答を「はい」「いいえ」「わからない」のいずれかで記述
-    supplement:  #回答に対する補足を記述
+    customMessage:  #質問の答えを自分で好きに指定
   - question:
     answer: いいえ 
-    supplement:
   - question:
     answer: わからない 
-    supplement:
 ```

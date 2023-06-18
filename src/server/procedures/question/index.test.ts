@@ -50,6 +50,7 @@ describe("trpc/question", () => {
 		test.concurrent.each([
 			"太郎のメガネには度が入っていませんか？",
 			"太郎は自分のためにメガネをかけていますか？",
+			"太郎はおしゃれ好きですか？",
 		])("真相に対して正しい質問をするとTrueが返る", async (text) => {
 			const result = await testee.question({
 				storyId: TEST_ID,
@@ -61,6 +62,7 @@ describe("trpc/question", () => {
 		test.concurrent.each([
 			"太郎のメガネには度が入っていますか？",
 			"太郎は命令されてメガネをかけていますか？",
+			"太郎はメガネの見た目について関心がありませんか？",
 		])("真相に対して正しくない質問をするとFalseが返る", async (text) => {
 			const result = await testee.question({
 				storyId: TEST_ID,

@@ -37,7 +37,7 @@ export const truth = procedure
 		await verifyPromise;
 		const systemPrompt = await systemPromptPromise;
 		const response = await ctx.openai.createChatCompletion({
-			model: "gpt-4",
+			model: "gpt-4-0613",
 			messages: [
 				{
 					role: "system",
