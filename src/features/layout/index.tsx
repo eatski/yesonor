@@ -118,8 +118,8 @@ export const Layout: React.FC<
 				<div className={styles.footerLinks}>
 					<Link href="/terms">利用規約</Link>
 					<Link href="/privacy">プライバシーポリシー</Link>
-					<Link href="/about">当サイトについて</Link>
-					<a href="https://github.com/eatski/yesonor">ソースコード</a>
+					<Link href="/about">サイトについて</Link>
+					<a href="https://github.com/eatski/yesonor">開発</a>
 				</div>
 			</footer>
 		</>
