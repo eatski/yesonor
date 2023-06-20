@@ -14,7 +14,7 @@ const answer = z.enum(["はい", "いいえ", "わからない"]).transform((tex
 const questionExample = z.object({
 	question: z.string(),
 	answer,
-	supplement: z.string(),
+	supplement: z.string().optional(),
 	customMessage: z.string().optional(),
 });
 
