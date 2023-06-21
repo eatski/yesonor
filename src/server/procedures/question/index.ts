@@ -49,13 +49,14 @@ export const question = procedure
 				(questionExample) => questionExample.customMessage,
 			);
 
-			const nearestQuestionExample = questionExampleWithCustomMessage.length
-				? await pickSmallDistanceExampleQuestionInput(
-						input.text,
-						questionExampleWithCustomMessage,
-						ctx.openai,
-				  )
-				: null;
+			const nearestQuestionExamplePromise =
+				questionExampleWithCustomMessage.length
+					? pickSmallDistanceExampleQuestionInput(
+							input.text,
+							questionExampleWithCustomMessage,
+							ctx.openai,
+					  ).catch(() => null)
+					: null;
 
 			const response = await ctx.openai.createChatCompletion({
 				model: "gpt-4-0613",
@@ -111,7 +112,7 @@ export const question = procedure
 				],
 				temperature: 0,
 			});
-
+			const nearestQuestionExample = await nearestQuestionExamplePromise;
 			const args = response.data.choices[0].message?.function_call?.arguments;
 			if (!args) {
 				throw new Error("No args");
@@ -128,6 +129,7 @@ export const question = procedure
 				.catch((e) => {
 					console.error(e);
 				});
+
 			return {
 				answer,
 				customMessage:
