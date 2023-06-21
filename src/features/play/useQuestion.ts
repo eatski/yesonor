@@ -31,21 +31,22 @@ export const useQuestion = (storyId: string) => {
 				},
 				{
 					onSuccess(result) {
+						const simpleMessage = (
+							{
+								False: "いいえ",
+								True: "はい",
+								Unknown: "わからない",
+								Invalid: "不正な質問",
+							} as const satisfies Record<Answer, string>
+						)[result.answer];
 						setHistory((history) => [
 							...history,
 							{
 								id: history.length,
 								input: text,
-								result:
-									result.customMessage ??
-									(
-										{
-											False: "いいえ",
-											True: "はい",
-											Unknown: "わからない",
-											Invalid: "不正な質問",
-										} as const satisfies Record<Answer, string>
-									)[result.answer],
+								result: result.customMessage
+									? `${simpleMessage}: ${result.customMessage}`
+									: simpleMessage,
 							},
 						]);
 					},
