@@ -54,7 +54,7 @@ export const question = procedure
 						input.text,
 						questionExampleWithCustomMessage,
 						ctx.openai,
-				  )
+				  ).catch(() => null)
 				: null;
 
 			const response = await ctx.openai.createChatCompletion({
