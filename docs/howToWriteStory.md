@@ -84,4 +84,4 @@ questionExamples:
     answer: わからない 
 ```
 
-また、[ChatGPTにYAMLを書かせることができるルーム](https://chat.openai.com/share/7a78479e-a766-4781-b196-b72b08dec901)を用意したのでご活用ください。（GPT-4推奨）
+また、[ChatGPTにYAMLを書かせることができるルーム](https://chat.openai.com/share/725aa023-0c7c-429a-ac0a-93a3d61ecad7)を用意したのでご活用ください。（GPT-4推奨）
