@@ -9,7 +9,10 @@ export type Item = {
 	url: string;
 };
 
-export const Stories: React.FC<{ stories: Item[] }> = ({ stories }) => {
+export const Stories: React.FC<{ stories: Item[]; seeMoreUrl?: string }> = ({
+	stories,
+	seeMoreUrl,
+}) => {
 	return (
 		<div className={styles.container}>
 			{stories.map(({ story, url }) => {
@@ -29,6 +32,13 @@ export const Stories: React.FC<{ stories: Item[] }> = ({ stories }) => {
 					</article>
 				);
 			})}
+			{seeMoreUrl && (
+				<div className={styles.seeMore}>
+					<Link className={components.buttonLink} href="/stories">
+						もっと見る
+					</Link>
+				</div>
+			)}
 		</div>
 	);
 };
