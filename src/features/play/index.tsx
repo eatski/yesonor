@@ -1,11 +1,11 @@
 import { trpc } from "@/libs/trpc";
 import { useState } from "react";
-import { Feed } from "./ui/feed";
+import { Feed } from "./components/feed";
 import styles from "./styles.module.scss";
-import { QuestionForm } from "./ui/questionForm";
-import { AnswerForm } from "./ui/answerForm";
-import { QuestionResult } from "./ui/questionResult";
-import { AnswerResult } from "./ui/answerResult";
+import { QuestionForm } from "./components/questionForm";
+import { AnswerForm } from "./components/answerForm";
+import { QuestionResult } from "./components/questionResult";
+import { AnswerResult } from "./components/answerResult";
 import { useQuestion } from "./useQuestion";
 import { gtag } from "@/common/util/gtag";
 import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";

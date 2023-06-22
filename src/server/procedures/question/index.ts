@@ -7,6 +7,7 @@ import { procedure } from "../../trpc";
 import { getStory, getStoryPrivate } from "@/server/services/story";
 import { pickSmallDistanceExampleQuestionInput } from "./pickSmallDistanceExampleQuestionInput";
 import { prisma } from "@/libs/prisma";
+import { OPENAI_ERROR_MESSAGE } from "./contract";
 
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),
@@ -58,60 +59,68 @@ export const question = procedure
 					  ).catch(() => null)
 					: null;
 
-			const response = await ctx.openai.createChatCompletion({
-				model: "gpt-4-0613",
-				function_call: {
-					name: "asnwer",
-				},
-				functions: [
-					{
+			const response = await ctx.openai
+				.createChatCompletion({
+					model: "gpt-4-0613",
+					function_call: {
 						name: "asnwer",
-						description: "Anser the question",
-						parameters: {
-							type: "object",
-							properties: {
-								answer: {
-									type: "string",
-									enum: ["True", "False", "Unknown"],
+					},
+					functions: [
+						{
+							name: "asnwer",
+							description: "Anser the question",
+							parameters: {
+								type: "object",
+								properties: {
+									answer: {
+										type: "string",
+										enum: ["True", "False", "Unknown"],
+									},
 								},
 							},
 						},
-					},
-				],
-				messages: [
-					{
-						role: "system",
-						content: (await systemPromptPromise).toString(),
-					},
-					{
-						role: "assistant",
-						content: story.quiz,
-					},
-					{
-						role: "assistant",
-						content: story.truth,
-					},
-					...story.questionExamples.flatMap(
-						({ question, answer, supplement }) => {
-							return [
-								{
-									role: "user",
-									content: question,
-								},
-								{
-									role: "assistant",
-									content: supplement ? `${answer}:${supplement}` : answer,
-								},
-							] as const;
+					],
+					messages: [
+						{
+							role: "system",
+							content: (await systemPromptPromise).toString(),
 						},
-					),
-					{
-						role: "user",
-						content: input.text,
-					},
-				],
-				temperature: 0,
-			});
+						{
+							role: "assistant",
+							content: story.quiz,
+						},
+						{
+							role: "assistant",
+							content: story.truth,
+						},
+						...story.questionExamples.flatMap(
+							({ question, answer, supplement }) => {
+								return [
+									{
+										role: "user",
+										content: question,
+									},
+									{
+										role: "assistant",
+										content: supplement ? `${answer}:${supplement}` : answer,
+									},
+								] as const;
+							},
+						),
+						{
+							role: "user",
+							content: input.text,
+						},
+					],
+					temperature: 0,
+				})
+				.catch((e) => {
+					throw new TRPCError({
+						code: "INTERNAL_SERVER_ERROR",
+						message: OPENAI_ERROR_MESSAGE,
+						cause: e,
+					});
+				});
 			const nearestQuestionExample = await nearestQuestionExamplePromise;
 			const args = response.data.choices[0].message?.function_call?.arguments;
 			if (!args) {
