@@ -13,7 +13,7 @@ type Props = {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
 	const stories = await getStories({
-		count: 5,
+		count: 10,
 	});
 	return {
 		props: {
@@ -35,7 +35,7 @@ export default function Home(props: Props) {
 				</div>
 				<div style={{ marginBottom: "24px" }}>
 					<H2 label="新着ストーリー" />
-					<Stories stories={props.stories} />
+					<Stories stories={props.stories} seeMoreUrl={"/stories"} />
 				</div>
 				<RecommendCreateStory />
 			</Layout>

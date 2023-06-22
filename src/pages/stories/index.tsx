@@ -11,7 +11,7 @@ type Props = {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
 	const stories = await getStories({
-		count: 20,
+		count: 30,
 	});
 	return {
 		props: {
