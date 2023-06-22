@@ -9,6 +9,8 @@ type Props = {
 };
 
 export const QuestionAndAnswer: React.FC<Props> = (props) => {
+	//HACK: 一時ログ
+	console.log(props.question, props.answer);
 	return (
 		<dl className={styles.container}>
 			<div className={styles.row}>
