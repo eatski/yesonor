@@ -17,25 +17,19 @@
     li {
         display: flex;
         font-size: 14px;
-        column-gap: 8px;
-        row-gap: 4px;
         flex-direction: column;
+        border-radius: 2px;
+        border: var(--border-primary);
         div {
-            padding: 4px 12px;
-            border-radius: 2px;
+            padding: 2px 12px;
             text-align: center;
-            
-            border: var(--border-primary);
         }
         div:nth-child(1) {
             background-color: var(--color-base-bg-info);
-            flex-grow: 1;
+            
         }
         div:nth-child(2) {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 112px;
+           border-top: var(--border-primary);
         }
     }
 }
