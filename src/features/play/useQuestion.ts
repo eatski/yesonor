@@ -3,6 +3,13 @@ import { trpc } from "@/libs/trpc";
 import { Answer } from "@/server/model/types";
 import { useState } from "react";
 
+const last = <T>(array: T[]): T | null => {
+	if (array.length === 0) {
+		return null;
+	}
+	return array[array.length - 1];
+};
+
 export const useQuestion = (storyId: string) => {
 	const [history, setHistory] = useState<
 		{ id: number; input: string; result: string }[]
@@ -16,7 +23,7 @@ export const useQuestion = (storyId: string) => {
 						? "エラーです。AIが回答を生成できませんでした。"
 						: null,
 			  }
-			: history.at(-1) ?? {
+			: last(history) ?? {
 					input: variables.text,
 					result: null,
 			  }
