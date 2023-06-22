@@ -1,6 +1,7 @@
 import { getRecaptchaToken } from "@/common/util/grecaptcha";
 import { trpc } from "@/libs/trpc";
 import { Answer } from "@/server/model/types";
+import { OPENAI_ERROR_MESSAGE } from "@/server/procedures/question/contract";
 import { useState } from "react";
 
 const last = <T>(array: T[]): T | null => {
@@ -10,18 +11,24 @@ const last = <T>(array: T[]): T | null => {
 	return array[array.length - 1];
 };
 
+const toErrorMessage = (error: unknown) => {
+	if (error instanceof Error && error.message === OPENAI_ERROR_MESSAGE) {
+		return "AIの調子が悪いみたいです。しばらく待ってからもう一度お試しください。";
+	}
+	return "エラーです。AIが回答を生成できませんでした。";
+};
+
 export const useQuestion = (storyId: string) => {
 	const [history, setHistory] = useState<
 		{ id: number; input: string; result: string }[]
 	>([]);
-	const { mutate, isLoading, variables, isError } = trpc.question.useMutation();
+	const { mutate, isLoading, variables, isError, error } =
+		trpc.question.useMutation();
 	const latest = variables?.text
-		? isLoading || isError
+		? isLoading || error
 			? {
 					input: variables.text,
-					result: isError
-						? "エラーです。AIが回答を生成できませんでした。"
-						: null,
+					result: error ? toErrorMessage(error) : null,
 			  }
 			: last(history) ?? {
 					input: variables.text,
