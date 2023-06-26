@@ -21,7 +21,7 @@ model Story {
   publishedAt      DateTime?
   createdAt        DateTime  @default(now())
   questionLogs     QuestionLog[]
-  answerLogs       SolutionLog[]
+  solutionLogs     SolutionLog[]
 }
 
 enum Answer {
