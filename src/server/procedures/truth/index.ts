@@ -1,3 +1,4 @@
+import { prisma } from "@/libs/prisma";
 import { truthCoincidence } from "@/server/model/schemas";
 import { getStory, getStoryPrivate } from "@/server/services/story";
 import { procedure } from "@/server/trpc";
@@ -61,6 +62,19 @@ export const truth = procedure
 			throw new Error("No message");
 		}
 		const result = truthCoincidence.parse(message.content);
+
+		const correct = result === "Covers" ? story.truth : null;
+		prisma.solutionLog
+			.create({
+				data: {
+					storyId: story.id,
+					solution: input.text,
+					result: correct ? "Correct" : "Incorrect",
+				},
+			})
+			.catch((e) => {
+				console.error(e);
+			});
 		return {
 			result,
 			input: input.text,

@@ -21,6 +21,7 @@ model Story {
   publishedAt      DateTime?
   createdAt        DateTime  @default(now())
   questionLogs     QuestionLog[]
+  answerLogs       SolutionLog[]
 }
 
 enum Answer {
@@ -37,6 +38,20 @@ model QuestionLog {
   answer    Answer
   createdAt DateTime  @default(now())
   Story     Story     @relation(fields: [storyId], references: [id], onDelete: Cascade)
+}
+
+model SolutionLog {
+  id        String    @id @default(uuid())
+  storyId   String
+  solution  String
+  result    SolutionResult
+  createdAt DateTime  @default(now())
+  Story     Story     @relation(fields: [storyId], references: [id], onDelete: Cascade)
+}
+
+enum SolutionResult {
+  Correct
+  Incorrect
 }
 
 model User {
