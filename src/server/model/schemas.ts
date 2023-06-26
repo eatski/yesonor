@@ -7,14 +7,13 @@ export const answer = z.enum(["True", "False", "Unknown", "Invalid"]);
 export const questionExample = z.object({
 	question: z.string().nonempty(NON_EMPTY_MESSAGE),
 	answer,
-	supplement: z.string().nonempty(NON_EMPTY_MESSAGE),
+	supplement: z.string().optional(),
 	customMessage: z.string().optional(),
 });
 
 export const story = z.object({
 	id: z.string(),
 	title: z.string(),
-	authorEmail: z.string().email(),
 	quiz: z.string(),
 	truth: z.string(),
 	simpleTruth: z.string(),
@@ -40,6 +39,12 @@ export const storyInit = z.object({
 				answers.includes("Unknown")
 			);
 		}, "AIの精度を上げるため、回答がはい、いいえ、わからないをそれぞれ1つ以上入力してください"),
+});
+
+export const questionLog = z.object({
+	question: z.string(),
+	answer,
+	storyId: z.string(),
 });
 
 export const truthCoincidence = z.enum(["Covers", "Wrong", "Insufficient"]);

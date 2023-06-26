@@ -5,7 +5,7 @@ import { GetServerSideProps } from "next";
 import { z } from "zod";
 import { MyStoryMenu } from "@/features/myStoryMenu";
 import { getStoryHeadPrivate } from "@/server/services/story";
-import { getUser } from "@/server/getServerSideProps/getUser";
+import { getUserSession } from "@/server/getServerSideProps/getUserSession";
 import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
 import { Device } from "@/common/util/device";
 import { HeadMetaOverride } from "@/features/headMeta";
@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 			notFound: true,
 		};
 	}
-	const user = await getUser(context);
+	const user = await getUserSession(context);
 	if (!user) {
 		return {
 			notFound: true,

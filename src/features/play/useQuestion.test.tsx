@@ -59,6 +59,7 @@ describe("useQuestion", () => {
 					ctx.status(200),
 					ctx.data({
 						answer: "True",
+						encrypted: "aaaa",
 					}),
 					ctx.delay(100),
 				);

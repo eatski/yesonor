@@ -24,8 +24,14 @@
         color: var(--color-base-fg-secondary);
         margin-bottom: 12px;
         max-height: 80px;
+        overflow: hidden;
     }
     .iconContainer {
+        display: flex;
+        justify-content: center;
+    }
+    .seeMore {
+        margin-top: 16px;
         display: flex;
         justify-content: center;
     }

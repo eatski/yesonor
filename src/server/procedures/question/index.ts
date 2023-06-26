@@ -6,7 +6,8 @@ import { answer as answerSchema } from "../../model/schemas";
 import { procedure } from "../../trpc";
 import { getStory, getStoryPrivate } from "@/server/services/story";
 import { pickSmallDistanceExampleQuestionInput } from "./pickSmallDistanceExampleQuestionInput";
-import { prisma } from "@/libs/prisma";
+import { OPENAI_ERROR_MESSAGE } from "./contract";
+import { encrypt } from "@/libs/crypto";
 
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),
@@ -27,6 +28,7 @@ export const question = procedure
 		}): Promise<{
 			answer: z.infer<typeof answerSchema>;
 			customMessage?: string;
+			encrypted: string;
 		}> => {
 			const verifyPromise = ctx.verifyRecaptcha(input.recaptchaToken);
 			const user = await ctx.getUserOptional();
@@ -49,73 +51,92 @@ export const question = procedure
 				(questionExample) => questionExample.customMessage,
 			);
 
-			const nearestQuestionExample = questionExampleWithCustomMessage.length
-				? await pickSmallDistanceExampleQuestionInput(
-						input.text,
-						questionExampleWithCustomMessage,
-						ctx.openai,
-				  )
-				: null;
+			const nearestQuestionExamplePromise =
+				questionExampleWithCustomMessage.length
+					? pickSmallDistanceExampleQuestionInput(
+							input.text,
+							questionExampleWithCustomMessage,
+							ctx.openai,
+					  ).catch(() => null)
+					: null;
 
-			const response = await ctx.openai.createChatCompletion({
-				model: "gpt-4",
-				messages: [
-					{
-						role: "system",
-						content: (await systemPromptPromise).toString(),
+			const response = await ctx.openai
+				.createChatCompletion({
+					model: "gpt-4-0613",
+					function_call: {
+						name: "asnwer",
 					},
-					{
-						role: "assistant",
-						content: story.quiz,
-					},
-					{
-						role: "assistant",
-						content: story.truth,
-					},
-					...story.questionExamples.flatMap(
-						({ question, answer, supplement }) => {
-							return [
-								{
-									role: "user",
-									content: question,
+					functions: [
+						{
+							name: "asnwer",
+							description: "Anser the question",
+							parameters: {
+								type: "object",
+								properties: {
+									answer: {
+										type: "string",
+										enum: ["True", "False", "Unknown"],
+									},
 								},
-								{
-									role: "assistant",
-									content: `${answer}: ${supplement}`,
-								},
-							] as const;
+							},
 						},
-					),
-					{
-						role: "user",
-						content: input.text,
-					},
-				],
-				temperature: 0,
-				max_tokens: 1,
-			});
-			const message = response.data.choices[0].message;
-			if (!message) {
-				throw new Error("No message");
-			}
-			const answer = answerSchema.parse(message.content);
-			prisma.questionLog
-				.create({
-					data: {
-						storyId: story.id,
-						question: input.text,
-						answer,
-					},
+					],
+					messages: [
+						{
+							role: "system",
+							content: (await systemPromptPromise).toString(),
+						},
+						{
+							role: "assistant",
+							content: story.quiz,
+						},
+						{
+							role: "assistant",
+							content: story.truth,
+						},
+						...story.questionExamples.flatMap(
+							({ question, answer, supplement }) => {
+								return [
+									{
+										role: "user",
+										content: question,
+									},
+									{
+										role: "assistant",
+										content: supplement ? `${answer}:${supplement}` : answer,
+									},
+								] as const;
+							},
+						),
+						{
+							role: "user",
+							content: input.text,
+						},
+					],
+					temperature: 0,
 				})
 				.catch((e) => {
-					console.error(e);
+					throw new TRPCError({
+						code: "INTERNAL_SERVER_ERROR",
+						message: OPENAI_ERROR_MESSAGE,
+						cause: e,
+					});
 				});
+			const nearestQuestionExample = await nearestQuestionExamplePromise;
+			const args = response.data.choices[0].message?.function_call?.arguments;
+			if (!args) {
+				throw new Error("No args");
+			}
+			const answer = answerSchema.parse(JSON.parse(args).answer);
 			return {
 				answer,
 				customMessage:
 					nearestQuestionExample?.answer === answer
 						? nearestQuestionExample.customMessage
 						: undefined,
+				encrypted: encrypt(
+					JSON.stringify({ storyId: story.id, question: input.text, answer }),
+				),
 			};
 		},
 	);

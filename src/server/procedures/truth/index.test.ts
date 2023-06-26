@@ -49,7 +49,7 @@ describe("trpc/truth", () => {
 	describe("解答した内容に対して、結果が返る", () => {
 		test.concurrent.each([
 			"太郎はおしゃれのために度が入っていない眼鏡をかけている。",
-			"太郎さんは伊達メガネをかけている。",
+			"太郎さんはオシャレで伊達メガネをかけている。",
 		])("真相に対して正しい解答をするとCoversが返る", async (text) => {
 			const result = await testee.truth({
 				storyId: TEST_ID,

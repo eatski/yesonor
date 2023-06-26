@@ -54,12 +54,12 @@ describe("question/pickSmallDistanceExampleQuestionInput", () => {
 		"花子はメガネをかけている？",
 		"太郎はカツラをかぶっている？",
 		"太郎は日本語を話せる？",
-	])("should return undefined if the distance is too large", async (input) => {
+	])("should return null if the distance is too large", async (input) => {
 		const result = await pickSmallDistanceExampleQuestionInput(
 			input,
 			examples,
 			openai,
 		);
-		expect(result?.question).toEqual(undefined);
+		expect(result).toEqual(null);
 	});
 });

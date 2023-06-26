@@ -6,21 +6,20 @@ export const pickSmallDistanceExampleQuestionInput = async (
 	input: string,
 	questionExamples: QuestionExample[],
 	openai: OpenAIApi,
-) => {
-	const [inputEmbedding] = await openai
+): Promise<QuestionExample | null> => {
+	const inputEmbeddingPromise = openai
 		.createEmbedding({
 			model: "text-embedding-ada-002",
 			input: input,
 		})
 		.then((res) => res.data.data);
-
 	const exampleEmbeddings = await openai
 		.createEmbedding({
 			model: "text-embedding-ada-002",
 			input: questionExamples.map(({ question }) => question),
 		})
 		.then((res) => res.data.data);
-
+	const [inputEmbedding] = await inputEmbeddingPromise;
 	const calculated = exampleEmbeddings.map((exampleEmbedding) => {
 		return {
 			index: exampleEmbedding.index,
@@ -33,6 +32,7 @@ export const pickSmallDistanceExampleQuestionInput = async (
 	calculated.sort((a, b) => a.distance - b.distance);
 	const nearby = calculated.at(0);
 	if (nearby && nearby.distance < 0.25) {
-		return questionExamples.at(nearby.index);
+		return questionExamples.at(nearby.index) || null;
 	}
+	return null;
 };

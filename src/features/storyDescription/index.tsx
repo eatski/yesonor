@@ -11,7 +11,7 @@ dayjs.locale("ja");
 
 export const StoryDescription: React.FC<{
 	story: StoryHead;
-}> = ({ story: { id, title, quiz, publishedAt, published } }) => {
+}> = ({ story: { id, title, quiz, publishedAt, published, author } }) => {
 	const url = `https://iesona.com/stories/${id}`;
 	const twitterUrl = new URL("https://twitter.com/intent/tweet");
 	twitterUrl.searchParams.set("url", url);
@@ -28,6 +28,12 @@ export const StoryDescription: React.FC<{
 					<div className={styles.basic}>
 						<dt>投稿日</dt>
 						<dd>{dayjs(publishedAt).format("YYYY/MM/DD")}</dd>
+						{author.name && (
+							<>
+								<dt>作成者</dt>
+								<dd>{author.name}</dd>
+							</>
+						)}
 					</div>
 				</dl>
 			)}

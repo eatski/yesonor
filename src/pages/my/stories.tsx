@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { Item, Stories } from "@/common/components/stories";
 import { H2 } from "@/common/components/h2";
 import { getStoriesPrivate } from "@/server/services/story";
-import { getUser } from "@/server/getServerSideProps/getUser";
+import { getUserSession } from "@/server/getServerSideProps/getUserSession";
 
 type Props = {
 	stories: Item[];
@@ -12,7 +12,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<Props> = async (
 	context,
 ) => {
-	const user = await getUser(context);
+	const user = await getUserSession(context);
 	if (!user) {
 		return {
 			notFound: true,
