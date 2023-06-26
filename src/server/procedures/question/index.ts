@@ -6,8 +6,8 @@ import { answer as answerSchema } from "../../model/schemas";
 import { procedure } from "../../trpc";
 import { getStory, getStoryPrivate } from "@/server/services/story";
 import { pickSmallDistanceExampleQuestionInput } from "./pickSmallDistanceExampleQuestionInput";
-import { prisma } from "@/libs/prisma";
 import { OPENAI_ERROR_MESSAGE } from "./contract";
+import { encrypt } from "@/libs/crypto";
 
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),
@@ -28,6 +28,7 @@ export const question = procedure
 		}): Promise<{
 			answer: z.infer<typeof answerSchema>;
 			customMessage?: string;
+			encrypted: string;
 		}> => {
 			const verifyPromise = ctx.verifyRecaptcha(input.recaptchaToken);
 			const user = await ctx.getUserOptional();
@@ -127,24 +128,15 @@ export const question = procedure
 				throw new Error("No args");
 			}
 			const answer = answerSchema.parse(JSON.parse(args).answer);
-			prisma.questionLog
-				.create({
-					data: {
-						storyId: story.id,
-						question: input.text,
-						answer,
-					},
-				})
-				.catch((e) => {
-					console.error(e);
-				});
-
 			return {
 				answer,
 				customMessage:
 					nearestQuestionExample?.answer === answer
 						? nearestQuestionExample.customMessage
 						: undefined,
+				encrypted: encrypt(
+					JSON.stringify({ storyId: story.id, question: input.text, answer }),
+				),
 			};
 		},
 	);

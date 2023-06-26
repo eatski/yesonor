@@ -41,4 +41,10 @@ export const storyInit = z.object({
 		}, "AIの精度を上げるため、回答がはい、いいえ、わからないをそれぞれ1つ以上入力してください"),
 });
 
+export const questionLog = z.object({
+	question: z.string(),
+	answer,
+	storyId: z.string(),
+});
+
 export const truthCoincidence = z.enum(["Covers", "Wrong", "Insufficient"]);

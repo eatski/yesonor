@@ -22,8 +22,9 @@ export const useQuestion = (storyId: string) => {
 	const [history, setHistory] = useState<
 		{ id: number; input: string; result: string }[]
 	>([]);
-	const { mutate, isLoading, variables, isError, error } =
+	const { mutateAsync, isLoading, variables, isError, error } =
 		trpc.question.useMutation();
+	const { mutate } = trpc.questionLog.post.useMutation();
 	const latest = variables?.text
 		? isLoading || error
 			? {
@@ -37,35 +38,32 @@ export const useQuestion = (storyId: string) => {
 		: null;
 	return {
 		async onSubmit(text: string) {
-			mutate(
+			const result = await mutateAsync({
+				storyId,
+				text,
+				recaptchaToken: await getRecaptchaToken(),
+			});
+			const simpleMessage = (
 				{
-					storyId,
-					text,
-					recaptchaToken: await getRecaptchaToken(),
-				},
+					False: "いいえ",
+					True: "はい",
+					Unknown: "わからない",
+					Invalid: "不正な質問",
+				} as const satisfies Record<Answer, string>
+			)[result.answer];
+			setHistory((history) => [
+				...history,
 				{
-					onSuccess(result) {
-						const simpleMessage = (
-							{
-								False: "いいえ",
-								True: "はい",
-								Unknown: "わからない",
-								Invalid: "不正な質問",
-							} as const satisfies Record<Answer, string>
-						)[result.answer];
-						setHistory((history) => [
-							...history,
-							{
-								id: history.length,
-								input: text,
-								result: result.customMessage
-									? `${simpleMessage}: ${result.customMessage}`
-									: simpleMessage,
-							},
-						]);
-					},
+					id: history.length,
+					input: text,
+					result: result.customMessage
+						? `${simpleMessage}: ${result.customMessage}`
+						: simpleMessage,
 				},
-			);
+			]);
+			mutate({
+				encrypted: result.encrypted,
+			});
 		},
 		latest,
 		history,
