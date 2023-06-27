@@ -13,6 +13,7 @@ export const questionExample = z.object({
 
 export const story = z.object({
 	id: z.string(),
+	authorId: z.string(),
 	title: z.string(),
 	quiz: z.string(),
 	truth: z.string(),

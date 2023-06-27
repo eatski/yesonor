@@ -1,3 +1,4 @@
+import { calculateEuclideanDistance } from "@/libs/math";
 import { prisma } from "@/libs/prisma";
 import { truthCoincidence } from "@/server/model/schemas";
 import { getStory, getStoryPrivate } from "@/server/services/story";
@@ -37,47 +38,60 @@ export const truth = procedure
 		}
 		await verifyPromise;
 		const systemPrompt = await systemPromptPromise;
-		const response = await ctx.openai.createChatCompletion({
-			model: "gpt-4-0613",
-			messages: [
-				{
-					role: "system",
-					content: systemPrompt.toString(),
-				},
-				{
-					role: "assistant",
-					content: story.simpleTruth,
-				},
-				{
-					role: "user",
-					content: input.text,
-				},
-			],
-			temperature: 0,
-			max_tokens: 10,
-		});
-
-		const message = response.data.choices[0].message;
+		const [chatResponse, embeddingsResponse] = await Promise.all([
+			ctx.openai.createChatCompletion({
+				model: "gpt-4-0613",
+				messages: [
+					{
+						role: "system",
+						content: systemPrompt.toString(),
+					},
+					{
+						role: "assistant",
+						content: story.simpleTruth,
+					},
+					{
+						role: "user",
+						content: input.text,
+					},
+				],
+				temperature: 0,
+				max_tokens: 10,
+			}),
+			ctx.openai.createEmbedding({
+				model: "text-embedding-ada-002",
+				input: [story.simpleTruth, input.text],
+			}),
+		]);
+		const [textA, textB] = embeddingsResponse.data.data;
+		const distance = calculateEuclideanDistance(
+			textA.embedding,
+			textB.embedding,
+		);
+		const message = chatResponse.data.choices[0].message;
 		if (!message) {
 			throw new Error("No message");
 		}
 		const result = truthCoincidence.parse(message.content);
 
 		const correct = result === "Covers" ? story.truth : null;
-		prisma.solutionLog
-			.create({
-				data: {
-					storyId: story.id,
-					solution: input.text,
-					result: correct ? "Correct" : "Incorrect",
-				},
-			})
-			.catch((e) => {
-				console.error(e);
-			});
+		const isOwn = user?.id === story.authorId;
+		isOwn ||
+			prisma.solutionLog
+				.create({
+					data: {
+						storyId: story.id,
+						solution: input.text,
+						result: correct ? "Correct" : "Incorrect",
+					},
+				})
+				.catch((e) => {
+					console.error(e);
+				});
 		return {
 			result,
 			input: input.text,
 			truth: result === "Covers" ? story.truth : null,
+			distance: Math.round(distance * 100) / 100,
 		};
 	});

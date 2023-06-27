@@ -28,7 +28,7 @@ export const question = procedure
 		}): Promise<{
 			answer: z.infer<typeof answerSchema>;
 			customMessage?: string;
-			encrypted: string;
+			encrypted: string | null;
 		}> => {
 			const verifyPromise = ctx.verifyRecaptcha(input.recaptchaToken);
 			const user = await ctx.getUserOptional();
@@ -128,15 +128,22 @@ export const question = procedure
 				throw new Error("No args");
 			}
 			const answer = answerSchema.parse(JSON.parse(args).answer);
+			const isOwn = user?.id === story.authorId;
 			return {
 				answer,
 				customMessage:
 					nearestQuestionExample?.answer === answer
 						? nearestQuestionExample.customMessage
 						: undefined,
-				encrypted: encrypt(
-					JSON.stringify({ storyId: story.id, question: input.text, answer }),
-				),
+				encrypted: isOwn
+					? null
+					: encrypt(
+							JSON.stringify({
+								storyId: story.id,
+								question: input.text,
+								answer,
+							}),
+					  ),
 			};
 		},
 	);

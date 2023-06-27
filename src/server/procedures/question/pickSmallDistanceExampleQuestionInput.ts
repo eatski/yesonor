@@ -1,6 +1,6 @@
 import { QuestionExample } from "@/server/model/types";
 import { OpenAIApi } from "openai";
-import { calculateEuclideanDistance } from "./calculateEuclideanDistance";
+import { calculateEuclideanDistance } from "@/libs/math";
 
 export const pickSmallDistanceExampleQuestionInput = async (
 	input: string,
