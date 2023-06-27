@@ -5,6 +5,7 @@ export type Props = {
 	result: string;
 	reasoning: string;
 	truth: string | null;
+	distance: string | null;
 	onBackButtonClicked: () => void;
 };
 
@@ -13,10 +14,12 @@ export const AnswerResult: React.FC<Props> = ({
 	reasoning,
 	truth,
 	onBackButtonClicked,
+	distance,
 }) => {
 	return (
 		<div className={styles.container} data-truth={truth !== null}>
 			<h3>{result}</h3>
+			{distance && <p>正解との距離: {distance}</p>}
 			<dl>
 				{truth && (
 					<>

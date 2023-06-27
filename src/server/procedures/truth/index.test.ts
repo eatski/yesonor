@@ -47,30 +47,32 @@ describe("trpc/truth", () => {
 		openai,
 	});
 	describe("解答した内容に対して、結果が返る", () => {
-		test.concurrent.each([
+		test.each([
 			"太郎はおしゃれのために度が入っていない眼鏡をかけている。",
 			"太郎さんはオシャレで伊達メガネをかけている。",
-		])("真相に対して正しい解答をするとCoversが返る", async (text) => {
+		])("真相に対して正しい解答をするとCoversが返る。 [%s]", async (text) => {
 			const result = await testee.truth({
 				storyId: TEST_ID,
 				text,
 				recaptchaToken: "anytoken",
 			});
 			expect(result.result).toEqual("Covers");
+			expect(result).toMatchSnapshot();
 		});
-		test.concurrent.each([
-			"太郎はメガネをかけている。",
-			"太郎さんはおしゃれをしている。",
-		])("真相に対して不十分な解答をするとInsufficientが返る", async (text) => {
-			const result = await testee.truth({
-				storyId: TEST_ID,
-				text,
-				recaptchaToken: "anytoken",
-			});
-			expect(result.result).toEqual("Insufficient");
-		});
-		test.concurrent.each(["太郎は友達に無理やりメガネをかけさせられた。"])(
-			"真相に対して間違えた解答をするとがWrong返る",
+		test.each(["太郎はメガネをかけている。", "太郎さんはおしゃれをしている。"])(
+			"真相に対して不十分な解答をするとInsufficientが返る。 [%s]",
+			async (text) => {
+				const result = await testee.truth({
+					storyId: TEST_ID,
+					text,
+					recaptchaToken: "anytoken",
+				});
+				expect(result.result).toEqual("Insufficient");
+				expect(result).toMatchSnapshot();
+			},
+		);
+		test.each(["太郎は友達に無理やりメガネをかけさせられた。"])(
+			"真相に対して間違えた解答をするとがWrong返る [%s]",
 			async (text) => {
 				const result = await testee.truth({
 					storyId: TEST_ID,
@@ -78,6 +80,7 @@ describe("trpc/truth", () => {
 					recaptchaToken: "anytoken",
 				});
 				expect(result.result).toEqual("Wrong");
+				expect(result).toMatchSnapshot();
 			},
 		);
 	});

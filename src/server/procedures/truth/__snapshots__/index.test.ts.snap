@@ -1,0 +1,46 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`trpc/truth > 解答した内容に対して、結果が返る > 真相に対して不十分な解答をするとInsufficientが返る。 [太郎さんはおしゃれをしている。] 1`] = `
+{
+  "distance": 0.37,
+  "input": "太郎さんはおしゃれをしている。",
+  "result": "Insufficient",
+  "truth": null,
+}
+`;
+
+exports[`trpc/truth > 解答した内容に対して、結果が返る > 真相に対して不十分な解答をするとInsufficientが返る。 [太郎はメガネをかけている。] 1`] = `
+{
+  "distance": 0.3,
+  "input": "太郎はメガネをかけている。",
+  "result": "Insufficient",
+  "truth": null,
+}
+`;
+
+exports[`trpc/truth > 解答した内容に対して、結果が返る > 真相に対して正しい解答をするとCoversが返る。 [太郎さんはオシャレで伊達メガネをかけている。] 1`] = `
+{
+  "distance": 0.13,
+  "input": "太郎さんはオシャレで伊達メガネをかけている。",
+  "result": "Covers",
+  "truth": "太郎さんはオシャレ好きであり、おしゃれのために伊達メガネをかけている。",
+}
+`;
+
+exports[`trpc/truth > 解答した内容に対して、結果が返る > 真相に対して正しい解答をするとCoversが返る。 [太郎はおしゃれのために度が入っていない眼鏡をかけている。] 1`] = `
+{
+  "distance": 0.36,
+  "input": "太郎はおしゃれのために度が入っていない眼鏡をかけている。",
+  "result": "Covers",
+  "truth": "太郎さんはオシャレ好きであり、おしゃれのために伊達メガネをかけている。",
+}
+`;
+
+exports[`trpc/truth > 解答した内容に対して、結果が返る > 真相に対して間違えた解答をするとがWrong返る [太郎は友達に無理やりメガネをかけさせられた。] 1`] = `
+{
+  "distance": 0.42,
+  "input": "太郎は友達に無理やりメガネをかけさせられた。",
+  "result": "Wrong",
+  "truth": null,
+}
+`;

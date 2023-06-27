@@ -61,9 +61,11 @@ export const useQuestion = (storyId: string) => {
 						: simpleMessage,
 				},
 			]);
-			mutate({
-				encrypted: result.encrypted,
-			});
+			if (result.encrypted) {
+				mutate({
+					encrypted: result.encrypted,
+				});
+			}
 		},
 		latest,
 		history,

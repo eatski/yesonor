@@ -10,9 +10,30 @@ import { useQuestion } from "./useQuestion";
 import { gtag } from "@/common/util/gtag";
 import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import Script from "next/script";
+import { calcPercentage } from "@/libs/math";
 
 type Props = {
 	storyId: string;
+};
+
+/**
+ * 大体0.25あたりが正解であり0.6はかなり遠いためそれを基準に0.25~0.6を0.99~0に変換する。
+ * 外れ値はそれぞれ0.99, 0にする。
+ *
+ * ~0.30 -> 0.99
+ * 0.30~0.6 -> 0.99~0
+ * 0.6~ -> 0
+ *
+ * @param distance 0.0 ~ 1.0
+ */
+const calcDisplayDistance = (distance: number): number => {
+	if (distance <= 0.3) {
+		return 0.99;
+	} else if (distance > 0.3 && distance <= 0.6) {
+		return 0.99 - (distance - 0.3) * (0.99 / (0.6 - 0.3));
+	} else {
+		return 0;
+	}
 };
 
 const AnswerFormContainer: React.FC<{
@@ -34,6 +55,11 @@ const AnswerFormContainer: React.FC<{
 				)[data.result]
 			}
 			truth={data.truth}
+			distance={
+				data.result !== "Covers"
+					? `${calcPercentage(calcDisplayDistance(data.distance))}%`
+					: null
+			}
 		/>
 	) : (
 		<AnswerForm

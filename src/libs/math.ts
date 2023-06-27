@@ -14,3 +14,7 @@ export function calculateEuclideanDistance(
 
 	return Math.sqrt(sum);
 }
+
+export function calcPercentage(a: number): number {
+	return Math.round(a * 100);
+}
