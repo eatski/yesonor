@@ -69,6 +69,8 @@ export default function App({ Component, pageProps }: AppProps) {
 					content={texts.serviceDescription}
 				/>
 				<meta property="og:type" content="website" />
+				<meta name="twitter:card" content="summary_large_image" />
+				<meta name="twitter:image" content="https://iesona.com/card.png" />
 			</Head>
 			<Script
 				src="https://www.googletagmanager.com/gtag/js?id=G-1VTTNL7SR2"
