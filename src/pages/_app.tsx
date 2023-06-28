@@ -64,11 +64,17 @@ export default function App({ Component, pageProps }: AppProps) {
 					content={`${texts.serviceName}(${texts.serviceNickname}) - ${texts.serviceDescription}`}
 				/>
 				<meta
+					key={keysOverride.metaOgpTitle}
+					property="og:site_name"
+					content={texts.serviceName}
+				/>
+				<meta
 					key={keysOverride.metaOgpDescription}
 					property="og:description"
 					content={texts.serviceDescription}
 				/>
 				<meta property="og:type" content="website" />
+				<meta property="og:image" content="https://iesona.com/card.png" />
 				<meta name="twitter:card" content="summary_large_image" />
 				<meta name="twitter:image" content="https://iesona.com/card.png" />
 			</Head>
