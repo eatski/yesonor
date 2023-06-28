@@ -42,7 +42,7 @@ export const storyInit = z.object({
 	truth: z
 		.string()
 		.nonempty(NON_EMPTY_MESSAGE)
-		.max(400, "500文字以内で入力してください"),
+		.max(400, "400文字以内で入力してください"),
 	simpleTruth: z
 		.string()
 		.nonempty(NON_EMPTY_MESSAGE)
