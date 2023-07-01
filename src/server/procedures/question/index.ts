@@ -8,10 +8,27 @@ import { getStory, getStoryPrivate } from "@/server/services/story";
 import { pickSmallDistanceExampleQuestionInput } from "./pickSmallDistanceExampleQuestionInput";
 import { OPENAI_ERROR_MESSAGE } from "./contract";
 import { encrypt } from "@/libs/crypto";
+import { QuestionExampleWithCustomMessage } from "./type";
+import { QuestionExample } from "@/server/model/types";
 
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),
 );
+
+const filterWithCustomMessage = (
+	examples: QuestionExample[],
+): QuestionExampleWithCustomMessage[] => {
+	const filterd: QuestionExampleWithCustomMessage[] = [];
+	for (const example of examples) {
+		if (example.customMessage) {
+			filterd.push({
+				...example,
+				customMessage: example.customMessage,
+			});
+		}
+	}
+	return filterd;
+};
 
 export const question = procedure
 	.input(
@@ -27,7 +44,7 @@ export const question = procedure
 			ctx,
 		}): Promise<{
 			answer: z.infer<typeof answerSchema>;
-			customMessage?: string;
+			hitQuestionExample: QuestionExampleWithCustomMessage | null;
 			encrypted: string | null;
 		}> => {
 			const verifyPromise = ctx.verifyRecaptcha(input.recaptchaToken);
@@ -47,8 +64,8 @@ export const question = procedure
 			}
 			await verifyPromise;
 
-			const questionExampleWithCustomMessage = story.questionExamples.filter(
-				(questionExample) => questionExample.customMessage,
+			const questionExampleWithCustomMessage = filterWithCustomMessage(
+				story.questionExamples,
 			);
 
 			const nearestQuestionExamplePromise =
@@ -129,12 +146,14 @@ export const question = procedure
 			}
 			const answer = answerSchema.parse(JSON.parse(args).answer);
 			const isOwn = user?.id === story.authorId;
+			const hitQuestionExample =
+				nearestQuestionExample?.answer === answer
+					? nearestQuestionExample
+					: null;
+
 			return {
 				answer,
-				customMessage:
-					nearestQuestionExample?.answer === answer
-						? nearestQuestionExample.customMessage
-						: undefined,
+				hitQuestionExample,
 				encrypted: isOwn
 					? null
 					: encrypt(

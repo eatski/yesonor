@@ -2,11 +2,13 @@ import { QuestionExample } from "@/server/model/types";
 import { OpenAIApi } from "openai";
 import { calculateEuclideanDistance } from "@/libs/math";
 
-export const pickSmallDistanceExampleQuestionInput = async (
+export const pickSmallDistanceExampleQuestionInput = async <
+	E extends QuestionExample,
+>(
 	input: string,
-	questionExamples: QuestionExample[],
+	questionExamples: E[],
 	openai: OpenAIApi,
-): Promise<QuestionExample | null> => {
+): Promise<E | null> => {
 	const inputEmbeddingPromise = openai
 		.createEmbedding({
 			model: "text-embedding-ada-002",

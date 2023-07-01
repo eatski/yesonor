@@ -4,15 +4,15 @@ import { StoryDescription } from "@/features/storyDescription";
 import { GetServerSideProps } from "next";
 import { z } from "zod";
 import { MyStoryMenu } from "@/features/myStoryMenu";
-import { getStoryHeadPrivate } from "@/server/services/story";
+import { getStoryPrivate } from "@/server/services/story";
 import { getUserSession } from "@/server/getServerSideProps/getUserSession";
 import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
 import { Device } from "@/common/util/device";
 import { HeadMetaOverride } from "@/features/headMeta";
-import { StoryHead } from "@/server/model/types";
+import { Story } from "@/server/model/types";
 
 type Props = {
-	story: StoryHead;
+	story: Story;
 	device: Device;
 };
 
@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 			notFound: true,
 		};
 	}
-	const story = await getStoryHeadPrivate({
+	const story = await getStoryPrivate({
 		storyId: validated.data.storyId,
 		authorId: user.userId,
 	});
@@ -70,7 +70,7 @@ export default function StoryDraftPage(props: Props) {
 				}
 			>
 				<StoryDescription story={props.story} />
-				<Play storyId={props.story.id} />
+				<Play story={props.story} />
 			</Layout>
 		</>
 	);

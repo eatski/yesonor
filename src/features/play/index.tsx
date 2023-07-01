@@ -11,9 +11,10 @@ import { gtag } from "@/common/util/gtag";
 import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import Script from "next/script";
 import { calcPercentage } from "@/libs/math";
+import { Story } from "@/server/model/types";
 
 type Props = {
-	storyId: string;
+	story: Story;
 };
 
 /**
@@ -79,7 +80,7 @@ const AnswerFormContainer: React.FC<{
 };
 
 export function Play(props: Props) {
-	const question = useQuestion(props.storyId);
+	const question = useQuestion(props.story);
 	const [isAnswerMode, setIsAnswerMode] = useState(false);
 	return (
 		<>
@@ -103,13 +104,14 @@ export function Play(props: Props) {
 						onAnswerButtonClicked={() => {
 							setIsAnswerMode(true);
 						}}
+						onHintButtonClicked={null}
 					/>
 				</div>
 			)}
 			{isAnswerMode && (
 				<div className={styles.sectionWrapper}>
 					<AnswerFormContainer
-						storyId={props.storyId}
+						storyId={props.story.id}
 						onCancel={() => {
 							setIsAnswerMode(false);
 						}}

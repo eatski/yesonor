@@ -17,18 +17,21 @@ export const questionExample = z.object({
 		.optional(),
 });
 
-export const story = z.object({
-	id: z.string(),
-	authorId: z.string(),
-	title: z.string(),
-	quiz: z.string(),
-	truth: z.string(),
-	simpleTruth: z.string(),
-	questionExamples: z.array(questionExample),
-	publishedAt: z.date().nullable(),
-	published: z.boolean(),
-	createdAt: z.date(),
-});
+// export const story = z.object({
+// 	id: z.string(),
+// 	author: z.object({
+// 		id: z.string(),
+// 		name: z.string().nullable(),
+// 	}),
+// 	title: z.string(),
+// 	quiz: z.string(),
+// 	truth: z.string(),
+// 	simpleTruth: z.string(),
+// 	questionExamples: z.array(questionExample),
+// 	publishedAt: z.date().nullable(),
+// 	published: z.boolean(),
+// 	createdAt: z.date(),
+// });
 
 export const storyInit = z.object({
 	title: z

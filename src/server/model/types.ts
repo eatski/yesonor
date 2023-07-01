@@ -2,22 +2,38 @@ import { z } from "zod";
 import {
 	answer,
 	questionExample,
-	story,
 	storyInit,
 	truthCoincidence,
 } from "./schemas";
+import { Story as DbStory, User as DbUser } from "@prisma/client";
 
 type Public<T, Private extends keyof T> = {
 	[K in keyof T as K extends Private ? never : K]: DateToNumber<T[K]>;
 } & {
 	[K in Private]?: never;
 };
+type Override<
+	T extends Record<keyof U, unknown>,
+	U extends Partial<Record<keyof T, unknown>>,
+> = Omit<T, keyof U> & U;
 
 type DateToNumber<T> = T extends Date ? number : T;
 
-export type Story = Public<z.infer<typeof story>, "createdAt">;
-export type StoryHead = Public<
-	Story & { author: { name: string | null } },
+export type User = Public<DbUser, "createdAt" | "oauthId">;
+
+export type Story = Public<
+	Override<
+		DbStory,
+		{
+			questionExamples: z.infer<typeof questionExample>[];
+		}
+	> & {
+		author: User;
+	},
+	"createdAt" | "authorId"
+>;
+export type StoryHead = Omit<
+	Story,
 	"questionExamples" | "truth" | "simpleTruth" | "createdAt"
 >;
 export type Answer = z.infer<typeof answer>;

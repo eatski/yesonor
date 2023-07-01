@@ -3,13 +3,13 @@ import { Layout } from "@/features/layout";
 import { StoryDescription } from "@/features/storyDescription";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { z } from "zod";
-import { getStories, getStoryHead } from "@/server/services/story";
+import { getStories, getStory } from "@/server/services/story";
 import { revalidateTime } from "@/common/revalidate";
 import { HeadMetaOverride } from "@/features/headMeta";
-import { StoryHead } from "@/server/model/types";
+import { Story } from "@/server/model/types";
 
 type Props = {
-	story: StoryHead;
+	story: Story;
 };
 
 const querySchema = z.object({
@@ -24,7 +24,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 		};
 	}
 
-	const story = await getStoryHead({
+	const story = await getStory({
 		storyId: validated.data.storyId,
 	});
 	if (!story) {
@@ -64,7 +64,7 @@ export default function Story(props: Props) {
 			/>
 			<Layout>
 				<StoryDescription story={props.story} />
-				<Play storyId={props.story.id} />
+				<Play story={props.story} />
 			</Layout>
 		</>
 	);

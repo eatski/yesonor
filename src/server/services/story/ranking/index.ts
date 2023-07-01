@@ -8,6 +8,7 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 		include: {
 			questionLogs: true,
 			solutionLogs: true,
+			author: true,
 		},
 		where: createGetStoryWhere({}),
 		orderBy: {

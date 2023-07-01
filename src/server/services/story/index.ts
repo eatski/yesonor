@@ -23,6 +23,9 @@ export const getStory = (args: { storyId: string }): Promise<Story | null> => {
 	return prisma.story
 		.findFirst({
 			where: createGetStoryWhere(args),
+			include: {
+				author: true,
+			},
 		})
 		.then((story) => {
 			if (story == null) return null;
@@ -71,6 +74,9 @@ export const getStoryPrivate = async (args: {
 	return prisma.story
 		.findFirst({
 			where: createGetStoryPrivateWhere(args),
+			include: {
+				author: true,
+			},
 		})
 		.then((story) => {
 			if (story == null) return null;
