@@ -162,7 +162,13 @@ export function Play(props: Props) {
 							<section className={styles.buttonContainer}>
 								<button
 									onClick={() => {
-										setMode("truth");
+										if (
+											confirm(
+												"本当に真相を見ますか？一度真相を見てしまうとこのストーリーを楽しむことができなくなります。",
+											)
+										) {
+											setMode("truth");
+										}
 									}}
 									className={components.button2}
 								>
