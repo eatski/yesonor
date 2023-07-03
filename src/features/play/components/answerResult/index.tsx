@@ -19,7 +19,7 @@ export const AnswerResult: React.FC<Props> = ({
 	return (
 		<div className={styles.container} data-truth={truth !== null}>
 			<h3>{result}</h3>
-			{distance && <p>正解との距離: {distance}</p>}
+			{distance && <p>惜しい度: {distance}</p>}
 			<dl>
 				{truth && (
 					<>
