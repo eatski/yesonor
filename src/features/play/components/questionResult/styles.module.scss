@@ -2,7 +2,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 40px;
+    height: 36px;
+    gap: 8px;
+    button {
+        width: 160px;
+    }
+    
 }
 
 .resultContainer {

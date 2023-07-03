@@ -21,7 +21,7 @@ export const QuestionResult: React.FC<Props> = (props) => {
 				</button>
 				{props.onHintButtonClicked && (
 					<button
-						className={button.buttonDanger}
+						className={button.button2}
 						onClick={props.onHintButtonClicked}
 					>
 						ヒントを見る
