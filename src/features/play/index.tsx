@@ -157,7 +157,7 @@ export function Play(props: Props) {
 							}))}
 						/>
 					</div>
-					{mode !== "truth" && (
+					{mode !== "truth" && question.history.length > 5 && (
 						<div className={styles.sectionWrapper}>
 							<section className={styles.buttonContainer}>
 								<button
