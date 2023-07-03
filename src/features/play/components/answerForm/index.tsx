@@ -34,10 +34,11 @@ export const AnswerForm: React.FC<{
 			/>
 			<div className={styles.buttonContainer}>
 				<button
-					className={components.button2}
+					className={components.buttonLink}
 					type="button"
 					onClick={onCancel}
 					disabled={isLoading}
+					data-width="medium"
 				>
 					まだわからない
 				</button>
@@ -45,6 +46,7 @@ export const AnswerForm: React.FC<{
 					className={components.button}
 					type="submit"
 					disabled={isLoading}
+					data-width="medium"
 				>
 					回答する
 				</button>

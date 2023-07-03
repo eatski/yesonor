@@ -6,6 +6,7 @@ export type Props = {
 	question: string;
 	answer: string | null;
 	onAnswerButtonClicked: () => void;
+	onHintButtonClicked: (() => void) | null;
 };
 
 export const QuestionResult: React.FC<Props> = (props) => {
@@ -18,6 +19,14 @@ export const QuestionResult: React.FC<Props> = (props) => {
 				<button className={button.button} onClick={props.onAnswerButtonClicked}>
 					謎は解けましたか？
 				</button>
+				{props.onHintButtonClicked && (
+					<button
+						className={button.button2}
+						onClick={props.onHintButtonClicked}
+					>
+						ヒントを見る
+					</button>
+				)}
 			</div>
 		</section>
 	);

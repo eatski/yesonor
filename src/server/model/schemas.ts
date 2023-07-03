@@ -5,30 +5,51 @@ const NON_EMPTY_MESSAGE = "この項目は必須です";
 export const answer = z.enum(["True", "False", "Unknown", "Invalid"]);
 
 export const questionExample = z.object({
-	question: z.string().nonempty(NON_EMPTY_MESSAGE),
+	question: z
+		.string()
+		.nonempty(NON_EMPTY_MESSAGE)
+		.max(100, "100文字以内で入力してください"),
 	answer,
-	supplement: z.string().optional(),
-	customMessage: z.string().optional(),
+	supplement: z.string().max(100, "100文字以内で入力してください").optional(),
+	customMessage: z
+		.string()
+		.max(100, "100文字以内で入力してください")
+		.optional(),
 });
 
-export const story = z.object({
-	id: z.string(),
-	authorId: z.string(),
-	title: z.string(),
-	quiz: z.string(),
-	truth: z.string(),
-	simpleTruth: z.string(),
-	questionExamples: z.array(questionExample),
-	publishedAt: z.date().nullable(),
-	published: z.boolean(),
-	createdAt: z.date(),
-});
+// export const story = z.object({
+// 	id: z.string(),
+// 	author: z.object({
+// 		id: z.string(),
+// 		name: z.string().nullable(),
+// 	}),
+// 	title: z.string(),
+// 	quiz: z.string(),
+// 	truth: z.string(),
+// 	simpleTruth: z.string(),
+// 	questionExamples: z.array(questionExample),
+// 	publishedAt: z.date().nullable(),
+// 	published: z.boolean(),
+// 	createdAt: z.date(),
+// });
 
 export const storyInit = z.object({
-	title: z.string().nonempty(NON_EMPTY_MESSAGE),
-	quiz: z.string().nonempty(NON_EMPTY_MESSAGE),
-	truth: z.string().nonempty(NON_EMPTY_MESSAGE),
-	simpleTruth: z.string().nonempty(NON_EMPTY_MESSAGE),
+	title: z
+		.string()
+		.nonempty(NON_EMPTY_MESSAGE)
+		.max(30, "30文字以内で入力してください"),
+	quiz: z
+		.string()
+		.nonempty(NON_EMPTY_MESSAGE)
+		.max(200, "200文字以内で入力してください"),
+	truth: z
+		.string()
+		.nonempty(NON_EMPTY_MESSAGE)
+		.max(400, "400文字以内で入力してください"),
+	simpleTruth: z
+		.string()
+		.nonempty(NON_EMPTY_MESSAGE)
+		.max(100, "100文字以内で入力してください"),
 	questionExamples: z
 		.array(questionExample)
 		.min(3, "3つ以上の質問を入力してください")

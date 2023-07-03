@@ -59,7 +59,7 @@ describe("useQuestion", () => {
 					ctx.status(200),
 					ctx.data({
 						answer: "True",
-						encrypted: "aaaa",
+						hitQuestionExample: null,
 					}),
 					ctx.delay(100),
 				);
@@ -70,9 +70,15 @@ describe("useQuestion", () => {
 
 		const useQuestionMock = vitest.fn(useQuestion);
 
-		const { result, rerender } = renderHook(() => useQuestionMock(storyId), {
-			wrapper: Provider,
-		});
+		const { result, rerender } = renderHook(
+			() =>
+				useQuestionMock({
+					id: storyId,
+				}),
+			{
+				wrapper: Provider,
+			},
+		);
 
 		result.current.onSubmit("太郎は犬ですか？");
 

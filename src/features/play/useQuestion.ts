@@ -1,6 +1,6 @@
 import { getRecaptchaToken } from "@/common/util/grecaptcha";
 import { trpc } from "@/libs/trpc";
-import { Answer } from "@/server/model/types";
+import { Answer, Story } from "@/server/model/types";
 import { OPENAI_ERROR_MESSAGE } from "@/server/procedures/question/contract";
 import { useState } from "react";
 
@@ -18,13 +18,14 @@ const toErrorMessage = (error: unknown) => {
 	return "エラーです。AIが回答を生成できませんでした。";
 };
 
-export const useQuestion = (storyId: string) => {
+export type UseQuestionStory = Pick<Story, "id">;
+
+export const useQuestion = (story: UseQuestionStory) => {
 	const [history, setHistory] = useState<
 		{ id: number; input: string; result: string }[]
 	>([]);
 	const { mutateAsync, isLoading, variables, isError, error } =
 		trpc.question.useMutation();
-	const { mutate } = trpc.questionLog.post.useMutation();
 	const latest = variables?.text
 		? isLoading || error
 			? {
@@ -39,7 +40,7 @@ export const useQuestion = (storyId: string) => {
 	return {
 		async onSubmit(text: string) {
 			const result = await mutateAsync({
-				storyId,
+				storyId: story.id,
 				text,
 				recaptchaToken: await getRecaptchaToken(),
 			});
@@ -56,16 +57,11 @@ export const useQuestion = (storyId: string) => {
 				{
 					id: history.length,
 					input: text,
-					result: result.customMessage
-						? `${simpleMessage}: ${result.customMessage}`
+					result: result.hitQuestionExample?.customMessage
+						? `${simpleMessage}: ${result.hitQuestionExample.customMessage}`
 						: simpleMessage,
 				},
 			]);
-			if (result.encrypted) {
-				mutate({
-					encrypted: result.encrypted,
-				});
-			}
 		},
 		latest,
 		history,

@@ -1,20 +1,35 @@
 import { questionExample } from "@/server/model/schemas";
 import { z } from "zod";
-import { PrismaClient, Story as DbStory, User } from "@prisma/client";
+import { Story as DbStory, User } from "@prisma/client";
 import { Story, StoryHead } from "@/server/model/types";
 
-export const hydrateStory = (story: DbStory): Story => {
-	const { questionExamples, publishedAt, createdAt, ...rest } = story;
+export const hydrateStory = (
+	story: DbStory & {
+		author: User;
+	},
+): Story => {
+	const {
+		questionExamples,
+		publishedAt,
+		createdAt,
+		author,
+		authorId,
+		...rest
+	} = story;
 	return {
 		...rest,
 		publishedAt: publishedAt?.getTime() || null,
+		author: {
+			id: author.id,
+			name: author.name,
+		},
 		questionExamples: z
 			.array(questionExample)
 			.parse(JSON.parse(story.questionExamples)),
 	};
 };
 
-export const omitStory = (story: DbStory & { author?: User }): StoryHead => {
+export const omitStory = (story: DbStory & { author: User }): StoryHead => {
 	const {
 		questionExamples,
 		truth,
@@ -22,13 +37,15 @@ export const omitStory = (story: DbStory & { author?: User }): StoryHead => {
 		publishedAt,
 		createdAt,
 		author,
+		authorId,
 		...rest
 	} = story;
 	return {
 		...rest,
 		publishedAt: publishedAt?.getTime() || null,
 		author: {
-			name: author?.name || null,
+			id: author.id,
+			name: author.name || null,
 		},
 	};
 };
