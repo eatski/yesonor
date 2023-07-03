@@ -12,6 +12,7 @@ import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import Script from "next/script";
 import { calcPercentage } from "@/libs/math";
 import { Story } from "@/server/model/types";
+import components from "@/styles/components.module.scss";
 
 type Props = {
 	story: Story;
@@ -44,9 +45,9 @@ const AnswerFormContainer: React.FC<{
 	const { mutate, isLoading, data, reset, isError } = trpc.truth.useMutation();
 	return data ? (
 		<AnswerResult
-			reasoning={data.input}
+			solution={data.input}
 			onBackButtonClicked={reset}
-			result={
+			title={
 				(
 					{
 						Covers: "正解",
@@ -79,16 +80,33 @@ const AnswerFormContainer: React.FC<{
 	);
 };
 
+const Truth: React.FC<{ story: Story; onBackButtonClicked: () => void }> = ({
+	story,
+	onBackButtonClicked,
+}) => {
+	return (
+		<AnswerResult
+			solution={null}
+			onBackButtonClicked={onBackButtonClicked}
+			title={null}
+			truth={story.truth}
+			distance={null}
+		/>
+	);
+};
+
 export function Play(props: Props) {
 	const question = useQuestion(props.story);
-	const [isAnswerMode, setIsAnswerMode] = useState(false);
+	const [mode, setMode] = useState<"question" | "solution" | "truth">(
+		"question",
+	);
 	return (
 		<>
 			<Script
 				strategy="lazyOnload"
 				src={`https://www.google.com/recaptcha/api.js?render=${CLIENT_KEY}`}
 			/>
-			{!isAnswerMode && (
+			{mode === "question" && (
 				<div className={styles.sectionWrapper}>
 					<QuestionForm
 						onSubmit={question.onSubmit}
@@ -96,39 +114,64 @@ export function Play(props: Props) {
 					/>
 				</div>
 			)}
-			{!isAnswerMode && question.latest && (
+			{mode === "question" && question.latest && (
 				<div className={styles.sectionWrapper}>
 					<QuestionResult
 						question={question.latest.input}
 						answer={question.latest.result}
 						onAnswerButtonClicked={() => {
-							setIsAnswerMode(true);
+							setMode("solution");
 						}}
 						onHintButtonClicked={null}
 					/>
 				</div>
 			)}
-			{isAnswerMode && (
+			{mode === "solution" && (
 				<div className={styles.sectionWrapper}>
 					<AnswerFormContainer
 						storyId={props.story.id}
 						onCancel={() => {
-							setIsAnswerMode(false);
+							setMode("question");
 						}}
 					/>
 				</div>
 			)}
-
-			{question.history.length > 0 && (
+			{mode === "truth" && (
 				<div className={styles.sectionWrapper}>
-					<Feed
-						items={question.history.map(({ id, input, result }) => ({
-							id: id.toString(),
-							question: input,
-							answer: result,
-						}))}
+					<Truth
+						story={props.story}
+						onBackButtonClicked={() => {
+							setMode("question");
+						}}
 					/>
 				</div>
+			)}
+			{question.history.length > 0 && (
+				<>
+					<div className={styles.sectionWrapper}>
+						<Feed
+							items={question.history.map(({ id, input, result }) => ({
+								id: id.toString(),
+								question: input,
+								answer: result,
+							}))}
+						/>
+					</div>
+					{mode !== "truth" && (
+						<div className={styles.sectionWrapper}>
+							<section className={styles.buttonContainer}>
+								<button
+									onClick={() => {
+										setMode("truth");
+									}}
+									className={components.button2}
+								>
+									諦めて真相を見る
+								</button>
+							</section>
+						</div>
+					)}
+				</>
 			)}
 		</>
 	);

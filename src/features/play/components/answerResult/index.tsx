@@ -2,23 +2,23 @@ import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 
 export type Props = {
-	result: string;
-	reasoning: string;
+	title: string | null;
+	solution: string | null;
 	truth: string | null;
 	distance: string | null;
 	onBackButtonClicked: () => void;
 };
 
 export const AnswerResult: React.FC<Props> = ({
-	result,
-	reasoning,
+	title: result,
+	solution,
 	truth,
 	onBackButtonClicked,
 	distance,
 }) => {
 	return (
 		<div className={styles.container} data-truth={truth !== null}>
-			<h3>{result}</h3>
+			{result && <h3>{result}</h3>}
 			{distance && <p>惜しい度: {distance}</p>}
 			<dl>
 				{truth && (
@@ -27,8 +27,12 @@ export const AnswerResult: React.FC<Props> = ({
 						<dd>{truth}</dd>
 					</>
 				)}
-				<dt>あなたの推理</dt>
-				<dd>{reasoning}</dd>
+				{solution && (
+					<>
+						<dt>あなたの推理</dt>
+						<dd>{solution}</dd>
+					</>
+				)}
 			</dl>
 			{
 				<div className={styles.buttonContainer}>
