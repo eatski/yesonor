@@ -7,9 +7,9 @@ import { procedure } from "../../trpc";
 import { getStory, getStoryPrivate } from "@/server/services/story";
 import { pickSmallDistanceExampleQuestionInput } from "./pickSmallDistanceExampleQuestionInput";
 import { OPENAI_ERROR_MESSAGE } from "./contract";
-import { encrypt } from "@/libs/crypto";
 import { QuestionExampleWithCustomMessage } from "./type";
 import { QuestionExample } from "@/server/model/types";
+import { prisma } from "@/libs/prisma";
 
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),
@@ -45,7 +45,6 @@ export const question = procedure
 		}): Promise<{
 			answer: z.infer<typeof answerSchema>;
 			hitQuestionExample: QuestionExampleWithCustomMessage | null;
-			encrypted: string | null;
 		}> => {
 			const verifyPromise = ctx.verifyRecaptcha(input.recaptchaToken);
 			const user = await ctx.getUserOptional();
@@ -139,13 +138,22 @@ export const question = procedure
 						cause: e,
 					});
 				});
-			const nearestQuestionExample = await nearestQuestionExamplePromise;
 			const args = response.data.choices[0].message?.function_call?.arguments;
 			if (!args) {
 				throw new Error("No args");
 			}
 			const answer = answerSchema.parse(JSON.parse(args).answer);
 			const isOwn = user?.id === story.authorId;
+			isOwn &&
+				prisma.questionLog.create({
+					data: {
+						question: input.text,
+						answer,
+						storyId: story.id,
+					},
+				});
+			const nearestQuestionExample = await nearestQuestionExamplePromise;
+
 			const hitQuestionExample =
 				nearestQuestionExample?.answer === answer
 					? nearestQuestionExample
@@ -154,15 +162,6 @@ export const question = procedure
 			return {
 				answer,
 				hitQuestionExample,
-				encrypted: isOwn
-					? null
-					: encrypt(
-							JSON.stringify({
-								storyId: story.id,
-								question: input.text,
-								answer,
-							}),
-					  ),
 			};
 		},
 	);

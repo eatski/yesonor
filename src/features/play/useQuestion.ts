@@ -26,7 +26,6 @@ export const useQuestion = (story: UseQuestionStory) => {
 	>([]);
 	const { mutateAsync, isLoading, variables, isError, error } =
 		trpc.question.useMutation();
-	const { mutate } = trpc.questionLog.post.useMutation();
 	const latest = variables?.text
 		? isLoading || error
 			? {
@@ -63,11 +62,6 @@ export const useQuestion = (story: UseQuestionStory) => {
 						: simpleMessage,
 				},
 			]);
-			if (result.encrypted) {
-				mutate({
-					encrypted: result.encrypted,
-				});
-			}
 		},
 		latest,
 		history,
