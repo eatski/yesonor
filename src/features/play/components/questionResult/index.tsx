@@ -9,21 +9,23 @@ export type Props = {
 	onHintButtonClicked: (() => void) | null;
 };
 
-export const QuestionResult: React.FC<Props> = (props) => {
+export const QuestionResult: React.FC<Props> = ({
+	question,
+	answer,
+	onAnswerButtonClicked,
+	onHintButtonClicked,
+}) => {
 	return (
 		<section aria-label="質問の結果">
 			<div className={styles.resultContainer}>
-				<QuestionAndAnswer {...props} />
+				<QuestionAndAnswer question={question} answer={answer} />
 			</div>
 			<div className={styles.buttonContainer}>
-				<button className={button.button} onClick={props.onAnswerButtonClicked}>
+				<button className={button.button} onClick={onAnswerButtonClicked}>
 					謎は解けましたか？
 				</button>
-				{props.onHintButtonClicked && (
-					<button
-						className={button.button2}
-						onClick={props.onHintButtonClicked}
-					>
+				{onHintButtonClicked && (
+					<button className={button.button2} onClick={onHintButtonClicked}>
 						ヒントを見る
 					</button>
 				)}
