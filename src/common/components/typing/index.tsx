@@ -16,7 +16,7 @@ export const useStableText = (original: string) => {
 
 		timeoutId.current = setTimeout(() => {
 			setStableText(original);
-		}, 5);
+		}, 3);
 
 		return () => {
 			if (timeoutId.current) clearTimeout(timeoutId.current);
@@ -61,7 +61,7 @@ export const TypingText: React.FC<TypingTextProps> = ({
 	return displayedText === stableText ? (
 		<span>{displayedText}</span>
 	) : (
-		<span role="img" aria-label={stableText}>
+		<span role="img" aria-label={text}>
 			{displayedText}
 		</span>
 	);

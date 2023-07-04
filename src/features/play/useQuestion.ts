@@ -2,7 +2,7 @@ import { getRecaptchaToken } from "@/common/util/grecaptcha";
 import { trpc } from "@/libs/trpc";
 import { Answer, Story } from "@/server/model/types";
 import { OPENAI_ERROR_MESSAGE } from "@/server/procedures/question/contract";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const last = <T>(array: T[]): T | null => {
 	if (array.length === 0) {
@@ -20,25 +20,43 @@ const toErrorMessage = (error: unknown) => {
 
 export type UseQuestionStory = Pick<Story, "id">;
 
-export const useQuestion = (story: UseQuestionStory) => {
+const useMutableHistory = () => {
+	const idRef = useRef(0);
 	const [history, setHistory] = useState<
-		{ id: number; input: string; result: string }[]
+		{ id: number; input: string; result: string | null }[]
 	>([]);
-	const { mutateAsync, isLoading, variables, isError, error } =
+	return {
+		history,
+		pushHistory: ({
+			input,
+			result,
+		}: { input: string; result: string | null }) => {
+			const id = idRef.current++;
+			setHistory((prev) => [...prev, { id, input, result }]);
+			return id;
+		},
+		updateHistory: (id: number, result: string) => {
+			setHistory((prev) =>
+				prev.map((item) => (item.id === id ? { ...item, result } : item)),
+			);
+		},
+	};
+};
+
+export const useQuestion = (story: UseQuestionStory) => {
+	const { history, pushHistory, updateHistory } = useMutableHistory();
+	const { mutateAsync, isLoading, variables, error } =
 		trpc.question.useMutation();
-	const latest = variables?.text
-		? isLoading || error
+	const latest =
+		error && variables
 			? {
 					input: variables.text,
 					result: error ? toErrorMessage(error) : null,
 			  }
-			: last(history) ?? {
-					input: variables.text,
-					result: null,
-			  }
-		: null;
+			: last(history);
 	return {
 		async onSubmit(text: string) {
+			const id = pushHistory({ input: text, result: null });
 			const result = await mutateAsync({
 				storyId: story.id,
 				text,
@@ -52,19 +70,34 @@ export const useQuestion = (story: UseQuestionStory) => {
 					Invalid: "不正な質問",
 				} as const satisfies Record<Answer, string>
 			)[result.answer];
-			setHistory((history) => [
-				...history,
-				{
-					id: history.length,
-					input: text,
-					result: result.hitQuestionExample?.customMessage
-						? `${simpleMessage}: ${result.hitQuestionExample.customMessage}`
-						: simpleMessage,
-				},
-			]);
+			updateHistory(
+				id,
+				result.hitQuestionExample?.customMessage
+					? `${simpleMessage}: ${result.hitQuestionExample.customMessage}`
+					: simpleMessage,
+			);
 		},
-		latest,
-		history,
+		latest: latest
+			? {
+					input: latest.input,
+					result: latest.result,
+			  }
+			: null,
+		history: history.reduce<{ id: number; input: string; result: string }[]>(
+			(acc, cur) => {
+				return cur.result
+					? [
+							...acc,
+							{
+								id: cur.id,
+								input: cur.input,
+								result: cur.result,
+							},
+					  ]
+					: acc;
+			},
+			[],
+		),
 		isLoading,
 	};
 };
