@@ -7,6 +7,8 @@ import { getStories } from "@/server/services/story";
 import { revalidateTime } from "@/common/revalidate";
 import { RecommendCreateStory } from "@/features/recommendCreateStory";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
+import { useSession } from "next-auth/react";
+import { RequireLogin } from "@/features/requireLogin";
 
 type Props = {
 	stories: Item[];
@@ -36,6 +38,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 };
 
 export default function Home({ stories, recommend }: Props) {
+	const session = useSession();
 	return (
 		<>
 			<Layout>
@@ -51,7 +54,13 @@ export default function Home({ stories, recommend }: Props) {
 					<Stories stories={stories} seeMoreUrl={"/stories"} />
 				</section>
 				<div style={{ marginBottom: "24px" }}>
-					<RecommendCreateStory />
+					{session.status !== "loading" ? (
+						session.status === "authenticated" ? (
+							<RecommendCreateStory />
+						) : (
+							<RequireLogin />
+						)
+					) : null}
 				</div>
 			</Layout>
 		</>
