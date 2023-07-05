@@ -4,6 +4,7 @@ import { Item, Stories } from "@/common/components/stories";
 import { H1 } from "@/common/components/heading";
 import { getStoriesPrivate } from "@/server/services/story";
 import { getUserSession } from "@/server/getServerSideProps/getUserSession";
+import { RecommendCreateStory } from "@/features/recommendCreateStory";
 
 type Props = {
 	stories: Item[];
@@ -35,7 +36,11 @@ export default function Story(props: Props) {
 	return (
 		<Layout>
 			<H1>自分のストーリー</H1>
-			<Stories stories={props.stories} />
+			{props.stories.length ? (
+				<Stories stories={props.stories} />
+			) : (
+				<RecommendCreateStory />
+			)}
 		</Layout>
 	);
 }
