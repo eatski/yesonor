@@ -1,4 +1,4 @@
-import { H2 } from "@/common/components/h2";
+import { H1 } from "@/common/components/heading";
 import React, { useState } from "react";
 import components from "@/styles/components.module.scss";
 import styles from "./styles.module.scss";
@@ -164,7 +164,7 @@ const DeleteAccount: React.FC = () => {
 export const Settings: React.FC<Props> = ({ name, email }) => {
 	return (
 		<div className={styles.container}>
-			<H2>設定</H2>
+			<H1>設定</H1>
 			<LoginInfo name={name} email={email} />
 			<Name name={name} email={email} />
 			<DeleteAccount />

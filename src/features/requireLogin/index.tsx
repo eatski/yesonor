@@ -5,7 +5,7 @@ import { gtag } from "@/common/util/gtag";
 
 export const RequireLogin: React.FC<{}> = () => {
 	return (
-		<section className={styles.container}>
+		<aside className={styles.container}>
 			<p>ログインをすると以下のことができるようになります。</p>
 			<ul>
 				<li>自作のストーリーを投稿</li>
@@ -21,6 +21,6 @@ export const RequireLogin: React.FC<{}> = () => {
 					ログイン
 				</button>
 			</div>
-		</section>
+		</aside>
 	);
 };

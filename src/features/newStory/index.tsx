@@ -2,7 +2,7 @@ import { trpc } from "@/libs/trpc";
 import React from "react";
 import { useRouter } from "next/router";
 import { StoryForm } from "../storyForm";
-import { H2 } from "@/common/components/h2";
+import { H1 } from "@/common/components/heading";
 import Link from "next/link";
 import components from "@/styles/components.module.scss";
 import { AiOutlineUpload } from "react-icons/ai";
@@ -19,7 +19,7 @@ export const NewStory: React.FC<Props> = ({ device }) => {
 
 	return (
 		<>
-			<H2>新しいストーリーを投稿</H2>
+			<H1>新しいストーリーを投稿</H1>
 			{device === "desktop" && (
 				<div className={styles.navigation}>
 					<Link href="/stories/newYaml" className={components.button0}>

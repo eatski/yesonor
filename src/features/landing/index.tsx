@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { texts } from "@/texts";
+import { brand } from "@/common/texts";
 import styles from "./styles.module.scss";
 import { QuestionAndAnswer } from "@/common/components/questionAndAnswer";
 import { useCallback, useState } from "react";
@@ -55,9 +55,9 @@ export const Landing: React.FC<{ stories: Item[] }> = ({ stories }) => {
 	const router = useRouter();
 	return (
 		<div className={styles.container}>
-			<h2>{texts.serviceName}</h2>
+			<h1>{brand.serviceName}</h1>
 			<p>
-				{texts.serviceName}({texts.serviceNickname})は{texts.serviceDescription}
+				{brand.serviceName}({brand.serviceNickname})は{brand.serviceDescription}
 			</p>
 			<div className={styles.content}>
 				<QuestionAndAnswer

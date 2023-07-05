@@ -1,4 +1,4 @@
-import { texts } from "@/texts";
+import { brand } from "@/common/texts";
 import Head from "next/head";
 
 export const keysOverride = {
@@ -12,9 +12,9 @@ export const HeadMetaOverride: React.FC<{
 	descriptionOverride?: string;
 }> = ({ titleHeadOverride, descriptionOverride }) => {
 	const title = titleHeadOverride
-		? `${titleHeadOverride} - ${texts.serviceName}(${texts.serviceNickname})`
-		: `${texts.serviceName}(${texts.serviceNickname}) - ${texts.serviceDescription}`;
-	const description = descriptionOverride ?? texts.serviceDescription;
+		? `${titleHeadOverride} - ${brand.serviceName}(${brand.serviceNickname})`
+		: `${brand.serviceName}(${brand.serviceNickname}) - ${brand.serviceDescription}`;
+	const description = descriptionOverride ?? brand.serviceDescription;
 	return (
 		<Head>
 			<title>{title}</title>

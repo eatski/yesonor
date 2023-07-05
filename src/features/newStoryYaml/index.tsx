@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import styles from "./styles.module.scss";
 import { YamlFileDrop } from "../storyYamlFileDrop";
 import { StoryInit } from "@/server/model/types";
-import { H2 } from "@/common/components/h2";
+import { H1 } from "@/common/components/heading";
 import components from "@/styles/components.module.scss";
 
 export const NewStoryYaml: React.FC = () => {
@@ -24,7 +24,7 @@ export const NewStoryYaml: React.FC = () => {
 
 	return (
 		<div className={styles.container}>
-			<H2>新しいストーリーを投稿</H2>
+			<H1>新しいストーリーを投稿</H1>
 			<p>YAML形式で記述したストーリーを投稿できます。</p>
 			{isIdle ? (
 				<>
