@@ -52,9 +52,7 @@ export const Layout: React.FC<
 		<>
 			<header className={styles.header}>
 				<Link href="/">
-					<h1>
-						<Logo />
-					</h1>
+					<Logo />
 				</Link>
 				<div className={styles.right}>
 					{router.asPath !== "/stories/new" && session.data?.user && (

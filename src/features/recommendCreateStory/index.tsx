@@ -1,4 +1,3 @@
-import { useDevice } from "@/common/hooks/useDevice";
 import { useSession } from "next-auth/react";
 import { RequireLogin } from "../requireLogin";
 import styles from "./styles.module.scss";
@@ -14,15 +13,15 @@ export const RecommendCreateStory: React.FC = () => {
 
 	if (session.status === "unauthenticated") {
 		return (
-			<section>
+			<aside>
 				<RequireLogin />
-			</section>
+			</aside>
 		);
 	}
 
 	return (
-		<section className={styles.container}>
-			<h3>自作のストーリーを投稿しませんか？</h3>
+		<aside className={styles.container}>
+			<h2>自作のストーリーを投稿しませんか？</h2>
 			<Link
 				onClick={() => {
 					gtag("click_recommend_create_story");
@@ -32,6 +31,6 @@ export const RecommendCreateStory: React.FC = () => {
 			>
 				投稿する
 			</Link>
-		</section>
+		</aside>
 	);
 };

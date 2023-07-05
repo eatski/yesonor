@@ -9,7 +9,7 @@ import "@/styles/base.css";
 import { SessionProvider } from "next-auth/react";
 
 import Head from "next/head";
-import { texts } from "@/texts";
+import { brand } from "@/common/texts";
 import Script from "next/script";
 import router, { useRouter } from "next/router";
 import { gtag } from "@/common/util/gtag";
@@ -45,7 +45,7 @@ export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<>
 			<Head>
-				<title>{`${texts.serviceName}(${texts.serviceNickname}) - ${texts.serviceDescription}`}</title>
+				<title>{`${brand.serviceName}(${brand.serviceNickname}) - ${brand.serviceDescription}`}</title>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<meta
 					name="google-site-verification"
@@ -54,24 +54,24 @@ export default function App({ Component, pageProps }: AppProps) {
 				<meta
 					key={keysOverride.description}
 					name="description"
-					content={texts.serviceDescription}
+					content={brand.serviceDescriptionLong}
 				/>
 				<link rel="icon" href="/favicon.ico" />
 				<meta property="og:url" content="https://iesona.com" />
 				<meta
 					key={keysOverride.metaOgpTitle}
 					property="og:title"
-					content={`${texts.serviceName}(${texts.serviceNickname}) - ${texts.serviceDescription}`}
+					content={`${brand.serviceName}(${brand.serviceNickname}) - ${brand.serviceDescription}`}
 				/>
 				<meta
 					key={keysOverride.metaOgpTitle}
 					property="og:site_name"
-					content={texts.serviceName}
+					content={brand.serviceName}
 				/>
 				<meta
 					key={keysOverride.metaOgpDescription}
 					property="og:description"
-					content={texts.serviceDescription}
+					content={brand.serviceDescriptionLong}
 				/>
 				<meta property="og:type" content="website" />
 				<meta property="og:image" content="https://iesona.com/card.png" />

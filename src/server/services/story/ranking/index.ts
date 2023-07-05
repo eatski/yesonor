@@ -1,13 +1,27 @@
 import { prisma } from "@/libs/prisma";
 import { createGetStoryWhere, hydrateStory, omitStory } from "../functions";
-import { Story, StoryHead } from "@/server/model/types";
+import { StoryHead } from "@/server/model/types";
+
+const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
 export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 	// すべてのストーリーを取得
 	const stories = await prisma.story.findMany({
 		include: {
-			questionLogs: true,
-			solutionLogs: true,
+			questionLogs: {
+				where: {
+					createdAt: {
+						gte: new Date(Date.now() - ONE_MONTH),
+					},
+				},
+			},
+			solutionLogs: {
+				where: {
+					createdAt: {
+						gte: new Date(Date.now() - ONE_MONTH),
+					},
+				},
+			},
 			author: true,
 		},
 		where: createGetStoryWhere({}),

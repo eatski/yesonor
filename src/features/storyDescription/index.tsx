@@ -1,8 +1,8 @@
-import { H2 } from "@/common/components/h2";
+import { H1 } from "@/common/components/heading";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import dayjs from "dayjs";
-import { texts } from "@/texts";
+import { brand } from "@/common/texts";
 import { AiOutlineCopy, AiOutlineTwitter } from "react-icons/ai";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { StoryHead } from "@/server/model/types";
@@ -18,11 +18,11 @@ export const StoryDescription: React.FC<{
 	twitterUrl.searchParams.set("text", quiz);
 	twitterUrl.searchParams.set(
 		"hashtags",
-		`${texts.serviceNickname},水平思考クイズ,ウミガメのスープ`,
+		`${brand.serviceNickname},水平思考クイズ,ウミガメのスープ`,
 	);
 	return (
 		<div className={styles.container}>
-			<H2 label={title} />
+			<H1>{title}</H1>
 			{publishedAt && (
 				<dl>
 					<div className={styles.basic}>

@@ -1,7 +1,7 @@
 import { Layout } from "@/features/layout";
 import { GetServerSideProps } from "next";
 import { Item, Stories } from "@/common/components/stories";
-import { H2 } from "@/common/components/h2";
+import { H1 } from "@/common/components/heading";
 import { getStoriesPrivate } from "@/server/services/story";
 import { getUserSession } from "@/server/getServerSideProps/getUserSession";
 
@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 export default function Story(props: Props) {
 	return (
 		<Layout>
-			<H2 label="自分のストーリー" />
+			<H1>自分のストーリー</H1>
 			<Stories stories={props.stories} />
 		</Layout>
 	);
