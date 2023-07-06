@@ -1,7 +1,7 @@
 import { Layout } from "@/components/layout";
 import { Landing } from "@/components/landing";
 import { GetStaticProps } from "next";
-import { Item, Stories } from "@/components/stories";
+import { Item, StoryList } from "@/components/storyList";
 import { H2 } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
 import { revalidateTime } from "@/common/revalidate";
@@ -47,11 +47,11 @@ export default function Home({ stories, recommend }: Props) {
 				</div>
 				<section style={{ marginBottom: "24px" }}>
 					<H2 label="おすすめストーリー" />
-					<Stories stories={recommend} />
+					<StoryList stories={recommend} />
 				</section>
 				<section style={{ marginBottom: "24px" }}>
 					<H2 label="新着ストーリー" />
-					<Stories stories={stories} seeMoreUrl={"/stories"} />
+					<StoryList stories={stories} seeMoreUrl={"/stories"} />
 				</section>
 				<div style={{ marginBottom: "24px" }}>
 					{session.status !== "loading" ? (

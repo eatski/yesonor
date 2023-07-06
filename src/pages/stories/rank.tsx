@@ -1,6 +1,6 @@
 import { Layout } from "@/components/layout";
 import { GetStaticProps } from "next";
-import { Item, Stories } from "@/components/stories";
+import { Item, StoryList } from "@/components/storyList";
 import { H1 } from "@/designSystem/components/heading";
 import { revalidateTime } from "@/common/revalidate";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
@@ -27,7 +27,7 @@ export default function Story(props: Props) {
 		<Layout>
 			<main>
 				<H1>おすすめストーリー</H1>
-				<Stories stories={props.stories} />
+				<StoryList stories={props.stories} />
 			</main>
 		</Layout>
 	);

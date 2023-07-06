@@ -13,7 +13,7 @@ export type Props = {
 const LoginInfo = ({ email }: Props) => {
 	return (
 		<section>
-			<h3>ログイン情報</h3>
+			<h2>ログイン情報</h2>
 			<div className={styles.row}>
 				<div className={styles.left}>
 					<p className={styles.small}>

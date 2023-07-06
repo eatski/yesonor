@@ -1,6 +1,6 @@
 import { Layout } from "@/components/layout";
 import { GetStaticProps } from "next";
-import { Item, Stories } from "@/components/stories";
+import { Item, StoryList } from "@/components/storyList";
 import { H2 } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
 import { revalidateTime } from "@/common/revalidate";
@@ -28,7 +28,7 @@ export default function Story(props: Props) {
 	return (
 		<Layout>
 			<H2 label="新着ストーリー" />
-			<Stories stories={props.stories} />
+			<StoryList stories={props.stories} />
 		</Layout>
 	);
 }

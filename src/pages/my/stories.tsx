@@ -1,6 +1,6 @@
 import { Layout } from "@/components/layout";
 import { GetServerSideProps } from "next";
-import { Item, Stories } from "@/components/stories";
+import { Item, StoryList } from "@/components/storyList";
 import { H1 } from "@/designSystem/components/heading";
 import { getStoriesPrivate } from "@/server/services/story";
 import { getUserSession } from "@/server/getServerSideProps/getUserSession";
@@ -38,7 +38,7 @@ export default function Story(props: Props) {
 			<main>
 				<H1>自分のストーリー</H1>
 				{props.stories.length ? (
-					<Stories stories={props.stories} />
+					<StoryList stories={props.stories} />
 				) : (
 					<RecommendCreateStory />
 				)}

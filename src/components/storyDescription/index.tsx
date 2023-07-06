@@ -21,7 +21,7 @@ export const StoryDescription: React.FC<{
 		`${brand.serviceNickname},水平思考クイズ,ウミガメのスープ`,
 	);
 	return (
-		<div className={styles.container}>
+		<header className={styles.container}>
 			<H1>{title}</H1>
 			{publishedAt && (
 				<dl>
@@ -46,7 +46,7 @@ export const StoryDescription: React.FC<{
 						target="_blank"
 						rel="noreferrer"
 					>
-						<AiOutlineTwitter className={styles.twitter} />
+						<AiOutlineTwitter role="presentation" className={styles.twitter} />
 						ツイート
 					</a>
 					<CopyToClipboard
@@ -56,12 +56,12 @@ export const StoryDescription: React.FC<{
 						}}
 					>
 						<button className={components.buttonLink}>
-							<AiOutlineCopy />
+							<AiOutlineCopy role="presentation" />
 							URLをコピー
 						</button>
 					</CopyToClipboard>
 				</div>
 			)}
-		</div>
+		</header>
 	);
 };

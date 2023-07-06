@@ -10,7 +10,7 @@ export type Props = {
 };
 
 export const AnswerResult: React.FC<Props> = ({
-	title: result,
+	title,
 	solution,
 	truth,
 	onBackButtonClicked,
@@ -18,7 +18,7 @@ export const AnswerResult: React.FC<Props> = ({
 }) => {
 	return (
 		<div className={styles.container} data-truth={truth !== null}>
-			{result && <h3>{result}</h3>}
+			{title && <h2>{title}</h2>}
 			{distance && <p>惜しい度: {distance}</p>}
 			<dl>
 				{truth && (
