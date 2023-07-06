@@ -9,29 +9,31 @@ export type Item = {
 	url: string;
 };
 
-export const Stories: React.FC<{ stories: Item[]; seeMoreUrl?: string }> = ({
+export const StoryList: React.FC<{ stories: Item[]; seeMoreUrl?: string }> = ({
 	stories,
 	seeMoreUrl,
 }) => {
 	return (
 		<div className={styles.container}>
-			{stories.map(({ story, url }) => {
-				return (
-					<article key={story.id}>
-						<Link href={url}>
-							<h3 className={styles.title}>{story.title}</h3>
-							<p>{story.quiz}</p>
-						</Link>
-						<Link
-							aria-label="このストーリーの謎を解く"
-							href={url}
-							className={styles.iconContainer}
-						>
-							<StartIcon className={components.iconButton} />
-						</Link>
-					</article>
-				);
-			})}
+			<ul>
+				{stories.map(({ story, url }) => {
+					return (
+						<li key={story.id}>
+							<Link href={url}>
+								<h2 className={styles.title}>{story.title}</h2>
+								<p>{story.quiz}</p>
+							</Link>
+							<Link
+								aria-label="このストーリーの謎を解く"
+								href={url}
+								className={styles.iconContainer}
+							>
+								<StartIcon className={components.iconButton} />
+							</Link>
+						</li>
+					);
+				})}
+			</ul>
 			{seeMoreUrl && (
 				<div className={styles.seeMore}>
 					<Link className={components.buttonLink} href="/stories">

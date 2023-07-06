@@ -6,7 +6,7 @@ import { useCallback, useState } from "react";
 import Link from "next/link";
 import components from "@/styles/components.module.scss";
 import { useRouter } from "next/router";
-import { Item } from "@/components/stories";
+import { Item } from "@/components/storyList";
 
 const QUESTIONS = [
 	{
@@ -54,7 +54,7 @@ export const Landing: React.FC<{ stories: Item[] }> = ({ stories }) => {
 	}, []);
 	const router = useRouter();
 	return (
-		<div className={styles.container}>
+		<main className={styles.container}>
 			<h1>{brand.serviceName}</h1>
 			<p>
 				{brand.serviceName}({brand.serviceNickname})は{brand.serviceDescription}
@@ -85,6 +85,6 @@ export const Landing: React.FC<{ stories: Item[] }> = ({ stories }) => {
 					今すぐ謎を解く
 				</button>
 			</div>
-		</div>
+		</main>
 	);
 };

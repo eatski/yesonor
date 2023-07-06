@@ -11,7 +11,7 @@ export type FeedProps = {
 export const Feed: React.FC<FeedProps> = (props) => {
 	return (
 		<section className={styles.feed}>
-			<h3>今までの質問</h3>
+			<h2>今までの質問</h2>
 			<ul>
 				{props.items.map((item) => {
 					return (

@@ -28,7 +28,7 @@ export const NewStoryYaml: React.FC = () => {
 			<p>YAML形式で記述したストーリーを投稿できます。</p>
 			{isIdle ? (
 				<>
-					<h3>YAMLファイルをアップロードして投稿する</h3>
+					<h2>YAMLファイルをアップロードして投稿する</h2>
 					<div className={styles.fileDropContainer}>
 						<YamlFileDrop onFileRead={handleFileRead} />
 					</div>
