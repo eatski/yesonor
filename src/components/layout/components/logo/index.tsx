@@ -18,7 +18,9 @@ const Svg = () => (
 export const Logo = () => {
 	return (
 		<div className={styles.logo}>
-			<Svg />
+			<span role="img" aria-label="Yesonor">
+				<Svg />
+			</span>
 			<span>beta版</span>
 		</div>
 	);
