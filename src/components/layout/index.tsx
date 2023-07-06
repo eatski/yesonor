@@ -110,7 +110,7 @@ export const Layout: React.FC<
 				</div>
 			) : null}
 
-			<main className={styles.main}>{children}</main>
+			<div className={styles.main}>{children}</div>
 			<footer className={styles.footer}>
 				<Logo />
 				<div className={styles.footerLinks}>

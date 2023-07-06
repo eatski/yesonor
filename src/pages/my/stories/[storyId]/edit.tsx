@@ -1,13 +1,13 @@
-import { Layout } from "@/features/layout";
+import { Layout } from "@/components/layout";
 import { GetServerSideProps } from "next";
 import { z } from "zod";
 import { getStoryPrivate } from "@/server/services/story";
 import { getUserSession } from "@/server/getServerSideProps/getUserSession";
 import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
 import { Device } from "@/common/util/device";
-import { HeadMetaOverride } from "@/features/headMeta";
+import { HeadMetaOverride } from "@/components/headMeta";
 import { StoryInit } from "@/server/model/types";
-import { EditStory } from "@/features/editStory";
+import { EditStory } from "@/components/editStory";
 
 type Props = {
 	storyId: string;

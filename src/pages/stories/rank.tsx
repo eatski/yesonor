@@ -1,7 +1,7 @@
-import { Layout } from "@/features/layout";
+import { Layout } from "@/components/layout";
 import { GetStaticProps } from "next";
-import { Item, Stories } from "@/common/components/stories";
-import { H1 } from "@/common/components/heading";
+import { Item, Stories } from "@/components/stories";
+import { H1 } from "@/designSystem/components/heading";
 import { revalidateTime } from "@/common/revalidate";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
 
@@ -25,8 +25,10 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 export default function Story(props: Props) {
 	return (
 		<Layout>
-			<H1>おすすめストーリー</H1>
-			<Stories stories={props.stories} />
+			<main>
+				<H1>おすすめストーリー</H1>
+				<Stories stories={props.stories} />
+			</main>
 		</Layout>
 	);
 }

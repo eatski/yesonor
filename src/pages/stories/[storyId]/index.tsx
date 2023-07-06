@@ -1,11 +1,11 @@
-import { Play } from "@/features/play";
-import { Layout } from "@/features/layout";
-import { StoryDescription } from "@/features/storyDescription";
+import { Play } from "@/components/play";
+import { Layout } from "@/components/layout";
+import { StoryDescription } from "@/components/storyDescription";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { z } from "zod";
 import { getStories, getStory } from "@/server/services/story";
 import { revalidateTime } from "@/common/revalidate";
-import { HeadMetaOverride } from "@/features/headMeta";
+import { HeadMetaOverride } from "@/components/headMeta";
 import { Story } from "@/server/model/types";
 
 type Props = {

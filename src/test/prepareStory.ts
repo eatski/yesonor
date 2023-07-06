@@ -1,4 +1,4 @@
-import { parseYaml } from "@/features/storyYamlFileDrop/parseYaml";
+import { parseYaml } from "@/common/util/parseYaml";
 import { PrismaClient } from "@prisma/client";
 import { readFileSync } from "fs";
 

@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import button from "@/styles/components.module.scss";
-import { QuestionAndAnswer } from "@/common/components/questionAndAnswer";
+import { QuestionAndAnswer } from "@/components/questionAndAnswer";
 
 export type Props = {
 	question: string;

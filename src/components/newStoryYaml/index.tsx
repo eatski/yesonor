@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import styles from "./styles.module.scss";
 import { YamlFileDrop } from "../storyYamlFileDrop";
 import { StoryInit } from "@/server/model/types";
-import { H1 } from "@/common/components/heading";
+import { H1 } from "@/designSystem/components/heading";
 import components from "@/styles/components.module.scss";
 
 export const NewStoryYaml: React.FC = () => {
@@ -23,7 +23,7 @@ export const NewStoryYaml: React.FC = () => {
 	);
 
 	return (
-		<div className={styles.container}>
+		<main className={styles.container}>
 			<H1>新しいストーリーを投稿</H1>
 			<p>YAML形式で記述したストーリーを投稿できます。</p>
 			{isIdle ? (
@@ -44,6 +44,6 @@ export const NewStoryYaml: React.FC = () => {
 			) : (
 				<p>投稿中</p>
 			)}
-		</div>
+		</main>
 	);
 };
