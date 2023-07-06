@@ -68,13 +68,17 @@ export const question = procedure
 				questionToAI(ctx.openai, story, input.text).then(async (answer) => {
 					const isOwn = user?.id === story.author.id;
 					!isOwn &&
-						(await prisma.questionLog.create({
-							data: {
-								question: input.text,
-								answer,
-								storyId: story.id,
-							},
-						}));
+						(await prisma.questionLog
+							.create({
+								data: {
+									question: input.text,
+									answer,
+									storyId: story.id,
+								},
+							})
+							.catch((e) => {
+								console.error(e);
+							}));
 					return answer;
 				}),
 				questionExampleWithCustomMessage.length
