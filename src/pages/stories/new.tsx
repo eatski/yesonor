@@ -1,6 +1,6 @@
 import { Device } from "@/common/util/device";
-import { Layout } from "@/features/layout";
-import { NewStory } from "@/features/newStory";
+import { Layout } from "@/components/layout";
+import { NewStory } from "@/components/newStory";
 import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
 import { GetServerSideProps } from "next";
 

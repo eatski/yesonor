@@ -1,10 +1,10 @@
-import { Layout } from "@/features/layout";
+import { Layout } from "@/components/layout";
 import { GetServerSideProps } from "next";
-import { Item, Stories } from "@/common/components/stories";
-import { H1 } from "@/common/components/heading";
+import { Item, Stories } from "@/components/stories";
+import { H1 } from "@/designSystem/components/heading";
 import { getStoriesPrivate } from "@/server/services/story";
 import { getUserSession } from "@/server/getServerSideProps/getUserSession";
-import { RecommendCreateStory } from "@/features/recommendCreateStory";
+import { RecommendCreateStory } from "@/components/recommendCreateStory";
 
 type Props = {
 	stories: Item[];
@@ -35,12 +35,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 export default function Story(props: Props) {
 	return (
 		<Layout>
-			<H1>自分のストーリー</H1>
-			{props.stories.length ? (
-				<Stories stories={props.stories} />
-			) : (
-				<RecommendCreateStory />
-			)}
+			<main>
+				<H1>自分のストーリー</H1>
+				{props.stories.length ? (
+					<Stories stories={props.stories} />
+				) : (
+					<RecommendCreateStory />
+				)}
+			</main>
 		</Layout>
 	);
 }

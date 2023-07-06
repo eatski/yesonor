@@ -1,6 +1,6 @@
 import { StoryInit } from "@/server/model/types";
 import { useCallback, useState } from "react";
-import { parseYaml } from "./parseYaml";
+import { parseYaml } from "@/common/util/parseYaml";
 import styles from "./styles.module.scss";
 
 interface FileDropZoneProps {

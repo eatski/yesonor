@@ -1,4 +1,4 @@
-import { Layout } from "@/features/layout";
+import { Layout } from "@/components/layout";
 
 export default function Home() {
 	return (

@@ -13,7 +13,7 @@ import { brand } from "@/common/texts";
 import Script from "next/script";
 import router, { useRouter } from "next/router";
 import { gtag } from "@/common/util/gtag";
-import { keysOverride } from "@/features/headMeta";
+import { keysOverride } from "@/components/headMeta";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = useMemo(() => new QueryClient(), []);

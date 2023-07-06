@@ -1,4 +1,4 @@
-import { H1 } from "@/common/components/heading";
+import { H1 } from "@/designSystem/components/heading";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import dayjs from "dayjs";

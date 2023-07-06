@@ -1,7 +1,7 @@
-import { Layout } from "@/features/layout";
+import { Layout } from "@/components/layout";
 import { GetStaticProps } from "next";
-import { Item, Stories } from "@/common/components/stories";
-import { H2 } from "@/common/components/heading";
+import { Item, Stories } from "@/components/stories";
+import { H2 } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
 import { revalidateTime } from "@/common/revalidate";
 

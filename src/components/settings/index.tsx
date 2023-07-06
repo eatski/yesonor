@@ -1,4 +1,4 @@
-import { H1 } from "@/common/components/heading";
+import { H1 } from "@/designSystem/components/heading";
 import React, { useState } from "react";
 import components from "@/styles/components.module.scss";
 import styles from "./styles.module.scss";
@@ -43,7 +43,7 @@ const Name: React.FC<Props> = ({ name }) => {
 
 	return (
 		<section>
-			<h3>表示名</h3>
+			<h2>表示名</h2>
 			<div>
 				{editingState.isEditing ? (
 					<form
@@ -121,7 +121,7 @@ const DeleteAccount: React.FC = () => {
 
 	return (
 		<section>
-			<h3>退会</h3>
+			<h2>退会</h2>
 			<div className={styles.row}>
 				<div className={styles.left}>
 					{isLoading ? (
@@ -163,11 +163,11 @@ const DeleteAccount: React.FC = () => {
 
 export const Settings: React.FC<Props> = ({ name, email }) => {
 	return (
-		<div className={styles.container}>
+		<main className={styles.container}>
 			<H1>設定</H1>
 			<LoginInfo name={name} email={email} />
 			<Name name={name} email={email} />
 			<DeleteAccount />
-		</div>
+		</main>
 	);
 };

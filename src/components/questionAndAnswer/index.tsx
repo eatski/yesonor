@@ -1,6 +1,6 @@
 import { AiFillRobot, AiOutlineComment } from "react-icons/ai";
 import styles from "./styles.module.scss";
-import { TypingText } from "../typing";
+import { TypingText } from "../../designSystem/components/typing";
 
 type Props = {
 	question: string;

@@ -1,14 +1,14 @@
-import { Layout } from "@/features/layout";
-import { Landing } from "@/features/landing";
+import { Layout } from "@/components/layout";
+import { Landing } from "@/components/landing";
 import { GetStaticProps } from "next";
-import { Item, Stories } from "@/common/components/stories";
-import { H2 } from "@/common/components/heading";
+import { Item, Stories } from "@/components/stories";
+import { H2 } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
 import { revalidateTime } from "@/common/revalidate";
-import { RecommendCreateStory } from "@/features/recommendCreateStory";
+import { RecommendCreateStory } from "@/components/recommendCreateStory";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
 import { useSession } from "next-auth/react";
-import { RequireLogin } from "@/features/requireLogin";
+import { RequireLogin } from "@/components/requireLogin";
 
 type Props = {
 	stories: Item[];

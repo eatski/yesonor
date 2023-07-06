@@ -2,7 +2,7 @@ import { trpc } from "@/libs/trpc";
 import React from "react";
 import { useRouter } from "next/router";
 import { StoryForm } from "../storyForm";
-import { H1 } from "@/common/components/heading";
+import { H1 } from "@/designSystem/components/heading";
 import Link from "next/link";
 import components from "@/styles/components.module.scss";
 import { AiOutlineUpload } from "react-icons/ai";
@@ -18,7 +18,7 @@ export const NewStory: React.FC<Props> = ({ device }) => {
 	const router = useRouter();
 
 	return (
-		<>
+		<main>
 			<H1>新しいストーリーを投稿</H1>
 			{device === "desktop" && (
 				<div className={styles.navigation}>
@@ -39,6 +39,6 @@ export const NewStory: React.FC<Props> = ({ device }) => {
 				isLoading={isLoading}
 				isError={isError}
 			/>
-		</>
+		</main>
 	);
 };
