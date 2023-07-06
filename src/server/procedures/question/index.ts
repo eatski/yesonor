@@ -66,7 +66,7 @@ export const question = procedure
 
 			const [answer, nearestQuestionExample] = await Promise.all([
 				questionToAI(ctx.openai, story, input.text).then((answer) => {
-					const isOwn = user?.id === story.authorId;
+					const isOwn = user?.id === story.author.id;
 					!isOwn &&
 						prisma.questionLog.create({
 							data: {

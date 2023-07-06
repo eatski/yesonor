@@ -75,7 +75,7 @@ export const truth = procedure
 		const result = truthCoincidence.parse(message.content);
 
 		const correct = result === "Covers" ? story.truth : null;
-		const isOwn = user?.id === story.authorId;
+		const isOwn = user?.id === story.author.id;
 		isOwn ||
 			prisma.solutionLog
 				.create({
