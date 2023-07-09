@@ -33,6 +33,10 @@
     &[data-width="medium"]{
         width: 160px;
     }
+    &[data-size="small"]{
+        font-size: 12px;
+        padding: 2px 8px;
+    }
 }
 
 @keyframes spin {
@@ -42,7 +46,7 @@
 
 .button0 {
     @include buttonBase;
-    background-color: var(--color-base-bg);
+    background-color: unset;
     --button-text-color: var(--color-base-fg);
     border: none;
 

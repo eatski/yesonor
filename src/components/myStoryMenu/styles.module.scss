@@ -3,19 +3,17 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    p {
-        font-size: 14px;
-        margin: 0 0 8px;
-        &.important {
-          font-weight: bold;
-        }
-    }
     .buttons {
         display: flex;
         justify-content: center;
         gap: 16px;
-        margin-bottom: 16px;
+        margin-bottom: 8px;
         width: 240px;
+    }
+    p {
+        margin: 0 0 8px;
+        font-size: 14px;
+        color: var(--color-base-fg-primary);
     }
     .fileDropContainer {
         width: 100%;

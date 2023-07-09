@@ -6,12 +6,14 @@ import { getUserSession } from "@/server/getServerSideProps/getUserSession";
 import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
 import { Device } from "@/common/util/device";
 import { HeadMetaOverride } from "@/components/headMeta";
-import { StoryInit } from "@/server/model/types";
+import { Story, StoryInit } from "@/server/model/types";
 import { EditStory } from "@/components/editStory";
+import { useRouter } from "next/router";
+import { EditStoryYaml } from "@/components/editStoryYaml";
 
 type Props = {
 	storyId: string;
-	story: StoryInit;
+	story: Story;
 	device: Device;
 };
 
@@ -37,15 +39,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 	const story = await getStoryPrivate({
 		storyId: validated.data.storyId,
 		authorId: user.userId,
-	}).then<StoryInit | null>((story) => {
+	}).then<Story | null>((story) => {
 		if (!story) return null;
-		return {
-			title: story.title,
-			quiz: story.quiz,
-			truth: story.truth,
-			simpleTruth: story.simpleTruth,
-			questionExamples: story.questionExamples,
-		};
+		return story;
 	});
 	if (!story) {
 		return {
@@ -62,11 +58,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 };
 
 export default function StoryEditPage(props: Props) {
+	const router = useRouter();
+
 	return (
 		<>
 			<HeadMetaOverride titleHeadOverride={"編集"} />
 			<Layout>
-				<EditStory story={props.story} storyId={props.storyId} />
+				{router.query.mode === "file" ? (
+					<EditStoryYaml initialStory={props.story} />
+				) : (
+					<EditStory story={props.story} storyId={props.storyId} />
+				)}
 			</Layout>
 		</>
 	);
