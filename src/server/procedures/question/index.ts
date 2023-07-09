@@ -65,16 +65,20 @@ export const question = procedure
 			);
 
 			const [answer, nearestQuestionExample] = await Promise.all([
-				questionToAI(ctx.openai, story, input.text).then((answer) => {
-					const isOwn = user?.id === story.authorId;
+				questionToAI(ctx.openai, story, input.text).then(async (answer) => {
+					const isOwn = user?.id === story.author.id;
 					!isOwn &&
-						prisma.questionLog.create({
-							data: {
-								question: input.text,
-								answer,
-								storyId: story.id,
-							},
-						});
+						(await prisma.questionLog
+							.create({
+								data: {
+									question: input.text,
+									answer,
+									storyId: story.id,
+								},
+							})
+							.catch((e) => {
+								console.error(e);
+							}));
 					return answer;
 				}),
 				questionExampleWithCustomMessage.length
