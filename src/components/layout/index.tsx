@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { PropsWithChildren, useEffect, useState } from "react";
+import React, { PropsWithChildren, Suspense, useEffect, useState } from "react";
 import { AiOutlineUnorderedList as Menu } from "react-icons/ai";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
@@ -105,9 +105,11 @@ export const Layout: React.FC<
 				</div>
 			)}
 			{upper ? (
-				<div className={styles.upper}>
-					<div className={styles.content}>{upper}</div>
-				</div>
+				<Suspense>
+					<div className={styles.upper}>
+						<div className={styles.content}>{upper}</div>
+					</div>
+				</Suspense>
 			) : null}
 
 			<div className={styles.main}>{children}</div>

@@ -7,7 +7,7 @@ import { AnswerForm } from "./components/answerForm";
 import { QuestionResult } from "./components/questionResult";
 import { AnswerResult } from "./components/answerResult";
 import { useQuestion } from "./useQuestion";
-import { gtag } from "@/common/util/gtag";
+import { gtagEvent } from "@/common/util/gtag";
 import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import Script from "next/script";
 import { calcPercentage } from "@/libs/math";
@@ -69,7 +69,7 @@ const AnswerFormContainer: React.FC<{
 			onCancel={onCancel}
 			isError={isError}
 			onSubmit={async (input) => {
-				gtag("click_submit_answer");
+				gtagEvent("click_submit_answer");
 				mutate({
 					storyId,
 					text: input,

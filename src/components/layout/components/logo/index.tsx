@@ -21,7 +21,6 @@ export const Logo = () => {
 			<span role="img" aria-label="Yesonor">
 				<Svg />
 			</span>
-			<span>beta版</span>
 		</div>
 	);
 };

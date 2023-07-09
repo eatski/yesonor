@@ -63,8 +63,7 @@ export default function StoryDraftPage(props: Props) {
 			<Layout
 				upper={
 					<MyStoryMenu
-						storyId={props.story.id}
-						published={props.story.published}
+						initialStory={props.story}
 						canUseFileDrop={props.device === "desktop"}
 					/>
 				}

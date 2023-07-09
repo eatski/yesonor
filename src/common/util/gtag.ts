@@ -1,8 +1,8 @@
-export const gtag = (name: string, data?: unknown) => {
+export const gtagEvent = (name: string, data?: unknown) => {
 	if (process.env.NODE_ENV === "production") {
 		try {
 			// @ts-ignore
-			window.gtag(name, data);
+			window.gtag("event", name, data);
 		} catch (e) {
 			console.error(e);
 		}

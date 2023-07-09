@@ -1,56 +1,54 @@
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import { trpc } from "@/libs/trpc";
-import { useRouter } from "next/router";
-import { StoryInit } from "@/server/model/types";
-import { YamlFileDrop } from "../storyYamlFileDrop";
+import { Story } from "@/server/model/types";
 import Link from "next/link";
+import { AiOutlineUpload } from "react-icons/ai";
+import { useRouter } from "next/router";
 
 export type Props = {
-	storyId: string;
-	published: boolean;
 	canUseFileDrop: boolean;
+	initialStory: Story;
 };
 
 export const MyStoryMenu: React.FC<Props> = ({
-	storyId,
-	published,
 	canUseFileDrop,
+	initialStory,
 }) => {
+	const storyId = initialStory.id;
+	const getUpdated = trpc.story.getByIdPrivate.useQuery(
+		{
+			id: storyId,
+		},
+		{
+			enabled: false,
+		},
+	);
+	const story = getUpdated.data ?? initialStory;
+
 	const del = trpc.delete.useMutation();
 	const put = trpc.put.useMutation();
 	const publish = trpc.publish.useMutation();
-	const success = del.isSuccess || put.isSuccess || publish.isSuccess;
-	const isLoading = del.isLoading || put.isLoading || publish.isLoading;
-	const isError = del.error || put.error || publish.error;
-	const handleFileRead = (story: StoryInit) => {
-		put.mutate(
-			{
-				id: storyId,
-				story,
-			},
-			{
-				onSuccess: () => {
-					router.reload();
-				},
-			},
-		);
-	};
 	const router = useRouter();
+	const success = del.isSuccess || put.isSuccess || publish.isSuccess;
+	const isLoading =
+		del.isLoading ||
+		put.isLoading ||
+		publish.isLoading ||
+		getUpdated.isFetching;
+	const isError = del.error || put.error || publish.error;
 	return (
 		<div className={styles.container} data-loading={isLoading}>
 			{isLoading ? <div className={styles.loader} /> : null}
 			<div className={styles.content}>
 				{success || (
 					<p className={styles.important}>
-						{published
+						{story.published
 							? "このストーリーは公開中です。"
 							: "このストーリーは未公開です。"}
 					</p>
 				)}
-				{success ? (
-					<p>完了しました。画面をリロードします。</p>
-				) : (
+				{
 					<>
 						<div className={styles.buttons}>
 							<Link
@@ -80,7 +78,7 @@ export const MyStoryMenu: React.FC<Props> = ({
 							>
 								削除
 							</button>
-							{published || (
+							{story.published || (
 								<button
 									className={components.button}
 									onClick={() => {
@@ -90,7 +88,7 @@ export const MyStoryMenu: React.FC<Props> = ({
 											},
 											{
 												onSuccess: () => {
-													router.reload();
+													getUpdated.refetch();
 												},
 											},
 										);
@@ -103,14 +101,18 @@ export const MyStoryMenu: React.FC<Props> = ({
 						</div>
 						{canUseFileDrop && (
 							<>
-								<p>YAMLファイルでストーリーを修正</p>
-								<div className={styles.fileDropContainer}>
-									<YamlFileDrop onFileRead={handleFileRead} />
-								</div>
+								<Link
+									href={`/my/stories/${storyId}/edit?mode=file`}
+									className={components.button0}
+									data-size="small"
+								>
+									<AiOutlineUpload />
+									YAMLファイルをアップロードして編集する
+								</Link>
 							</>
 						)}
 					</>
-				)}
+				}
 
 				{isError ? (
 					<p className={styles.error}>エラーが発生しました。</p>
