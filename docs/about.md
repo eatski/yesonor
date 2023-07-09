@@ -1,7 +1,3 @@
-## ベータ版について
-
-当サイトはベータ版になります。詳しくは[Yesonorのマイルストーン](https://github.com/eatski/yesonor/milestones)をご確認ください。
-
 ## 当サイトについて
 
 Yesonor（いえそな）とはAIと楽しむ水平思考クイズの投稿プラットフォームです。
