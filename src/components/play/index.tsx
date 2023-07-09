@@ -12,7 +12,7 @@ import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import Script from "next/script";
 import { calcPercentage } from "@/libs/math";
 import { Story } from "@/server/model/types";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 
 type Props = {
 	story: Story;

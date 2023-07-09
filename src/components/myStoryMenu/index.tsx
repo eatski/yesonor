@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 import { trpc } from "@/libs/trpc";
 import { Story } from "@/server/model/types";
 import Link from "next/link";

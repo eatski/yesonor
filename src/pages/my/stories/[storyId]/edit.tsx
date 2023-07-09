@@ -6,7 +6,7 @@ import { getUserSession } from "@/server/getServerSideProps/getUserSession";
 import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
 import { Device } from "@/common/util/device";
 import { HeadMetaOverride } from "@/components/headMeta";
-import { Story, StoryInit } from "@/server/model/types";
+import { Story } from "@/server/model/types";
 import { EditStory } from "@/components/editStory";
 import { useRouter } from "next/router";
 import { EditStoryYaml } from "@/components/editStoryYaml";
@@ -39,9 +39,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 	const story = await getStoryPrivate({
 		storyId: validated.data.storyId,
 		authorId: user.userId,
-	}).then<Story | null>((story) => {
-		if (!story) return null;
-		return story;
 	});
 	if (!story) {
 		return {

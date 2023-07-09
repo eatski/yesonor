@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "./styles.module.scss";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 import { AiFillPlayCircle as StartIcon } from "react-icons/ai";
 import { StoryHead } from "@/server/model/types";
 

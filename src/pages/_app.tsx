@@ -5,7 +5,7 @@ import { httpBatchLink } from "@trpc/client";
 import React, { useEffect, useMemo } from "react";
 import { trpc } from "@/libs/trpc";
 import "sanitize.css";
-import "@/styles/base.css";
+import "@/designSystem/base.css";
 import { SessionProvider } from "next-auth/react";
 
 import Head from "next/head";

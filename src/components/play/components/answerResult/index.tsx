@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 
 export type Props = {
 	title: string | null;

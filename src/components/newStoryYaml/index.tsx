@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 import { YamlFileDrop } from "../storyYamlFileDrop";
 import { StoryInit } from "@/server/model/types";
 import { H1 } from "@/designSystem/components/heading";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 
 export const NewStoryYaml: React.FC = () => {
 	const router = useRouter();

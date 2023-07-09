@@ -1,6 +1,6 @@
 import { H1 } from "@/designSystem/components/heading";
 import React, { useState } from "react";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 import styles from "./styles.module.scss";
 import { trpc } from "@/libs/trpc";
 import { signOut } from "next-auth/react";
