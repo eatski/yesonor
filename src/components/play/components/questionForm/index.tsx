@@ -2,7 +2,7 @@ import React, { useId, useState } from "react";
 import styles from "./styles.module.scss";
 import components from "@/styles/components.module.scss";
 import { AiOutlineSend } from "react-icons/ai";
-import { gtag } from "@/common/util/gtag";
+import { gtagEvent } from "@/common/util/gtag";
 
 export const QuestionForm: React.FC<{
 	onSubmit: (text: string) => void;
@@ -16,7 +16,7 @@ export const QuestionForm: React.FC<{
 			onSubmit={(e) => {
 				e.preventDefault();
 				if (e.target instanceof HTMLFormElement && e.target.checkValidity()) {
-					gtag("click_submit_question");
+					gtagEvent("click_submit_question");
 					onSubmit(inputValue);
 					setInputValue(""); // reset form input after submission
 				}

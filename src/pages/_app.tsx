@@ -12,7 +12,7 @@ import Head from "next/head";
 import { brand } from "@/common/texts";
 import Script from "next/script";
 import router, { useRouter } from "next/router";
-import { gtag } from "@/common/util/gtag";
+import { gtagEvent } from "@/common/util/gtag";
 import { keysOverride } from "@/components/headMeta";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 	useEffect(() => {
 		const handler = () => {
-			gtag("pageview");
+			gtagEvent("pageview");
 		};
 		router.events.on("routeChangeComplete", handler);
 
