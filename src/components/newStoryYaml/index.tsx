@@ -9,7 +9,7 @@ import components from "@/designSystem/components.module.scss";
 
 export const NewStoryYaml: React.FC = () => {
 	const router = useRouter();
-	const { mutate, isIdle } = trpc.post.useMutation();
+	const { mutate, isIdle } = trpc.story.post.useMutation();
 
 	const handleFileRead = useCallback(
 		(story: StoryInit) => {

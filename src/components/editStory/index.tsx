@@ -11,7 +11,7 @@ export type Props = {
 };
 
 export const EditStory: React.FC<Props> = ({ storyId, story }) => {
-	const { mutate, isError, isLoading } = trpc.put.useMutation();
+	const { mutate, isError, isLoading } = trpc.story.put.useMutation();
 	const router = useRouter();
 	return (
 		<main>

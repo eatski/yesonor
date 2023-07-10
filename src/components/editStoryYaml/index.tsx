@@ -11,7 +11,7 @@ export const EditStoryYaml: React.FC<{ initialStory: StoryHead }> = ({
 	initialStory,
 }) => {
 	const router = useRouter();
-	const { mutate, isIdle } = trpc.put.useMutation();
+	const { mutate, isIdle } = trpc.story.put.useMutation();
 
 	const handleFileRead = useCallback(
 		(story: StoryInit) => {

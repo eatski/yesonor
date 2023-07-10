@@ -26,9 +26,9 @@ export const MyStoryMenu: React.FC<Props> = ({
 	);
 	const story = getUpdated.data ?? initialStory;
 
-	const del = trpc.delete.useMutation();
-	const put = trpc.put.useMutation();
-	const publish = trpc.publish.useMutation();
+	const del = trpc.story.delete_.useMutation();
+	const put = trpc.story.put.useMutation();
+	const publish = trpc.story.publishFirst.useMutation();
 	const router = useRouter();
 	const success = del.isSuccess || put.isSuccess || publish.isSuccess;
 	const isLoading =

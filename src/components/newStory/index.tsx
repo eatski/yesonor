@@ -14,7 +14,7 @@ export type Props = {
 };
 
 export const NewStory: React.FC<Props> = ({ device }) => {
-	const { mutate, isError, isLoading } = trpc.post.useMutation();
+	const { mutate, isError, isLoading } = trpc.story.post.useMutation();
 	const router = useRouter();
 
 	return (
