@@ -1,5 +1,6 @@
 import { calculateEuclideanDistance } from "@/libs/math";
 import { prisma } from "@/libs/prisma";
+import { prepareProura } from "@/libs/proura";
 import { truthCoincidence } from "@/server/model/schemas";
 import { getStory, getStoryPrivate } from "@/server/services/story";
 import { procedure } from "@/server/trpc";
@@ -21,73 +22,91 @@ export const truth = procedure
 		}),
 	)
 	.mutation(async ({ input, ctx }) => {
-		const verifyPromise = ctx.verifyRecaptcha(input.recaptchaToken);
-		const user = await ctx.getUserOptional();
-		const story = user
-			? await getStoryPrivate({
-					storyId: input.storyId,
-					authorId: user.id,
-			  })
-			: await getStory({
-					storyId: input.storyId,
-			  });
-		if (!story) {
-			throw new TRPCError({
-				code: "NOT_FOUND",
-			});
-		}
-		await verifyPromise;
-		const systemPrompt = await systemPromptPromise;
-		const [chatResponse, embeddingsResponse] = await Promise.all([
-			ctx.openai.createChatCompletion({
-				model: "gpt-4-0613",
-				messages: [
-					{
-						role: "system",
-						content: systemPrompt.toString(),
-					},
-					{
-						role: "assistant",
-						content: story.simpleTruth,
-					},
-					{
-						role: "user",
-						content: input.text,
-					},
-				],
-				temperature: 0,
-				max_tokens: 10,
-			}),
-			ctx.openai.createEmbedding({
-				model: "text-embedding-ada-002",
-				input: [story.simpleTruth, input.text],
-			}),
-		]);
-		const [textA, textB] = embeddingsResponse.data.data;
-		const distance = calculateEuclideanDistance(
-			textA.embedding,
-			textB.embedding,
-		);
-		const message = chatResponse.data.choices[0].message;
-		if (!message) {
-			throw new Error("No message");
-		}
-		const result = truthCoincidence.parse(message.content);
+		const proura = prepareProura();
+		const { result, story, distance } = await proura
+			.add("verifyRecaptcha", () => {
+				return ctx.verifyRecaptcha(input.recaptchaToken);
+			})
+			.add("user", () => {
+				return ctx.getUserOptional();
+			})
+			.add("story", async (dependsOn) => {
+				const user = await dependsOn("user");
+				const story = await (user
+					? getStoryPrivate({
+							storyId: input.storyId,
+							authorId: user.id,
+					  })
+					: getStory({
+							storyId: input.storyId,
+					  }));
+				if (!story) {
+					throw new TRPCError({
+						code: "NOT_FOUND",
+					});
+				}
+				return story;
+			})
+			.add("distance", async (dependsOn) => {
+				const story = await dependsOn("story");
+				const embeddingsResponse = await ctx.openai.createEmbedding({
+					model: "text-embedding-ada-002",
+					input: [story.simpleTruth, input.text],
+				});
+				const [textA, textB] = embeddingsResponse.data.data;
+				const distance = calculateEuclideanDistance(
+					textA.embedding,
+					textB.embedding,
+				);
+				return distance;
+			})
+			.add("result", async (dependsOn) => {
+				const story = await dependsOn("story");
+				const user = await dependsOn("user");
+				const systemPrompt = await systemPromptPromise;
+				const response = await ctx.openai.createChatCompletion({
+					model: "gpt-4-0613",
+					messages: [
+						{
+							role: "system",
+							content: systemPrompt.toString(),
+						},
+						{
+							role: "assistant",
+							content: story.simpleTruth,
+						},
+						{
+							role: "user",
+							content: input.text,
+						},
+					],
+					temperature: 0,
+					max_tokens: 10,
+				});
+				const message = response.data.choices[0].message;
+				if (!message) {
+					throw new Error("No message");
+				}
+				const result = truthCoincidence.parse(message.content);
 
-		const correct = result === "Covers" ? story.truth : null;
-		const isOwn = user?.id === story.author.id;
-		isOwn ||
-			(await prisma.solutionLog
-				.create({
-					data: {
-						storyId: story.id,
-						solution: input.text,
-						result: correct ? "Correct" : "Incorrect",
-					},
-				})
-				.catch((e) => {
-					console.error(e);
-				}));
+				const correct = result === "Covers" ? story.truth : null;
+				const isOwn = user?.id === story.author.id;
+				isOwn ||
+					(await prisma.solutionLog
+						.create({
+							data: {
+								storyId: story.id,
+								solution: input.text,
+								result: correct ? "Correct" : "Incorrect",
+							},
+						})
+						.catch((e) => {
+							console.error(e);
+						}));
+				return result;
+			})
+			.exec();
+
 		return {
 			result,
 			input: input.text,
