@@ -1,7 +1,6 @@
-import { questionExample } from "@/server/model/schemas";
+import { questionExample, Story, StoryHead } from "@/server/model/story";
 import { z } from "zod";
 import { Story as DbStory, User } from "@prisma/client";
-import { Story, StoryHead } from "@/server/model/types";
 
 export const hydrateStory = (
 	story: DbStory & {

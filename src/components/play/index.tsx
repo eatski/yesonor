@@ -11,7 +11,7 @@ import { gtagEvent } from "@/common/util/gtag";
 import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import Script from "next/script";
 import { calcPercentage } from "@/libs/math";
-import { Story } from "@/server/model/types";
+import { Story } from "@/server/model/story";
 import components from "@/designSystem/components.module.scss";
 
 type Props = {

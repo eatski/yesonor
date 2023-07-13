@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { pickSmallDistanceExampleQuestionInput } from "./pickSmallDistanceExampleQuestionInput";
 import { setupOpenaiForTest } from "@/libs/openai/forTest";
-import { QuestionExample } from "@/server/model/types";
+import { QuestionExample } from "@/server/model/story";
 
 describe("question/pickSmallDistanceExampleQuestionInput", () => {
 	const openai = setupOpenaiForTest();

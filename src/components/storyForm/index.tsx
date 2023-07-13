@@ -4,11 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./styles.module.scss";
 import components from "@/designSystem/components.module.scss";
 import { AiFillPlayCircle, AiOutlinePlus } from "react-icons/ai";
-import { z } from "zod";
-import { storyInit } from "@/server/model/schemas";
+import { storyInit, StoryInit } from "@/server/model/story";
 import { QuestionExampleForm } from "./components/questionExample";
-
-type StoryInit = z.infer<typeof storyInit>;
 
 export type Props = {
 	storyInit?: StoryInit;

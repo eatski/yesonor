@@ -1,6 +1,6 @@
 import { prisma } from "@/libs/prisma";
 import { createGetStoryWhere, hydrateStory, omitStory } from "../functions";
-import { StoryHead } from "@/server/model/types";
+import { StoryHead } from "@/server/model/story";
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 

@@ -1,4 +1,7 @@
 import { z } from "zod";
+import { Override, Public } from "./util";
+import { Story as DbStory } from "@prisma/client";
+import { User } from "./user";
 
 const NON_EMPTY_MESSAGE = "この項目は必須です";
 
@@ -16,22 +19,6 @@ export const questionExample = z.object({
 		.max(100, "100文字以内で入力してください")
 		.optional(),
 });
-
-// export const story = z.object({
-// 	id: z.string(),
-// 	author: z.object({
-// 		id: z.string(),
-// 		name: z.string().nullable(),
-// 	}),
-// 	title: z.string(),
-// 	quiz: z.string(),
-// 	truth: z.string(),
-// 	simpleTruth: z.string(),
-// 	questionExamples: z.array(questionExample),
-// 	publishedAt: z.date().nullable(),
-// 	published: z.boolean(),
-// 	createdAt: z.date(),
-// });
 
 export const storyInit = z.object({
 	title: z
@@ -63,10 +50,51 @@ export const storyInit = z.object({
 		}, "AIの精度を上げるため、回答がはい、いいえ、わからないをそれぞれ1つ以上入力してください"),
 });
 
-export const questionLog = z.object({
-	question: z.string(),
-	answer,
-	storyId: z.string(),
-});
-
 export const truthCoincidence = z.enum(["Covers", "Wrong", "Insufficient"]);
+
+export type Story = Public<
+	Override<
+		DbStory,
+		{
+			questionExamples: z.infer<typeof questionExample>[];
+		}
+	> & {
+		author: User;
+	},
+	| "title"
+	| "id"
+	| "truth"
+	| "simpleTruth"
+	| "quiz"
+	| "author"
+	| "questionExamples"
+	| "publishedAt"
+	| "published"
+>;
+
+export type StoryHead = Omit<
+	Story,
+	"truth" | "simpleTruth" | "questionExamples"
+>;
+export type Answer = z.infer<typeof answer>;
+export type TruthCoincidence = z.infer<typeof truthCoincidence>;
+export type StoryInit = z.infer<typeof storyInit>;
+export type QuestionExample = z.infer<typeof questionExample>;
+export type QuestionExampleWithCustomMessage = QuestionExample & {
+	customMessage: string;
+};
+
+export const filterWithCustomMessage = (
+	examples: QuestionExample[],
+): QuestionExampleWithCustomMessage[] => {
+	const filterd: QuestionExampleWithCustomMessage[] = [];
+	for (const example of examples) {
+		if (example.customMessage) {
+			filterd.push({
+				...example,
+				customMessage: example.customMessage,
+			});
+		}
+	}
+	return filterd;
+};

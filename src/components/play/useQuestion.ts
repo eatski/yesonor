@@ -1,6 +1,6 @@
 import { getRecaptchaToken } from "@/common/util/grecaptcha";
 import { trpc } from "@/libs/trpc";
-import { Answer, Story } from "@/server/model/types";
+import { Answer, Story } from "@/server/model/story";
 import { OPENAI_ERROR_MESSAGE } from "@/server/procedures/question/contract";
 import { useRef, useState } from "react";
 

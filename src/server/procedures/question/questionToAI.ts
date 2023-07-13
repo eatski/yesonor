@@ -1,10 +1,10 @@
-import { QuestionExample } from "@/server/model/types";
+import { QuestionExample } from "@/server/model/story";
 import { TRPCError } from "@trpc/server";
 import { OpenAIApi } from "openai";
 import { OPENAI_ERROR_MESSAGE } from "./contract";
 import { readFile } from "fs/promises";
 import { resolve } from "path";
-import { answer as answerSchema } from "../../model/schemas";
+import { answer as answerSchema } from "../../model/story";
 import { z } from "zod";
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),

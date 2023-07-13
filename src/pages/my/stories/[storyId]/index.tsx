@@ -9,7 +9,7 @@ import { getUserSession } from "@/server/getServerSideProps/getUserSession";
 import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
 import { Device } from "@/common/util/device";
 import { HeadMetaOverride } from "@/components/headMeta";
-import { Story } from "@/server/model/types";
+import { Story } from "@/server/model/story";
 
 type Props = {
 	story: Story;

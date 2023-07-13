@@ -1,7 +1,7 @@
 import { calculateEuclideanDistance } from "@/libs/math";
 import { prisma } from "@/libs/prisma";
 import { prepareProura } from "@/libs/proura";
-import { truthCoincidence } from "@/server/model/schemas";
+import { truthCoincidence } from "@/server/model/story";
 import { getStory, getStoryPrivate } from "@/server/services/story";
 import { procedure } from "@/server/trpc";
 import { TRPCError } from "@trpc/server";

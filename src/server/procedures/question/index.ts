@@ -1,29 +1,17 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { answer as answerSchema } from "../../model/schemas";
+import {
+	answer as answerSchema,
+	filterWithCustomMessage,
+	QuestionExample,
+} from "../../model/story";
 import { procedure } from "../../trpc";
 import { getStory, getStoryPrivate } from "@/server/services/story";
 import { pickSmallDistanceExampleQuestionInput } from "./pickSmallDistanceExampleQuestionInput";
 import { QuestionExampleWithCustomMessage } from "./type";
-import { QuestionExample } from "@/server/model/types";
 import { prisma } from "@/libs/prisma";
 import { questionToAI } from "./questionToAI";
 import { prepareProura } from "@/libs/proura";
-
-const filterWithCustomMessage = (
-	examples: QuestionExample[],
-): QuestionExampleWithCustomMessage[] => {
-	const filterd: QuestionExampleWithCustomMessage[] = [];
-	for (const example of examples) {
-		if (example.customMessage) {
-			filterd.push({
-				...example,
-				customMessage: example.customMessage,
-			});
-		}
-	}
-	return filterd;
-};
 
 export const question = procedure
 	.input(
