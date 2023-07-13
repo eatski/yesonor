@@ -48,6 +48,7 @@ export const truth = procedure
 				return story;
 			})
 			.add("distance", async (dependsOn) => {
+				await dependsOn("verifyRecaptcha");
 				const story = await dependsOn("story");
 				const embeddingsResponse = await ctx.openai.createEmbedding({
 					model: "text-embedding-ada-002",
@@ -61,6 +62,7 @@ export const truth = procedure
 				return distance;
 			})
 			.add("result", async (dependsOn) => {
+				await dependsOn("verifyRecaptcha");
 				const story = await dependsOn("story");
 				const user = await dependsOn("user");
 				const systemPrompt = await systemPromptPromise;
