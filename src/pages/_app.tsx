@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 	useEffect(() => {
 		const handler = () => {
-			gtagEvent("page_view");
+			gtagEvent("page_transition");
 		};
 		router.events.on("routeChangeComplete", handler);
 
