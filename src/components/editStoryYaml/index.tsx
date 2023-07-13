@@ -5,13 +5,13 @@ import styles from "./styles.module.scss";
 import { YamlFileDrop } from "../storyYamlFileDrop";
 import { StoryHead, StoryInit } from "@/server/model/types";
 import { H1 } from "@/designSystem/components/heading";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 
 export const EditStoryYaml: React.FC<{ initialStory: StoryHead }> = ({
 	initialStory,
 }) => {
 	const router = useRouter();
-	const { mutate, isIdle } = trpc.put.useMutation();
+	const { mutate, isIdle } = trpc.story.put.useMutation();
 
 	const handleFileRead = useCallback(
 		(story: StoryInit) => {

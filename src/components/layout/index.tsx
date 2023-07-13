@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { PropsWithChildren, Suspense, useEffect, useState } from "react";
 import { AiOutlineUnorderedList as Menu } from "react-icons/ai";
 import styles from "./styles.module.scss";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 import { useRouter } from "next/router";
 import { Logo } from "./components/logo";
 

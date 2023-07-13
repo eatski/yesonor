@@ -5,13 +5,13 @@ import { httpBatchLink } from "@trpc/client";
 import React, { useEffect, useMemo } from "react";
 import { trpc } from "@/libs/trpc";
 import "sanitize.css";
-import "@/styles/base.css";
+import "@/designSystem/base.css";
 import { SessionProvider } from "next-auth/react";
 
 import Head from "next/head";
 import { brand } from "@/common/texts";
 import Script from "next/script";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { gtagEvent } from "@/common/util/gtag";
 import { keysOverride } from "@/components/headMeta";
 
@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 	useEffect(() => {
 		const handler = () => {
-			gtagEvent("pageview");
+			gtagEvent("page_transition");
 		};
 		router.events.on("routeChangeComplete", handler);
 

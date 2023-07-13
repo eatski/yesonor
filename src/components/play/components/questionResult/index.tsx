@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import button from "@/styles/components.module.scss";
+import button from "@/designSystem/components.module.scss";
 import { QuestionAndAnswer } from "@/components/questionAndAnswer";
 
 export type Props = {

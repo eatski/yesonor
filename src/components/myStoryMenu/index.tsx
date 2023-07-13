@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 import { trpc } from "@/libs/trpc";
 import { Story } from "@/server/model/types";
 import Link from "next/link";
@@ -26,9 +26,9 @@ export const MyStoryMenu: React.FC<Props> = ({
 	);
 	const story = getUpdated.data ?? initialStory;
 
-	const del = trpc.delete.useMutation();
-	const put = trpc.put.useMutation();
-	const publish = trpc.publish.useMutation();
+	const del = trpc.story.delete_.useMutation();
+	const put = trpc.story.put.useMutation();
+	const publish = trpc.story.publishFirst.useMutation();
 	const router = useRouter();
 	const success = del.isSuccess || put.isSuccess || publish.isSuccess;
 	const isLoading =

@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import { QuestionAndAnswer } from "@/components/questionAndAnswer";
 import { useCallback, useState } from "react";
 import Link from "next/link";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 import { useRouter } from "next/router";
 import { Item } from "@/components/storyList";
 

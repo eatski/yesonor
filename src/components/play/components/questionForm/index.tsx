@@ -1,6 +1,6 @@
 import React, { useId, useState } from "react";
 import styles from "./styles.module.scss";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 import { AiOutlineSend } from "react-icons/ai";
 import { gtagEvent } from "@/common/util/gtag";
 

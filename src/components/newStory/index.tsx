@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { StoryForm } from "../storyForm";
 import { H1 } from "@/designSystem/components/heading";
 import Link from "next/link";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 import { AiOutlineUpload } from "react-icons/ai";
 import styles from "./styles.module.scss";
 import { Device } from "@/common/util/device";
@@ -14,7 +14,7 @@ export type Props = {
 };
 
 export const NewStory: React.FC<Props> = ({ device }) => {
-	const { mutate, isError, isLoading } = trpc.post.useMutation();
+	const { mutate, isError, isLoading } = trpc.story.post.useMutation();
 	const router = useRouter();
 
 	return (

@@ -1,7 +1,7 @@
 import { HTMLProps } from "react";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import styles from "./styles.module.scss";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 
 export type Props = {
 	index: number;

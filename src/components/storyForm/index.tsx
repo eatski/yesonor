@@ -2,7 +2,7 @@ import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./styles.module.scss";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 import { AiFillPlayCircle, AiOutlinePlus } from "react-icons/ai";
 import { z } from "zod";
 import { storyInit } from "@/server/model/schemas";

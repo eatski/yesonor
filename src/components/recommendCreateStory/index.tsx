@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 import Link from "next/link";
 import { gtagEvent } from "@/common/util/gtag";
 

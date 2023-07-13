@@ -1,6 +1,6 @@
 import { H1 } from "@/designSystem/components/heading";
 import styles from "./styles.module.scss";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 import dayjs from "dayjs";
 import { brand } from "@/common/texts";
 import { AiOutlineCopy, AiOutlineTwitter } from "react-icons/ai";

@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkDark as highlightStyles } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import components from "@/styles/components.module.scss";
+import components from "@/designSystem/components.module.scss";
 
 export type Props = {
 	source: string;
