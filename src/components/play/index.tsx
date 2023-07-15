@@ -163,7 +163,7 @@ export function Play(props: Props) {
 								<button
 									onClick={() => {
 										if (
-											confirm(
+											window.confirm(
 												"本当に真相を見ますか？一度真相を見てしまうとこのストーリーを楽しむことができなくなります。",
 											)
 										) {
