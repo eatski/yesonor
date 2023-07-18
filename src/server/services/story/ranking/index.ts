@@ -42,11 +42,13 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 		).length;
 		const questionLogsLength = questionLogs.length;
 		const questionExamplesLength = hydreted.questionExamples.length;
+		const random = Math.random();
 
 		const score =
 			(correctSolutionsLength + 1) *
 			(questionLogsLength + incorrectSolutionsLength + 10) *
-			(questionExamplesLength + 10);
+			(questionExamplesLength + 10) *
+			(random + 1);
 		return {
 			story: omitted,
 			score,
