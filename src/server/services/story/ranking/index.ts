@@ -48,7 +48,7 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 			(correctSolutionsLength + 1) *
 			(questionLogsLength + incorrectSolutionsLength + 10) *
 			(questionExamplesLength + 10) *
-			(random + 1);
+			random;
 		return {
 			story: omitted,
 			score,
