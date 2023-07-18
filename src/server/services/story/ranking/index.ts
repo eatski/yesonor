@@ -34,11 +34,19 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 		const { questionLogs, solutionLogs, ...rest } = story;
 		const hydreted = hydrateStory(rest);
 		const omitted = omitStory(rest);
+		const correctSolutionsLength = solutionLogs.filter(
+			(e) => e.result === "Correct",
+		).length;
+		const incorrectSolutionsLength = solutionLogs.filter(
+			(e) => e.result === "Incorrect",
+		).length;
+		const questionLogsLength = questionLogs.length;
+		const questionExamplesLength = hydreted.questionExamples.length;
+
 		const score =
-			solutionLogs.filter((e) => e.result === "Correct").length * 16 +
-			solutionLogs.filter((e) => e.result === "Incorrect").length * 1 +
-			questionLogs.length * 1 +
-			hydreted.questionExamples.length * 1;
+			(correctSolutionsLength + 1) *
+			(questionLogsLength + incorrectSolutionsLength + 10) *
+			(questionExamplesLength + 10);
 		return {
 			story: omitted,
 			score,
