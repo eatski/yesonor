@@ -1,6 +1,6 @@
 import { prisma } from "@/libs/prisma";
 import { createGetStoryWhere, hydrateStory, omitStory } from "../functions";
-import { StoryHead } from "@/server/model/types";
+import { StoryHead } from "@/server/model/story";
 
 const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
@@ -34,11 +34,19 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 		const { questionLogs, solutionLogs, ...rest } = story;
 		const hydreted = hydrateStory(rest);
 		const omitted = omitStory(rest);
+		const correctSolutionsLength = solutionLogs.filter(
+			(e) => e.result === "Correct",
+		).length;
+		const incorrectSolutionsLength = solutionLogs.filter(
+			(e) => e.result === "Incorrect",
+		).length;
+		const questionLogsLength = questionLogs.length;
+		const questionExamplesLength = hydreted.questionExamples.length;
+
 		const score =
-			solutionLogs.filter((e) => e.result === "Correct").length * 16 +
-			solutionLogs.filter((e) => e.result === "Incorrect").length * 1 +
-			questionLogs.length * 1 +
-			hydreted.questionExamples.length * 1;
+			(correctSolutionsLength + 1) *
+			(questionLogsLength + incorrectSolutionsLength + 10) *
+			(questionExamplesLength + 10);
 		return {
 			story: omitted,
 			score,

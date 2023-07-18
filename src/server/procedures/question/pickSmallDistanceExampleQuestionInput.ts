@@ -1,4 +1,4 @@
-import { QuestionExample } from "@/server/model/types";
+import { QuestionExample } from "@/server/model/story";
 import { OpenAIApi } from "openai";
 import { calculateEuclideanDistance } from "@/libs/math";
 

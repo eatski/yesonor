@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { brand } from "@/common/texts";
 import { AiOutlineCopy, AiOutlineTwitter } from "react-icons/ai";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { StoryHead } from "@/server/model/types";
+import { StoryHead } from "@/server/model/story";
 
 dayjs.locale("ja");
 

@@ -6,7 +6,7 @@ import { getUserSession } from "@/server/getServerSideProps/getUserSession";
 import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
 import { Device } from "@/common/util/device";
 import { HeadMetaOverride } from "@/components/headMeta";
-import { Story } from "@/server/model/types";
+import { Story } from "@/server/model/story";
 import { EditStory } from "@/components/editStory";
 import { useRouter } from "next/router";
 import { EditStoryYaml } from "@/components/editStoryYaml";
