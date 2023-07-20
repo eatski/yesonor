@@ -1,7 +1,8 @@
-import { HTMLProps } from "react";
+import { HTMLProps, useId } from "react";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import styles from "./styles.module.scss";
 import components from "@/designSystem/components.module.scss";
+import { FormErrorMessage } from "@/designSystem/components/formErrorMessage";
 
 export type Props = {
 	index: number;
@@ -22,6 +23,8 @@ export const QuestionExampleForm = ({
 	customMessageError,
 	onClickRemove,
 }: Props) => {
+	const questionFormErrorMessageId = useId();
+	const customMessageFormErrorMessageId = useId();
 	return (
 		<div key={index} className={styles.container}>
 			<div className={styles.head}>
@@ -41,9 +44,12 @@ export const QuestionExampleForm = ({
 						{...questionInput}
 						placeholder="例: 太郎さんはオシャレ好きですか？"
 						className={components.input}
+						aria-errormessage={questionFormErrorMessageId}
 					/>
 					{questionError && (
-						<p className={components.formErrorMessage}>{questionError}</p>
+						<FormErrorMessage id={questionFormErrorMessageId}>
+							{questionError}
+						</FormErrorMessage>
 					)}
 				</label>
 			</div>
@@ -66,9 +72,12 @@ export const QuestionExampleForm = ({
 						{...customMessageInput}
 						placeholder="例: いい質問です！オシャレ好きです。"
 						className={components.input}
+						aria-errormessage={customMessageFormErrorMessageId}
 					/>
 					{customMessageError && (
-						<p className={components.formErrorMessage}>{customMessageError}</p>
+						<FormErrorMessage id={customMessageFormErrorMessageId}>
+							{customMessageError}
+						</FormErrorMessage>
 					)}
 				</label>
 			</div>

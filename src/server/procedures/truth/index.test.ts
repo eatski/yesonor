@@ -50,6 +50,7 @@ describe("trpc/truth", () => {
 		test.each([
 			"太郎はおしゃれのために度が入っていない眼鏡をかけている。",
 			"太郎さんはオシャレで伊達メガネをかけている。",
+			"太郎が掛けているのは伊達メガネ",
 		])("真相に対して正しい解答をするとCoversが返る。 [%s]", async (text) => {
 			const result = await testee.truth({
 				storyId: TEST_ID,
@@ -71,18 +72,18 @@ describe("trpc/truth", () => {
 				expect(result).toMatchSnapshot();
 			},
 		);
-		test.each(["太郎は友達に無理やりメガネをかけさせられた。"])(
-			"真相に対して間違えた解答をするとがWrong返る [%s]",
-			async (text) => {
-				const result = await testee.truth({
-					storyId: TEST_ID,
-					text,
-					recaptchaToken: "anytoken",
-				});
-				expect(result.result).toEqual("Wrong");
-				expect(result).toMatchSnapshot();
-			},
-		);
+		test.each([
+			"太郎は友達に無理やりメガネをかけさせられた。",
+			"メガネをかけているように見えるが太郎はメガネが本体でありメガネにかけられている。",
+		])("真相に対して間違えた解答をするとがWrong返る [%s]", async (text) => {
+			const result = await testee.truth({
+				storyId: TEST_ID,
+				text,
+				recaptchaToken: "anytoken",
+			});
+			expect(result.result).toEqual("Wrong");
+			expect(result).toMatchSnapshot();
+		});
 	});
 	describe("storyの参照権限", () => {
 		test.each([TEST_USER1, TEST_USER2, null])(

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./styles.module.scss";
@@ -6,6 +6,8 @@ import components from "@/designSystem/components.module.scss";
 import { AiFillPlayCircle, AiOutlinePlus } from "react-icons/ai";
 import { storyInit, StoryInit } from "@/server/model/story";
 import { QuestionExampleForm } from "./components/questionExample";
+import { InformationParagragh } from "@/designSystem/components/information";
+import { FormErrorMessage } from "@/designSystem/components/formErrorMessage";
 
 export type Props = {
 	storyInit?: StoryInit;
@@ -44,6 +46,11 @@ export const StoryForm: React.FC<Props> = ({
 		control,
 		name: "questionExamples",
 	});
+	const titleFormErrorMessageId = useId();
+	const quizFormErrorMessageId = useId();
+	const truthFormErrorMessageId = useId();
+	const simpleTruthFormErrorMessageId = useId();
+	const questionExampleFormErrorMessageId = useId();
 
 	return (
 		<form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
@@ -65,8 +72,13 @@ export const StoryForm: React.FC<Props> = ({
 						{...register("title")}
 						placeholder="例: 太郎さんのメガネ"
 						className={components.input}
+						aria-errormessage={titleFormErrorMessageId}
 					/>
-					{errors.title && <p>{errors.title.message}</p>}
+					{errors.title && (
+						<FormErrorMessage id={titleFormErrorMessageId}>
+							{errors.title.message}
+						</FormErrorMessage>
+					)}
 				</label>
 			</div>
 			<div className={styles.field}>
@@ -76,50 +88,70 @@ export const StoryForm: React.FC<Props> = ({
 						{...register("quiz")}
 						placeholder="例: 太郎さんは視力がとてもいいのにメガネをかけている。なぜか？"
 						className={components.textarea}
+						aria-errormessage={quizFormErrorMessageId}
 					/>
-					{errors.quiz && <p>{errors.quiz.message}</p>}
+					{errors.quiz && (
+						<FormErrorMessage id={quizFormErrorMessageId}>
+							{errors.quiz.message}
+						</FormErrorMessage>
+					)}
 				</label>
 			</div>
 			<div className={styles.field}>
 				<label>
 					真相
-					<p className={styles.description}>
+					<InformationParagragh>
 						AIは質問に対する回答を生成する際にこの文章を参照します。そのため、真相は詳細まで記述することをお勧めします。
-					</p>
+					</InformationParagragh>
 					<textarea
 						{...register("truth")}
 						placeholder="例: 太郎さんはオシャレ好きであり、おしゃれのために伊達メガネをかけている。"
 						className={components.input}
+						aria-errormessage={truthFormErrorMessageId}
 					/>
-					{errors.truth && <p>{errors.truth.message}</p>}
+					{errors.truth && (
+						<FormErrorMessage id={truthFormErrorMessageId}>
+							{errors.truth.message}
+						</FormErrorMessage>
+					)}
 				</label>
 			</div>
 			<div className={styles.field}>
 				<label>
 					簡潔な真相
-					<p className={styles.description}>
+					<InformationParagragh>
 						この文章はAIが解答者の解答を判定する際に使用します。詳細に説明しすぎると、AIに解答者の解答が「情報が不足している」と判断されてしまうため、
 						<strong>真相の核心を最低限の言葉で</strong>記述してください。
-					</p>
+					</InformationParagragh>
 					<textarea
 						{...register("simpleTruth")}
 						placeholder="例: 太郎さんは伊達メガネをかけている。"
 						className={components.input}
+						aria-errormessage={simpleTruthFormErrorMessageId}
 					/>
-					{errors.simpleTruth && <p>{errors.simpleTruth.message}</p>}
+					{errors.simpleTruth && (
+						<FormErrorMessage id={simpleTruthFormErrorMessageId}>
+							{errors.simpleTruth.message}
+						</FormErrorMessage>
+					)}
 				</label>
 			</div>
-			<fieldset>
+			<fieldset
+				aria-errormessage={questionExampleFormErrorMessageId}
+				aria-invalid={!!errors.questionExamples}
+			>
 				<legend>質問の例を教えてください。</legend>
-				<p className={styles.description}>
+				<InformationParagragh>
 					AIは質問に対する回答を生成する際にこれらを参照するため、より多くの例を参照させることで解答の精度が上がります。
 					<br />
 					AIが最低限有用な回答を返せるようにするために3つ以上（答えが「はい」「いいえ」「わからない」の質問を1つずつ）の例を記述してください。
 					<br />
 					また、カスタムメッセージを設定することで、AIの回答を決めることができます。
-				</p>
+				</InformationParagragh>
 				{errors.questionExamples && (
-					<p className={styles.error}>{errors.questionExamples.message}</p>
+					<FormErrorMessage id={questionExampleFormErrorMessageId}>
+						{errors.questionExamples.message}
+					</FormErrorMessage>
 				)}
 				{fields.map((field, index) => (
 					<div key={index} className={styles.questionExampleItem}>

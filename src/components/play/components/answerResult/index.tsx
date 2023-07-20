@@ -1,3 +1,4 @@
+import { InformationParagragh } from "@/designSystem/components/information";
 import styles from "./styles.module.scss";
 import components from "@/designSystem/components.module.scss";
 
@@ -7,6 +8,7 @@ export type Props = {
 	truth: string | null;
 	distance: string | null;
 	onBackButtonClicked: () => void;
+	information: React.ReactNode | null;
 };
 
 export const AnswerResult: React.FC<Props> = ({
@@ -15,11 +17,15 @@ export const AnswerResult: React.FC<Props> = ({
 	truth,
 	onBackButtonClicked,
 	distance,
+	information,
 }) => {
 	return (
 		<div className={styles.container} data-truth={truth !== null}>
 			{title && <h2>{title}</h2>}
 			{distance && <p>惜しい度: {distance}</p>}
+			{information && (
+				<InformationParagragh size="small">{information}</InformationParagragh>
+			)}
 			<dl>
 				{truth && (
 					<>
@@ -39,7 +45,7 @@ export const AnswerResult: React.FC<Props> = ({
 					<button
 						type={"button"}
 						onClick={onBackButtonClicked}
-						className={components.button}
+						className={components.buttonLink}
 					>
 						戻る
 					</button>
