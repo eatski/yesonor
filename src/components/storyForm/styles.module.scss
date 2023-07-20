@@ -1,16 +1,6 @@
 .container {
     display: flex;
     flex-direction: column;
-    .description {
-        margin: 0 0 8px;
-        font-size: 14px;
-        padding: 12px;
-        word-wrap: break-word;
-        color: var(--color-base-fg-secondary);
-        background-color: var(--color-base-bg-info);
-        border-radius: 8px;
-        font-weight: 400;
-    }
     textarea {
         min-height: 100px;
     }
@@ -20,12 +10,6 @@
         gap: 4px;
         font-size: 14px;
         color: var(--color-base-fg-secondary);
-        font-weight: bold;
-    }
-    .error,label p {
-        margin: 0;
-        font-size: 12px;
-        color: var(--color-base-fg-danger);
         font-weight: bold;
     }
     .field {
