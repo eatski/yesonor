@@ -7,4 +7,9 @@
     background-color: var(--color-base-bg-info);
     border-radius: 8px;
     font-weight: 400;
+
+    &[data-size="small"]{
+        font-size: 13px;
+        padding: 8px;
+    }
 }

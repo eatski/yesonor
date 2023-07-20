@@ -62,6 +62,13 @@ const AnswerFormContainer: React.FC<{
 					? `${calcPercentage(calcDisplayDistance(data.distance))}%`
 					: null
 			}
+			information={
+				data.truth ? null : (
+					<div className={styles.infoBody}>
+						この判定に疑問がある場合、些細な点で不正解と捉えられている可能性があります。例えば、登場人物の敬称（さん・君など）を正確に入力してみるなどで結果が変わるかもしれません。
+					</div>
+				)
+			}
 		/>
 	) : (
 		<AnswerForm
@@ -91,6 +98,7 @@ const Truth: React.FC<{ story: Story; onBackButtonClicked: () => void }> = ({
 			title={null}
 			truth={story.truth}
 			distance={null}
+			information={null}
 		/>
 	);
 };
