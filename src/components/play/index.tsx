@@ -115,6 +115,9 @@ export function Play(props: Props) {
 	const backToQuestion = useCallback(() => {
 		setMode("question");
 	}, []);
+	const goToSolution = useCallback(() => {
+		setMode("solution");
+	}, []);
 	return (
 		<>
 			<Script
@@ -134,9 +137,7 @@ export function Play(props: Props) {
 					<QuestionResult
 						question={question.latest.input}
 						answer={question.latest.result}
-						onAnswerButtonClicked={() => {
-							setMode("solution");
-						}}
+						onAnswerButtonClicked={goToSolution}
 						onHintButtonClicked={null}
 					/>
 				</div>
@@ -145,9 +146,7 @@ export function Play(props: Props) {
 				<div className={styles.sectionWrapper}>
 					<AnswerFormContainer
 						storyId={props.story.id}
-						onCancel={() => {
-							setMode("question");
-						}}
+						onCancel={backToQuestion}
 					/>
 				</div>
 			)}
