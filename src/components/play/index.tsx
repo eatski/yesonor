@@ -1,5 +1,5 @@
 import { trpc } from "@/libs/trpc";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Feed } from "./components/feed";
 import styles from "./styles.module.scss";
 import { QuestionForm } from "./components/questionForm";
@@ -43,6 +43,17 @@ const AnswerFormContainer: React.FC<{
 	onCancel: () => void;
 }> = ({ storyId, onCancel }) => {
 	const { mutate, isLoading, data, reset, isError } = trpc.truth.useMutation();
+	const onSubmit = useCallback(
+		async (input: string) => {
+			gtagEvent("click_submit_answer");
+			mutate({
+				storyId,
+				text: input,
+				recaptchaToken: await getRecaptchaToken(),
+			});
+		},
+		[mutate, storyId],
+	);
 	return data ? (
 		<AnswerResult
 			solution={data.input}
@@ -75,14 +86,7 @@ const AnswerFormContainer: React.FC<{
 			isLoading={isLoading}
 			onCancel={onCancel}
 			isError={isError}
-			onSubmit={async (input) => {
-				gtagEvent("click_submit_answer");
-				mutate({
-					storyId,
-					text: input,
-					recaptchaToken: await getRecaptchaToken(),
-				});
-			}}
+			onSubmit={onSubmit}
 		/>
 	);
 };
@@ -108,6 +112,9 @@ export function Play(props: Props) {
 	const [mode, setMode] = useState<"question" | "solution" | "truth">(
 		"question",
 	);
+	const backToQuestion = useCallback(() => {
+		setMode("question");
+	}, []);
 	return (
 		<>
 			<Script
@@ -146,12 +153,7 @@ export function Play(props: Props) {
 			)}
 			{mode === "truth" && (
 				<div className={styles.sectionWrapper}>
-					<Truth
-						story={props.story}
-						onBackButtonClicked={() => {
-							setMode("question");
-						}}
-					/>
+					<Truth story={props.story} onBackButtonClicked={backToQuestion} />
 				</div>
 			)}
 			{question.history.length > 0 && (
