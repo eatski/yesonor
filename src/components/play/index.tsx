@@ -63,7 +63,6 @@ const AnswerFormContainer: React.FC<{
 					{
 						Covers: "正解",
 						Wrong: "間違いがあります",
-						Insufficient: "説明が不十分です。",
 					} as const satisfies Record<typeof data.result, string>
 				)[data.result]
 			}

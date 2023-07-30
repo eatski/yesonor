@@ -32,7 +32,7 @@ export const questionToAI = async (
 			functions: [
 				{
 					name: "asnwer",
-					description: "Anser the question",
+					description: "Answer the question",
 					parameters: {
 						type: "object",
 						properties: {

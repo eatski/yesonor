@@ -8,6 +8,7 @@ import { TRPCError } from "@trpc/server";
 import { readFile } from "fs/promises";
 import { resolve } from "path";
 import { z } from "zod";
+import { zodToJsonSchema } from "zod-to-json-schema";
 
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "truth.md"),
@@ -23,7 +24,7 @@ export const truth = procedure
 	)
 	.mutation(async ({ input, ctx }) => {
 		const proura = prepareProura();
-		const { result, story, distance } = await proura
+		const { is_covered, story, distance } = await proura
 			.add("verifyRecaptcha", () => {
 				return ctx.verifyRecaptcha(input.recaptchaToken);
 			})
@@ -61,11 +62,15 @@ export const truth = procedure
 				);
 				return distance;
 			})
-			.add("result", async (dependsOn) => {
+			.add("is_covered", async (dependsOn) => {
 				await dependsOn("verifyRecaptcha");
 				const story = await dependsOn("story");
 				const user = await dependsOn("user");
 				const systemPrompt = await systemPromptPromise;
+				const schema = z.object({
+					is_covered: truthCoincidence,
+				});
+
 				const response = await ctx.openai.createChatCompletion({
 					model: "gpt-4-0613",
 					messages: [
@@ -82,16 +87,26 @@ export const truth = procedure
 							content: input.text,
 						},
 					],
+					function_call: {
+						name: "is_covered",
+					},
+					functions: [
+						{
+							name: "is_covered",
+							description:
+								"Check if the user's statement is covered by the assistant's statement.",
+							parameters: zodToJsonSchema(schema),
+						},
+					],
 					temperature: 0,
 					max_tokens: 10,
 				});
-				const message = response.data.choices[0].message;
-				if (!message) {
-					throw new Error("No message");
+				const args = response.data.choices[0].message?.function_call?.arguments;
+				if (!args) {
+					throw new Error("No args");
 				}
-				const result = truthCoincidence.parse(message.content);
-
-				const correct = result === "Covers" ? story.truth : null;
+				const { is_covered } = schema.parse(JSON.parse(args));
+				const correct = is_covered === "Covers" ? story.truth : null;
 				const isOwn = user?.id === story.author.id;
 				isOwn ||
 					(await prisma.solutionLog
@@ -105,14 +120,14 @@ export const truth = procedure
 						.catch((e) => {
 							console.error(e);
 						}));
-				return result;
+				return is_covered;
 			})
 			.exec();
 
 		return {
-			result,
+			result: is_covered,
 			input: input.text,
-			truth: result === "Covers" ? story.truth : null,
+			truth: is_covered === "Covers" ? story.truth : null,
 			distance: Math.round(distance * 100) / 100,
 		};
 	});
