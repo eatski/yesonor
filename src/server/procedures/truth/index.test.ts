@@ -71,7 +71,7 @@ describe("trpc/truth", () => {
 			},
 			{
 				storyId: TEST2_ID,
-				text: "花子さんは運転手であり、終点についても、ずっと運転席に座っている。",
+				text: "花子さんは運転手であり、終点についてもずっと運転席に座っている。",
 			},
 		])(
 			"真相に対して正しい解答をするとCoversが返る。 [$text]",
@@ -86,20 +86,42 @@ describe("trpc/truth", () => {
 			},
 		);
 		test.each([
-			"山田さんは人を殺害し、見つからないように女性トイレに隠れた",
-			"山田さんは覗きをするために女性用トイレに入った。",
-			"山田は女性になりたくて女性用トイレに入った",
-			"山田さんは女性用トイレに入った",
-			"山田さんは隠れるために女性用トイレに入った",
-		])("真相に対して間違えた解答をするとがWrong返る [%s]", async (text) => {
-			const result = await testee.truth({
+			{
 				storyId: TEST1_ID,
-				text,
-				recaptchaToken: "anytoken",
-			});
-			expect(result.result).toEqual("Wrong");
-			expect(result).toMatchSnapshot();
-		});
+				text: "山田さんは人を殺害し、見つからないように女性トイレに隠れた",
+			},
+			{
+				storyId: TEST1_ID,
+				text: "山田さんは覗きをするために女性用トイレに入った。",
+			},
+			{
+				storyId: TEST1_ID,
+				text: "山田さんは女性になりたくて女性用トイレに入った",
+			},
+			{
+				storyId: TEST1_ID,
+				text: "山田さんは女性用トイレに入った",
+			},
+			{
+				storyId: TEST1_ID,
+				text: "山田さんは隠れるために女性用トイレに入った",
+			},
+			{
+				storyId: TEST2_ID,
+				text: "花子さんは死んでしまったため、終点でもずっと座っていた。",
+			},
+		])(
+			"真相に対して間違えた解答をするとがWrong返る [$text]",
+			async ({ text, storyId }) => {
+				const result = await testee.truth({
+					storyId,
+					text,
+					recaptchaToken: "anytoken",
+				});
+				expect(result.result).toEqual("Wrong");
+				expect(result).toMatchSnapshot();
+			},
+		);
 	});
 	describe("storyの参照権限", () => {
 		test.each([TEST_USER1, TEST_USER2, null])(
