@@ -50,7 +50,7 @@ export const storyInit = z.object({
 		}, "AIの精度を上げるため、回答がはい、いいえ、わからないをそれぞれ1つ以上入力してください"),
 });
 
-export const truthCoincidence = z.enum(["Covers", "Wrong", "Insufficient"]);
+export const truthCoincidence = z.enum(["Covers", "Wrong"]);
 
 export type Story = Public<
 	Override<
