@@ -5,14 +5,9 @@ import { truthCoincidence } from "@/server/model/story";
 import { getStory, getStoryPrivate } from "@/server/services/story";
 import { procedure } from "@/server/trpc";
 import { TRPCError } from "@trpc/server";
-import { readFile } from "fs/promises";
-import { resolve } from "path";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
-
-const systemPromptPromise = readFile(
-	resolve(process.cwd(), "prompts", "truth.md"),
-);
+import { createPrompt } from "./createPrompt";
 
 export const truth = procedure
 	.input(
@@ -66,7 +61,7 @@ export const truth = procedure
 				await dependsOn("verifyRecaptcha");
 				const story = await dependsOn("story");
 				const user = await dependsOn("user");
-				const systemPrompt = await systemPromptPromise;
+				const systemPrompt = await createPrompt(input.text, story.simpleTruth);
 				const schema = z.object({
 					is_covered: truthCoincidence,
 				});
@@ -75,16 +70,8 @@ export const truth = procedure
 					model: "gpt-4-0613",
 					messages: [
 						{
-							role: "system",
-							content: systemPrompt.toString(),
-						},
-						{
-							role: "assistant",
-							content: story.simpleTruth,
-						},
-						{
 							role: "user",
-							content: input.text,
+							content: systemPrompt,
 						},
 					],
 					function_call: {

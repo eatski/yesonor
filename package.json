@@ -34,6 +34,7 @@
 		"eslint-config-next": "13.3.1",
 		"ml-kmeans": "^6.0.0",
 		"msw": "^1.2.1",
+		"mustache": "^4.2.0",
 		"next": "^13.4.4",
 		"next-auth": "^4.22.1",
 		"openai": "^3.3.0",
@@ -57,6 +58,7 @@
 	"devDependencies": {
 		"@playwright/test": "^1.33.0",
 		"@testing-library/react": "^14.0.0",
+		"@types/mustache": "^4.2.2",
 		"@types/randomstring": "^1.1.8",
 		"@types/react-copy-to-clipboard": "^5.0.4",
 		"@types/react-syntax-highlighter": "^15.5.6",
