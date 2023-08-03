@@ -18,17 +18,25 @@ const TEST_USER2 = {
 	email: "not-yesonor@example.com",
 };
 
-const TEST_ID = generateId();
-const TEST_ID_PRIVATE = generateId();
 describe("trpc/truth", () => {
-	const testYamlPath = resolve(process.cwd(), "fixtures", "test.yaml");
+	const testYamlPath1 = resolve(process.cwd(), "fixtures", "test.yaml");
+	const testYamlPath2 = resolve(process.cwd(), "fixtures", "test2.yaml");
+	const TEST1_ID = generateId();
+	const TEST2_ID = generateId();
+	const TEST_ID_PRIVATE = generateId();
 	beforeAll(async () => {
-		const cleanup1 = await prepareStoryFromYaml(testYamlPath, {
-			storyId: TEST_ID,
+		console.log(TEST1_ID, TEST2_ID, TEST_ID_PRIVATE);
+		const cleanup1 = await prepareStoryFromYaml(testYamlPath1, {
+			storyId: TEST1_ID,
 			authorId: TEST_USER1.id,
 			published: true,
 		});
-		const cleanup2 = await prepareStoryFromYaml(testYamlPath, {
+		const cleanup2 = await prepareStoryFromYaml(testYamlPath2, {
+			storyId: TEST2_ID,
+			authorId: TEST_USER1.id,
+			published: true,
+		});
+		const cleanup3 = await prepareStoryFromYaml(testYamlPath1, {
 			storyId: TEST_ID_PRIVATE,
 			authorId: TEST_USER2.id,
 			published: false,
@@ -36,6 +44,7 @@ describe("trpc/truth", () => {
 		return async () => {
 			await cleanup1();
 			await cleanup2();
+			await cleanup3();
 		};
 	});
 	const openai = setupOpenaiForTest();
@@ -48,32 +57,79 @@ describe("trpc/truth", () => {
 	});
 	describe("解答した内容に対して、結果が返る", () => {
 		test.each([
-			"山田さんは男性用トイレにいたが、他の男性に見つかりそうになり女性用トイレに逃げ込んだ。",
-			"山田さんは男性用トイレにいたが、男性から隠れるために女性用トイレに移動した。",
-		])("真相に対して正しい解答をするとCoversが返る。 [%s]", async (text) => {
-			const result = await testee.truth({
-				storyId: TEST_ID,
-				text,
-				recaptchaToken: "anytoken",
-			});
-			expect(result.result).toEqual("Covers");
-			expect(result).toMatchSnapshot();
-		});
+			{
+				storyId: TEST1_ID,
+				text: "山田さんは男性用トイレにいたが、他の男性に見つかりそうになり女性用トイレに逃げ込んだ。",
+			},
+			{
+				storyId: TEST1_ID,
+				text: "山田さんは男性用トイレにいたが、男性から隠れるために女性用トイレに移動した。",
+			},
+			{
+				storyId: TEST2_ID,
+				text: "花子さんは運転手なので、終点の後も乗っていた。",
+			},
+			{
+				storyId: TEST2_ID,
+				text: "花子さんは運転手であり、終点についてもずっと運転席に座っている。",
+			},
+			{
+				storyId: TEST2_ID,
+				text: "花子さんはバスの運転手なので運転席から離れない。",
+			},
+			{
+				storyId: TEST2_ID,
+				text: "花子さんは運転手なので、終点の後も乗っていた。",
+			},
+		])(
+			"真相に対して正しい解答をするとCoversが返る。 [$text]",
+			async ({ text, storyId }) => {
+				const result = await testee.truth({
+					storyId,
+					text,
+					recaptchaToken: "anytoken",
+				});
+				expect(result.result).toEqual("Covers");
+				expect(result).toMatchSnapshot();
+			},
+		);
 		test.each([
-			"山田さんは人を殺害し、見つからないように女性トイレに隠れた",
-			"山田さんは覗きをするために女性用トイレに入った。",
-			"山田は女性になりたくて女性用トイレに入った",
-			"山田さんは女性用トイレに入った",
-			"山田さんは隠れるために女性用トイレに入った",
-		])("真相に対して間違えた解答をするとがWrong返る [%s]", async (text) => {
-			const result = await testee.truth({
-				storyId: TEST_ID,
-				text,
-				recaptchaToken: "anytoken",
-			});
-			expect(result.result).toEqual("Wrong");
-			expect(result).toMatchSnapshot();
-		});
+			{
+				storyId: TEST1_ID,
+				text: "山田さんは人を殺害し、見つからないように女性トイレに隠れた",
+			},
+			{
+				storyId: TEST1_ID,
+				text: "山田さんは覗きをするために女性用トイレに入った。",
+			},
+			{
+				storyId: TEST1_ID,
+				text: "山田さんは女性になりたくて女性用トイレに入った",
+			},
+			{
+				storyId: TEST1_ID,
+				text: "山田さんは女性用トイレに入った",
+			},
+			{
+				storyId: TEST1_ID,
+				text: "山田さんは隠れるために女性用トイレに入った",
+			},
+			{
+				storyId: TEST2_ID,
+				text: "花子さんは死んでしまったため、終点でもずっと座っていた。",
+			},
+		])(
+			"真相に対して間違えた解答をするとがWrong返る [$text]",
+			async ({ text, storyId }) => {
+				const result = await testee.truth({
+					storyId,
+					text,
+					recaptchaToken: "anytoken",
+				});
+				expect(result.result).toEqual("Wrong");
+				expect(result).toMatchSnapshot();
+			},
+		);
 	});
 	describe("storyの参照権限", () => {
 		test.each([TEST_USER1, TEST_USER2, null])(
@@ -89,7 +145,7 @@ describe("trpc/truth", () => {
 				const text =
 					"山田さんは人を殺害し、男性用トイレに隠そうとしていたが、見つかりそうになり女性用トイレに逃げた。";
 				const result = await testee.truth({
-					storyId: TEST_ID,
+					storyId: TEST1_ID,
 					text,
 					recaptchaToken: "anytoken",
 				});

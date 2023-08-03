@@ -17,8 +17,14 @@ export const prepareStoryFromYaml = async (
 		console.error(`Failed to parse ${yamlPath}`, story.error);
 		throw new Error("Failed to parse yaml");
 	}
-	await prisma.user.create({
-		data: {
+	await prisma.user.upsert({
+		where: {
+			id: meta.authorId,
+		},
+		create: {
+			id: meta.authorId,
+		},
+		update: {
 			id: meta.authorId,
 		},
 	});
