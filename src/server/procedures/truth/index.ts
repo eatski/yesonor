@@ -114,7 +114,6 @@ export const truth = procedure
 		return {
 			result: is_covered,
 			input: input.text,
-			truth: is_covered === "Covers" ? story.truth : null,
 			distance: Math.round(distance * 100) / 100,
 		};
 	});

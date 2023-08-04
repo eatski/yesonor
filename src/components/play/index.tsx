@@ -10,80 +10,51 @@ import { useQuestion } from "./useQuestion";
 import { gtagEvent } from "@/common/util/gtag";
 import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import Script from "next/script";
-import { calcPercentage } from "@/libs/math";
 import { Story } from "@/server/model/story";
 import components from "@/designSystem/components.module.scss";
+import { SeeTrurh } from "./components/seeTruth";
 
 type Props = {
 	story: Story;
 };
 
-/**
- * 大体0.25あたりが正解であり0.6はかなり遠いためそれを基準に0.25~0.6を0.99~0に変換する。
- * 外れ値はそれぞれ0.99, 0にする。
- *
- * ~0.30 -> 0.99
- * 0.30~0.6 -> 0.99~0
- * 0.6~ -> 0
- *
- * @param distance 0.0 ~ 1.0
- */
-const calcDisplayDistance = (distance: number): number => {
-	if (distance <= 0.3) {
-		return 0.99;
-	} else if (distance > 0.3 && distance <= 0.6) {
-		return 0.99 - (distance - 0.3) * (0.99 / (0.6 - 0.3));
-	} else {
-		return 0;
-	}
-};
-
 const AnswerFormContainer: React.FC<{
-	storyId: string;
-	onCancel: () => void;
-}> = ({ storyId, onCancel }) => {
+	story: Story;
+	changeMode: (mode: Mode) => void;
+}> = ({ story, changeMode }) => {
 	const { mutate, isLoading, data, reset, isError } = trpc.truth.useMutation();
 	const onSubmit = useCallback(
 		async (input: string) => {
 			gtagEvent("click_submit_answer");
 			mutate({
-				storyId,
+				storyId: story.id,
 				text: input,
 				recaptchaToken: await getRecaptchaToken(),
 			});
 		},
-		[mutate, storyId],
+		[mutate, story.id],
 	);
 	return data ? (
 		<AnswerResult
 			solution={data.input}
 			onBackButtonClicked={reset}
-			title={
-				(
-					{
-						Covers: "正解",
-						Wrong: "間違いがあります",
-					} as const satisfies Record<typeof data.result, string>
-				)[data.result]
-			}
-			truth={data.truth}
-			distance={
-				data.result !== "Covers"
-					? `${calcPercentage(calcDisplayDistance(data.distance))}%`
-					: null
-			}
-			information={
-				data.truth ? null : (
-					<div className={styles.infoBody}>
-						この判定に疑問がある場合、些細な点で不正解と捉えられている可能性があります。例えば、登場人物の敬称（さん・君など）を正確に入力してみるなどで結果が変わるかもしれません。
-					</div>
-				)
-			}
+			onSeeTruthButtonClicked={() => {
+				if (
+					window.confirm(
+						"本当に真相を見ますか？一度真相を見てしまうとこのストーリーを楽しむことができなくなります。",
+					)
+				) {
+					changeMode("truth");
+				}
+			}}
+			truth={story.truth}
+			isCorrect={data.result === "Covers"}
+			distance={data.distance}
 		/>
 	) : (
 		<AnswerForm
 			isLoading={isLoading}
-			onCancel={onCancel}
+			onCancel={() => changeMode("question")}
 			isError={isError}
 			onSubmit={onSubmit}
 		/>
@@ -95,22 +66,15 @@ const Truth: React.FC<{ story: Story; onBackButtonClicked: () => void }> = ({
 	onBackButtonClicked,
 }) => {
 	return (
-		<AnswerResult
-			solution={null}
-			onBackButtonClicked={onBackButtonClicked}
-			title={null}
-			truth={story.truth}
-			distance={null}
-			information={null}
-		/>
+		<SeeTrurh onBackButtonClicked={onBackButtonClicked} truth={story.truth} />
 	);
 };
 
+type Mode = "question" | "solution" | "truth";
+
 export function Play(props: Props) {
 	const question = useQuestion(props.story);
-	const [mode, setMode] = useState<"question" | "solution" | "truth">(
-		"question",
-	);
+	const [mode, setMode] = useState<Mode>("question");
 	const backToQuestion = useCallback(() => {
 		setMode("question");
 	}, []);
@@ -143,10 +107,7 @@ export function Play(props: Props) {
 			)}
 			{mode === "solution" && (
 				<div className={styles.sectionWrapper}>
-					<AnswerFormContainer
-						storyId={props.story.id}
-						onCancel={backToQuestion}
-					/>
+					<AnswerFormContainer story={props.story} changeMode={setMode} />
 				</div>
 			)}
 			{mode === "truth" && (

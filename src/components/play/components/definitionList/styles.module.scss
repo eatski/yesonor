@@ -1,0 +1,23 @@
+dl.container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 12px 0 0;
+    dt {
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--color-base-fg-secondary);
+        margin: 0 auto;
+        width: fit-content;
+        padding: 0px 4px;
+        border-bottom: var(--border-primary);
+    }
+    dd {
+        padding: 4px 0px;
+        font-size: 14px;
+        text-align: center;
+        margin-left: 0;
+    }
+    margin-bottom: 16px;
+}
+
