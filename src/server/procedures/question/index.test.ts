@@ -84,23 +84,34 @@ describe("trpc/question", () => {
 		});
 	});
 	describe("customMessage", () => {
-		test("customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る", async () => {
-			const result = await testee.question({
+		test.each([
+			{
 				storyId: TEST_ID,
-				text: "人を殺しましたか？",
-				recaptchaToken: "anytoken",
-			});
-			expect(result.hitQuestionExample?.customMessage).toMatchInlineSnapshot(
-				"undefined",
-			);
-		});
+				text: "山田は人を殺しましたか？",
+			},
+			{
+				storyId: TEST_ID,
+				text: "山田は人を殺害しちゃった？",
+			},
+		])(
+			"customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る",
+			async ({ storyId, text }) => {
+				const result = await testee.question({
+					storyId,
+					text,
+					recaptchaToken: "anytoken",
+				});
+				expect(result.hitQuestionExample?.customMessage).toBeDefined();
+				expect(result.hitQuestionExample?.customMessage).toMatchSnapshot();
+			},
+		);
 		test("customMessageを持つquestionExamlpeに近しくない質問をすると、customMessageが返らない", async () => {
 			const result = await testee.question({
 				storyId: TEST_ID,
 				text: "山田さんは犯罪者ですか？",
 				recaptchaToken: "anytoken",
 			});
-			expect(result.answer).toEqual("True"); //FIXME: Falseのはず
+			expect(result.answer).toEqual("True");
 			expect(result.hitQuestionExample?.customMessage).not.toBeDefined();
 		});
 	});
