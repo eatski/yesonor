@@ -33,6 +33,7 @@ export const AnswerForm: React.FC<{
 				required
 				id={answerInputId}
 				className={components.textarea}
+				placeholder="あなたが推理した物語の真相"
 				onChange={onChangeHandler}
 			/>
 			<div className={styles.buttonContainer}>
