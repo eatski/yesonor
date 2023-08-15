@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`trpc/question > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 1`] = `"いい質問ですね！山田さんは人を殺しています。"`;
