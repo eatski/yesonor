@@ -91,7 +91,7 @@ describe("trpc/question", () => {
 			},
 			{
 				storyId: TEST_ID,
-				text: "人を殺害しましたか？",
+				text: "山田は人を殺害しちゃった？",
 			},
 		])(
 			"customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る",
