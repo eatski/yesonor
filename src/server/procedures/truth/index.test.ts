@@ -81,6 +81,14 @@ describe("trpc/truth", () => {
 				storyId: TEST2_ID,
 				text: "花子さんは運転手なので、終点の後も乗っていた。",
 			},
+			{
+				storyId: TEST2_ID,
+				text: "花子さんは市営バスの運転手なので、終点の後も乗っている。",
+			},
+			{
+				storyId: TEST2_ID,
+				text: "花子さんはバスの運転手だった",
+			},
 		])(
 			"真相に対して正しい解答をするとCoversが返る。 [$text]",
 			async ({ text, storyId }) => {
