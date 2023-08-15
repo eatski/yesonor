@@ -33,7 +33,7 @@ export const pickSmallDistanceExampleQuestionInput = async <
 	});
 	calculated.sort((a, b) => a.distance - b.distance);
 	const nearby = calculated.at(0);
-	if (nearby && nearby.distance < 0.32) {
+	if (nearby && nearby.distance < 0.3) {
 		return questionExamples.at(nearby.index) || null;
 	}
 	return null;
