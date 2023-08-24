@@ -2,10 +2,8 @@
     height: 52px;
     padding: 8px 8px;
     background-color: var(--color-brand-bg);
-    color: var(--color-brand-fg);
     display: flex;
     a {
-        color: var(--color-brand-fg);
         text-decoration: none;
         display: flex;
         align-items: center;
@@ -14,7 +12,7 @@
         margin-left: auto;
         display: flex;
         align-items: center;
-        a {
+        > a {
             display: flex;
             align-items: center;
             height: fit-content;
@@ -56,13 +54,10 @@
 
 
 .menu {
-    position: absolute;
-    z-index: 2;
     display: flex;
     flex-direction: column;
+    width: 180px;
     gap: 4px;
-    top: 60px;
-    right: 8px;
     padding: 8px 4px;
     background-color: var(--color-base-bg);
     border-radius: 2px;

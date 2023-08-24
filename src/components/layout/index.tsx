@@ -1,11 +1,12 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { PropsWithChildren, Suspense, useEffect, useState } from "react";
-import { AiOutlineUnorderedList as Menu } from "react-icons/ai";
+import { AiOutlineUnorderedList as MenuIcon } from "react-icons/ai";
 import styles from "./styles.module.scss";
 import components from "@/designSystem/components.module.scss";
 import { useRouter } from "next/router";
 import { Logo } from "./components/logo";
+import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
 
 export const Layout: React.FC<
 	PropsWithChildren<{ upper?: React.ReactElement }>
@@ -62,15 +63,34 @@ export const Layout: React.FC<
 					)}
 					{session.status !== "loading" ? (
 						session.data?.user ? (
-							<button
-								aria-label="メニュー"
-								className={styles.iconWrapper}
-								onClick={() => {
-									setMenuOpen((flg) => !flg);
-								}}
+							<Menu
+								menuButton={
+									<MenuButton
+										aria-label="メニュー"
+										className={styles.iconWrapper}
+									>
+										<MenuIcon className={components.iconButtonBrandFg} />
+									</MenuButton>
+								}
 							>
-								<Menu className={components.iconButtonBrandFg} />
-							</button>
+								<MenuItem className={styles.menu}>
+									<Link className={components.button0} href={"/my/stories"}>
+										自分のストーリー
+									</Link>
+									<Link className={components.button0} href={"/my/settings"}>
+										設定
+									</Link>
+									<hr />
+									<button
+										className={components.button0}
+										onClick={() => {
+											signOut();
+										}}
+									>
+										ログアウト
+									</button>
+								</MenuItem>
+							</Menu>
 						) : (
 							<button
 								className={components.buttonBrandFg}
@@ -85,25 +105,7 @@ export const Layout: React.FC<
 				</div>
 			</header>
 			{loading && <div className={styles.transitionStatus} />}
-			{menuOpen && (
-				<div className={styles.menu} ref={ref}>
-					<Link className={components.button0} href={"/my/stories"}>
-						自分のストーリー
-					</Link>
-					<Link className={components.button0} href={"/my/settings"}>
-						設定
-					</Link>
-					<hr />
-					<button
-						className={components.button0}
-						onClick={() => {
-							signOut();
-						}}
-					>
-						ログアウト
-					</button>
-				</div>
-			)}
+
 			{upper ? (
 				<Suspense>
 					<div className={styles.upper}>
