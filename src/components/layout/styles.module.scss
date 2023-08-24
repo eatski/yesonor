@@ -66,8 +66,12 @@
     border: var(--border-primary);
     filter: var(--filter-shadow);
     button,a {
+        width: 100%;
         text-align: center;
     }
+    li {
+        list-style: none;
+    };
     hr {
         margin: 0;
         border: none;
