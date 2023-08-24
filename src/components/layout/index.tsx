@@ -6,14 +6,13 @@ import styles from "./styles.module.scss";
 import components from "@/designSystem/components.module.scss";
 import { useRouter } from "next/router";
 import { Logo } from "./components/logo";
-import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
+import { Menu, MenuItem, MenuButton, FocusableItem } from "@szhsin/react-menu";
 
 export const Layout: React.FC<
 	PropsWithChildren<{ upper?: React.ReactElement }>
 > = ({ children, upper }) => {
 	const session = useSession();
-	const [menuOpen, setMenuOpen] = useState<boolean>(false);
-	const ref = React.useRef<HTMLDivElement>(null);
+
 	const router = useRouter();
 
 	const [loading, setLoading] = useState(false);
@@ -34,21 +33,6 @@ export const Layout: React.FC<
 			router.events.off("routeChangeError", onEnd);
 		};
 	}, [router]);
-
-	useEffect(() => {
-		const listener = (e: MouseEvent) => {
-			if (e.target instanceof HTMLElement) {
-				if (ref.current?.contains(e.target)) {
-					return;
-				}
-				setMenuOpen(false);
-			}
-		};
-		document.addEventListener("click", listener);
-		return () => {
-			document.removeEventListener("click", listener);
-		};
-	}, [menuOpen]);
 	return (
 		<>
 			<header className={styles.header}>
@@ -73,23 +57,44 @@ export const Layout: React.FC<
 									</MenuButton>
 								}
 							>
-								<MenuItem className={styles.menu}>
-									<Link className={components.button0} href={"/my/stories"}>
-										自分のストーリー
-									</Link>
-									<Link className={components.button0} href={"/my/settings"}>
-										設定
-									</Link>
+								<div className={styles.menu}>
+									<FocusableItem>
+										{({ ref }) => (
+											<Link
+												ref={ref}
+												className={components.button0}
+												href={"/my/stories"}
+											>
+												自分のストーリー
+											</Link>
+										)}
+									</FocusableItem>
+									<FocusableItem>
+										{({ ref }) => (
+											<Link
+												ref={ref}
+												className={components.button0}
+												href={"/my/settings"}
+											>
+												設定
+											</Link>
+										)}
+									</FocusableItem>
 									<hr />
-									<button
-										className={components.button0}
-										onClick={() => {
-											signOut();
-										}}
-									>
-										ログアウト
-									</button>
-								</MenuItem>
+									<FocusableItem>
+										{({ ref }) => (
+											<button
+												ref={ref}
+												className={components.button0}
+												onClick={() => {
+													signOut();
+												}}
+											>
+												ログアウト
+											</button>
+										)}
+									</FocusableItem>
+								</div>
 							</Menu>
 						) : (
 							<button
