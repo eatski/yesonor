@@ -17,8 +17,6 @@ html {
     --color-twitter-bg: #1da1f2;
     --filter-shadow: drop-shadow(0 0 2px var(--color-base-fg-silent));
     --border-primary: 1px solid var(--color-base-fg-silent);
-    --filter-brightness-feedback: brightness(98%);
-    --filter-brightness-disabled: brightness(80%);
     --font-family: Helvetica Neue, Arial, Hiragino Kaku Gothic ProN, Hiragino Sans, Meiryo, sans-serif;
     color: var(--color-base-fg);
     background-color: var(--color-base-bg);
@@ -43,8 +41,6 @@ html {
         --color-accent-bg-danger: #b93c16;
         --color-accent-bg-secondary: #a6523f;
         --color-accent-fg: #d6d6d6;
-        --filter-brightness-feedback: brightness(90%);
-        --filter-brightness-disabled: brightness(70%);
     }
 }
 

@@ -13,10 +13,10 @@
     justify-content: center;
     color: var(--button-text-color);
     &:hover {
-        filter: var(--filter-brightness-feedback);
+        filter: opacity(75%);
     }
     &:disabled {
-        filter: var(--filter-brightness-disabled);
+        filter: opacity(55%);
         cursor: not-allowed;
     }
     &[data-loading="true"]::after {
