@@ -26,3 +26,5 @@ questionExamples:
   - question: トイレは人目につく場所にありますか？
     answer: わからない
     customMessage: 人目には付きづらかったと思います。
+  - question: 女子トイレには山田さん以外に誰かいますか？
+    answer: いいえ
