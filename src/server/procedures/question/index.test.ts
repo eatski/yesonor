@@ -51,7 +51,7 @@ describe("trpc/question", () => {
 			"山田さんは犯罪者ですか？",
 			"人が死んでますか？",
 			"近くに他の人がいますか？",
-		])("真相に対して正しい質問をするとTrueが返る", async (text) => {
+		])("真相に対して正しい質問をするとTrueが返る %s", async (text) => {
 			const result = await testee.question({
 				storyId: TEST_ID,
 				text,
@@ -63,7 +63,8 @@ describe("trpc/question", () => {
 			"山田さんは誰かに襲われてますか？",
 			"性的な興味で女性用トイレに入りましたか？",
 			"山田は死んでいますか？",
-		])("真相に対して正しくない質問をするとFalseが返る", async (text) => {
+			"女子トイレには他に誰かいますか？",
+		])("真相に対して正しくない質問をするとFalseが返る %s", async (text) => {
 			const result = await testee.question({
 				storyId: TEST_ID,
 				text,
@@ -92,6 +93,10 @@ describe("trpc/question", () => {
 			{
 				storyId: TEST_ID,
 				text: "山田は人を殺害しちゃった？",
+			},
+			{
+				storyId: TEST_ID,
+				text: "山田は人を殺したの？",
 			},
 		])(
 			"customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る",
