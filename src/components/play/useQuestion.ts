@@ -8,7 +8,7 @@ const last = <T>(array: T[]): T | null => {
 	if (array.length === 0) {
 		return null;
 	}
-	return array[array.length - 1];
+	return array[array.length - 1] || null;
 };
 
 const toErrorMessage = (error: unknown) => {
