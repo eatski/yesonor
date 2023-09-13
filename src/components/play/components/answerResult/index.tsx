@@ -3,7 +3,9 @@ import styles from "./styles.module.scss";
 import components from "@/designSystem/components.module.scss";
 import { Card } from "@/designSystem/components/card";
 import { DefinitionList } from "../definitionList";
-import { calcPercentage } from "@/libs/math";
+import { AiOutlineLike } from "react-icons/ai";
+import { Button, ButtonIconWrapper } from "@/designSystem/components/button";
+import { gtagEvent } from "@/common/util/gtag";
 
 export type Props = {
 	solution: string;
@@ -27,9 +29,9 @@ type DistanceLevel = "almost" | "close" | "not-bad" | "way-off";
  * @param distance 0.0 ~ 1.0
  */
 const calcDisplayDistanceLebel = (distance: number): DistanceLevel => {
-	if (distance <= 0.3) {
+	if (distance <= 0.35) {
 		return "almost";
-	} else if (distance > 0.3 && distance <= 0.45) {
+	} else if (distance > 0.35 && distance <= 0.45) {
 		return "close";
 	} else if (distance > 0.45 && distance <= 0.6) {
 		return "not-bad";
@@ -83,13 +85,30 @@ export const AnswerResult: React.FC<Props> = ({
 				</DefinitionList>
 				{
 					<div className={styles.buttonContainer}>
-						<button
-							type={"button"}
-							onClick={onBackButtonClicked}
-							className={components.buttonLink}
-						>
-							戻る
-						</button>
+						{isCorrect && (
+							<Button
+								type={"button"}
+								onClick={() => {
+									gtagEvent("like_story");
+									window.alert("いいねしました！");
+								}}
+								color="none"
+							>
+								<ButtonIconWrapper>
+									<AiOutlineLike />
+								</ButtonIconWrapper>
+								いいねする
+							</Button>
+						)}
+						{!isCorrect && (
+							<button
+								type={"button"}
+								onClick={onBackButtonClicked}
+								className={components.buttonLink}
+							>
+								戻る
+							</button>
+						)}
 						{!isCorrect && distanceLevel === "almost" && (
 							<button
 								type={"button"}

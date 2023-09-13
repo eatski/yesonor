@@ -1,4 +1,4 @@
-import { calculateEuclideanDistance } from "@/libs/math";
+import { FALLBACK_DISTANCE, calculateEuclideanDistance } from "@/libs/math";
 import { prisma } from "@/libs/prisma";
 import { prepareProura } from "@/libs/proura";
 import { truthCoincidence } from "@/server/model/story";
@@ -51,6 +51,9 @@ export const truth = procedure
 					input: [story.simpleTruth, input.text],
 				});
 				const [textA, textB] = embeddingsResponse.data.data;
+				if (!textA || !textB) {
+					return FALLBACK_DISTANCE;
+				}
 				const distance = calculateEuclideanDistance(
 					textA.embedding,
 					textB.embedding,
@@ -88,7 +91,8 @@ export const truth = procedure
 					temperature: 0,
 					max_tokens: 10,
 				});
-				const args = response.data.choices[0].message?.function_call?.arguments;
+				const args =
+					response.data.choices[0]?.message?.function_call?.arguments;
 				if (!args) {
 					throw new Error("No args");
 				}

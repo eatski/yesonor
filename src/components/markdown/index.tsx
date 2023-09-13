@@ -15,7 +15,7 @@ const CopyButton = ({ text }: { text: string }) => {
 		<CopyToClipboard
 			text={text}
 			onCopy={() => {
-				alert("クリップボードにコピーしました");
+				window.alert("クリップボードにコピーしました");
 			}}
 		>
 			<button className={components.buttonLink}>copy</button>

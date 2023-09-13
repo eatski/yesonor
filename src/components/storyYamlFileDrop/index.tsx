@@ -15,9 +15,11 @@ export const YamlFileDrop: React.FC<FileDropZoneProps> = ({ onFileRead }) => {
 			e.stopPropagation();
 
 			const files = e.dataTransfer.files;
-			if (files.length === 0) return;
-
 			const file = files[0];
+			if (file === undefined) {
+				setError("ファイルの読み込みに失敗しました。");
+				return;
+			}
 			const reader = new FileReader();
 
 			reader.onload = (event: ProgressEvent<FileReader>) => {

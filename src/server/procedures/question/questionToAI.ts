@@ -85,7 +85,7 @@ export const questionToAI = async (
 				cause: e,
 			});
 		});
-	const args = response.data.choices[0].message?.function_call?.arguments;
+	const args = response.data.choices[0]?.message?.function_call?.arguments;
 	if (!args) {
 		throw new Error("No args");
 	}

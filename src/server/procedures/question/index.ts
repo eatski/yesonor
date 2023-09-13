@@ -7,7 +7,7 @@ import { QuestionExampleWithCustomMessage } from "./type";
 import { prisma } from "@/libs/prisma";
 import { questionToAI } from "./questionToAI";
 import { prepareProura } from "@/libs/proura";
-import { calculateEuclideanDistance } from "@/libs/math";
+import { FALLBACK_DISTANCE, calculateEuclideanDistance } from "@/libs/math";
 
 export const question = procedure
 	.input(
@@ -63,6 +63,14 @@ export const question = procedure
 						})
 						.then((res) => res.data.data);
 					const [inputEmbedding, ...exampleEmbeddings] = embeddings;
+
+					if (!inputEmbedding) {
+						console.error("embeddings is empty");
+						return story.questionExamples.map((example) => ({
+							example,
+							distance: FALLBACK_DISTANCE,
+						}));
+					}
 					return exampleEmbeddings.map((exampleEmbedding, index) => {
 						const example = story.questionExamples[index];
 						if (!example) {

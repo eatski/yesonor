@@ -35,19 +35,8 @@
     .share {
         display: flex;
         gap: 8px;
-        a,button {
-            color: var(--color-base-fg-secondary);
-            display: flex;
-            align-items: center;
-            font-size: 12px;
-            gap: 4px;
-            svg {
-                height: 14px;
-                width: 14px;
-                &.twitter {
-                    color: var(--color-twitter-bg);
-                }
-            }
+        .twitter {
+            color: var(--color-twitter-bg);
         }
         
     }
