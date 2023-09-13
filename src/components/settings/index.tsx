@@ -145,7 +145,7 @@ const DeleteAccount: React.FC = () => {
 									)
 								) {
 									await mutateAsync();
-									alert("退会しました。");
+									window.alert("退会しました。");
 									signOut({
 										callbackUrl: "/",
 									});

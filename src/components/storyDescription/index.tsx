@@ -63,7 +63,7 @@ export const StoryDescription: React.FC<{
 					<CopyToClipboard
 						text={url}
 						onCopy={() => {
-							alert("クリップボードにコピーしました");
+							window.alert("クリップボードにコピーしました");
 						}}
 					>
 						<Button color="none">
