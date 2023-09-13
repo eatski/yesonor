@@ -6,6 +6,11 @@ import { brand } from "@/common/texts";
 import { AiOutlineCopy, AiOutlineTwitter } from "react-icons/ai";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { StoryHead } from "@/server/model/story";
+import {
+	AnchorButton,
+	Button,
+	ButtonIconWrapper,
+} from "@/designSystem/components/button";
 
 dayjs.locale("ja");
 
@@ -40,25 +45,33 @@ export const StoryDescription: React.FC<{
 			<p>{quiz}</p>
 			{published && (
 				<div className={styles.share}>
-					<a
+					<AnchorButton
 						href={twitterUrl.toString()}
 						className={components.buttonLink}
 						target="_blank"
 						rel="noreferrer"
+						color={"none"}
 					>
-						<AiOutlineTwitter role="presentation" className={styles.twitter} />
+						<ButtonIconWrapper>
+							<AiOutlineTwitter
+								role="presentation"
+								className={styles.twitter}
+							/>
+						</ButtonIconWrapper>
 						ツイート
-					</a>
+					</AnchorButton>
 					<CopyToClipboard
 						text={url}
 						onCopy={() => {
 							alert("クリップボードにコピーしました");
 						}}
 					>
-						<button className={components.buttonLink}>
-							<AiOutlineCopy role="presentation" />
+						<Button color="none">
+							<ButtonIconWrapper>
+								<AiOutlineCopy role="presentation" />
+							</ButtonIconWrapper>
 							URLをコピー
-						</button>
+						</Button>
 					</CopyToClipboard>
 				</div>
 			)}

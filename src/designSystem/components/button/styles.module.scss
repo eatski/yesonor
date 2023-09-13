@@ -1,0 +1,33 @@
+@import "../../components.module.scss";
+
+.iconWrapper {
+    display: flex;
+    & > * {
+        height: 14px;
+        width: 14px;
+    }
+}
+
+.button {
+    @include buttonBase;
+    font-size: 12px;
+    gap: 4px;
+    &[data-color="zero"]{
+        background-color: unset;
+        --button-text-color: var(--color-base-fg);
+        border: none;
+    }
+    &[data-color="primary"]{
+        background-color: var(--color-accent-bg);
+        --button-text-color: var(--color-accent-fg);
+    }
+    &[data-color="secondary"]{
+        background-color: var(--color-accent-bg-secondary);
+        --button-text-color: var(--color-accent-fg);
+    }
+    &[data-color="none"]{
+        background-color: var(--color-base-bg);
+        --button-text-color: var(--color-base-fg);
+        border: var(--border-primary);
+    }
+}
