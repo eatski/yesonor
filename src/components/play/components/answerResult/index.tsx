@@ -29,9 +29,9 @@ type DistanceLevel = "almost" | "close" | "not-bad" | "way-off";
  * @param distance 0.0 ~ 1.0
  */
 const calcDisplayDistanceLebel = (distance: number): DistanceLevel => {
-	if (distance <= 0.3) {
+	if (distance <= 0.35) {
 		return "almost";
-	} else if (distance > 0.3 && distance <= 0.45) {
+	} else if (distance > 0.35 && distance <= 0.45) {
 		return "close";
 	} else if (distance > 0.45 && distance <= 0.6) {
 		return "not-bad";
