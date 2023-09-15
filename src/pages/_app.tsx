@@ -14,6 +14,7 @@ import Script from "next/script";
 import { useRouter } from "next/router";
 import { gtagEvent } from "@/common/util/gtag";
 import { keysOverride } from "@/components/headMeta";
+import { ConfirmModal } from "@/components/confirmModal";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = useMemo(() => new QueryClient(), []);
@@ -93,7 +94,9 @@ export default function App({ Component, pageProps }: AppProps) {
 			<SessionProvider session={pageProps.session}>
 				<trpc.Provider client={trpcClient} queryClient={queryClient}>
 					<QueryClientProvider client={queryClient}>
-						<Component {...pageProps} />
+						<ConfirmModal>
+							<Component {...pageProps} />
+						</ConfirmModal>
 					</QueryClientProvider>
 				</trpc.Provider>
 			</SessionProvider>

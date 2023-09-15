@@ -1,9 +1,10 @@
 import { H1 } from "@/designSystem/components/heading";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import components from "@/designSystem/components.module.scss";
 import styles from "./styles.module.scss";
 import { trpc } from "@/libs/trpc";
 import { signOut } from "next-auth/react";
+import { useConfirmModal } from "../confirmModal";
 
 export type Props = {
 	name: string | null;
@@ -118,6 +119,7 @@ const Name: React.FC<Props> = ({ name }) => {
 const DeleteAccount: React.FC = () => {
 	const { mutateAsync, isLoading, isSuccess } =
 		trpc.deleteAccount.useMutation();
+	const confirm = useConfirmModal();
 
 	return (
 		<section>
@@ -140,7 +142,7 @@ const DeleteAccount: React.FC = () => {
 							className={components.buttonDanger}
 							onClick={async () => {
 								if (
-									confirm(
+									await confirm(
 										"本当に退会しますか？退会すると、あなたが作成したストーリーが全て削除されます。",
 									)
 								) {

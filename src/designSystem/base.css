@@ -1,5 +1,6 @@
 html {
     --color-base-bg: #FFFFFF;
+    --color-base-bg-overlay: rgba(255, 255, 255, 0.6);
     --color-base-bg-success: #F7FFF4;
     --color-base-bg-info: #F3F8FB;
     --color-base-bg-accent: #FDF8F1;
@@ -27,6 +28,7 @@ html {
 @media (prefers-color-scheme: dark) {
     html {
         --color-base-bg: #000000;
+        --color-base-bg-overlay: rgba(0, 0, 0, 0.6);
         --color-base-bg-success: #1e252a;
         --color-base-bg-info: #1e252a;
         --color-base-bg-accent: #1e252a;

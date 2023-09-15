@@ -13,6 +13,7 @@ import Script from "next/script";
 import { Story } from "@/server/model/story";
 import components from "@/designSystem/components.module.scss";
 import { SeeTrurh } from "./components/seeTruth";
+import { useConfirmModal } from "../confirmModal";
 
 type Props = {
 	story: Story;
@@ -23,6 +24,7 @@ const AnswerFormContainer: React.FC<{
 	changeMode: (mode: Mode) => void;
 }> = ({ story, changeMode }) => {
 	const { mutate, isLoading, data, reset, isError } = trpc.truth.useMutation();
+	const modalConfrim = useConfirmModal<boolean>();
 	const onSubmit = useCallback(
 		async (input: string) => {
 			gtagEvent("click_submit_answer");
@@ -35,22 +37,24 @@ const AnswerFormContainer: React.FC<{
 		[mutate, story.id],
 	);
 	return data ? (
-		<AnswerResult
-			solution={data.input}
-			onBackButtonClicked={reset}
-			onSeeTruthButtonClicked={() => {
-				if (
-					window.confirm(
-						"本当に真相を見ますか？一度真相を見てしまうとこのストーリーを楽しむことができなくなります。",
-					)
-				) {
-					changeMode("truth");
-				}
-			}}
-			truth={story.truth}
-			isCorrect={data.result === "Covers"}
-			distance={data.distance}
-		/>
+		<>
+			<AnswerResult
+				solution={data.input}
+				onBackButtonClicked={reset}
+				onSeeTruthButtonClicked={async () => {
+					if (
+						await modalConfrim(
+							"本当に真相を見ますか？一度真相を見てしまうとこのストーリーを楽しむことができなくなります。",
+						)
+					) {
+						changeMode("truth");
+					}
+				}}
+				truth={story.truth}
+				isCorrect={data.result === "Covers"}
+				distance={data.distance}
+			/>
+		</>
 	) : (
 		<AnswerForm
 			isLoading={isLoading}
@@ -81,6 +85,7 @@ export function Play(props: Props) {
 	const goToSolution = useCallback(() => {
 		setMode("solution");
 	}, []);
+	const confirm = useConfirmModal();
 	return (
 		<>
 			<Script
@@ -130,9 +135,9 @@ export function Play(props: Props) {
 						<div className={styles.sectionWrapper}>
 							<section className={styles.buttonContainer}>
 								<button
-									onClick={() => {
+									onClick={async () => {
 										if (
-											window.confirm(
+											await confirm(
 												"本当に真相を見ますか？一度真相を見てしまうとこのストーリーを楽しむことができなくなります。",
 											)
 										) {
