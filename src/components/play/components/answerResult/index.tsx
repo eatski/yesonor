@@ -41,10 +41,10 @@ const calcDisplayDistanceLebel = (distance: number): DistanceLevel => {
 };
 
 const levelToText: Record<DistanceLevel, string> = {
-	almost: "かなり惜しい%",
+	almost: "かなり惜しい",
 	close: "惜しい",
 	"not-bad": "悪くはない",
-	"way-off": "もう少し頑張ろう",
+	"way-off": "もう少し質問してみて",
 };
 export const AnswerResult: React.FC<Props> = ({
 	solution,
