@@ -5,6 +5,8 @@ import { Story } from "@/server/model/story";
 import Link from "next/link";
 import { AiOutlineUpload } from "react-icons/ai";
 import { useRouter } from "next/router";
+import { use } from "react";
+import { useConfirmModal } from "../confirmModal";
 
 export type Props = {
 	canUseFileDrop: boolean;
@@ -37,6 +39,7 @@ export const MyStoryMenu: React.FC<Props> = ({
 		publish.isLoading ||
 		getUpdated.isFetching;
 	const isError = del.error || put.error || publish.error;
+	const confirm = useConfirmModal();
 	return (
 		<div className={styles.container} data-loading={isLoading}>
 			{isLoading ? <div className={styles.loader} /> : null}
@@ -59,8 +62,8 @@ export const MyStoryMenu: React.FC<Props> = ({
 							</Link>
 							<button
 								className={components.buttonDanger}
-								onClick={() => {
-									if (!confirm("本当に削除しますか？")) {
+								onClick={async () => {
+									if (!(await confirm("本当に削除しますか？"))) {
 										return;
 									}
 									del.mutate(
