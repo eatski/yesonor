@@ -29,9 +29,9 @@ type DistanceLevel = "almost" | "close" | "not-bad" | "way-off";
  * @param distance 0.0 ~ 1.0
  */
 const calcDisplayDistanceLebel = (distance: number): DistanceLevel => {
-	if (distance <= 0.35) {
+	if (distance <= 0.37) {
 		return "almost";
-	} else if (distance > 0.35 && distance <= 0.45) {
+	} else if (distance > 0.37 && distance <= 0.45) {
 		return "close";
 	} else if (distance > 0.45 && distance <= 0.6) {
 		return "not-bad";
@@ -41,10 +41,10 @@ const calcDisplayDistanceLebel = (distance: number): DistanceLevel => {
 };
 
 const levelToText: Record<DistanceLevel, string> = {
-	almost: "99%",
-	close: "75%",
-	"not-bad": "50%",
-	"way-off": "25%",
+	almost: "かなり惜しい",
+	close: "惜しい",
+	"not-bad": "悪くはない",
+	"way-off": "もう少し質問してみて",
 };
 export const AnswerResult: React.FC<Props> = ({
 	solution,
@@ -59,16 +59,12 @@ export const AnswerResult: React.FC<Props> = ({
 		<div className={styles.container}>
 			<Card variant={isCorrect ? "success" : undefined}>
 				<h2>{isCorrect ? "正解" : "間違いがあります"}</h2>
-				{isCorrect || (
-					<p>
-						惜しい度: <>{levelToText[distanceLevel]}</>
-					</p>
-				)}
+				{isCorrect || <p>{levelToText[distanceLevel]}</p>}
 				{!isCorrect && distanceLevel === "almost" && (
 					<InformationParagragh size="small">
 						{
 							<div className={styles.infoBody}>
-								この判定に疑問がある場合、些細な点で不正解と捉えられている可能性があります。例えば、登場人物の敬称（さん・君など）を正確に入力してみるなどで結果が変わるかもしれません。
+								この判定に疑問がある場合、些細な点で不正解と捉えられている可能性があります。例えば、登場人物について省略せずに正確に言及する。「〜だから」で終わらず「〜だから〜をした。」などと最後まで起こったことを書き切る。などで結果が変わるかもしれません。
 							</div>
 						}
 					</InformationParagragh>
