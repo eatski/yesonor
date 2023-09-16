@@ -5,17 +5,19 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkDark as highlightStyles } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import components from "@/designSystem/components.module.scss";
+import { useToast } from "../toast";
 
 export type Props = {
 	source: string;
 };
 
 const CopyButton = ({ text }: { text: string }) => {
+	const toast = useToast();
 	return (
 		<CopyToClipboard
 			text={text}
 			onCopy={() => {
-				window.alert("クリップボードにコピーしました");
+				toast("クリップボードにコピーしました");
 			}}
 		>
 			<button className={components.buttonLink}>copy</button>

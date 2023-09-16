@@ -6,6 +6,7 @@ import { DefinitionList } from "../definitionList";
 import { AiOutlineLike } from "react-icons/ai";
 import { Button, ButtonIconWrapper } from "@/designSystem/components/button";
 import { gtagEvent } from "@/common/util/gtag";
+import { useToast } from "@/components/toast";
 
 export type Props = {
 	solution: string;
@@ -55,6 +56,7 @@ export const AnswerResult: React.FC<Props> = ({
 	onSeeTruthButtonClicked,
 }) => {
 	const distanceLevel = calcDisplayDistanceLebel(distance);
+	const toast = useToast();
 	return (
 		<div className={styles.container}>
 			<Card variant={isCorrect ? "success" : undefined}>
@@ -88,7 +90,7 @@ export const AnswerResult: React.FC<Props> = ({
 								type={"button"}
 								onClick={() => {
 									gtagEvent("like_story");
-									window.alert("いいねしました！");
+									toast("いいねしました！");
 								}}
 								color="none"
 							>

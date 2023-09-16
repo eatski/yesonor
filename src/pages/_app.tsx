@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { gtagEvent } from "@/common/util/gtag";
 import { keysOverride } from "@/components/headMeta";
 import { ConfirmModal } from "@/components/confirmModal";
+import { Toast } from "@/components/toast";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = useMemo(() => new QueryClient(), []);
@@ -95,7 +96,9 @@ export default function App({ Component, pageProps }: AppProps) {
 				<trpc.Provider client={trpcClient} queryClient={queryClient}>
 					<QueryClientProvider client={queryClient}>
 						<ConfirmModal>
-							<Component {...pageProps} />
+							<Toast>
+								<Component {...pageProps} />
+							</Toast>
 						</ConfirmModal>
 					</QueryClientProvider>
 				</trpc.Provider>

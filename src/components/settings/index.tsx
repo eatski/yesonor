@@ -5,6 +5,7 @@ import styles from "./styles.module.scss";
 import { trpc } from "@/libs/trpc";
 import { signOut } from "next-auth/react";
 import { useConfirmModal } from "../confirmModal";
+import { useToast } from "../toast";
 
 export type Props = {
 	name: string | null;
@@ -120,6 +121,7 @@ const DeleteAccount: React.FC = () => {
 	const { mutateAsync, isLoading, isSuccess } =
 		trpc.deleteAccount.useMutation();
 	const confirm = useConfirmModal();
+	const toast = useToast();
 
 	return (
 		<section>
@@ -147,7 +149,7 @@ const DeleteAccount: React.FC = () => {
 									)
 								) {
 									await mutateAsync();
-									window.alert("退会しました。");
+									toast("退会しました。");
 									signOut({
 										callbackUrl: "/",
 									});
