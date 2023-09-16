@@ -6,9 +6,16 @@ import Link from "next/link";
 import components from "@/designSystem/components.module.scss";
 import { useRouter } from "next/router";
 import { Item } from "@/components/storyList";
+import { useCallback, useState } from "react";
 
 export const Landing: React.FC<{ stories: Item[] }> = ({ stories }) => {
 	const router = useRouter();
+	const [answer, setAnswer] = useState<string | null>(null);
+	const setAnswerYes = useCallback(() => {
+		setTimeout(() => {
+			setAnswer("はい");
+		}, 1000);
+	}, []);
 	return (
 		<main className={styles.container}>
 			<h1>{brand.serviceName}</h1>
@@ -18,7 +25,8 @@ export const Landing: React.FC<{ stories: Item[] }> = ({ stories }) => {
 			<div className={styles.content}>
 				<QuestionAndAnswer
 					question={"Yesonorでは質問に対してAIが回答をしてくれますか？"}
-					answer={"はい"}
+					answer={answer}
+					onQuestionTypingEnd={setAnswerYes}
 				/>
 			</div>
 			<div className={styles.buttons}>
