@@ -31,3 +31,19 @@
         border: var(--border-primary);
     }
 }
+
+.iconButton {
+    width: 24px;
+    height: 24px;
+    background-color: unset;
+    color: var(--color-base-fg);
+    border: none;
+    padding: 0;
+    &:hover{
+        opacity: 0.8;
+    }
+    svg{
+        height: 16px;
+        width: 16px;
+    }
+}

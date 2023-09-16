@@ -11,6 +11,7 @@ import {
 	Button,
 	ButtonIconWrapper,
 } from "@/designSystem/components/button";
+import { useToast } from "../toast";
 
 dayjs.locale("ja");
 
@@ -25,6 +26,7 @@ export const StoryDescription: React.FC<{
 		"hashtags",
 		`${brand.serviceNickname},水平思考クイズ,ウミガメのスープ`,
 	);
+	const toast = useToast();
 	return (
 		<header className={styles.container}>
 			<H1>{title}</H1>
@@ -63,7 +65,7 @@ export const StoryDescription: React.FC<{
 					<CopyToClipboard
 						text={url}
 						onCopy={() => {
-							window.alert("クリップボードにコピーしました");
+							toast("URLをコピーしました。");
 						}}
 					>
 						<Button color="none">

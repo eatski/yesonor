@@ -1,8 +1,8 @@
 import { Button } from "@/designSystem/components/button";
 import React, { useCallback } from "react";
 import { useState } from "react";
-import ReactModal from "react-modal";
 import styles from "./styles.module.scss";
+import { Modal } from "./../modal";
 
 const Context = React.createContext<(text: string) => Promise<boolean>>(() => {
 	throw new Error("Context is not provided");
@@ -29,21 +29,7 @@ export function ConfirmModal({
 	return (
 		<>
 			<Context.Provider value={confirm}>{children}</Context.Provider>
-			<ReactModal
-				isOpen={!!state}
-				style={{
-					content: {
-						width: "80%",
-						height: "fit-content",
-						margin: "auto",
-						padding: "12px",
-						backgroundColor: "var(--color-base-bg)",
-					},
-					overlay: {
-						backgroundColor: "var(--color-base-bg-overlay)",
-					},
-				}}
-			>
+			<Modal isOpen={!!state}>
 				<p className={styles.text}>{state?.text}</p>
 				<div className={styles.buttons}>
 					<Button color="none" onClick={() => state?.resolve(false)}>
@@ -53,7 +39,7 @@ export function ConfirmModal({
 						OK
 					</Button>
 				</div>
-			</ReactModal>
+			</Modal>
 		</>
 	);
 }

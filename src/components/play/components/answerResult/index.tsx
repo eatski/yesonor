@@ -6,6 +6,7 @@ import { DefinitionList } from "../definitionList";
 import { AiOutlineLike } from "react-icons/ai";
 import { Button, ButtonIconWrapper } from "@/designSystem/components/button";
 import { gtagEvent } from "@/common/util/gtag";
+import { useToast } from "@/components/toast";
 
 export type Props = {
 	solution: string;
@@ -55,6 +56,7 @@ export const AnswerResult: React.FC<Props> = ({
 	onSeeTruthButtonClicked,
 }) => {
 	const distanceLevel = calcDisplayDistanceLebel(distance);
+	const toast = useToast();
 	return (
 		<div className={styles.container}>
 			<Card variant={isCorrect ? "success" : undefined}>
@@ -64,7 +66,9 @@ export const AnswerResult: React.FC<Props> = ({
 					<InformationParagragh size="small">
 						{
 							<div className={styles.infoBody}>
-								この判定に疑問がある場合、些細な点で不正解と捉えられている可能性があります。例えば、登場人物について省略せずに正確に言及する。「〜だから」で終わらず「〜だから〜をした。」などと最後まで起こったことを書き切る。などで結果が変わるかもしれません。
+								些細な点で不正解と捉えられている可能性があります。
+								<br />
+								例えば、主語を省略しない、「〜だから」で終わらず「〜だから〜をした。」といったように最後まで起こったことを書き切る。などで結果が変わるかもしれません。
 							</div>
 						}
 					</InformationParagragh>
@@ -86,7 +90,7 @@ export const AnswerResult: React.FC<Props> = ({
 								type={"button"}
 								onClick={() => {
 									gtagEvent("like_story");
-									window.alert("いいねしました！");
+									toast("いいねしました！");
 								}}
 								color="none"
 							>
