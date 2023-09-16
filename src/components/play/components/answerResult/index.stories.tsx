@@ -26,3 +26,11 @@ export const NotCorrect: Story = {
 		isCorrect: false,
 	},
 };
+
+export const Correct: Story = {
+	args: {
+		solution: "solution",
+		isCorrect: true,
+		truth: "truth",
+	},
+};
