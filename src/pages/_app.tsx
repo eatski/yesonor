@@ -77,8 +77,11 @@ export default function App({ Component, pageProps }: AppProps) {
 				/>
 				<meta property="og:type" content="website" />
 				<meta property="og:image" content="https://iesona.com/card.png" />
-				<meta name="twitter:card" content="summary_large_image" />
-				<meta name="twitter:image" content="https://iesona.com/card.png" />
+				<meta name="twitter:card" content="summary" />
+				<meta
+					name="twitter:image"
+					content="https://iesona.com/card_square.png"
+				/>
 			</Head>
 			<Script
 				src="https://www.googletagmanager.com/gtag/js?id=G-1VTTNL7SR2"
