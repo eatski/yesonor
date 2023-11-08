@@ -15,6 +15,8 @@ axiosInstance.interceptors.response.use(
 	},
 );
 
+axiosInstance.defaults.timeout = 20000;
+
 export const openai = new OpenAIApi(
 	new Configuration({
 		apiKey: process.env.OPENAI_API_KEY,
