@@ -91,13 +91,14 @@ export const question = procedure
 					const story = await dependsOn("story");
 					const examples = [...(await dependsOn("exampleWithDistance"))];
 					examples.sort((a, b) => a.distance - b.distance);
-					const picked4examples = examples.slice(0, 4);
+					const PICK_NUM = 3;
+					const pickedFewExamples = examples.slice(0, PICK_NUM);
 					const answer = await questionToAI(
 						ctx.openai,
 						{
 							quiz: story.quiz,
 							truth: story.truth,
-							questionExamples: picked4examples.map(({ example }) => example),
+							questionExamples: pickedFewExamples.map(({ example }) => example),
 						},
 						input.text,
 					);
