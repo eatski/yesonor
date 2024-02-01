@@ -1,7 +1,12 @@
 import { prisma } from "@/libs/prisma";
 import { Story, StoryHead } from "@/server/model/story";
 import { PrismaClient } from "@prisma/client";
-import { createGetStoryWhere, hydrateStory, omitStory } from "./functions";
+import {
+	createGetStoryPrivateWhere,
+	createGetStoryWhere,
+	hydrateStory,
+	omitStory,
+} from "./functions";
 
 export const getStories = (args: { count: number }): Promise<StoryHead[]> => {
 	const prisma = new PrismaClient();
@@ -47,24 +52,6 @@ export const getStoryHead = (args: {
 			if (story == null) return null;
 			return omitStory(story);
 		});
-};
-
-const createGetStoryPrivateWhere = (args: {
-	storyId: string;
-	authorId: string;
-}) => {
-	return {
-		OR: [
-			{
-				id: args.storyId,
-				authorId: args.authorId,
-			},
-			{
-				id: args.storyId,
-				published: true,
-			},
-		],
-	};
 };
 
 export const getStoryPrivate = async (args: {

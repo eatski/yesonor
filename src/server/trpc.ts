@@ -1,6 +1,7 @@
-import { initTRPC } from "@trpc/server";
+import { TRPCError, initTRPC } from "@trpc/server";
 import { type createContext } from "./context";
 import { setTimeout } from "timers/promises";
+import { getHTTPStatusCodeFromError } from "@trpc/server/http";
 
 /**
  * Initialization of tRPC backend
@@ -21,4 +22,18 @@ export const procedure =
 				await timer;
 				return result;
 		  })
-		: t.procedure;
+		: t.procedure.use(async ({ next }) => {
+				return await next().then((result) => {
+					if (result.ok) {
+						return result;
+					}
+					const status = getHTTPStatusCodeFromError(result.error);
+					if (status >= 500) {
+						console.error(result.error);
+					}
+					result.error = new TRPCError({
+						code: result.error.code,
+					});
+					return result;
+				});
+		  });
