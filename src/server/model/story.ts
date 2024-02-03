@@ -20,6 +20,11 @@ export const questionExample = z.object({
 		.optional(),
 });
 
+export type Question = {
+	question: string;
+	answer: Answer;
+};
+
 export const storyInit = z.object({
 	title: z
 		.string()
@@ -71,6 +76,10 @@ export type Story = Public<
 	| "publishedAt"
 	| "published"
 >;
+
+export type StoryWithQuestionLogs = Story & {
+	questionLogs: Question[];
+};
 
 export type StoryHead = Omit<
 	Story,
