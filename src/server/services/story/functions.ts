@@ -1,6 +1,18 @@
-import { questionExample, Story, StoryHead } from "@/server/model/story";
+import {
+	QuestionExample,
+	questionExample,
+	Story,
+	StoryHead,
+	StoryWithQuestionLogs,
+} from "@/server/model/story";
 import { z } from "zod";
-import { Story as DbStory, User } from "@prisma/client";
+import { Story as DbStory, User, QuestionLog } from "@prisma/client";
+
+const hydrateQuestionExamples = (
+	stringQuestionExamples: string,
+): QuestionExample[] => {
+	return z.array(questionExample).parse(JSON.parse(stringQuestionExamples));
+};
 
 export const hydrateStory = (
 	story: DbStory & {
@@ -22,9 +34,34 @@ export const hydrateStory = (
 			id: author.id,
 			name: author.name,
 		},
-		questionExamples: z
-			.array(questionExample)
-			.parse(JSON.parse(story.questionExamples)),
+		questionExamples: hydrateQuestionExamples(questionExamples),
+	};
+};
+
+export const hydrateStoryWithQuestionLogs = (
+	story: DbStory & {
+		questionLogs: QuestionLog[];
+		author: User;
+	},
+): StoryWithQuestionLogs => {
+	const {
+		questionExamples,
+		publishedAt,
+		createdAt,
+		author,
+		authorId,
+		...rest
+	} = story;
+
+	return {
+		...rest,
+		publishedAt: publishedAt?.getTime() || null,
+		questionExamples: hydrateQuestionExamples(questionExamples),
+		questionLogs: story.questionLogs,
+		author: {
+			id: author.id,
+			name: author.name,
+		},
 	};
 };
 
