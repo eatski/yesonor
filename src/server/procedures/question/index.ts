@@ -1,10 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import {
-	Question,
-	QuestionExample,
-	answer as answerSchema,
-} from "../../model/story";
+import { QuestionExample, answer as answerSchema } from "../../model/story";
 import { procedure } from "../../trpc";
 import { QuestionExampleWithCustomMessage } from "./type";
 import { prisma } from "@/libs/prisma";
@@ -14,6 +10,7 @@ import { calculateEuclideanDistance } from "@/libs/math";
 import {
 	createGetStoryPrivateWhere,
 	createGetStoryWhere,
+	hydrateStory,
 	hydrateStoryWithQuestionLogs,
 } from "@/server/services/story/functions";
 import DataLoader from "dataloader";
@@ -68,19 +65,6 @@ export const question = procedure
 					const storyDbData = await prisma.story.findFirst({
 						where: storyWhere,
 						include: {
-							questionLogs: {
-								where: {
-									createdAt: {
-										// 一時間以上前のログを取得
-										lt: oneHourAgo,
-									},
-								},
-								take: 100,
-								orderBy: {
-									// 新しい順
-									createdAt: "desc",
-								},
-							},
 							author: true,
 						},
 					});
@@ -91,7 +75,7 @@ export const question = procedure
 						});
 					}
 
-					return hydrateStoryWithQuestionLogs(storyDbData);
+					return hydrateStory(storyDbData);
 				})
 				.add("inputEmbedding", async () => {
 					return embeddingsDataLoader.load(input.text);
@@ -127,65 +111,8 @@ export const question = procedure
 					result.sort((a, b) => a.distance - b.distance);
 					return result;
 				})
-				.add("similarQuestion", async (dependsOn) => {
-					const isSimilar = (distance: number) =>
-						distance < SIMULAR_QUESTION_DISTANCE;
-					const examplesWithDistance = await dependsOn("examplesWithDistance");
-					const simularExample = examplesWithDistance.find(({ distance }) =>
-						isSimilar(distance),
-					);
-					if (simularExample) {
-						return {
-							question: simularExample.example.question,
-							answer: simularExample.example.answer,
-							customMessage: simularExample.example.customMessage ?? null,
-						};
-					}
-					const story = await dependsOn("story");
-					const logEmbeddings = await embeddingsDataLoader.loadMany(
-						story.questionLogs.map(({ question }) => question),
-					);
-					const inputEmbedding = await dependsOn("inputEmbedding");
-					const result: {
-						question: Question;
-						distance: number;
-					}[] = [];
-					logEmbeddings.forEach((embedding, index) => {
-						const log = story.questionLogs[index];
-						if (!log) {
-							throw new Error("index out of range");
-						}
-						if (embedding instanceof Error) {
-							console.error(embedding);
-							return;
-						}
-						const distance = calculateEuclideanDistance(
-							inputEmbedding.embedding,
-							embedding.embedding,
-						);
-						if (isSimilar(distance)) {
-							result.push({
-								question: log,
-								distance,
-							});
-						}
-					});
-					result.sort((a, b) => a.distance - b.distance);
-					const hit = result[0];
-					if (!hit) {
-						return null;
-					}
-					return {
-						question: hit.question.question,
-						answer: hit.question.answer,
-					};
-				})
 				.add("question", async (dependsOn) => {
 					await dependsOn("verifyRecaptcha");
-					const similarQuestion = await dependsOn("similarQuestion");
-					if (similarQuestion) {
-						return similarQuestion.answer;
-					}
 					const user = await dependsOn("user");
 					const story = await dependsOn("story");
 					const examples = await dependsOn("examplesWithDistance");
