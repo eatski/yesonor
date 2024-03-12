@@ -4,14 +4,13 @@ import { QuestionExample, answer as answerSchema } from "../../model/story";
 import { procedure } from "../../trpc";
 import { QuestionExampleWithCustomMessage } from "./type";
 import { prisma } from "@/libs/prisma";
-import { questionToAI } from "./questionToAI";
+import { questionToAI } from "./questionToAIClaude";
 import { prepareProura } from "@/libs/proura";
 import { calculateEuclideanDistance } from "@/libs/math";
 import {
 	createGetStoryPrivateWhere,
 	createGetStoryWhere,
 	hydrateStory,
-	hydrateStoryWithQuestionLogs,
 } from "@/server/services/story/functions";
 import DataLoader from "dataloader";
 
@@ -119,7 +118,6 @@ export const question = procedure
 					const PICK_NUM = 3;
 					const pickedFewExamples = examples.slice(0, PICK_NUM);
 					const answer = await questionToAI(
-						ctx.openai,
 						{
 							quiz: story.quiz,
 							truth: story.truth,
