@@ -8,6 +8,9 @@ import { openai } from "@/libs/openai";
 
 export const createContext = async (context: CreateNextContextOptions) => {
 	return {
+		isDeveloper: () => {
+			return !!context.req.cookies.developer_mode;
+		},
 		getUserOptional: async () => {
 			const session = await getServerSession(
 				context.req,

@@ -45,6 +45,7 @@ describe("trpc/question", () => {
 		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
 		openai,
+		isDeveloper: () => false,
 	});
 	describe("質問した内容に対して、結果が返る", () => {
 		test.concurrent.each([
@@ -130,6 +131,7 @@ describe("trpc/question", () => {
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
 					openai,
+					isDeveloper: () => false,
 				});
 				const text = "人を殺しましたか？";
 				const result = await testee.question({
@@ -149,6 +151,7 @@ describe("trpc/question", () => {
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
 					openai,
+					isDeveloper: () => false,
 				});
 				const text = "人を殺しましたか？";
 				expect(
@@ -167,6 +170,7 @@ describe("trpc/question", () => {
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
 				openai,
+				isDeveloper: () => false,
 			});
 			const text = "人を殺しましたか？";
 			const result = await testee.question({

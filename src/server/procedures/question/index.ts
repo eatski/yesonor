@@ -4,7 +4,7 @@ import { QuestionExample, answer as answerSchema } from "../../model/story";
 import { procedure } from "../../trpc";
 import { QuestionExampleWithCustomMessage } from "./type";
 import { prisma } from "@/libs/prisma";
-import { questionToAI } from "./questionToAIClaude";
+import { questionToAI as questionToAIClaude } from "./questionToAIClaude";
 import { prepareProura } from "@/libs/proura";
 import { calculateEuclideanDistance } from "@/libs/math";
 import {
@@ -13,8 +13,7 @@ import {
 	hydrateStory,
 } from "@/server/services/story/functions";
 import DataLoader from "dataloader";
-
-const SIMULAR_QUESTION_DISTANCE = 0.13;
+import { questionToAI } from "./questionToAI";
 
 export const question = procedure
 	.input(
@@ -33,6 +32,7 @@ export const question = procedure
 			hitQuestionExample: QuestionExampleWithCustomMessage | null;
 		}> => {
 			const proura = prepareProura();
+			const isDeveloper = ctx.isDeveloper();
 			const embeddingsDataLoader = new DataLoader(
 				(texts: readonly string[]) => {
 					return ctx.openai
@@ -60,7 +60,6 @@ export const question = procedure
 						: createGetStoryWhere({
 								storyId: input.storyId,
 						  });
-					const oneHourAgo = new Date(Date.now() - 1000 * 60 * 60);
 					const storyDbData = await prisma.story.findFirst({
 						where: storyWhere,
 						include: {
@@ -117,14 +116,14 @@ export const question = procedure
 					const examples = await dependsOn("examplesWithDistance");
 					const PICK_NUM = 3;
 					const pickedFewExamples = examples.slice(0, PICK_NUM);
-					const answer = await questionToAI(
-						{
-							quiz: story.quiz,
-							truth: story.truth,
-							questionExamples: pickedFewExamples.map(({ example }) => example),
-						},
-						input.text,
-					);
+					const inputStory = {
+						quiz: story.quiz,
+						truth: story.truth,
+						questionExamples: pickedFewExamples.map(({ example }) => example),
+					};
+					const answer = await (isDeveloper
+						? questionToAIClaude(inputStory, input.text)
+						: questionToAI(ctx.openai, inputStory, input.text));
 					const isOwn = user?.id === story.author.id;
 					!isOwn &&
 						(await prisma.questionLog

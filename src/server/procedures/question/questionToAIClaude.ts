@@ -4,7 +4,7 @@ import { resolve } from "path";
 import { answer as answerSchema } from "../../model/story";
 import { anthropic } from "@/libs/claude";
 const systemPromptPromise = readFile(
-	resolve(process.cwd(), "prompts", "question.md"),
+	resolve(process.cwd(), "prompts", "question_claude.md"),
 );
 
 export const questionToAI = async (
@@ -15,44 +15,49 @@ export const questionToAI = async (
 	},
 	question: string,
 ) => {
-	const response = await anthropic.messages.create({
-		model: "claude-3-sonnet-20240229",
-		max_tokens: 1,
-		messages: [
-			{
-				role: "user",
-				content: (await systemPromptPromise).toString(),
-			},
-			{
-				role: "assistant",
-				content: story.quiz,
-			},
-			{
-				role: "assistant",
-				content: story.truth,
-			},
-			...story.questionExamples.flatMap(
-				(example) =>
-					[
-						{
-							role: "user",
-							content: example.question,
-						},
-						{
-							role: "assistant",
-							content: example.answer,
-						},
-					] as const,
-			),
-			{
-				role: "user",
-				content: question,
-			},
-		],
-	});
+	const systemPromptPromise = readFile(
+		resolve(process.cwd(), "prompts", "question_claude.md"),
+	);
+	const response = await anthropic.messages.create(
+		{
+			model: "claude-3-sonnet-20240229",
+			max_tokens: 1,
+			temperature: 0,
+			messages: [
+				{
+					role: "user",
+					content: (await systemPromptPromise).toString(),
+				},
+				{
+					role: "assistant",
+					content: story.truth,
+				},
+				...story.questionExamples.flatMap(
+					(example) =>
+						[
+							{
+								role: "user",
+								content: example.question,
+							},
+							{
+								role: "assistant",
+								content: example.answer,
+							},
+						] as const,
+				),
+				{
+					role: "user",
+					content: question,
+				},
+			],
+		},
+		{
+			timeout: 5000,
+		},
+	);
 	const block = response.content[0];
 	if (!block) {
-		throw new Error("No args");
+		throw new Error("AI's response has no content");
 	}
 	return answerSchema.parse(block.text);
 };
