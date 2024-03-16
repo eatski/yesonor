@@ -3,7 +3,7 @@ import { appRouter } from "@/server";
 import { prepareStoryFromYaml } from "@/test/prepareStory";
 import { resolve } from "path";
 import { generateId } from "@/common/util/id";
-import { initMswCacheServer } from "@/libs/msw-cache";
+import { applyTestHooks } from "@/libs/msw-cache/vitest";
 const never = () => {
 	throw new Error("Never");
 };
@@ -22,9 +22,8 @@ describe("trpc/question", () => {
 		id: generateId(),
 		email: "not-yesonor@example.com",
 	};
-	const server = initMswCacheServer();
+	applyTestHooks();
 	beforeAll(async () => {
-		server.listen();
 		const cleanup1 = await prepareStoryFromYaml(testYamlPath, {
 			storyId: TEST_ID,
 			authorId: TEST_USER1.id,
@@ -36,7 +35,6 @@ describe("trpc/question", () => {
 			published: false,
 		});
 		return async () => {
-			server.close();
 			await cleanup1();
 			await cleanup2();
 		};

@@ -46,13 +46,13 @@ class ResponseCache {
 	}
 }
 
-export const initMswCacheServer = () => {
+export const initMswCacheServer = (basePath: string) => {
 	const cache = new ResponseCache(
 		new FileSystemCache({
-			basePath: path.resolve(process.cwd(), ".msw-cache"),
+			basePath: basePath,
 		}),
 	);
-	return setupServer(
+	const server = setupServer(
 		http.all("*", async (req) => {
 			const cached = await cache.get(req.request.clone());
 			if (cached) {
@@ -65,4 +65,11 @@ export const initMswCacheServer = () => {
 			}
 		}),
 	);
+	return {
+		listen: () => server.listen(),
+		close: () => {
+			server.close();
+			return cache.clearUnusedCache();
+		},
+	};
 };
