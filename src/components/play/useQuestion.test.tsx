@@ -20,6 +20,7 @@ import { trpc } from "@/libs/trpc";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import fetch from "node-fetch";
+import { setTimeout } from "timers/promises";
 
 const trpcMsw = createTRPCMsw<AppRouter>({
 	basePath: "/api/trpc",
@@ -63,16 +64,13 @@ describe("useQuestion", () => {
 		// Arrange
 		const storyId = "testes";
 		server.use(
-			trpcMsw.question.mutation(async (req, res, ctx) => {
-				mutation(await req.getInput());
-				return res(
-					ctx.status(200),
-					ctx.data({
-						answer: "True",
-						hitQuestionExample: null,
-					}),
-					ctx.delay(100),
-				);
+			trpcMsw.question.mutation(async (input) => {
+				mutation(input);
+				await setTimeout(100);
+				return {
+					answer: "True",
+					hitQuestionExample: null,
+				};
 			}),
 		);
 
