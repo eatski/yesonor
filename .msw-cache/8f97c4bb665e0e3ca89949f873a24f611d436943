@@ -1,0 +1,1 @@
+{"value":"{\"id\":\"msg_011yi3cjXH4JGfHVABcifzvD\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"こんにちは!\"}],\"model\":\"claude-2.0\",\"stop_reason\":\"max_tokens\",\"stop_sequence\":null,\"usage\":{\"input_tokens\":15,\"output_tokens\":10}}","type":"String","created":"2024-03-16T15:32:35.389Z","ttl":0}
