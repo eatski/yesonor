@@ -14,6 +14,7 @@ import {
 } from "@/server/services/story/functions";
 import DataLoader from "dataloader";
 import { questionToAI } from "./questionToAI";
+import { openai } from "@/libs/openai";
 
 export const question = procedure
 	.input(
@@ -35,7 +36,7 @@ export const question = procedure
 			const isDeveloper = ctx.isDeveloper();
 			const embeddingsDataLoader = new DataLoader(
 				(texts: readonly string[]) => {
-					return ctx.openai
+					return openai
 						.createEmbedding({
 							model: "text-embedding-ada-002",
 							input: [...texts],
@@ -123,7 +124,7 @@ export const question = procedure
 					};
 					const answer = await (isDeveloper
 						? questionToAIClaude(inputStory, input.text)
-						: questionToAI(ctx.openai, inputStory, input.text));
+						: questionToAI(inputStory, input.text));
 					const isOwn = user?.id === story.author.id;
 					!isOwn &&
 						(await prisma.questionLog

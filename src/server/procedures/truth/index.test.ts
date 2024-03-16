@@ -4,6 +4,7 @@ import { setupOpenaiForTest } from "@/libs/openai/forTest";
 import { resolve } from "path";
 import { prepareStoryFromYaml } from "@/test/prepareStory";
 import { generateId } from "@/common/util/id";
+import { initMswCacheServer } from "@/libs/msw-cache";
 const never = () => {
 	throw new Error("Never");
 };
@@ -24,8 +25,10 @@ describe("trpc/truth", () => {
 	const TEST1_ID = generateId();
 	const TEST2_ID = generateId();
 	const TEST_ID_PRIVATE = generateId();
+	const server = initMswCacheServer();
 	beforeAll(async () => {
 		console.log(TEST1_ID, TEST2_ID, TEST_ID_PRIVATE);
+		server.listen();
 		const cleanup1 = await prepareStoryFromYaml(testYamlPath1, {
 			storyId: TEST1_ID,
 			authorId: TEST_USER1.id,
@@ -42,18 +45,17 @@ describe("trpc/truth", () => {
 			published: false,
 		});
 		return async () => {
+			server.close();
 			await cleanup1();
 			await cleanup2();
 			await cleanup3();
 		};
 	});
-	const openai = setupOpenaiForTest();
 	const testee = appRouter.createCaller({
 		getUserOptional: async () => null,
 		getUser: never,
 		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
-		openai,
 		isDeveloper: () => false,
 	});
 	describe("解答した内容に対して、結果が返る", () => {
@@ -149,7 +151,6 @@ describe("trpc/truth", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					openai,
 					isDeveloper: () => false,
 				});
 				const text =
@@ -170,7 +171,6 @@ describe("trpc/truth", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					openai,
 					isDeveloper: () => false,
 				});
 				const text =
@@ -190,7 +190,6 @@ describe("trpc/truth", () => {
 				getUser: never,
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
-				openai,
 				isDeveloper: () => false,
 			});
 			const text =

@@ -1,9 +1,9 @@
 import { describe, test, expect, beforeAll } from "vitest";
 import { appRouter } from "@/server";
-import { setupOpenaiForTest } from "@/libs/openai/forTest";
 import { prepareStoryFromYaml } from "@/test/prepareStory";
 import { resolve } from "path";
 import { generateId } from "@/common/util/id";
+import { initMswCacheServer } from "@/libs/msw-cache";
 const never = () => {
 	throw new Error("Never");
 };
@@ -22,7 +22,9 @@ describe("trpc/question", () => {
 		id: generateId(),
 		email: "not-yesonor@example.com",
 	};
+	const server = initMswCacheServer();
 	beforeAll(async () => {
+		server.listen();
 		const cleanup1 = await prepareStoryFromYaml(testYamlPath, {
 			storyId: TEST_ID,
 			authorId: TEST_USER1.id,
@@ -34,17 +36,16 @@ describe("trpc/question", () => {
 			published: false,
 		});
 		return async () => {
+			server.close();
 			await cleanup1();
 			await cleanup2();
 		};
 	});
-	const openai = setupOpenaiForTest();
 	const testee = appRouter.createCaller({
 		getUserOptional: async () => null,
 		getUser: never,
 		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
-		openai,
 		isDeveloper: () => false,
 	});
 	describe("質問した内容に対して、結果が返る", () => {
@@ -130,7 +131,6 @@ describe("trpc/question", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					openai,
 					isDeveloper: () => false,
 				});
 				const text = "人を殺しましたか？";
@@ -150,7 +150,6 @@ describe("trpc/question", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					openai,
 					isDeveloper: () => false,
 				});
 				const text = "人を殺しましたか？";
@@ -169,7 +168,6 @@ describe("trpc/question", () => {
 				getUser: never,
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
-				openai,
 				isDeveloper: () => false,
 			});
 			const text = "人を殺しましたか？";

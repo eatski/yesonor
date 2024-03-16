@@ -12,15 +12,16 @@ describe("initCacheMswServer", () => {
 	});
 	test("anthropic", async () => {
 		const result = await anthropic.messages.create({
-			model: "claude-2.0",
+			model: "claude-3-opus-20240229",
 			messages: [
 				{
 					role: "user",
 					content: "こんにちわ",
 				},
 			],
-			max_tokens: 10,
+			max_tokens: 1000,
+			stream: false,
 		});
-		expect(result).toMatchSnapshot();
+		expect(result.content).toMatchSnapshot();
 	});
 });

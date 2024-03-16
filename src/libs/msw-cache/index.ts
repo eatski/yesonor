@@ -13,15 +13,19 @@ import path from "path";
 class ResponseCache {
 	private readonly usedCachePath = new Set<string>();
 	constructor(private readonly cache: FileSystemCache) {}
-	private static configToKey(config: StrictRequest<DefaultBodyType>): string {
+	private static async configToKey(
+		config: StrictRequest<DefaultBodyType>,
+	): Promise<string> {
 		return JSON.stringify({
 			url: config.url,
-			body: config.body,
+			body: await config.text(),
 			method: config.method,
 		});
 	}
-	public get(configForKey: StrictRequest<DefaultBodyType>): Promise<unknown> {
-		const key = ResponseCache.configToKey(configForKey);
+	public async get(
+		configForKey: StrictRequest<DefaultBodyType>,
+	): Promise<unknown> {
+		const key = await ResponseCache.configToKey(configForKey);
 		this.usedCachePath.add(this.cache.path(key));
 		return this.cache.get(key);
 	}
@@ -29,7 +33,7 @@ class ResponseCache {
 		configForKey: StrictRequest<DefaultBodyType>,
 		value: unknown,
 	) {
-		const key = ResponseCache.configToKey(configForKey);
+		const key = await ResponseCache.configToKey(configForKey);
 		this.usedCachePath.add(this.cache.path(key));
 		await this.cache.set(key, value);
 	}
@@ -50,7 +54,7 @@ export const initMswCacheServer = () => {
 	);
 	return setupServer(
 		http.all("*", async (req) => {
-			const cached = await cache.get(req.request);
+			const cached = await cache.get(req.request.clone());
 			if (cached) {
 				return HttpResponse.text(cached as string);
 			} else {

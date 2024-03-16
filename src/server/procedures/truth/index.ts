@@ -8,6 +8,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { createPrompt } from "./createPrompt";
+import { openai } from "@/libs/openai";
 
 export const truth = procedure
 	.input(
@@ -46,7 +47,7 @@ export const truth = procedure
 			.add("distance", async (dependsOn) => {
 				await dependsOn("verifyRecaptcha");
 				const story = await dependsOn("story");
-				const embeddingsResponse = await ctx.openai.createEmbedding({
+				const embeddingsResponse = await openai.createEmbedding({
 					model: "text-embedding-ada-002",
 					input: [story.simpleTruth, input.text],
 				});
@@ -69,7 +70,7 @@ export const truth = procedure
 					is_covered: truthCoincidence,
 				});
 
-				const response = await ctx.openai.createChatCompletion({
+				const response = await openai.createChatCompletion({
 					model: "gpt-4-0613",
 					messages: [
 						{
