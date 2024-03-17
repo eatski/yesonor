@@ -4,10 +4,12 @@ import { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { getServerSession } from "next-auth/next";
 import { setTimeout } from "timers/promises";
 import { verifyRecaptcha } from "./services/recaptcha";
-import { openai } from "@/libs/openai";
 
 export const createContext = async (context: CreateNextContextOptions) => {
 	return {
+		isDeveloper: () => {
+			return !!context.req.cookies.developer_mode;
+		},
 		getUserOptional: async () => {
 			const session = await getServerSession(
 				context.req,
@@ -63,6 +65,5 @@ export const createContext = async (context: CreateNextContextOptions) => {
 				});
 			});
 		},
-		openai: openai,
 	};
 };

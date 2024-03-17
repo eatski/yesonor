@@ -1,11 +1,11 @@
 import { QuestionExample } from "@/server/model/story";
 import { TRPCError } from "@trpc/server";
-import { OpenAIApi } from "openai";
 import { OPENAI_ERROR_MESSAGE } from "./contract";
 import { readFile } from "fs/promises";
 import { resolve } from "path";
 import { answer as answerSchema } from "../../model/story";
 import { z } from "zod";
+import { openai } from "@/libs/openai";
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),
 );
@@ -15,7 +15,6 @@ const functionArgsSchema = z.object({
 });
 
 export const questionToAI = async (
-	openai: OpenAIApi,
 	story: {
 		quiz: string;
 		truth: string;

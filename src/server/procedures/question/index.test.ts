@@ -1,9 +1,9 @@
 import { describe, test, expect, beforeAll } from "vitest";
 import { appRouter } from "@/server";
-import { setupOpenaiForTest } from "@/libs/openai/forTest";
 import { prepareStoryFromYaml } from "@/test/prepareStory";
 import { resolve } from "path";
 import { generateId } from "@/common/util/id";
+import { applyTestHooks } from "@/libs/msw-cache/vitest";
 const never = () => {
 	throw new Error("Never");
 };
@@ -11,7 +11,7 @@ const never = () => {
 const TEST_ID = generateId();
 const TEST_ID_PRIVATE = generateId();
 
-describe("trpc/question", () => {
+describe.each([false])("trpc/question", (developerMode) => {
 	const testYamlPath = resolve(process.cwd(), "fixtures", "test.yaml");
 	const TEST_USER1 = {
 		id: generateId(),
@@ -22,6 +22,7 @@ describe("trpc/question", () => {
 		id: generateId(),
 		email: "not-yesonor@example.com",
 	};
+	applyTestHooks();
 	beforeAll(async () => {
 		const cleanup1 = await prepareStoryFromYaml(testYamlPath, {
 			storyId: TEST_ID,
@@ -38,13 +39,12 @@ describe("trpc/question", () => {
 			await cleanup2();
 		};
 	});
-	const openai = setupOpenaiForTest();
 	const testee = appRouter.createCaller({
 		getUserOptional: async () => null,
 		getUser: never,
 		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
-		openai,
+		isDeveloper: () => developerMode,
 	});
 	describe("質問した内容に対して、結果が返る", () => {
 		test.concurrent.each([
@@ -129,7 +129,7 @@ describe("trpc/question", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					openai,
+					isDeveloper: () => developerMode,
 				});
 				const text = "人を殺しましたか？";
 				const result = await testee.question({
@@ -148,7 +148,7 @@ describe("trpc/question", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					openai,
+					isDeveloper: () => developerMode,
 				});
 				const text = "人を殺しましたか？";
 				expect(
@@ -166,7 +166,7 @@ describe("trpc/question", () => {
 				getUser: never,
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
-				openai,
+				isDeveloper: () => developerMode,
 			});
 			const text = "人を殺しましたか？";
 			const result = await testee.question({

@@ -1,9 +1,9 @@
 import { describe, test, expect, beforeAll } from "vitest";
 import { appRouter } from "@/server";
-import { setupOpenaiForTest } from "@/libs/openai/forTest";
 import { resolve } from "path";
 import { prepareStoryFromYaml } from "@/test/prepareStory";
 import { generateId } from "@/common/util/id";
+import { applyTestHooks } from "@/libs/msw-cache/vitest";
 const never = () => {
 	throw new Error("Never");
 };
@@ -24,6 +24,7 @@ describe("trpc/truth", () => {
 	const TEST1_ID = generateId();
 	const TEST2_ID = generateId();
 	const TEST_ID_PRIVATE = generateId();
+	applyTestHooks();
 	beforeAll(async () => {
 		console.log(TEST1_ID, TEST2_ID, TEST_ID_PRIVATE);
 		const cleanup1 = await prepareStoryFromYaml(testYamlPath1, {
@@ -47,13 +48,12 @@ describe("trpc/truth", () => {
 			await cleanup3();
 		};
 	});
-	const openai = setupOpenaiForTest();
 	const testee = appRouter.createCaller({
 		getUserOptional: async () => null,
 		getUser: never,
 		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
-		openai,
+		isDeveloper: () => false,
 	});
 	describe("解答した内容に対して、結果が返る", () => {
 		test.each([
@@ -148,7 +148,7 @@ describe("trpc/truth", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					openai,
+					isDeveloper: () => false,
 				});
 				const text =
 					"山田さんは人を殺害し、男性用トイレに隠そうとしていたが、見つかりそうになり女性用トイレに逃げた。";
@@ -168,7 +168,7 @@ describe("trpc/truth", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					openai,
+					isDeveloper: () => false,
 				});
 				const text =
 					"山田さんは人を殺害し、男性用トイレに隠そうとしていたが、見つかりそうになり女性用トイレに逃げた。";
@@ -187,7 +187,7 @@ describe("trpc/truth", () => {
 				getUser: never,
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
-				openai,
+				isDeveloper: () => false,
 			});
 			const text =
 				"山田さんは人を殺害し、男性用トイレに隠そうとしていたが、見つかりそうになり女性用トイレに逃げた。";
