@@ -51,5 +51,6 @@ export const questionToAI = async (
 	if (!block) {
 		throw new Error("AI's response has no content");
 	}
-	return answerSchema.parse(block.text);
+	const answer = answerSchema.safeParse(block.text);
+	return answer.success ? answer.data : "Unknown";
 };
