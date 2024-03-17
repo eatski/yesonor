@@ -15,7 +15,7 @@ exports[`initCacheMswServer > fetch 1`] = `
 {
   "abbreviation": "WAT",
   "client_ip": "240b:10:1f20:2c00:841:54a1:c6c6:6dc6",
-  "datetime": "2024-03-17T11:27:39.904055+01:00",
+  "datetime": "2024-03-17T16:32:23.600807+01:00",
   "day_of_week": 0,
   "day_of_year": 77,
   "dst": false,
@@ -24,8 +24,8 @@ exports[`initCacheMswServer > fetch 1`] = `
   "dst_until": null,
   "raw_offset": 3600,
   "timezone": "Africa/Lagos",
-  "unixtime": 1710671259,
-  "utc_datetime": "2024-03-17T10:27:39.904055+00:00",
+  "unixtime": 1710689543,
+  "utc_datetime": "2024-03-17T15:32:23.600807+00:00",
   "utc_offset": "+01:00",
   "week_number": 11,
 }
@@ -38,7 +38,7 @@ exports[`initCacheMswServer > openai 1`] = `
     "index": 0,
     "logprobs": null,
     "message": {
-      "content": "I am a virtual assistant",
+      "content": "I am a helpful assistant",
       "role": "assistant",
     },
   },

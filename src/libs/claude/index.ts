@@ -5,8 +5,10 @@ import {
 
 const apiKey = process.env["ANTHROPIC_API_KEY"];
 
-export const createMessage = (config: MessageCreateParamsNonStreaming) => {
-	return fetch("https://api.anthropic.com/v1/messages", {
+export const createMessage = async (
+	config: MessageCreateParamsNonStreaming,
+) => {
+	const result = await fetch("https://api.anthropic.com/v1/messages", {
 		headers: {
 			"Content-Type": "application/json",
 			"x-api-key": apiKey || "",
@@ -14,5 +16,11 @@ export const createMessage = (config: MessageCreateParamsNonStreaming) => {
 		},
 		method: "POST",
 		body: JSON.stringify(config),
-	}).then((res) => res.json() as Promise<Message>);
+	});
+	if (!result.ok) {
+		const text = await result.text();
+		throw new Error(`Failed ${result.status}: ${text}`);
+	}
+	const json = await result.json();
+	return json as Message;
 };

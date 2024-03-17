@@ -1,9 +1,10 @@
 import { describe, test, expect, beforeAll } from "vitest";
-import { appRouter } from "@/server";
 import { prepareStoryFromYaml } from "@/test/prepareStory";
 import { resolve } from "path";
 import { generateId } from "@/common/util/id";
 import { applyTestHooks } from "@/libs/msw-cache/vitest";
+import { question } from ".";
+import { router } from "@/server/trpc";
 const never = () => {
 	throw new Error("Never");
 };
@@ -11,7 +12,11 @@ const never = () => {
 const TEST_ID = generateId();
 const TEST_ID_PRIVATE = generateId();
 
-describe.each([false])("trpc/question", (developerMode) => {
+const testeeRouter = router({
+	question,
+});
+
+describe.each(["A", "B"] as const)("trpc/question abtesting=%s", (ab) => {
 	const testYamlPath = resolve(process.cwd(), "fixtures", "test.yaml");
 	const TEST_USER1 = {
 		id: generateId(),
@@ -39,12 +44,12 @@ describe.each([false])("trpc/question", (developerMode) => {
 			await cleanup2();
 		};
 	});
-	const testee = appRouter.createCaller({
+	const testee = testeeRouter.createCaller({
 		getUserOptional: async () => null,
 		getUser: never,
 		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
-		isDeveloper: () => developerMode,
+		getABTestingVariant: () => ab,
 	});
 	describe("質問した内容に対して、結果が返る", () => {
 		test.concurrent.each([
@@ -124,12 +129,12 @@ describe.each([false])("trpc/question", (developerMode) => {
 		test.each([TEST_USER1, TEST_USER2, null])(
 			"publicなstoryに対して質問すると回答が返ってくる",
 			async (user) => {
-				const testee = appRouter.createCaller({
+				const testee = testeeRouter.createCaller({
 					getUserOptional: async () => user,
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					isDeveloper: () => developerMode,
+					getABTestingVariant: () => ab,
 				});
 				const text = "人を殺しましたか？";
 				const result = await testee.question({
@@ -143,12 +148,12 @@ describe.each([false])("trpc/question", (developerMode) => {
 		test.each([TEST_USER1, null])(
 			"privateなstoryに対して質問すると回答が返ってこない",
 			async (user) => {
-				const testee = appRouter.createCaller({
+				const testee = testeeRouter.createCaller({
 					getUserOptional: async () => user,
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					isDeveloper: () => developerMode,
+					getABTestingVariant: () => ab,
 				});
 				const text = "人を殺しましたか？";
 				expect(
@@ -161,12 +166,12 @@ describe.each([false])("trpc/question", (developerMode) => {
 			},
 		);
 		test("自分の作成したstoryの場合、privateなstoryに対して質問しても回答が返ってくる", async () => {
-			const testee = appRouter.createCaller({
+			const testee = testeeRouter.createCaller({
 				getUserOptional: async () => TEST_USER2,
 				getUser: never,
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
-				isDeveloper: () => developerMode,
+				getABTestingVariant: () => ab,
 			});
 			const text = "人を殺しましたか？";
 			const result = await testee.question({

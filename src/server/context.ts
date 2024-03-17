@@ -7,8 +7,19 @@ import { verifyRecaptcha } from "./services/recaptcha";
 
 export const createContext = async (context: CreateNextContextOptions) => {
 	return {
-		isDeveloper: () => {
-			return !!context.req.cookies.developer_mode;
+		getABTestingVariant: () => {
+			const KEY = "abtesting";
+			// AもしくはBのクッキーがあるならそれを返す
+			if (
+				context.req.cookies[KEY] === "A" ||
+				context.req.cookies[KEY] === "B"
+			) {
+				return context.req.cookies[KEY];
+			}
+			// なければランダムでAかBを返す
+			const variant = Math.random() < 0.5 ? "A" : "B";
+			context.res.setHeader("Set-Cookie", `${KEY}=${variant}; Path=/`);
+			return variant;
 		},
 		getUserOptional: async () => {
 			const session = await getServerSession(
