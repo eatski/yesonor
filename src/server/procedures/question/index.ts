@@ -33,7 +33,6 @@ export const question = procedure
 			hitQuestionExample: QuestionExampleWithCustomMessage | null;
 		}> => {
 			const proura = prepareProura();
-			const isDeveloper = ctx.isDeveloper();
 			const embeddingsDataLoader = new DataLoader(
 				(texts: readonly string[]) => {
 					return openai
@@ -122,7 +121,7 @@ export const question = procedure
 						truth: story.truth,
 						questionExamples: pickedFewExamples.map(({ example }) => example),
 					};
-					const answer = await (isDeveloper
+					const answer = await (ctx.getABTestingVariant() === "A"
 						? questionToAIClaude(inputStory, input.text)
 						: questionToAI(inputStory, input.text));
 					const isOwn = user?.id === story.author.id;
