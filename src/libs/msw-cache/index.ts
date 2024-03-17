@@ -53,12 +53,14 @@ export const initMswCacheServer = (basePath: string) => {
 	const server = setupServer(
 		http.all("*", async (req) => {
 			const cached = await cache.get(req.request.clone());
-			if (cached) {
-				return HttpResponse.json(cached as string);
+			if (typeof cached === "object") {
+				return HttpResponse.json(cached);
 			} else {
 				const response = await fetch(bypass(req.request));
-				const text = await response.clone().json();
-				await cache.set(req.request, text);
+				if (response.status === 200) {
+					const text = await response.clone().json();
+					await cache.set(req.request, text);
+				}
 				return response;
 			}
 		}),
