@@ -11,7 +11,7 @@ const never = () => {
 const TEST_ID = generateId();
 const TEST_ID_PRIVATE = generateId();
 
-describe("trpc/question", () => {
+describe.each([false])("trpc/question", (developerMode) => {
 	const testYamlPath = resolve(process.cwd(), "fixtures", "test.yaml");
 	const TEST_USER1 = {
 		id: generateId(),
@@ -44,7 +44,7 @@ describe("trpc/question", () => {
 		getUser: never,
 		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
-		isDeveloper: () => false,
+		isDeveloper: () => developerMode,
 	});
 	describe("質問した内容に対して、結果が返る", () => {
 		test.concurrent.each([
@@ -129,7 +129,7 @@ describe("trpc/question", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					isDeveloper: () => false,
+					isDeveloper: () => developerMode,
 				});
 				const text = "人を殺しましたか？";
 				const result = await testee.question({
@@ -148,7 +148,7 @@ describe("trpc/question", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					isDeveloper: () => false,
+					isDeveloper: () => developerMode,
 				});
 				const text = "人を殺しましたか？";
 				expect(
@@ -166,7 +166,7 @@ describe("trpc/question", () => {
 				getUser: never,
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
-				isDeveloper: () => false,
+				isDeveloper: () => developerMode,
 			});
 			const text = "人を殺しましたか？";
 			const result = await testee.question({

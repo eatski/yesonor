@@ -1,1 +1,0 @@
-{"value":"{\"id\":\"msg_016fjQtE1q4tEmqxT5SLYhQT\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"text\",\"text\":\"こんにちは！今日は良い天気ですね。何かお手伝いすることはありますか？\"}],\"model\":\"claude-3-opus-20240229\",\"stop_reason\":\"end_turn\",\"stop_sequence\":null,\"usage\":{\"input_tokens\":13,\"output_tokens\":34}}","type":"String","created":"2024-03-16T23:01:50.268Z","ttl":0}

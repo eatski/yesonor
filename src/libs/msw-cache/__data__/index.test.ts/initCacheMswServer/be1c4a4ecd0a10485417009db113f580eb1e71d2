@@ -1,0 +1,1 @@
+{"value":{"id":"msg_01McugjLtHLwZFgCW2D6Ey5o","type":"message","role":"assistant","content":[{"type":"text","text":"Hello! How can I"}],"model":"claude-3-opus-20240229","stop_reason":"max_tokens","stop_sequence":null,"usage":{"input_tokens":10,"output_tokens":5}},"type":"Object","created":"2024-03-17T10:27:42.864Z","ttl":0}

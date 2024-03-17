@@ -8,8 +8,6 @@ import {
 	http,
 } from "msw";
 import { setupServer } from "msw/node";
-import path from "path";
-
 class ResponseCache {
 	private readonly usedCachePath = new Set<string>();
 	constructor(private readonly cache: FileSystemCache) {}
@@ -56,12 +54,12 @@ export const initMswCacheServer = (basePath: string) => {
 		http.all("*", async (req) => {
 			const cached = await cache.get(req.request.clone());
 			if (cached) {
-				return HttpResponse.text(cached as string);
+				return HttpResponse.json(cached as string);
 			} else {
 				const response = await fetch(bypass(req.request));
-				const text = await response.text();
+				const text = await response.clone().json();
 				await cache.set(req.request, text);
-				return HttpResponse.text(text);
+				return response;
 			}
 		}),
 	);
