@@ -9,16 +9,18 @@ export const createContext = async (context: CreateNextContextOptions) => {
 	return {
 		getABTestingVariant: () => {
 			const KEY = "abtesting";
-			// AもしくはBのクッキーがあるならそれを返す
-			if (
-				context.req.cookies[KEY] === "A" ||
-				context.req.cookies[KEY] === "B"
-			) {
-				return context.req.cookies[KEY];
-			}
-			// なければランダムでAかBを返す
-			const variant = Math.random() < 0.5 ? "A" : "B";
-			context.res.setHeader("Set-Cookie", `${KEY}=${variant}; Path=/`);
+			// AもしくはBのクッキーがあるならそれを返す // なければランダムでAかBを返す
+			const variant =
+				context.req.cookies[KEY] === "A" || context.req.cookies[KEY] === "B"
+					? context.req.cookies[KEY]
+					: Math.random() < 0.5
+					? "A"
+					: "B";
+			// クッキーをセットして返す 1時間有効
+			context.res.setHeader(
+				"Set-Cookie",
+				`${KEY}=${variant}; Path=/; Max-Age=${60 * 60}`,
+			);
 			return variant;
 		},
 		getUserOptional: async () => {
