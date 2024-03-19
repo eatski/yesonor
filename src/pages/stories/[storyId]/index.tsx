@@ -6,7 +6,7 @@ import { z } from "zod";
 import { getStories, getStory } from "@/server/services/story";
 import { revalidateTime } from "@/common/revalidate";
 import { HeadMetaOverride } from "@/components/headMeta";
-import { Story } from "@/server/model/story";
+import { type Story } from "@/server/model/story";
 
 type Props = {
 	story: Story;
