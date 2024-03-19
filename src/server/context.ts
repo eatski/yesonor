@@ -18,7 +18,7 @@ export const createContext = async (context: CreateNextContextOptions) => {
 			}
 			// なければランダムでAかBを返す
 			const variant = Math.random() < 0.5 ? "A" : "B";
-			// クッキーをセットして返す 1日有効
+			// クッキーをセットして返す 半日有効
 			context.res.setHeader(
 				"Set-Cookie",
 				`${KEY}=${variant}; Path=/; Max-Age=${60 * 60 * 12}`,
