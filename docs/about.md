@@ -4,7 +4,9 @@ Yesonor（いえそな）とはAIと楽しむ水平思考クイズの投稿プ�
 
 ## どんなAIが使われている？
 
-当サイトではOpenAI社の[GPT-4](https://openai.com/research/gpt-4)が使用されています。
+当サイトでは以下の文章生成AIが使用されています。
+- [GPT-4](https://openai.com/research/gpt-4)
+- [Claude](https://docs.anthropic.com/claude/docs/intro-to-claude)
 
 ## 当サイトに投稿されたコンテンツの外部での引用について
 
