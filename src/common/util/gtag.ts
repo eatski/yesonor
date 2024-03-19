@@ -1,12 +1,28 @@
-export const gtagEvent = (name: string, data?: unknown) => {
-	if (process.env.NODE_ENV === "production") {
-		try {
+import { AB_TESTING_COOKIE_NAME } from "../abtesting";
+
+const jsCookiePromise = import("js-cookie");
+const getGlobalCookieValues = async () => {
+	const { default: jsCookie } = await jsCookiePromise;
+	const cookieValue = jsCookie.get(AB_TESTING_COOKIE_NAME);
+	return {
+		global_abtesting: cookieValue,
+	};
+};
+
+export const gtagEvent = async (name: string, data?: unknown) => {
+	try {
+		const mergedData = {
+			...(data || {}),
+			...(await getGlobalCookieValues()),
+		};
+
+		if (process.env.NODE_ENV === "production") {
 			// @ts-ignore
-			window.gtag("event", name, data);
-		} catch (e) {
-			console.error(e);
+			window.gtag("event", name, mergedData);
+		} else {
+			console.log("gtag", name, mergedData);
 		}
-	} else {
-		console.log("gtag", name, data);
+	} catch (e) {
+		console.error("gtagEvent error", e);
 	}
 };
