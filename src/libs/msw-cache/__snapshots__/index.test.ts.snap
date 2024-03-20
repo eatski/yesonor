@@ -38,7 +38,7 @@ exports[`initCacheMswServer > openai 1`] = `
     "index": 0,
     "logprobs": null,
     "message": {
-      "content": "I am a helpful assistant",
+      "content": "I am a virtual assistant",
       "role": "assistant",
     },
   },

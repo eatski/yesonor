@@ -47,11 +47,12 @@ export const truth = procedure
 			.add("distance", async (dependsOn) => {
 				await dependsOn("verifyRecaptcha");
 				const story = await dependsOn("story");
-				const embeddingsResponse = await openai.createEmbedding({
+				const {
+					data: [textA, textB],
+				} = await openai.embeddings.create({
 					model: "text-embedding-ada-002",
 					input: [story.simpleTruth, input.text],
 				});
-				const [textA, textB] = embeddingsResponse.data.data;
 				if (!textA || !textB) {
 					return FALLBACK_DISTANCE;
 				}
@@ -70,7 +71,7 @@ export const truth = procedure
 					is_covered: truthCoincidence,
 				});
 
-				const response = await openai.createChatCompletion({
+				const { choices } = await openai.chat.completions.create({
 					model: "gpt-4-0613",
 					messages: [
 						{
@@ -78,6 +79,7 @@ export const truth = procedure
 							content: systemPrompt,
 						},
 					],
+					user: "testes",
 					function_call: {
 						name: "is_covered",
 					},
@@ -89,11 +91,10 @@ export const truth = procedure
 							parameters: zodToJsonSchema(schema),
 						},
 					],
-					temperature: 0,
+					temperature: 0.0,
 					max_tokens: 10,
 				});
-				const args =
-					response.data.choices[0]?.message?.function_call?.arguments;
+				const args = choices[0]?.message?.function_call?.arguments;
 				if (!args) {
 					throw new Error("No args");
 				}
