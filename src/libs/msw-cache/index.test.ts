@@ -13,7 +13,7 @@ describe("initCacheMswServer", () => {
 		expect(json).toMatchSnapshot();
 	});
 	test("openai", async () => {
-		const result = await openai.createChatCompletion({
+		const { choices } = await openai.chat.completions.create({
 			model: "gpt-3.5-turbo",
 			messages: [
 				{
@@ -27,10 +27,10 @@ describe("initCacheMswServer", () => {
 			],
 			max_tokens: 5,
 		});
-		expect(result.data.choices).toMatchSnapshot();
+		expect(choices).toMatchSnapshot();
 	});
 	test("embeddings", async () => {
-		const result = await openai.createEmbedding({
+		const { data } = await openai.embeddings.create({
 			model: "text-embedding-ada-002",
 			input: [
 				"Once upon a time",
@@ -38,7 +38,7 @@ describe("initCacheMswServer", () => {
 				"She lived in a castle",
 			],
 		});
-		expect(result.data.data.length).toMatchSnapshot();
+		expect(data.length).toMatchSnapshot();
 	});
 	test("anthropic", async () => {
 		const result = await createMessage({

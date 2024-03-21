@@ -35,12 +35,12 @@ export const question = procedure
 			const proura = prepareProura();
 			const embeddingsDataLoader = new DataLoader(
 				(texts: readonly string[]) => {
-					return openai
-						.createEmbedding({
+					return openai.embeddings
+						.create({
 							model: "text-embedding-ada-002",
 							input: [...texts],
 						})
-						.then((res) => res.data.data);
+						.then((res) => res.data);
 				},
 			);
 			const { hitQuestionExample, question: answer } = await proura

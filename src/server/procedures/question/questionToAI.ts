@@ -22,12 +22,13 @@ export const questionToAI = async (
 	},
 	question: string,
 ) => {
-	const response = await openai
-		.createChatCompletion({
+	const response = await openai.chat.completions
+		.create({
 			model: "gpt-4-0613",
 			function_call: {
 				name: "asnwer",
 			},
+			user: "testes",
 			functions: [
 				{
 					name: "asnwer",
@@ -84,7 +85,7 @@ export const questionToAI = async (
 				cause: e,
 			});
 		});
-	const args = response.data.choices[0]?.message?.function_call?.arguments;
+	const args = response.choices[0]?.message?.function_call?.arguments;
 	if (!args) {
 		throw new Error("No args");
 	}
