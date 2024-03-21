@@ -89,7 +89,9 @@ export const AnswerResult: React.FC<Props> = ({
 							<Button
 								type={"button"}
 								onClick={() => {
-									gtagEvent("like_story");
+									gtagEvent("like_story", {
+										enableAbTesting: true,
+									});
 									toast("いいねしました！");
 								}}
 								color="none"

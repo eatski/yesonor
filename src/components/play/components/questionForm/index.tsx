@@ -16,7 +16,9 @@ export const QuestionForm: React.FC<{
 			onSubmit={(e) => {
 				e.preventDefault();
 				if (e.target instanceof HTMLFormElement && e.target.checkValidity()) {
-					gtagEvent("click_submit_question");
+					gtagEvent("click_submit_question", {
+						enableAbTesting: true,
+					});
 					onSubmit(inputValue);
 					setInputValue(""); // reset form input after submission
 				}
