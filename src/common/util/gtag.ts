@@ -27,6 +27,7 @@ export const gtagEvent = async (
 			window.gtag("event", name, mergedData);
 			// @ts-ignore
 			options?.enableAbTesting &&
+				// @ts-ignore
 				window.gtag(
 					"event",
 					`abtesting_${mergedData.global_abtesting}_${name}`,
