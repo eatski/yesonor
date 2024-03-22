@@ -6,6 +6,7 @@ import { setTimeout } from "timers/promises";
 import { verifyRecaptcha } from "./services/recaptcha";
 import {
 	AB_TESTING_COOKIE_NAME,
+	getAorBRandom,
 	validateABTestingVariant,
 } from "@/common/abtesting";
 
@@ -16,9 +17,7 @@ export const createContext = async (context: CreateNextContextOptions) => {
 			// AもしくはBのクッキーがあるならそれを返す // なければランダムでAかBを返す
 			const variant =
 				(cookieValue && validateABTestingVariant(cookieValue)) ||
-				Math.random() < 0.5
-					? "A"
-					: "B";
+				getAorBRandom();
 			// クッキーをセットして返す 1時間有効
 			context.res.setHeader(
 				"Set-Cookie",
