@@ -51,10 +51,6 @@ export const questionToAI = async (
 				},
 				{
 					role: "assistant",
-					content: story.quiz,
-				},
-				{
-					role: "assistant",
 					content: story.truth,
 				},
 				...story.questionExamples.flatMap(
