@@ -6,10 +6,7 @@ const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "truth.md"),
 );
 
-export const createPrompt = async (
-	userInput: string,
-	simpleTruth: string,
-): Promise<string> => {
+export const createPrompt = async (simpleTruth: string): Promise<string> => {
 	const markdown = (await systemPromptPromise).toString();
-	return Mus.render(markdown, { input: userInput, answer: simpleTruth });
+	return Mus.render(markdown, { answer: simpleTruth });
 };
