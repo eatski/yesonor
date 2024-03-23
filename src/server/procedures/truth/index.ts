@@ -1,7 +1,7 @@
 import { FALLBACK_DISTANCE, calculateEuclideanDistance } from "@/libs/math";
 import { prisma } from "@/libs/prisma";
 import { prepareProura } from "@/libs/proura";
-import { truthCoincidence } from "@/server/model/story";
+import { Answer, truthCoincidence } from "@/server/model/story";
 import { getStory, getStoryPrivate } from "@/server/services/story";
 import { procedure } from "@/server/trpc";
 import { TRPCError } from "@trpc/server";
@@ -9,6 +9,8 @@ import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { createPrompt } from "./createPrompt";
 import { openai } from "@/libs/openai";
+import { createMessage } from "@/libs/claude";
+import { s } from "vitest/dist/types-e3c9754d";
 
 export const truth = procedure
 	.input(
@@ -66,40 +68,28 @@ export const truth = procedure
 				await dependsOn("verifyRecaptcha");
 				const story = await dependsOn("story");
 				const user = await dependsOn("user");
-				const systemPrompt = await createPrompt(input.text, story.simpleTruth);
-				const schema = z.object({
-					is_covered: truthCoincidence,
-				});
+				const systemPrompt = await createPrompt(story.simpleTruth);
 
-				const { choices } = await openai.chat.completions.create({
-					model: "gpt-4-0613",
+				const { content } = await createMessage({
+					model: "claude-3-opus-20240229",
+					system: systemPrompt,
 					messages: [
 						{
 							role: "user",
-							content: systemPrompt,
-						},
-					],
-					user: "testes",
-					function_call: {
-						name: "is_covered",
-					},
-					functions: [
-						{
-							name: "is_covered",
-							description:
-								"Check if the user's statement is covered by the assistant's statement.",
-							parameters: zodToJsonSchema(schema),
+							content: input.text,
 						},
 					],
 					temperature: 0.0,
-					max_tokens: 10,
+					max_tokens: 8,
 				});
-				const args = choices[0]?.message?.function_call?.arguments;
-				if (!args) {
-					throw new Error("No args");
+				const text = content[0]?.text;
+				const result = (["Correct", "Incorrect"] as const).find((word) =>
+					text?.includes(word),
+				);
+				if (!result) {
+					throw new Error(`Unexpected response from Claude: ${content}`);
 				}
-				const { is_covered } = schema.parse(JSON.parse(args));
-				const correct = is_covered === "Covers" ? story.truth : null;
+				const correct = result === "Correct" ? story.truth : null;
 				const isOwn = user?.id === story.author.id;
 				isOwn ||
 					(await prisma.solutionLog
@@ -113,7 +103,7 @@ export const truth = procedure
 						.catch((e) => {
 							console.error(e);
 						}));
-				return is_covered;
+				return result;
 			})
 			.exec();
 

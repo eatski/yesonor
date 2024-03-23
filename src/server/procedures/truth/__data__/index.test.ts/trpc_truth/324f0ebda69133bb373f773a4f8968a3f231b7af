@@ -1,0 +1,1 @@
+{"value":{"id":"msg_0185K22yrdfCD2hC6mMGpvct","type":"message","role":"assistant","content":[{"type":"text","text":"Incorrect"}],"model":"claude-3-opus-20240229","stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":182,"output_tokens":5}},"type":"Object","created":"2024-03-23T11:56:13.349Z","ttl":0}

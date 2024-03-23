@@ -53,7 +53,7 @@ const AnswerFormContainer: React.FC<{
 					}
 				}}
 				truth={story.truth}
-				isCorrect={data.result === "Covers"}
+				isCorrect={data.result === "Correct"}
 				distance={data.distance}
 			/>
 		</>
