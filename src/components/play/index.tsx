@@ -23,7 +23,15 @@ const AnswerFormContainer: React.FC<{
 	story: Story;
 	changeMode: (mode: Mode) => void;
 }> = ({ story, changeMode }) => {
-	const { mutate, isLoading, data, reset, isError } = trpc.truth.useMutation();
+	const { mutate, isLoading, data, reset, isError } = trpc.truth.useMutation({
+		onSuccess(data) {
+			const resultToEvent = {
+				Incorrect: "success_answer_incorrect",
+				Correct: "success_answer_correct",
+			} as const;
+			gtagEvent(resultToEvent[data.result]);
+		},
+	});
 	const modalConfrim = useConfirmModal<boolean>();
 	const onSubmit = useCallback(
 		async (input: string) => {
