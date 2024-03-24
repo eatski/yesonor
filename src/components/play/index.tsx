@@ -27,9 +27,7 @@ const AnswerFormContainer: React.FC<{
 	const modalConfrim = useConfirmModal<boolean>();
 	const onSubmit = useCallback(
 		async (input: string) => {
-			gtagEvent("click_submit_answer", {
-				enableAbTesting: true,
-			});
+			gtagEvent("click_submit_answer");
 			mutate({
 				storyId: story.id,
 				text: input,
