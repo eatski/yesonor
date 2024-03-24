@@ -18,11 +18,6 @@ export const createContext = async (context: CreateNextContextOptions) => {
 			const variant =
 				(cookieValue && validateABTestingVariant(cookieValue)) ||
 				getAorBRandom();
-			// クッキーをセットして返す 1時間有効
-			context.res.setHeader(
-				"Set-Cookie",
-				`${AB_TESTING_COOKIE_NAME}=${variant}; Path=/; Max-Age=${60 * 60}`,
-			);
 			return variant;
 		},
 		getUserOptional: async () => {
