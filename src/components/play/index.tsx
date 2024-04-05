@@ -15,6 +15,8 @@ import components from "@/designSystem/components.module.scss";
 import { SeeTrurh } from "./components/seeTruth";
 import { useConfirmModal } from "../confirmModal";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { RequireLogin } from "./components/requireLogin";
 
 type Props = {
 	story: Story;
@@ -95,6 +97,12 @@ export function Play(props: Props) {
 		setMode("solution");
 	}, []);
 	const confirm = useConfirmModal();
+	if (process.env.NEXT_PUBLIC_REQUIRE_LOGIN_TO_PLAY) {
+		const session = useSession();
+		if (session.status !== "loading" && !session.data?.user) {
+			return <RequireLogin />;
+		}
+	}
 	return (
 		<>
 			<Script
