@@ -57,6 +57,11 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 					markdownName: "situationPuzzle",
 				},
 			},
+			{
+				params: {
+					markdownName: "serviceUnavailable",
+				},
+			},
 		],
 		fallback: false,
 	};
