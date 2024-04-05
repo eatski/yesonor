@@ -97,8 +97,8 @@ export function Play(props: Props) {
 		setMode("solution");
 	}, []);
 	const confirm = useConfirmModal();
+	const session = useSession();
 	if (process.env.NEXT_PUBLIC_REQUIRE_LOGIN_TO_PLAY) {
-		const session = useSession();
 		if (session.status !== "loading" && !session.data?.user) {
 			return <RequireLogin />;
 		}
