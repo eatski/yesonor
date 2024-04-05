@@ -107,7 +107,12 @@ export function Play(props: Props) {
 					color: "red",
 				}}
 			>
-				現在、サービスが正常に利用できない状況です。
+				<a
+					href="https://github.com/eatski/yesonor/issues/129"
+					style={{ color: "blue" }}
+				>
+					現在のサービスの状況につきまして
+				</a>
 			</p>
 			{mode === "question" && (
 				<div className={styles.sectionWrapper}>
