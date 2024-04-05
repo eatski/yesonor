@@ -16,7 +16,7 @@ const testeeRouter = router({
 	question,
 });
 
-describe("trpc/question abtesting=%s", (ab) => {
+describe("trpc/question", (ab) => {
 	const testYamlPath = resolve(process.cwd(), "fixtures", "test.yaml");
 	const TEST_USER1 = {
 		id: generateId(),
