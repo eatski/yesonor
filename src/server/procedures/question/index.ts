@@ -31,6 +31,7 @@ export const question = procedure
 			answer: z.infer<typeof answerSchema>;
 			hitQuestionExample: QuestionExampleWithCustomMessage | null;
 		}> => {
+			throw new Error("今日はもう営業終了や！");
 			const proura = prepareProura();
 			const embeddingsDataLoader = new DataLoader(
 				(texts: readonly string[]) => {

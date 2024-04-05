@@ -54,7 +54,7 @@ export const Landing: React.FC<{ stories: Item[] }> = ({ stories }) => {
 					color: "red",
 				}}
 			>
-				現在サービスが正常に利用できない状況です。
+				現在、サービスが正常に利用できない状況です。
 			</p>
 			<Link href="/serviceUnavailable" className={components.buttonLink}>
 				現在のサービスの状況につきまして

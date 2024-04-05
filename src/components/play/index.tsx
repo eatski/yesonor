@@ -14,6 +14,7 @@ import { Story } from "@/server/model/story";
 import components from "@/designSystem/components.module.scss";
 import { SeeTrurh } from "./components/seeTruth";
 import { useConfirmModal } from "../confirmModal";
+import Link from "next/link";
 
 type Props = {
 	story: Story;
@@ -100,6 +101,14 @@ export function Play(props: Props) {
 				strategy="lazyOnload"
 				src={`https://www.google.com/recaptcha/api.js?render=${CLIENT_KEY}`}
 			/>
+			<p
+				style={{
+					marginTop: "48px",
+					color: "red",
+				}}
+			>
+				現在、サービスが正常に利用できない状況です。
+			</p>
 			{mode === "question" && (
 				<div className={styles.sectionWrapper}>
 					<QuestionForm
