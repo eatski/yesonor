@@ -16,7 +16,6 @@ import { gtagEvent } from "@/common/util/gtag";
 import { keysOverride } from "@/components/headMeta";
 import { ConfirmModal } from "@/components/confirmModal";
 import { Toast } from "@/components/toast";
-import { AB_TESTING_COOKIE_NAME, getAorBRandom } from "@/common/abtesting";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = useMemo(() => new QueryClient(), []);
@@ -44,15 +43,6 @@ export default function App({ Component, pageProps }: AppProps) {
 			router.events.off("routeChangeComplete", handler);
 		};
 	}, [router]);
-
-	useEffect(() => {
-		//ABテストのためのクッキーを付与
-		import("js-cookie").then((jsCookie) => {
-			if (!jsCookie.default.get(AB_TESTING_COOKIE_NAME)) {
-				jsCookie.default.set(AB_TESTING_COOKIE_NAME, getAorBRandom());
-			}
-		});
-	}, []);
 
 	return (
 		<>
