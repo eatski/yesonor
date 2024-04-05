@@ -122,7 +122,9 @@ export const question = procedure
 					};
 					const answer = await questionToAI(inputStory, input.text);
 					const isOwn = user?.id === story.author.id;
+					// DBへの負荷を下げるため1/5の確率で質問ログを保存
 					!isOwn &&
+						Math.floor(Math.random() * 5) === 0 &&
 						(await prisma.questionLog
 							.create({
 								data: {
