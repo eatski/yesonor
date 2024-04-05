@@ -4,7 +4,7 @@ import { QuestionExample, answer as answerSchema } from "../../model/story";
 import { procedure } from "../../trpc";
 import { QuestionExampleWithCustomMessage } from "./type";
 import { prisma } from "@/libs/prisma";
-import { questionToAI as questionToAIClaude } from "./questionToAIClaude";
+import { questionToAI } from "./questionToAIClaude";
 import { prepareProura } from "@/libs/proura";
 import { calculateEuclideanDistance } from "@/libs/math";
 import {
@@ -14,7 +14,6 @@ import {
 } from "@/server/services/story/functions";
 import DataLoader from "dataloader";
 import { openai } from "@/libs/openai";
-import { questionToAI } from "./questionToAI";
 
 export const question = procedure
 	.input(

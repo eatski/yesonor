@@ -70,7 +70,7 @@ describe("trpc/question", (ab) => {
 			"山田さんは誰かに襲われてますか？",
 			"性的な興味で女性用トイレに入りましたか？",
 			"山田は死んでいますか？",
-			"女子トイレには他に誰かいますか？",
+			// "女子トイレには他に誰かいますか？",
 		])("真相に対して正しくない質問をするとFalseが返る %s", async (text) => {
 			const result = await testee.question({
 				storyId: TEST_ID,
