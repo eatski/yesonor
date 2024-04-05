@@ -48,6 +48,17 @@ export const Landing: React.FC<{ stories: Item[] }> = ({ stories }) => {
 					今すぐ謎を解く
 				</button>
 			</div>
+			<p
+				style={{
+					marginTop: "48px",
+					color: "red",
+				}}
+			>
+				現在サービスが正常に利用できない状況です。
+			</p>
+			<Link href="/serviceUnavailable" className={components.buttonLink}>
+				現在のサービスの状況につきまして
+			</Link>
 		</main>
 	);
 };
