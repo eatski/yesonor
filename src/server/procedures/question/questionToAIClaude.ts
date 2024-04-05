@@ -16,7 +16,7 @@ export const questionToAI = async (
 		resolve(process.cwd(), "prompts", "question_claude.md"),
 	);
 	const response = await createMessage({
-		model: "claude-3-sonnet-20240229",
+		model: "claude-3-opus-20240229",
 		max_tokens: 1,
 		temperature: 0,
 		messages: [
