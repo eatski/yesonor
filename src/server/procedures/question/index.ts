@@ -14,6 +14,7 @@ import {
 } from "@/server/services/story/functions";
 import DataLoader from "dataloader";
 import { openai } from "@/libs/openai";
+import { questionToAI } from "./questionToAI";
 
 export const question = procedure
 	.input(
@@ -31,7 +32,6 @@ export const question = procedure
 			answer: z.infer<typeof answerSchema>;
 			hitQuestionExample: QuestionExampleWithCustomMessage | null;
 		}> => {
-			throw new Error("今日はもう営業終了や！");
 			const proura = prepareProura();
 			const embeddingsDataLoader = new DataLoader(
 				(texts: readonly string[]) => {
@@ -121,7 +121,7 @@ export const question = procedure
 						truth: story.truth,
 						questionExamples: pickedFewExamples.map(({ example }) => example),
 					};
-					const answer = await questionToAIClaude(inputStory, input.text);
+					const answer = await questionToAI(inputStory, input.text);
 					const isOwn = user?.id === story.author.id;
 					!isOwn &&
 						(await prisma.questionLog
