@@ -16,7 +16,7 @@ const testeeRouter = router({
 	question,
 });
 
-describe.each(["A", "B"] as const)("trpc/question abtesting=%s", (ab) => {
+describe("trpc/question abtesting=%s", (ab) => {
 	const testYamlPath = resolve(process.cwd(), "fixtures", "test.yaml");
 	const TEST_USER1 = {
 		id: generateId(),
@@ -49,7 +49,9 @@ describe.each(["A", "B"] as const)("trpc/question abtesting=%s", (ab) => {
 		getUser: never,
 		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
-		getABTestingVariant: () => ab,
+		getABTestingVariant: () => {
+			throw new Error("Not implemented");
+		},
 	});
 	describe("質問した内容に対して、結果が返る", () => {
 		test.concurrent.each([
@@ -134,7 +136,9 @@ describe.each(["A", "B"] as const)("trpc/question abtesting=%s", (ab) => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					getABTestingVariant: () => ab,
+					getABTestingVariant: () => {
+						throw new Error("Not implemented");
+					},
 				});
 				const text = "人を殺しましたか？";
 				const result = await testee.question({
@@ -153,7 +157,9 @@ describe.each(["A", "B"] as const)("trpc/question abtesting=%s", (ab) => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					getABTestingVariant: () => ab,
+					getABTestingVariant: () => {
+						throw new Error("Not implemented");
+					},
 				});
 				const text = "人を殺しましたか？";
 				expect(
@@ -171,7 +177,9 @@ describe.each(["A", "B"] as const)("trpc/question abtesting=%s", (ab) => {
 				getUser: never,
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
-				getABTestingVariant: () => ab,
+				getABTestingVariant: () => {
+					throw new Error("Not implemented");
+				},
 			});
 			const text = "人を殺しましたか？";
 			const result = await testee.question({
