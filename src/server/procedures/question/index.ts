@@ -13,7 +13,6 @@ import {
 	hydrateStory,
 } from "@/server/services/story/functions";
 import DataLoader from "dataloader";
-import { questionToAI } from "./questionToAI";
 import { openai } from "@/libs/openai";
 
 export const question = procedure
@@ -121,9 +120,7 @@ export const question = procedure
 						truth: story.truth,
 						questionExamples: pickedFewExamples.map(({ example }) => example),
 					};
-					const answer = await (ctx.getABTestingVariant() === "A"
-						? questionToAIClaude(inputStory, input.text)
-						: questionToAI(inputStory, input.text));
+					const answer = await questionToAIClaude(inputStory, input.text);
 					const isOwn = user?.id === story.author.id;
 					!isOwn &&
 						(await prisma.questionLog
