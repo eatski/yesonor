@@ -1,5 +1,5 @@
 import { trpc } from "@/libs/trpc";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Feed } from "./components/feed";
 import styles from "./styles.module.scss";
 import { QuestionForm } from "./components/questionForm";
@@ -17,6 +17,8 @@ import { useConfirmModal } from "../confirmModal";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { RequireLogin } from "./components/requireLogin";
+import { getDevice } from "@/common/util/device";
+import { MobileLimitation } from "./components/mobileLimitation";
 
 type Props = {
 	story: Story;
@@ -98,6 +100,17 @@ export function Play(props: Props) {
 	}, []);
 	const confirm = useConfirmModal();
 	const session = useSession();
+	const [mobileLimitation, setMobileLimitation] = useState(false);
+	const { data: isThankyouUser } = trpc.user.thankyou.useQuery();
+	useEffect(() => {
+		const device = getDevice(undefined);
+		if (device === "mobile" && process.env.NEXT_PUBLIC_MOBILE_LIMITATION) {
+			setMobileLimitation(true);
+		}
+	}, []);
+	if (isThankyouUser === false && mobileLimitation) {
+		return <MobileLimitation />;
+	}
 	if (process.env.NEXT_PUBLIC_REQUIRE_LOGIN_TO_PLAY) {
 		if (session.status !== "loading" && !session.data?.user) {
 			return <RequireLogin />;
