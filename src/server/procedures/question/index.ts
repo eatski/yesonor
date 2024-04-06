@@ -1,17 +1,19 @@
 import { TRPCError } from "@trpc/server";
-import { readFile } from "fs/promises";
-import { resolve } from "path";
 import { z } from "zod";
-import { answer as answerSchema } from "../../model/schemas";
+import { QuestionExample, answer as answerSchema } from "../../model/story";
 import { procedure } from "../../trpc";
-import { getStory, getStoryPrivate } from "@/server/services/story";
-import { pickSmallDistanceExampleQuestionInput } from "./pickSmallDistanceExampleQuestionInput";
-import { OPENAI_ERROR_MESSAGE } from "./contract";
-import { encrypt } from "@/libs/crypto";
-
-const systemPromptPromise = readFile(
-	resolve(process.cwd(), "prompts", "question.md"),
-);
+import { QuestionExampleWithCustomMessage } from "./type";
+import { prisma } from "@/libs/prisma";
+import { questionToAI } from "./questionToAIClaude";
+import { prepareProura } from "@/libs/proura";
+import { calculateEuclideanDistance } from "@/libs/math";
+import {
+	createGetStoryPrivateWhere,
+	createGetStoryWhere,
+	hydrateStory,
+} from "@/server/services/story/functions";
+import DataLoader from "dataloader";
+import { openai } from "@/libs/openai";
 
 export const question = procedure
 	.input(
@@ -27,116 +29,142 @@ export const question = procedure
 			ctx,
 		}): Promise<{
 			answer: z.infer<typeof answerSchema>;
-			customMessage?: string;
-			encrypted: string;
+			hitQuestionExample: QuestionExampleWithCustomMessage | null;
 		}> => {
-			const verifyPromise = ctx.verifyRecaptcha(input.recaptchaToken);
-			const user = await ctx.getUserOptional();
-			const story = user
-				? await getStoryPrivate({
-						storyId: input.storyId,
-						authorId: user.id,
-				  })
-				: await getStory({
-						storyId: input.storyId,
-				  });
-			if (!story) {
-				throw new TRPCError({
-					code: "NOT_FOUND",
-				});
-			}
-			await verifyPromise;
-
-			const questionExampleWithCustomMessage = story.questionExamples.filter(
-				(questionExample) => questionExample.customMessage,
+			const proura = prepareProura();
+			const embeddingsDataLoader = new DataLoader(
+				(texts: readonly string[]) => {
+					return openai.embeddings
+						.create({
+							model: "text-embedding-ada-002",
+							input: [...texts],
+						})
+						.then((res) => res.data);
+				},
 			);
-
-			const nearestQuestionExamplePromise =
-				questionExampleWithCustomMessage.length
-					? pickSmallDistanceExampleQuestionInput(
-							input.text,
-							questionExampleWithCustomMessage,
-							ctx.openai,
-					  ).catch(() => null)
-					: null;
-
-			const response = await ctx.openai
-				.createChatCompletion({
-					model: "gpt-4-0613",
-					function_call: {
-						name: "asnwer",
-					},
-					functions: [
-						{
-							name: "asnwer",
-							description: "Anser the question",
-							parameters: {
-								type: "object",
-								properties: {
-									answer: {
-										type: "string",
-										enum: ["True", "False", "Unknown"],
-									},
-								},
-							},
-						},
-					],
-					messages: [
-						{
-							role: "system",
-							content: (await systemPromptPromise).toString(),
-						},
-						{
-							role: "assistant",
-							content: story.quiz,
-						},
-						{
-							role: "assistant",
-							content: story.truth,
-						},
-						...story.questionExamples.flatMap(
-							({ question, answer, supplement }) => {
-								return [
-									{
-										role: "user",
-										content: question,
-									},
-									{
-										role: "assistant",
-										content: supplement ? `${answer}:${supplement}` : answer,
-									},
-								] as const;
-							},
-						),
-						{
-							role: "user",
-							content: input.text,
-						},
-					],
-					temperature: 0,
+			const { hitQuestionExample, question: answer } = await proura
+				.add("verifyRecaptcha", () => {
+					return ctx.verifyRecaptcha(input.recaptchaToken);
 				})
-				.catch((e) => {
-					throw new TRPCError({
-						code: "INTERNAL_SERVER_ERROR",
-						message: OPENAI_ERROR_MESSAGE,
-						cause: e,
+				.add("user", () => {
+					return ctx.getUserOptional();
+				})
+				.add("story", async (dependsOn) => {
+					const user = await dependsOn("user");
+					const storyWhere = user
+						? createGetStoryPrivateWhere({
+								storyId: input.storyId,
+								authorId: user.id,
+						  })
+						: createGetStoryWhere({
+								storyId: input.storyId,
+						  });
+					const storyDbData = await prisma.story.findFirst({
+						where: storyWhere,
+						include: {
+							author: true,
+						},
 					});
-				});
-			const nearestQuestionExample = await nearestQuestionExamplePromise;
-			const args = response.data.choices[0].message?.function_call?.arguments;
-			if (!args) {
-				throw new Error("No args");
-			}
-			const answer = answerSchema.parse(JSON.parse(args).answer);
+
+					if (!storyDbData) {
+						throw new TRPCError({
+							code: "NOT_FOUND",
+						});
+					}
+
+					return hydrateStory(storyDbData);
+				})
+				.add("inputEmbedding", async () => {
+					return embeddingsDataLoader.load(input.text);
+				})
+				.add("examplesWithDistance", async (dependsOn) => {
+					const story = await dependsOn("story");
+					const embeddings = await embeddingsDataLoader.loadMany(
+						story.questionExamples.map(({ question }) => question),
+					);
+					const inputEmbedding = await dependsOn("inputEmbedding");
+					const result: {
+						example: QuestionExample;
+						distance: number;
+					}[] = [];
+					embeddings.forEach((embedding, index) => {
+						const example = story.questionExamples[index];
+						if (!example) {
+							throw new Error("index out of range");
+						}
+						if (embedding instanceof Error) {
+							console.error(embedding);
+							return;
+						}
+						const distance = calculateEuclideanDistance(
+							inputEmbedding.embedding,
+							embedding.embedding,
+						);
+						result.push({
+							example,
+							distance,
+						});
+					});
+					result.sort((a, b) => a.distance - b.distance);
+					return result;
+				})
+				.add("question", async (dependsOn) => {
+					await dependsOn("verifyRecaptcha");
+					const user = await dependsOn("user");
+					const story = await dependsOn("story");
+					const examples = await dependsOn("examplesWithDistance");
+					const PICK_NUM = 3;
+					const pickedFewExamples = examples.slice(0, PICK_NUM);
+					const inputStory = {
+						quiz: story.quiz,
+						truth: story.truth,
+						questionExamples: pickedFewExamples.map(({ example }) => example),
+					};
+					const answer = await questionToAI(inputStory, input.text);
+					const isOwn = user?.id === story.author.id;
+					// DBへの負荷を下げるため1/5の確率で質問ログを保存
+					!isOwn &&
+						Math.floor(Math.random() * 5) === 0 &&
+						(await prisma.questionLog
+							.create({
+								data: {
+									question: input.text,
+									answer,
+									storyId: story.id,
+								},
+							})
+							.catch((e) => {
+								console.error(e);
+							}));
+
+					return answer;
+				})
+				.add("hitQuestionExample", async (dependsOn) => {
+					const answer = await dependsOn("question");
+					const examples = await dependsOn("examplesWithDistance");
+					const recur = ([
+						head,
+						...tail
+					]: typeof examples): QuestionExampleWithCustomMessage | null => {
+						if (!head) {
+							return null;
+						}
+						const { example, distance } = head;
+						if (example.customMessage && distance < 0.3) {
+							return {
+								...example,
+								customMessage: example.customMessage,
+							};
+						}
+						return recur(tail);
+					};
+					const hit = recur(examples);
+					return hit?.answer === answer ? hit : null;
+				})
+				.exec();
 			return {
 				answer,
-				customMessage:
-					nearestQuestionExample?.answer === answer
-						? nearestQuestionExample.customMessage
-						: undefined,
-				encrypted: encrypt(
-					JSON.stringify({ storyId: story.id, question: input.text, answer }),
-				),
+				hitQuestionExample,
 			};
 		},
 	);

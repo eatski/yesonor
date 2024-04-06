@@ -1,5 +1,5 @@
-import { Layout } from "@/features/layout";
-import { NewStoryYaml } from "@/features/newStoryYaml";
+import { Layout } from "@/components/layout";
+import { NewStoryYaml } from "@/components/newStoryYaml";
 
 export default function NewStoryPage() {
 	return (

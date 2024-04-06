@@ -1,0 +1,8 @@
+.container {
+    &[data-variant="success"]{
+        background-color: var(--color-base-bg-success);
+    }
+    border-radius: 8px;
+    padding: 20px;
+    border: var(--border-primary);
+}

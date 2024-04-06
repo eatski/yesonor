@@ -1,5 +1,5 @@
-import { Markdown } from "@/common/components/markdown";
-import { Layout } from "@/features/layout";
+import { Markdown } from "@/components/markdown";
+import { Layout } from "@/components/layout";
 import { readFile } from "fs/promises";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { resolve } from "path";
@@ -55,6 +55,11 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 			{
 				params: {
 					markdownName: "situationPuzzle",
+				},
+			},
+			{
+				params: {
+					markdownName: "serviceUnavailable",
 				},
 			},
 		],

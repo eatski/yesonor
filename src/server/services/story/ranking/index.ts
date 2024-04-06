@@ -1,13 +1,32 @@
 import { prisma } from "@/libs/prisma";
 import { createGetStoryWhere, hydrateStory, omitStory } from "../functions";
-import { Story, StoryHead } from "@/server/model/types";
+import { StoryHead } from "@/server/model/story";
+
+const ONE_DAY = 1000 * 60 * 60 * 24;
+const ONE_MONTH = ONE_DAY * 30;
 
 export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
+	const now = Date.now();
 	// すべてのストーリーを取得
 	const stories = await prisma.story.findMany({
 		include: {
-			questionLogs: true,
-			solutionLogs: true,
+			evaluations: true,
+			questionLogs: {
+				where: {
+					createdAt: {
+						gte: new Date(now - ONE_MONTH),
+					},
+				},
+			},
+			solutionLogs: {
+				where: {
+					createdAt: {
+						gte: new Date(now - ONE_MONTH * 6),
+					},
+					result: "Correct",
+				},
+			},
+			author: true,
 		},
 		where: createGetStoryWhere({}),
 		orderBy: {
@@ -16,19 +35,34 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 		take: 50,
 	});
 	const scoredStories = stories.map((story) => {
-		const { questionLogs, solutionLogs, ...rest } = story;
+		const { questionLogs, evaluations, solutionLogs, ...rest } = story;
 		const hydreted = hydrateStory(rest);
 		const omitted = omitStory(rest);
-		const score =
-			solutionLogs.filter((e) => e.result === "Correct").length * 16 +
-			solutionLogs.filter((e) => e.result === "Incorrect").length * 1 +
-			questionLogs.length * 1 +
-			hydreted.questionExamples.length * 1;
+		const correctSolutionsLength = solutionLogs.length;
+		const questionLogsLength = questionLogs.length;
+		const bunned = evaluations.some((e) => e.rating === 0);
+		const avg = evaluations.length
+			? evaluations.reduce((acc, e) => acc + e.rating - 2.5, 0) /
+			  evaluations.length
+			: 0;
+		const questionExamplesLength = hydreted.questionExamples.length;
+		const random = Math.random();
+		const timeFromPublished =
+			(story.publishedAt ? now - story.publishedAt.getTime() : 0) + ONE_DAY;
+
+		const score = !bunned
+			? ((correctSolutionsLength + 1) *
+					(avg + 5) *
+					(questionLogsLength + 100) *
+					(questionExamplesLength + 10) *
+					Math.pow(random, 2)) /
+			  Math.pow(timeFromPublished, 0.5)
+			: 0;
 		return {
 			story: omitted,
 			score,
 		};
 	});
 	scoredStories.sort((a, b) => b.score - a.score);
-	return scoredStories.map((e) => e.story).slice(0, 5);
+	return scoredStories.map((e) => e.story).slice(0, 8);
 };

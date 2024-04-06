@@ -1,0 +1,28 @@
+.toast {
+    position: fixed;
+    display: flex;
+    top: 76px;
+    right: 12px;
+    gap: 4px;
+    z-index: 9999;
+    width: fit-content;
+    padding: 4px 8px;
+    background-color: var(--color-base-bg-info);
+    color: var(--color-base-fg-secondary);
+    font-size: 14px;
+    filter: var(--filter-shadow);
+    border-radius: 2px;
+    animation: toast 0.2s ease-in forwards;
+    @keyframes toast {
+        0% {
+        transform: translateY(-100%);
+        }
+        100% {
+        transform: translateY(0);
+        }
+    }
+    p {
+        margin: 0;
+        line-height: 1.8;
+    }
+}

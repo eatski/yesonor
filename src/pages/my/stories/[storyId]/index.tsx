@@ -1,18 +1,18 @@
-import { Play } from "@/features/play";
-import { Layout } from "@/features/layout";
-import { StoryDescription } from "@/features/storyDescription";
+import { Play } from "@/components/play";
+import { Layout } from "@/components/layout";
+import { StoryDescription } from "@/components/storyDescription";
 import { GetServerSideProps } from "next";
 import { z } from "zod";
-import { MyStoryMenu } from "@/features/myStoryMenu";
-import { getStoryHeadPrivate } from "@/server/services/story";
+import { MyStoryMenu } from "@/components/myStoryMenu";
+import { getStoryPrivate } from "@/server/services/story";
 import { getUserSession } from "@/server/getServerSideProps/getUserSession";
 import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
 import { Device } from "@/common/util/device";
-import { HeadMetaOverride } from "@/features/headMeta";
-import { StoryHead } from "@/server/model/types";
+import { HeadMetaOverride } from "@/components/headMeta";
+import { Story } from "@/server/model/story";
 
 type Props = {
-	story: StoryHead;
+	story: Story;
 	device: Device;
 };
 
@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 			notFound: true,
 		};
 	}
-	const story = await getStoryHeadPrivate({
+	const story = await getStoryPrivate({
 		storyId: validated.data.storyId,
 		authorId: user.userId,
 	});
@@ -63,14 +63,13 @@ export default function StoryDraftPage(props: Props) {
 			<Layout
 				upper={
 					<MyStoryMenu
-						storyId={props.story.id}
-						published={props.story.published}
+						initialStory={props.story}
 						canUseFileDrop={props.device === "desktop"}
 					/>
 				}
 			>
 				<StoryDescription story={props.story} />
-				<Play storyId={props.story.id} />
+				<Play story={props.story} />
 			</Layout>
 		</>
 	);

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
-import { parseYaml } from "../src/features/storyYamlFileDrop/parseYaml";
+import { parseYaml } from "../src/common/util/parseYaml";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 

@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 24px;
+    h1 {
+        margin: 0 0 8px;
+        font-size: 40px;
+        font-weight: 400;
+        color: var(--color-base-fg);
+    }   
+    p {
+        margin: 0 0 16px;
+        font-size: 16px;
+        color: var(--color-base-fg-secondary);
+        text-align: center;
+    }
+    .content {
+        min-height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 16px;
+    }
+    .buttons {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+        a,button {
+            text-align: center;
+            width: 170px;
+        }
+    }
+}

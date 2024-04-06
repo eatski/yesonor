@@ -1,24 +1,7 @@
-import Axios, { AxiosError } from "axios";
-import { Configuration, OpenAIApi } from "openai";
-
-const axiosInstance = Axios.create();
-
-axiosInstance.interceptors.response.use(
-	(response) => response, // 成功時のresponseはそのまま返す
-	(error) => {
-		try {
-			const axiosError = error as AxiosError;
-			const { response } = axiosError;
-			response && console.error("OpenAI Error", JSON.stringify(response.data));
-		} catch (e) {}
-		return Promise.reject(error);
-	},
-);
-
-export const openai = new OpenAIApi(
-	new Configuration({
-		apiKey: process.env.OPENAI_API_KEY,
-	}),
-	undefined,
-	axiosInstance,
-);
+import { OpenAI } from "openai";
+export const openai = new OpenAI({
+	// fetchを直接使うとmswの上書きが間に合わないので、fetchのwrapperにする。
+	fetch: (...args) => fetch(...args),
+	timeout: 20000,
+	apiKey: process.env.OPENAI_API_KEY || "dummy",
+});

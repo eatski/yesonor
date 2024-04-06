@@ -1,0 +1,52 @@
+html {
+    --color-base-bg: #FFFFFF;
+    --color-base-bg-overlay: rgba(255, 255, 255, 0.6);
+    --color-base-bg-success: #F7FFF4;
+    --color-base-bg-info: #F3F8FB;
+    --color-base-bg-accent: #FDF8F1;
+    --color-base-fg: #515151;
+    --color-base-fg-secondary: #666666;
+    --color-base-fg-danger: #EC7854;
+    --color-base-fg-silent: #d4d7e2;
+    --color-brand-bg: #495A60;
+    --color-brand-fg: #ffffff;
+    --color-accent: #7F9E8A;
+    --color-accent-bg: #7F9E8A;
+    --color-accent-bg-secondary: #d28787;
+    --color-accent-bg-danger: #EC7854;
+    --color-accent-fg: #FFFFFF;
+    --color-twitter-bg: #1da1f2;
+    --filter-shadow: drop-shadow(0 0 2px var(--color-base-fg-silent));
+    --border-primary: 1px solid var(--color-base-fg-silent);
+    --font-family: Helvetica Neue, Arial, Hiragino Kaku Gothic ProN, Hiragino Sans, Meiryo, sans-serif;
+    color: var(--color-base-fg);
+    background-color: var(--color-base-bg);
+    line-height: 1.4;
+    font-family: var(--font-family);
+}
+
+@media (prefers-color-scheme: dark) {
+    html {
+        --color-base-bg: #000000;
+        --color-base-bg-overlay: rgba(0, 0, 0, 0.6);
+        --color-base-bg-success: #1e252a;
+        --color-base-bg-info: #1e252a;
+        --color-base-bg-accent: #1e252a;
+        --color-base-fg: #d6d6d6;
+        --color-base-fg-secondary: #c7c7c7;
+        --color-base-fg-danger: #b93c16;
+        --color-base-fg-silent: #4B5156;
+        --color-brand-bg: #000000;
+        --color-brand-fg: #d6d6d6;
+        --color-accent: #c7c7c7;
+        --color-accent-bg: #42615b;
+        --color-accent-bg-danger: #b93c16;
+        --color-accent-bg-secondary: #a6523f;
+        --color-accent-fg: #d6d6d6;
+    }
+}
+
+* {
+    font-family: var(--font-family);
+    text-decoration: none;
+}

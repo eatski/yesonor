@@ -4,10 +4,22 @@ import { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { getServerSession } from "next-auth/next";
 import { setTimeout } from "timers/promises";
 import { verifyRecaptcha } from "./services/recaptcha";
-import { openai } from "@/libs/openai";
+import {
+	AB_TESTING_COOKIE_NAME,
+	getAorBRandom,
+	validateABTestingVariant,
+} from "@/common/abtesting";
 
 export const createContext = async (context: CreateNextContextOptions) => {
 	return {
+		getABTestingVariant: () => {
+			const cookieValue = context.req.cookies[AB_TESTING_COOKIE_NAME];
+			// AもしくはBのクッキーがあるならそれを返す // なければランダムでAかBを返す
+			const variant =
+				(cookieValue && validateABTestingVariant(cookieValue)) ||
+				getAorBRandom();
+			return variant;
+		},
 		getUserOptional: async () => {
 			const session = await getServerSession(
 				context.req,
@@ -63,6 +75,5 @@ export const createContext = async (context: CreateNextContextOptions) => {
 				});
 			});
 		},
-		openai: openai,
 	};
 };

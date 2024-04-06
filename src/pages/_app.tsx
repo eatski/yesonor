@@ -5,15 +5,17 @@ import { httpBatchLink } from "@trpc/client";
 import React, { useEffect, useMemo } from "react";
 import { trpc } from "@/libs/trpc";
 import "sanitize.css";
-import "@/styles/base.css";
+import "@/designSystem/base.css";
 import { SessionProvider } from "next-auth/react";
 
 import Head from "next/head";
-import { texts } from "@/texts";
+import { brand } from "@/common/texts";
 import Script from "next/script";
-import router, { useRouter } from "next/router";
-import { gtag } from "@/common/util/gtag";
-import { keysOverride } from "@/features/headMeta";
+import { useRouter } from "next/router";
+import { gtagEvent } from "@/common/util/gtag";
+import { keysOverride } from "@/components/headMeta";
+import { ConfirmModal } from "@/components/confirmModal";
+import { Toast } from "@/components/toast";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = useMemo(() => new QueryClient(), []);
@@ -33,7 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 	useEffect(() => {
 		const handler = () => {
-			gtag("pageview");
+			gtagEvent("page_transition");
 		};
 		router.events.on("routeChangeComplete", handler);
 
@@ -45,7 +47,7 @@ export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<>
 			<Head>
-				<title>{`${texts.serviceName}(${texts.serviceNickname}) - ${texts.serviceDescription}`}</title>
+				<title>{`${brand.serviceName}(${brand.serviceNickname}) - ${brand.serviceDescription}`}</title>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<meta
 					name="google-site-verification"
@@ -54,21 +56,32 @@ export default function App({ Component, pageProps }: AppProps) {
 				<meta
 					key={keysOverride.description}
 					name="description"
-					content={texts.serviceDescription}
+					content={brand.serviceDescriptionLong}
 				/>
 				<link rel="icon" href="/favicon.ico" />
 				<meta property="og:url" content="https://iesona.com" />
 				<meta
 					key={keysOverride.metaOgpTitle}
 					property="og:title"
-					content={`${texts.serviceName}(${texts.serviceNickname}) - ${texts.serviceDescription}`}
+					content={`${brand.serviceName}(${brand.serviceNickname}) - ${brand.serviceDescription}`}
+				/>
+				<meta
+					key={keysOverride.metaOgpTitle}
+					property="og:site_name"
+					content={brand.serviceName}
 				/>
 				<meta
 					key={keysOverride.metaOgpDescription}
 					property="og:description"
-					content={texts.serviceDescription}
+					content={brand.serviceDescriptionLong}
 				/>
 				<meta property="og:type" content="website" />
+				<meta property="og:image" content="https://iesona.com/card.png" />
+				<meta name="twitter:card" content="summary" />
+				<meta
+					name="twitter:image"
+					content="https://iesona.com/card_square.png"
+				/>
 			</Head>
 			<Script
 				src="https://www.googletagmanager.com/gtag/js?id=G-1VTTNL7SR2"
@@ -85,7 +98,11 @@ export default function App({ Component, pageProps }: AppProps) {
 			<SessionProvider session={pageProps.session}>
 				<trpc.Provider client={trpcClient} queryClient={queryClient}>
 					<QueryClientProvider client={queryClient}>
-						<Component {...pageProps} />
+						<ConfirmModal>
+							<Toast>
+								<Component {...pageProps} />
+							</Toast>
+						</ConfirmModal>
 					</QueryClientProvider>
 				</trpc.Provider>
 			</SessionProvider>

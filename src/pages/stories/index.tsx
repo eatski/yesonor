@@ -1,7 +1,7 @@
-import { Layout } from "@/features/layout";
+import { Layout } from "@/components/layout";
 import { GetStaticProps } from "next";
-import { Item, Stories } from "@/common/components/stories";
-import { H2 } from "@/common/components/h2";
+import { Item, StoryList } from "@/components/storyList";
+import { H2 } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
 import { revalidateTime } from "@/common/revalidate";
 
@@ -11,7 +11,7 @@ type Props = {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
 	const stories = await getStories({
-		count: 30,
+		count: 50,
 	});
 	return {
 		props: {
@@ -28,7 +28,7 @@ export default function Story(props: Props) {
 	return (
 		<Layout>
 			<H2 label="新着ストーリー" />
-			<Stories stories={props.stories} />
+			<StoryList stories={props.stories} />
 		</Layout>
 	);
 }

@@ -1,20 +1,71 @@
-import { questionExample } from "@/server/model/schemas";
+import {
+	QuestionExample,
+	questionExample,
+	Story,
+	StoryHead,
+	StoryWithQuestionLogs,
+} from "@/server/model/story";
 import { z } from "zod";
-import { PrismaClient, Story as DbStory, User } from "@prisma/client";
-import { Story, StoryHead } from "@/server/model/types";
+import { Story as DbStory, User, QuestionLog } from "@prisma/client";
 
-export const hydrateStory = (story: DbStory): Story => {
-	const { questionExamples, publishedAt, createdAt, ...rest } = story;
+const hydrateQuestionExamples = (
+	stringQuestionExamples: string,
+): QuestionExample[] => {
+	return z.array(questionExample).parse(JSON.parse(stringQuestionExamples));
+};
+
+export const hydrateStory = (
+	story: DbStory & {
+		author: User;
+	},
+): Story => {
+	const {
+		questionExamples,
+		publishedAt,
+		createdAt,
+		author,
+		authorId,
+		...rest
+	} = story;
 	return {
 		...rest,
 		publishedAt: publishedAt?.getTime() || null,
-		questionExamples: z
-			.array(questionExample)
-			.parse(JSON.parse(story.questionExamples)),
+		author: {
+			id: author.id,
+			name: author.name,
+		},
+		questionExamples: hydrateQuestionExamples(questionExamples),
 	};
 };
 
-export const omitStory = (story: DbStory & { author?: User }): StoryHead => {
+export const hydrateStoryWithQuestionLogs = (
+	story: DbStory & {
+		questionLogs: QuestionLog[];
+		author: User;
+	},
+): StoryWithQuestionLogs => {
+	const {
+		questionExamples,
+		publishedAt,
+		createdAt,
+		author,
+		authorId,
+		...rest
+	} = story;
+
+	return {
+		...rest,
+		publishedAt: publishedAt?.getTime() || null,
+		questionExamples: hydrateQuestionExamples(questionExamples),
+		questionLogs: story.questionLogs,
+		author: {
+			id: author.id,
+			name: author.name,
+		},
+	};
+};
+
+export const omitStory = (story: DbStory & { author: User }): StoryHead => {
 	const {
 		questionExamples,
 		truth,
@@ -22,13 +73,15 @@ export const omitStory = (story: DbStory & { author?: User }): StoryHead => {
 		publishedAt,
 		createdAt,
 		author,
+		authorId,
 		...rest
 	} = story;
 	return {
 		...rest,
 		publishedAt: publishedAt?.getTime() || null,
 		author: {
-			name: author?.name || null,
+			id: author.id,
+			name: author.name || null,
 		},
 	};
 };
@@ -37,5 +90,23 @@ export const createGetStoryWhere = (args: { storyId?: string }) => {
 	return {
 		id: args.storyId,
 		published: true,
+	};
+};
+
+export const createGetStoryPrivateWhere = (args: {
+	storyId: string;
+	authorId: string;
+}) => {
+	return {
+		OR: [
+			{
+				id: args.storyId,
+				authorId: args.authorId,
+			},
+			{
+				id: args.storyId,
+				published: true,
+			},
+		],
 	};
 };

@@ -1,0 +1,16 @@
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    gap: 8px;
+}
+
+.resultContainer {
+    margin: 0;
+    background-color: var(--color-base-bg-info);
+    padding: 24px 24px;
+    border-radius: 2px;
+    width: 100%;
+    margin-bottom: 16px;
+}

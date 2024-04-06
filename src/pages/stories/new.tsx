@@ -1,12 +1,9 @@
 import { Device } from "@/common/util/device";
-import { Layout } from "@/features/layout";
-import { NewStory } from "@/features/newStory";
+import { Layout } from "@/components/layout";
+import { NewStory } from "@/components/newStory";
 import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
+import { getUserSession } from "@/server/getServerSideProps/getUserSession";
 import { GetServerSideProps } from "next";
-
-export const config = {
-	runtime: "experimental-edge",
-};
 
 type Props = {
 	device: Device;
@@ -15,6 +12,17 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<Props> = async (
 	context,
 ) => {
+	const user = await getUserSession(context);
+	if (!user) {
+		return {
+			redirect: {
+				destination: `/api/auth/signin?callbackUrl=${encodeURIComponent(
+					context.resolvedUrl,
+				)}`,
+				permanent: false,
+			},
+		};
+	}
 	return {
 		props: {
 			device: getDeviceServer(context),

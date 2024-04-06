@@ -1,0 +1,43 @@
+.container {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    dl {
+        width: 100%;
+        margin: 0;
+        .basic {
+            display: flex;
+            justify-content: center;
+            color: var(--color-base-fg-secondary);
+            dt::after {
+                content: ":";
+            }
+            dt {
+                margin-left: 16px;
+            }
+            dd {
+                margin: 0 0 0 4px;
+                
+            }
+        }
+        
+    }
+    p {
+        font-size: 16px;
+        white-space: pre-wrap;
+        color: var(--color-base-fg);
+        margin: 0 0 0 0;
+        text-align: center;
+    }
+    .share {
+        display: flex;
+        gap: 8px;
+        .twitter {
+            color: var(--color-twitter-bg);
+        }
+        
+    }
+}
