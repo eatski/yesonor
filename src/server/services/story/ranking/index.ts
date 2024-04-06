@@ -63,5 +63,5 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 		};
 	});
 	scoredStories.sort((a, b) => b.score - a.score);
-	return scoredStories.map((e) => e.story).slice(0, 5);
+	return scoredStories.map((e) => e.story).slice(0, 8);
 };
