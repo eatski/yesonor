@@ -5,17 +5,19 @@ import {
 	ButtonIconWrapper,
 } from "@/designSystem/components/button";
 
-const PinnedItem = () => {
+const PinnedItem = ({
+	title,
+	href,
+}: {
+	title: string;
+	href: string;
+}) => {
 	return (
-		<AnchorButton
-			color="none"
-			href="https://github.com/eatski/yesonor/issues/129"
-			size={"large"}
-		>
+		<AnchorButton color="none" href={href} size={"large"}>
 			<ButtonIconWrapper>
 				<AiFillPushpin />
 			</ButtonIconWrapper>
-			当サービスの現在の状況につきまして
+			{title}
 		</AnchorButton>
 	);
 };
@@ -23,7 +25,14 @@ const PinnedItem = () => {
 export const PinnedInfo = () => {
 	return (
 		<div className={styles.container}>
-			<PinnedItem />
+			<PinnedItem
+				title={"当サービスの現在の状況につきまして"}
+				href={"https://github.com/eatski/yesonor/issues/129"}
+			/>
+			<PinnedItem
+				title={"サービス維持のためのご支援のお願い"}
+				href={"https://note.com/eatski/n/n11b50b9439b1"}
+			/>
 		</div>
 	);
 };
