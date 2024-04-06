@@ -109,19 +109,6 @@ export function Play(props: Props) {
 				strategy="lazyOnload"
 				src={`https://www.google.com/recaptcha/api.js?render=${CLIENT_KEY}`}
 			/>
-			<p
-				style={{
-					marginTop: "48px",
-					color: "red",
-				}}
-			>
-				<a
-					href="https://github.com/eatski/yesonor/issues/129"
-					style={{ color: "blue" }}
-				>
-					現在のサービスの状況につきまして
-				</a>
-			</p>
 			{mode === "question" && (
 				<div className={styles.sectionWrapper}>
 					<QuestionForm

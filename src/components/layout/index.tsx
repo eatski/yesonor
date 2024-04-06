@@ -5,6 +5,8 @@ import components from "@/designSystem/components.module.scss";
 import { useRouter } from "next/router";
 import { Logo } from "./components/logo";
 import { UserMenu } from "./components/menu";
+import { AiFillPushpin } from "react-icons/ai";
+import { PinnedInfo } from "./components/pinned";
 
 export const Layout: React.FC<
 	PropsWithChildren<{ upper?: React.ReactElement }>
@@ -43,6 +45,7 @@ export const Layout: React.FC<
 				</div>
 			</header>
 			{loading && <div className={styles.transitionStatus} />}
+			<PinnedInfo />
 
 			{upper ? (
 				<Suspense>

@@ -93,6 +93,7 @@ export const AnswerResult: React.FC<Props> = ({
 									toast("いいねしました！");
 								}}
 								color="none"
+								size="medium"
 							>
 								<ButtonIconWrapper>
 									<AiOutlineLike />

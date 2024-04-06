@@ -32,10 +32,18 @@ export function ConfirmModal({
 			<Modal isOpen={!!state}>
 				<p className={styles.text}>{state?.text}</p>
 				<div className={styles.buttons}>
-					<Button color="none" onClick={() => state?.resolve(false)}>
+					<Button
+						color="none"
+						size="medium"
+						onClick={() => state?.resolve(false)}
+					>
 						キャンセル
 					</Button>
-					<Button color="primary" onClick={() => state?.resolve(true)}>
+					<Button
+						color="primary"
+						size="medium"
+						onClick={() => state?.resolve(true)}
+					>
 						OK
 					</Button>
 				</div>

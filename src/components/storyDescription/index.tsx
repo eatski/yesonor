@@ -53,6 +53,7 @@ export const StoryDescription: React.FC<{
 						target="_blank"
 						rel="noreferrer"
 						color={"none"}
+						size="small"
 					>
 						<ButtonIconWrapper>
 							<AiOutlineTwitter
@@ -68,7 +69,7 @@ export const StoryDescription: React.FC<{
 							toast("URLをコピーしました。");
 						}}
 					>
-						<Button color="none">
+						<Button color="none" size="small">
 							<ButtonIconWrapper>
 								<AiOutlineCopy role="presentation" />
 							</ButtonIconWrapper>

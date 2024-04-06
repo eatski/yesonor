@@ -16,7 +16,7 @@ export const Modal: React.FC<React.PropsWithChildren<{ isOpen: boolean }>> = ({
 						width: "80%",
 						height: "fit-content",
 						margin: "auto",
-						padding: "12px",
+						padding: "14px",
 						backgroundColor: "var(--color-base-bg)",
 					},
 					overlay: {
