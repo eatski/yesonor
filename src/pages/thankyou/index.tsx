@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import Link from "next/link";
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 	// url query params からcodeを取得しcookieにセット
@@ -34,7 +35,7 @@ export default function Thankyou() {
 			<p>
 				現在のブラウザを引き続きお使いいただければ一部の機能を優先してお楽しみいただけます。
 			</p>
-			<a href="/">トップページへ戻る</a>
+			<Link href="/">トップページへ戻る</Link>
 		</div>
 	);
 }
