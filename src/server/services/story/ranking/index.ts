@@ -49,7 +49,6 @@ export const getStoriesRecommended = async (
 				  evaluations.length
 				: 0;
 			const questionExamplesLength = hydreted.questionExamples.length;
-			const random = Math.random();
 			const timeFromPublished =
 				(story.publishedAt ? now - story.publishedAt.getTime() : 0) + ONE_DAY;
 
@@ -58,7 +57,7 @@ export const getStoriesRecommended = async (
 					(avg + 2.5) *
 					(Math.pow(questionLogsLength, 2) + 100) *
 					(questionExamplesLength + 10) *
-					Math.pow(random, 1.5)) /
+					Math.pow(Math.random(), 1.5)) /
 				Math.pow(timeFromPublished, 0.5);
 
 			return {

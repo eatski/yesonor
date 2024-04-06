@@ -49,9 +49,8 @@ describe("trpc/question", (ab) => {
 		getUser: never,
 		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
-		getABTestingVariant: () => {
-			throw new Error("Not implemented");
-		},
+		getABTestingVariant: never,
+		isThankYouUser: never,
 	});
 	describe("質問した内容に対して、結果が返る", () => {
 		test.concurrent.each([
@@ -136,9 +135,8 @@ describe("trpc/question", (ab) => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					getABTestingVariant: () => {
-						throw new Error("Not implemented");
-					},
+					getABTestingVariant: never,
+					isThankYouUser: never,
 				});
 				const text = "人を殺しましたか？";
 				const result = await testee.question({
@@ -157,9 +155,8 @@ describe("trpc/question", (ab) => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					getABTestingVariant: () => {
-						throw new Error("Not implemented");
-					},
+					getABTestingVariant: never,
+					isThankYouUser: never,
 				});
 				const text = "人を殺しましたか？";
 				expect(
@@ -177,9 +174,8 @@ describe("trpc/question", (ab) => {
 				getUser: never,
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
-				getABTestingVariant: () => {
-					throw new Error("Not implemented");
-				},
+				getABTestingVariant: never,
+				isThankYouUser: never,
 			});
 			const text = "人を殺しましたか？";
 			const result = await testee.question({
