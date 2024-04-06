@@ -77,7 +77,7 @@ export const question = procedure
 				.add("inputEmbedding", async () => {
 					return embeddingsDataLoader.load(input.text);
 				})
-				.add("examplesWithDistance", async (dependsOn) => {
+				.add("sortedExamplesWithDistance", async (dependsOn) => {
 					const story = await dependsOn("story");
 					const embeddings = await embeddingsDataLoader.loadMany(
 						story.questionExamples.map(({ question }) => question),
@@ -112,9 +112,14 @@ export const question = procedure
 					await dependsOn("verifyRecaptcha");
 					const user = await dependsOn("user");
 					const story = await dependsOn("story");
-					const examples = await dependsOn("examplesWithDistance");
-					const PICK_NUM = 3;
-					const pickedFewExamples = examples.slice(0, PICK_NUM);
+					const examples = await dependsOn("sortedExamplesWithDistance");
+					const pickedFewExamples: typeof examples = [];
+					["True", "False", "Unknown"].forEach((answer) => {
+						const example = examples.find(
+							({ example }) => example.answer === answer,
+						);
+						example && pickedFewExamples.push(example);
+					});
 					const inputStory = {
 						quiz: story.quiz,
 						truth: story.truth,
@@ -141,7 +146,7 @@ export const question = procedure
 				})
 				.add("hitQuestionExample", async (dependsOn) => {
 					const answer = await dependsOn("question");
-					const examples = await dependsOn("examplesWithDistance");
+					const examples = await dependsOn("sortedExamplesWithDistance");
 					const recur = ([
 						head,
 						...tail
