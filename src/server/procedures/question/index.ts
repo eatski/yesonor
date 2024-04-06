@@ -47,9 +47,6 @@ export const question = procedure
 					return ctx.verifyRecaptcha(input.recaptchaToken);
 				})
 				.add("user", () => {
-					if (process.env.NEXT_PUBLIC_REQUIRE_LOGIN_TO_PLAY) {
-						return ctx.getUser();
-					}
 					return ctx.getUserOptional();
 				})
 				.add("story", async (dependsOn) => {
