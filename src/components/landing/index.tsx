@@ -48,19 +48,6 @@ export const Landing: React.FC<{ stories: Item[] }> = ({ stories }) => {
 					今すぐ謎を解く
 				</button>
 			</div>
-			<p
-				style={{
-					marginTop: "48px",
-					color: "red",
-				}}
-			>
-				<a
-					href="https://github.com/eatski/yesonor/issues/129"
-					style={{ color: "blue" }}
-				>
-					現在のサービスの状況につきまして
-				</a>
-			</p>
 		</main>
 	);
 };

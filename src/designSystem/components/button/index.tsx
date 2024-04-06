@@ -7,13 +7,15 @@ export const Button: React.FC<
 		HTMLButtonElement
 	> & {
 		color: "zero" | "primary" | "secondary" | "none";
+		size: "small" | "medium" | "large";
 	}
-> = ({ children, className, color, ...props }) => {
+> = ({ children, className, color, size, ...props }) => {
 	return (
 		<button
 			type={"button"}
 			{...props}
 			data-color={color}
+			data-size={size}
 			className={styles.button}
 		>
 			{children}
@@ -27,10 +29,11 @@ export const AnchorButton: React.FC<
 		HTMLAnchorElement
 	> & {
 		color: "zero" | "primary" | "secondary" | "none";
+		size: "small" | "medium" | "large";
 	}
-> = ({ children, className, color, ...props }) => {
+> = ({ children, className, color, size, ...props }) => {
 	return (
-		<a {...props} data-color={color} className={styles.button}>
+		<a {...props} data-color={color} data-size={size} className={styles.button}>
 			{children}
 		</a>
 	);
