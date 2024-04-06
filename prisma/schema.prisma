@@ -22,6 +22,7 @@ model Story {
   createdAt        DateTime  @default(now())
   questionLogs     QuestionLog[]
   solutionLogs     SolutionLog[]
+  evaluations      StoryEvaluation[]
 }
 
 enum Answer {
@@ -59,5 +60,17 @@ model User {
   oauthId   String?   @unique
   name      String?
   stories   Story[]
+  evaluations StoryEvaluation[]
   createdAt DateTime  @default(now())
+}
+
+model StoryEvaluation {
+  id        String    @id @default(uuid())
+  storyId   String
+  userId    String
+  rating    Int
+  createdAt DateTime  @default(now())
+  Story     Story     @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  User      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([storyId, userId])
 }

@@ -10,6 +10,7 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 	// すべてのストーリーを取得
 	const stories = await prisma.story.findMany({
 		include: {
+			evaluations: true,
 			questionLogs: {
 				where: {
 					createdAt: {
@@ -20,7 +21,7 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 			solutionLogs: {
 				where: {
 					createdAt: {
-						gte: new Date(now - ONE_MONTH),
+						gte: new Date(now - ONE_MONTH * 6),
 					},
 					result: "Correct",
 				},
@@ -34,22 +35,28 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 		take: 50,
 	});
 	const scoredStories = stories.map((story) => {
-		const { questionLogs, solutionLogs, ...rest } = story;
+		const { questionLogs, evaluations, solutionLogs, ...rest } = story;
 		const hydreted = hydrateStory(rest);
 		const omitted = omitStory(rest);
 		const correctSolutionsLength = solutionLogs.length;
 		const questionLogsLength = questionLogs.length;
+		const bunned = evaluations.some((e) => e.rating === 0);
+		const avg =
+			evaluations.reduce((acc, e) => acc + (e.rating - 2.5), 0) /
+			evaluations.length;
 		const questionExamplesLength = hydreted.questionExamples.length;
 		const random = Math.random();
 		const timeFromPublished =
 			(story.publishedAt ? now - story.publishedAt.getTime() : 0) + ONE_DAY;
 
-		const score =
-			((correctSolutionsLength + 1) *
-				(questionLogsLength + 10) *
-				(questionExamplesLength + 10) *
-				Math.pow(random, 2)) /
-			Math.pow(timeFromPublished, 0.5);
+		const score = !bunned
+			? ((correctSolutionsLength + 1) *
+					(avg + 5) *
+					(questionLogsLength + 100) *
+					(questionExamplesLength + 10) *
+					Math.pow(random, 2)) /
+			  Math.pow(timeFromPublished, 0.5)
+			: 0;
 		return {
 			story: omitted,
 			score,
