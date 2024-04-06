@@ -42,8 +42,7 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 		const questionLogsLength = questionLogs.length;
 		const bunned = evaluations.some((e) => e.rating === 0);
 		const avg =
-			evaluations.reduce((acc, e) => acc + (e.rating - 2.5), 0) /
-			evaluations.length;
+			evaluations.reduce((acc, e) => acc + e.rating, 0) / evaluations.length;
 		const questionExamplesLength = hydreted.questionExamples.length;
 		const random = Math.random();
 		const timeFromPublished =
@@ -51,7 +50,7 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 
 		const score = !bunned
 			? ((correctSolutionsLength + 1) *
-					(avg + 5) *
+					(avg + 1) *
 					(questionLogsLength + 100) *
 					(questionExamplesLength + 10) *
 					Math.pow(random, 2)) /
