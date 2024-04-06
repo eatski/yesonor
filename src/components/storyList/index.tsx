@@ -36,7 +36,7 @@ export const StoryList: React.FC<{ stories: Item[]; seeMoreUrl?: string }> = ({
 			</ul>
 			{seeMoreUrl && (
 				<div className={styles.seeMore}>
-					<Link className={components.buttonLink} href="/stories">
+					<Link className={components.buttonLink} href={seeMoreUrl}>
 						もっと見る
 					</Link>
 				</div>

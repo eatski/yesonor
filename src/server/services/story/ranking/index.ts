@@ -5,7 +5,9 @@ import { StoryHead } from "@/server/model/story";
 const ONE_DAY = 1000 * 60 * 60 * 24;
 const ONE_MONTH = ONE_DAY * 30;
 
-export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
+export const getStoriesRecommended = async (
+	count: number,
+): Promise<StoryHead[]> => {
 	const now = Date.now();
 	// すべてのストーリーを取得
 	const stories = await prisma.story.findMany({
@@ -32,7 +34,7 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 		orderBy: {
 			publishedAt: "desc",
 		},
-		take: 50,
+		take: 100,
 	});
 	const scoredStories = stories.map((story) => {
 		const { questionLogs, evaluations, solutionLogs, ...rest } = story;
@@ -64,5 +66,5 @@ export const getStoriesRecommended = async (): Promise<StoryHead[]> => {
 		};
 	});
 	scoredStories.sort((a, b) => b.score - a.score);
-	return scoredStories.map((e) => e.story).slice(0, 8);
+	return scoredStories.map((e) => e.story).slice(0, count);
 };

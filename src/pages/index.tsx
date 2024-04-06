@@ -18,7 +18,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 		getStories({
 			count: 5,
 		}),
-		getStoriesRecommended(),
+		getStoriesRecommended(8),
 	]);
 	return {
 		props: {
@@ -44,7 +44,7 @@ export default function Home({ stories, recommend }: Props) {
 				</div>
 				<section style={{ marginBottom: "24px" }}>
 					<H2 label="おすすめストーリー" />
-					<StoryList stories={recommend} />
+					<StoryList stories={recommend} seeMoreUrl={"/stories/rank"} />
 				</section>
 				<div style={{ marginBottom: "24px" }}>
 					<RecommendCreateStory />
