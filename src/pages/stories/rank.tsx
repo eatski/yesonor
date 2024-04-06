@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-	const stories = await getStoriesRecommended(30);
+	const stories = await getStoriesRecommended(20);
 	return {
 		props: {
 			stories: stories.map((story) => ({
