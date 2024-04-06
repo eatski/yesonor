@@ -2,5 +2,7 @@
     padding: 16px;
     display: flex;
     gap: 16px;
+    row-gap: 8px;
     justify-content: center;
+    flex-wrap: wrap;
 }
