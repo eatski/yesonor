@@ -18,7 +18,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 		getStories({
 			count: 5,
 		}),
-		getStoriesRecommended(8),
+		getStoriesRecommended(10),
 	]);
 	return {
 		props: {
