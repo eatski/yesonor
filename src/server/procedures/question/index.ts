@@ -133,9 +133,9 @@ export const question = procedure
 						isClear ? "claude-3-haiku-20240307" : "claude-3-sonnet-20240229",
 					);
 					const isOwn = user?.id === story.author.id;
-					// DBへの負荷を下げるため1/5の確率で質問ログを保存
+					// DBへの負荷を下げるため1/10の確率で質問ログを保存
 					!isOwn &&
-						Math.floor(Math.random() * 5) === 0 &&
+						Math.floor(Math.random() * 10) === 0 &&
 						(await prisma.questionLog
 							.create({
 								data: {
