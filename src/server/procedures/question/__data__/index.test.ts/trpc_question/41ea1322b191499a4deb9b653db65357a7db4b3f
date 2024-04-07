@@ -1,0 +1,1 @@
+{"value":{"id":"msg_01B7CpyA2FwBJLBSbKsZyD2v","type":"message","role":"assistant","content":[{"type":"text","text":"True"}],"model":"claude-3-haiku-20240307","stop_reason":"max_tokens","stop_sequence":null,"usage":{"input_tokens":429,"output_tokens":1}},"type":"Object","created":"2024-04-07T03:12:51.711Z","ttl":0}
