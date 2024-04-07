@@ -120,6 +120,9 @@ export const question = procedure
 						);
 						example && pickedFewExamples.push(example);
 					});
+					if (pickedFewExamples[0] && pickedFewExamples[0].distance < 0.18) {
+						return pickedFewExamples[0].example.answer;
+					}
 					const isClear =
 						pickedFewExamples[0] && pickedFewExamples[0].distance < 0.3;
 					const inputStory = {
