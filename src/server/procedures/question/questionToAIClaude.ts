@@ -11,12 +11,13 @@ export const questionToAI = async (
 		questionExamples: QuestionExample[];
 	},
 	question: string,
+	model: "claude-3-sonnet-20240229" | "claude-3-haiku-20240307",
 ) => {
 	const systemPromptPromise = readFile(
 		resolve(process.cwd(), "prompts", "question_claude.md"),
 	);
 	const response = await createMessage({
-		model: "claude-3-sonnet-20240229",
+		model,
 		max_tokens: 1,
 		temperature: 0,
 		messages: [

@@ -6,11 +6,9 @@ import { getStory, getStoryPrivate } from "@/server/services/story";
 import { procedure } from "@/server/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
 import { createPrompt } from "./createPrompt";
 import { openai } from "@/libs/openai";
 import { createMessage } from "@/libs/claude";
-import { s } from "vitest/dist/types-e3c9754d";
 
 export const truth = procedure
 	.input(

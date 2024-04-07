@@ -120,16 +120,22 @@ export const question = procedure
 						);
 						example && pickedFewExamples.push(example);
 					});
+					const isClear =
+						pickedFewExamples[0] && pickedFewExamples[0].distance < 0.3;
 					const inputStory = {
 						quiz: story.quiz,
 						truth: story.truth,
 						questionExamples: pickedFewExamples.map(({ example }) => example),
 					};
-					const answer = await questionToAI(inputStory, input.text);
+					const answer = await questionToAI(
+						inputStory,
+						input.text,
+						isClear ? "claude-3-haiku-20240307" : "claude-3-sonnet-20240229",
+					);
 					const isOwn = user?.id === story.author.id;
-					// DBへの負荷を下げるため1/5の確率で質問ログを保存
+					// DBへの負荷を下げるため1/10の確率で質問ログを保存
 					!isOwn &&
-						Math.floor(Math.random() * 5) === 0 &&
+						Math.floor(Math.random() * 10) === 0 &&
 						(await prisma.questionLog
 							.create({
 								data: {
