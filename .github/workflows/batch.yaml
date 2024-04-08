@@ -15,6 +15,4 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Run batch job
-        env:
-          BATCH_API_KEY: ${{ secrets.BATCH_API_KEY }}
-        run: curl -X POST --header 'authorization: $BATCH_API_KEY' 'https://iesona.com/api/batch/questionLog/refine?take=50'
+        run: curl -X POST --header "authorization:${{ secrets.BATCH_API_KEY }}" 'https://iesona.com/api/batch/questionLog/refine?take=50'
