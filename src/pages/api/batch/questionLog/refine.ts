@@ -7,7 +7,7 @@ const handler: NextApiHandler = async (req, res) => {
 		return;
 	}
 	const take = Number(req.query.take);
-	if (!isNaN(take)) {
+	if (isNaN(take)) {
 		res.status(400).json({ message: "Invalid take" });
 		return;
 	}
