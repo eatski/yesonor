@@ -6,6 +6,11 @@ const handler: NextApiHandler = async (req, res) => {
 		res.status(405).json({ message: "Method Not Allowed" });
 		return;
 	}
+	const take = Number(req.query.take);
+	if (!isNaN(take)) {
+		res.status(400).json({ message: "Invalid take" });
+		return;
+	}
 	if (
 		!req.headers.authorization ||
 		req.headers.authorization !== process.env.BATCH_API_KEY
@@ -14,7 +19,9 @@ const handler: NextApiHandler = async (req, res) => {
 		return;
 	}
 	try {
-		const count = await refineQuestionLogs();
+		const count = await refineQuestionLogs({
+			take,
+		});
 		res.status(200).json({ count });
 	} catch (e) {
 		console.error(e);

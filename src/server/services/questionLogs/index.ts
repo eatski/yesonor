@@ -1,6 +1,10 @@
 import { prisma } from "@/libs/prisma";
 
-export const refineQuestionLogs = async () => {
+export const refineQuestionLogs = async ({
+	take,
+}: {
+	take: number;
+}) => {
 	return prisma
 		.$transaction(async (prisma) => {
 			const stories = await prisma.story.findMany({
@@ -33,11 +37,18 @@ export const refineQuestionLogs = async () => {
 					id: {
 						notIn: logIdsToRemain,
 					},
+					storyId: {
+						in: stories.map((story) => story.id),
+					},
 				},
 				select: {
 					id: true,
 				},
-				take: 2000,
+				orderBy: {
+					// 古い順
+					createdAt: "asc",
+				},
+				take,
 			});
 
 			return prisma.questionLog.deleteMany({
