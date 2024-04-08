@@ -1,9 +1,11 @@
 name: Schedule Batch Job
 
 on:
+  # Runs every 10 minutes from 20:00 to 20:50 UTC, which is 05:00 to 05:50 JST
   schedule:
-    # Runs every 10 minutes from 20:00 to 20:50 UTC, which is 05:00 to 05:50 JST
     - cron:  '0/10 20 * * *'
+  # manual trigger
+  workflow_dispatch:
 
 jobs:
   build:
