@@ -24,15 +24,12 @@ const PinnedItem = ({
 
 export const PinnedInfo = () => {
 	return (
-		<div className={styles.container}>
-			<PinnedItem
-				title={"当サービスの現在の状況につきまして"}
-				href={"https://github.com/eatski/yesonor/issues/129"}
-			/>
-			<PinnedItem
-				title={"サービス維持のためのご支援のお願い"}
-				href={"https://note.com/eatski/n/n11b50b9439b1"}
-			/>
-		</div>
+		// <div className={styles.container}>
+		// 	<PinnedItem
+		// 		title={"サービス維持のためのご支援のお願い"}
+		// 		href={"https://note.com/eatski/n/n11b50b9439b1"}
+		// 	/>
+		// </div>
+		null
 	);
 };
