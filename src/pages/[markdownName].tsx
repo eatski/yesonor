@@ -59,7 +59,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 			},
 			{
 				params: {
-					markdownName: "serviceUnavailable",
+					markdownName: "sponsor",
 				},
 			},
 		],
