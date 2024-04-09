@@ -5,7 +5,6 @@ import components from "@/designSystem/components.module.scss";
 import { useRouter } from "next/router";
 import { Logo } from "./components/logo";
 import { UserMenu } from "./components/menu";
-import { AiFillPushpin } from "react-icons/ai";
 import { PinnedInfo } from "./components/pinned";
 
 export const Layout: React.FC<
@@ -57,12 +56,11 @@ export const Layout: React.FC<
 
 			<div className={styles.main}>{children}</div>
 			<footer className={styles.footer}>
-				<Logo />
 				<div className={styles.footerLinks}>
 					<Link href="/terms">利用規約</Link>
 					<Link href="/privacy">プライバシーポリシー</Link>
 					<Link href="/about">サイトについて</Link>
-					<a href="https://github.com/eatski/yesonor">開発</a>
+					<Link href="/sponsor">ご支援のお願い</Link>
 				</div>
 			</footer>
 		</>
