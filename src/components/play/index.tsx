@@ -52,6 +52,7 @@ const AnswerFormContainer: React.FC<{
 	return data ? (
 		<>
 			<AnswerResult
+				storyId={story.id}
 				solution={data.input}
 				onBackButtonClicked={reset}
 				onSeeTruthButtonClicked={async () => {
