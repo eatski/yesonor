@@ -43,7 +43,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
 	const stories = await getStories({
-		count: 50,
+		count: 100,
 	});
 	return {
 		paths: stories.map(({ id }) => ({
