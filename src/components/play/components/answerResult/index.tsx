@@ -7,8 +7,10 @@ import { AiOutlineLike } from "react-icons/ai";
 import { Button, ButtonIconWrapper } from "@/designSystem/components/button";
 import { gtagEvent } from "@/common/util/gtag";
 import { useToast } from "@/components/toast";
+import { trpc } from "@/libs/trpc";
 
 export type Props = {
+	storyId: string;
 	solution: string;
 	isCorrect: boolean;
 	truth: string;
@@ -48,6 +50,7 @@ const levelToText: Record<DistanceLevel, string> = {
 	"way-off": "もう少し質問してみて",
 };
 export const AnswerResult: React.FC<Props> = ({
+	storyId,
 	solution,
 	truth,
 	distance,
@@ -57,6 +60,11 @@ export const AnswerResult: React.FC<Props> = ({
 }) => {
 	const distanceLevel = calcDisplayDistanceLebel(distance);
 	const toast = useToast();
+	const {
+		mutateAsync: post,
+		isLoading,
+		isSuccess,
+	} = trpc.storyEvalution.post.useMutation();
 	return (
 		<div className={styles.container}>
 			<Card variant={isCorrect ? "success" : undefined}>
@@ -88,12 +96,16 @@ export const AnswerResult: React.FC<Props> = ({
 						{isCorrect && (
 							<Button
 								type={"button"}
-								onClick={() => {
+								onClick={async () => {
 									gtagEvent("like_story");
+									await post({
+										storyId,
+									});
 									toast("いいねしました！");
 								}}
 								color="none"
 								size="medium"
+								disabled={isLoading || isSuccess}
 							>
 								<ButtonIconWrapper>
 									<AiOutlineLike />
