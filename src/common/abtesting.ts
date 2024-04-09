@@ -15,8 +15,8 @@ export const validateABTestingVariant = (
 		: null;
 };
 
-export const getAorBRandom = (): AB_TETSTING_VARIANT => {
-	return Math.random() < 0.5
+export const getAorBRandom = (rate: number): AB_TETSTING_VARIANT => {
+	return Math.random() < rate
 		? AB_TESTING_VARIANTS.ONLY_SONNET
 		: AB_TESTING_VARIANTS.WITH_HAIKU;
 };
