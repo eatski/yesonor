@@ -44,20 +44,17 @@ export const getStoriesRecommended = async (
 			const omitted = omitStory(rest);
 			const correctSolutionsLength = solutionLogs.length;
 			const questionLogsLength = questionLogs.length;
-			const avg = evaluations.length
-				? evaluations.reduce((acc, e) => acc + e.rating - 2.5, 0) /
-				  evaluations.length
-				: 0;
+			const total = evaluations.reduce((acc, e) => acc + e.rating - 3, 0);
 			const questionExamplesLength = hydreted.questionExamples.length;
 			const timeFromPublished =
 				(story.publishedAt ? now - story.publishedAt.getTime() : 0) + ONE_DAY;
 
 			const score =
 				((Math.pow(correctSolutionsLength, 2) + 1) *
-					Math.pow(avg + 1, 1.5) *
+					Math.pow(total + 3, 0.7) *
 					(Math.pow(questionLogsLength, 2) + 100) *
 					Math.pow(questionExamplesLength + 1, 0.3) *
-					Math.pow(Math.random(), 1.5)) /
+					Math.pow(Math.random(), 2)) /
 				Math.pow(timeFromPublished, 0.8);
 
 			return {
