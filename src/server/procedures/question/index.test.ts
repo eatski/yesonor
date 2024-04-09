@@ -5,6 +5,7 @@ import { generateId } from "@/common/util/id";
 import { applyTestHooks } from "@/libs/msw-cache/vitest";
 import { question } from ".";
 import { router } from "@/server/trpc";
+import { AB_TESTING_VARIANTS } from "@/common/abtesting";
 const never = () => {
 	throw new Error("Never");
 };
@@ -16,7 +17,10 @@ const testeeRouter = router({
 	question,
 });
 
-describe("trpc/question", (ab) => {
+describe.each([
+	AB_TESTING_VARIANTS.ONLY_SONNET,
+	AB_TESTING_VARIANTS.WITH_HAIKU,
+] as const)("trpc/question %s", (ab) => {
 	const testYamlPath = resolve(process.cwd(), "fixtures", "test.yaml");
 	const TEST_USER1 = {
 		id: generateId(),
@@ -49,7 +53,7 @@ describe("trpc/question", (ab) => {
 		getUser: never,
 		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
-		getABTestingVariant: never,
+		getABTestingVariant: () => ab,
 		isThankYouUser: never,
 	});
 	describe("質問した内容に対して、結果が返る", () => {
@@ -135,7 +139,7 @@ describe("trpc/question", (ab) => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					getABTestingVariant: never,
+					getABTestingVariant: () => ab,
 					isThankYouUser: never,
 				});
 				const text = "人を殺しましたか？";
@@ -155,7 +159,7 @@ describe("trpc/question", (ab) => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					getABTestingVariant: never,
+					getABTestingVariant: () => ab,
 					isThankYouUser: never,
 				});
 				const text = "人を殺しましたか？";
@@ -174,7 +178,7 @@ describe("trpc/question", (ab) => {
 				getUser: never,
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
-				getABTestingVariant: never,
+				getABTestingVariant: () => ab,
 				isThankYouUser: never,
 			});
 			const text = "人を殺しましたか？";
