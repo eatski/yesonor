@@ -51,7 +51,7 @@ export const getStoriesRecommended = async (
 
 			const score =
 				((Math.pow(correctSolutionsLength, 2) + 1) *
-					Math.pow(total + 3, 0.7) *
+					Math.pow(Math.abs(total + 3) + 1, 0.7) *
 					(Math.pow(questionLogsLength, 2) + 100) *
 					Math.pow(questionExamplesLength + 1, 0.3) *
 					Math.pow(Math.random(), 2)) /
