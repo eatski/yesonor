@@ -58,7 +58,7 @@ export const getStoriesRecommended = async (
 					(Math.pow(questionLogsLength, 2) + 100) *
 					(questionExamplesLength + 10) *
 					Math.pow(Math.random(), 1.5)) /
-				Math.pow(timeFromPublished, 0.5);
+				Math.pow(timeFromPublished, 0.8);
 
 			return {
 				story: omitted,
