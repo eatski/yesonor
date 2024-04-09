@@ -77,7 +77,7 @@
     justify-content: center;
     align-items: center;
     font-size: 20px;
-    padding: 16px;
+    padding: 16px 16px max(16px,env(safe-area-inset-bottom));
     color: var(--color-brand-fg);
     background-color: var(--color-brand-bg);
     border-top: var(--border-primary);
