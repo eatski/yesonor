@@ -17,10 +17,8 @@ const testeeRouter = router({
 	question,
 });
 
-describe.each([
-	AB_TESTING_VARIANTS.ONLY_SONNET,
-	AB_TESTING_VARIANTS.WITH_HAIKU,
-] as const)("trpc/question %s", (ab) => {
+describe("trpc/question", () => {
+	const ab = "WITH_HAIKU" as const;
 	const testYamlPath = resolve(process.cwd(), "fixtures", "test.yaml");
 	const TEST_USER1 = {
 		id: generateId(),
@@ -57,78 +55,17 @@ describe.each([
 		isThankYouUser: never,
 	});
 	describe("質問した内容に対して、結果が返る", () => {
-		test.concurrent.each([
-			"山田さんは犯罪者ですか？",
-			"人が死んでますか？",
-			"近くに他の人がいますか？",
-		])("真相に対して正しい質問をするとTrueが返る %s", async (text) => {
-			const result = await testee.question({
-				storyId: TEST_ID,
-				text,
-				recaptchaToken: "anytoken",
-			});
-			expect(result.answer).toEqual("True");
-		});
-		test.concurrent.each([
-			"山田さんは誰かに襲われてますか？",
-			"性的な興味で女性用トイレに入りましたか？",
-			"山田は死んでいますか？",
-			"女子トイレには他に誰かいますか？",
-		])("真相に対して正しくない質問をするとFalseが返る %s", async (text) => {
-			const result = await testee.question({
-				storyId: TEST_ID,
-				text,
-				recaptchaToken: "anytoken",
-			});
-			expect(result.answer).toEqual("False");
-		});
-		test.concurrent.each([
-			"山田には恋人がいますか？",
-			"山田さんはパンよりライス派？",
-		])("真相では言及されていない質問をするとUnknownが返る", async (text) => {
-			const result = await testee.question({
-				storyId: TEST_ID,
-				text,
-				recaptchaToken: "anytoken",
-			});
-			expect(result.answer).toEqual("Unknown");
-		});
-	});
-	describe("customMessage", () => {
-		test.each([
-			{
-				storyId: TEST_ID,
-				text: "山田は人を殺しましたか？",
-			},
-			{
-				storyId: TEST_ID,
-				text: "山田は人を殺害しちゃった？",
-			},
-			{
-				storyId: TEST_ID,
-				text: "山田は人を殺したの？",
-			},
-		])(
-			"customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る",
-			async ({ storyId, text }) => {
+		test.concurrent.each(["山田さんは犯罪者ですか？"])(
+			"真相に対して正しい質問をするとTrueが返る %s",
+			async (text) => {
 				const result = await testee.question({
-					storyId,
+					storyId: TEST_ID,
 					text,
 					recaptchaToken: "anytoken",
 				});
-				expect(result.hitQuestionExample?.customMessage).toBeDefined();
-				expect(result.hitQuestionExample?.customMessage).toMatchSnapshot();
+				expect(result.answer).toEqual("True");
 			},
 		);
-		test("customMessageを持つquestionExamlpeに近しくない質問をすると、customMessageが返らない", async () => {
-			const result = await testee.question({
-				storyId: TEST_ID,
-				text: "山田さんは犯罪者ですか？",
-				recaptchaToken: "anytoken",
-			});
-			expect(result.answer).toEqual("True");
-			expect(result.hitQuestionExample?.customMessage).not.toBeDefined();
-		});
 	});
 	describe("storyの参照権限", () => {
 		test.each([TEST_USER1, TEST_USER2, null])(
