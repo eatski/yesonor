@@ -9,7 +9,10 @@ export const post = procedure
 		}),
 	)
 	.mutation(async ({ input, ctx }) => {
-		const user = await ctx.getUser();
+		const user = await ctx.getUserOptional();
+		if (!user) {
+			return null;
+		}
 		const init = {
 			storyId: input.storyId,
 			rating: 4,

@@ -16,6 +16,11 @@ import { gtagEvent } from "@/common/util/gtag";
 import { keysOverride } from "@/components/headMeta";
 import { ConfirmModal } from "@/components/confirmModal";
 import { Toast } from "@/components/toast";
+import {
+	AB_TESTING_COOKIE_NAME,
+	getAorBRandom,
+	validateABTestingVariant,
+} from "@/common/abtesting";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = useMemo(() => new QueryClient(), []);
@@ -43,6 +48,24 @@ export default function App({ Component, pageProps }: AppProps) {
 			router.events.off("routeChangeComplete", handler);
 		};
 	}, [router]);
+
+	useEffect(() => {
+		if (!process.env.NEXT_PUBLIC_AB_TEST_RATE) {
+			return;
+		}
+		const rate = Number(process.env.NEXT_PUBLIC_AB_TEST_RATE);
+		if (rate < 0 || rate > 1 || isNaN(rate)) {
+			console.error("NEXT_PUBLIC_AB_TEST_RATE must be between 0 and 1.");
+			return;
+		}
+		//ABテストのためのクッキーを付与
+		import("js-cookie").then((jsCookie) => {
+			const cookieValue = jsCookie.default.get(AB_TESTING_COOKIE_NAME);
+			if (!cookieValue || !validateABTestingVariant(cookieValue)) {
+				jsCookie.default.set(AB_TESTING_COOKIE_NAME, getAorBRandom(rate));
+			}
+		});
+	}, []);
 
 	return (
 		<>

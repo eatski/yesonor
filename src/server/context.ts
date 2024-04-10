@@ -6,7 +6,7 @@ import { setTimeout } from "timers/promises";
 import { verifyRecaptcha } from "./services/recaptcha";
 import {
 	AB_TESTING_COOKIE_NAME,
-	getAorBRandom,
+	AB_TESTING_VARIANTS,
 	validateABTestingVariant,
 } from "@/common/abtesting";
 
@@ -17,7 +17,7 @@ export const createContext = async (context: CreateNextContextOptions) => {
 			// AもしくはBのクッキーがあるならそれを返す // なければランダムでAかBを返す
 			const variant =
 				(cookieValue && validateABTestingVariant(cookieValue)) ||
-				getAorBRandom();
+				AB_TESTING_VARIANTS.ONLY_SONNET;
 			return variant;
 		},
 		getUserOptional: async () => {

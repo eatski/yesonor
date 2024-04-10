@@ -4,7 +4,7 @@ import { QuestionExample, answer as answerSchema } from "../../model/story";
 import { procedure } from "../../trpc";
 import { QuestionExampleWithCustomMessage } from "./type";
 import { prisma } from "@/libs/prisma";
-import { questionToAI } from "./questionToAIClaude";
+import { questionToAI, questionToAIWithHaiku } from "./questionToAIClaude";
 import { prepareProura } from "@/libs/proura";
 import { calculateEuclideanDistance } from "@/libs/math";
 import {
@@ -14,6 +14,7 @@ import {
 } from "@/server/services/story/functions";
 import DataLoader from "dataloader";
 import { openai } from "@/libs/openai";
+import { AB_TESTING_VARIANTS } from "@/common/abtesting";
 
 export const question = procedure
 	.input(
@@ -125,11 +126,10 @@ export const question = procedure
 						truth: story.truth,
 						questionExamples: pickedFewExamples.map(({ example }) => example),
 					};
-					const answer = await questionToAI(
-						inputStory,
-						input.text,
-						"claude-3-sonnet-20240229",
-					);
+					const answer =
+						ctx.getABTestingVariant() === AB_TESTING_VARIANTS.ONLY_SONNET
+							? await questionToAI(inputStory, input.text)
+							: await questionToAIWithHaiku(inputStory, input.text);
 					const isOwn = user?.id === story.author.id;
 					// DBへの負荷を下げるため1/10の確率で質問ログを保存
 					!isOwn &&
