@@ -35,6 +35,7 @@ describe.each([
 ] as const)("service/question/getAnswer %s", (ab) => {
 	applyTestHooks();
 	const storyTamada = loadStory("test.yaml");
+	const storyHanako = loadStory("test2.yaml");
 	test.concurrent.each([
 		{
 			story: storyTamada,
@@ -51,6 +52,22 @@ describe.each([
 		{
 			story: storyTamada,
 			question: "山田さんの近くにいる人は男ですか？",
+		},
+		{
+			story: storyHanako,
+			question: "花子さんは運転手ですか？",
+		},
+		{
+			story: storyHanako,
+			question: "花子さんは出ようと思えばバスから出られる状態？",
+		},
+		{
+			story: storyHanako,
+			question: "花子さんにとってそこが仕事場ですか？",
+		},
+		{
+			story: storyHanako,
+			question: "これはいつものことですか？",
 		},
 	])(
 		"真相に対して正しい質問をするとTrueが返る $question",
@@ -81,6 +98,18 @@ describe.each([
 			story: storyTamada,
 			question: "女子トイレには他に誰かいますか？",
 		},
+		{
+			story: storyHanako,
+			question: "花子さんは死亡していますか？",
+		},
+		{
+			story: storyHanako,
+			question: "花子さんは客としてバスに乗ってる？",
+		},
+		{
+			story: storyHanako,
+			question: "バスが壊れてますか？",
+		},
 	])(
 		"真相に対して正しくない質問をするとFalseが返る $question",
 		async ({ question, story }) => {
@@ -101,6 +130,10 @@ describe.each([
 		{
 			story: storyTamada,
 			question: "山田さんはパンよりライス派？",
+		},
+		{
+			story: storyHanako,
+			question: "花子さんは良い人ですか？",
 		},
 	])(
 		"真相では言及されていない質問をするとUnknownが返る $question",
@@ -129,6 +162,11 @@ describe.each([
 			story: storyTamada,
 			question: "山田は人を殺したの？",
 			expected: "いい質問ですね！山田さんは人を殺しています。",
+		},
+		{
+			story: storyHanako,
+			question: "バスではトラブルが発生していますか？",
+			expected: "バスは今日も平常運転です。",
 		},
 	])(
 		"customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る $question",
