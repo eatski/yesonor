@@ -1,20 +1,15 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { QuestionExample, answer as answerSchema } from "../../model/story";
+import { answer as answerSchema } from "../../model/story";
 import { procedure } from "../../trpc";
 import { QuestionExampleWithCustomMessage } from "./type";
 import { prisma } from "@/libs/prisma";
-import { questionToAI, questionToAIWithHaiku } from "./questionToAIClaude";
-import { prepareProura } from "@/libs/proura";
-import { calculateEuclideanDistance } from "@/libs/math";
 import {
 	createGetStoryPrivateWhere,
 	createGetStoryWhere,
 	hydrateStory,
 } from "@/server/services/story/functions";
-import DataLoader from "dataloader";
-import { openai } from "@/libs/openai";
-import { AB_TESTING_VARIANTS } from "@/common/abtesting";
+import { getAnswer } from "@/server/services/question";
 
 export const question = procedure
 	.input(
@@ -32,145 +27,54 @@ export const question = procedure
 			answer: z.infer<typeof answerSchema>;
 			hitQuestionExample: QuestionExampleWithCustomMessage | null;
 		}> => {
-			const proura = prepareProura();
-			const embeddingsDataLoader = new DataLoader(
-				(texts: readonly string[]) => {
-					return openai.embeddings
-						.create({
-							model: "text-embedding-ada-002",
-							input: [...texts],
-						})
-						.then((res) => res.data);
-				},
+			const userPromise = ctx.getUserOptional();
+			const storyPromise = (async () => {
+				const user = await userPromise;
+				const storyWhere = user
+					? createGetStoryPrivateWhere({
+							storyId: input.storyId,
+							authorId: user.id,
+					  })
+					: createGetStoryWhere({
+							storyId: input.storyId,
+					  });
+				const storyDbData = await prisma.story.findFirst({
+					where: storyWhere,
+					include: {
+						author: true,
+					},
+				});
+				if (!storyDbData) {
+					throw new TRPCError({
+						code: "NOT_FOUND",
+					});
+				}
+				return hydrateStory(storyDbData);
+			})();
+			const recapturePromise = ctx.verifyRecaptcha(input.recaptchaToken);
+			const { answer, hitQuestionExample } = await getAnswer(
+				input.text,
+				storyPromise,
+				recapturePromise,
+				ctx.getABTestingVariant(),
 			);
-			const { hitQuestionExample, question: answer } = await proura
-				.add("verifyRecaptcha", () => {
-					return ctx.verifyRecaptcha(input.recaptchaToken);
-				})
-				.add("user", () => {
-					return ctx.getUserOptional();
-				})
-				.add("story", async (dependsOn) => {
-					const user = await dependsOn("user");
-					const storyWhere = user
-						? createGetStoryPrivateWhere({
-								storyId: input.storyId,
-								authorId: user.id,
-						  })
-						: createGetStoryWhere({
-								storyId: input.storyId,
-						  });
-					const storyDbData = await prisma.story.findFirst({
-						where: storyWhere,
-						include: {
-							author: true,
+			const user = await userPromise;
+			const story = await storyPromise;
+			const isOwn = user?.id === story.author.id;
+			// DBへの負荷を下げるため1/10の確率で質問ログを保存
+			!isOwn &&
+				Math.floor(Math.random() * 10) === 0 &&
+				(await prisma.questionLog
+					.create({
+						data: {
+							question: input.text,
+							answer,
+							storyId: story.id,
 						},
-					});
-
-					if (!storyDbData) {
-						throw new TRPCError({
-							code: "NOT_FOUND",
-						});
-					}
-
-					return hydrateStory(storyDbData);
-				})
-				.add("inputEmbedding", async () => {
-					return embeddingsDataLoader.load(input.text);
-				})
-				.add("sortedExamplesWithDistance", async (dependsOn) => {
-					const story = await dependsOn("story");
-					const embeddings = await embeddingsDataLoader.loadMany(
-						story.questionExamples.map(({ question }) => question),
-					);
-					const inputEmbedding = await dependsOn("inputEmbedding");
-					const result: {
-						example: QuestionExample;
-						distance: number;
-					}[] = [];
-					embeddings.forEach((embedding, index) => {
-						const example = story.questionExamples[index];
-						if (!example) {
-							throw new Error("index out of range");
-						}
-						if (embedding instanceof Error) {
-							console.error(embedding);
-							return;
-						}
-						const distance = calculateEuclideanDistance(
-							inputEmbedding.embedding,
-							embedding.embedding,
-						);
-						result.push({
-							example,
-							distance,
-						});
-					});
-					result.sort((a, b) => a.distance - b.distance);
-					return result;
-				})
-				.add("question", async (dependsOn) => {
-					await dependsOn("verifyRecaptcha");
-					const user = await dependsOn("user");
-					const story = await dependsOn("story");
-					const examples = await dependsOn("sortedExamplesWithDistance");
-					const pickedFewExamples: typeof examples = [];
-					["True", "False", "Unknown"].forEach((answer) => {
-						const example = examples.find(
-							({ example }) => example.answer === answer,
-						);
-						example && pickedFewExamples.push(example);
-					});
-					const inputStory = {
-						quiz: story.quiz,
-						truth: story.truth,
-						questionExamples: pickedFewExamples.map(({ example }) => example),
-					};
-					const answer =
-						ctx.getABTestingVariant() === AB_TESTING_VARIANTS.ONLY_SONNET
-							? await questionToAI(inputStory, input.text)
-							: await questionToAIWithHaiku(inputStory, input.text);
-					const isOwn = user?.id === story.author.id;
-					// DBへの負荷を下げるため1/10の確率で質問ログを保存
-					!isOwn &&
-						Math.floor(Math.random() * 10) === 0 &&
-						(await prisma.questionLog
-							.create({
-								data: {
-									question: input.text,
-									answer,
-									storyId: story.id,
-								},
-							})
-							.catch((e) => {
-								console.error(e);
-							}));
-
-					return answer;
-				})
-				.add("hitQuestionExample", async (dependsOn) => {
-					const answer = await dependsOn("question");
-					const examples = await dependsOn("sortedExamplesWithDistance");
-					const recur = ([
-						head,
-						...tail
-					]: typeof examples): QuestionExampleWithCustomMessage | null => {
-						if (!head) {
-							return null;
-						}
-						const { example, distance } = head;
-						if (example.customMessage && distance < 0.3) {
-							return {
-								...example,
-								customMessage: example.customMessage,
-							};
-						}
-						return recur(tail);
-					};
-					const hit = recur(examples);
-					return hit?.answer === answer ? hit : null;
-				})
-				.exec();
+					})
+					.catch((e) => {
+						console.error(e);
+					}));
 			return {
 				answer,
 				hitQuestionExample,

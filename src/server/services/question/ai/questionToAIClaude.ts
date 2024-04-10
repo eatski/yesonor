@@ -1,7 +1,7 @@
 import { QuestionExample } from "@/server/model/story";
 import { readFile } from "fs/promises";
 import { resolve } from "path";
-import { answer as answerSchema } from "../../model/story";
+import { answer as answerSchema } from "../../../model/story";
 import { createMessage } from "@/libs/claude";
 import { z } from "zod";
 
