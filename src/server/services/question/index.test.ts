@@ -76,7 +76,7 @@ describe.each([
 				question,
 				Promise.resolve(story),
 				Promise.resolve(),
-				ab,
+				Promise.resolve(ab),
 			);
 			expect(result.answer).toEqual("True");
 		},
@@ -117,7 +117,7 @@ describe.each([
 				question,
 				Promise.resolve(story),
 				Promise.resolve(),
-				ab,
+				Promise.resolve(ab),
 			);
 			expect(result.answer).toEqual("False");
 		},
@@ -142,7 +142,7 @@ describe.each([
 				question,
 				Promise.resolve(story),
 				Promise.resolve(),
-				ab,
+				Promise.resolve(ab),
 			);
 			expect(result.answer).toEqual("Unknown");
 		},
@@ -175,7 +175,7 @@ describe.each([
 				question,
 				Promise.resolve(story),
 				Promise.resolve(),
-				ab,
+				Promise.resolve(ab),
 			);
 			expect(result.hitQuestionExample?.customMessage).toBe(expected);
 		},
@@ -192,7 +192,7 @@ describe.each([
 				question,
 				Promise.resolve(story),
 				Promise.resolve(),
-				ab,
+				Promise.resolve(ab),
 			);
 			expect(result.hitQuestionExample?.customMessage).not.toBeDefined();
 		},

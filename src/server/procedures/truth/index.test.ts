@@ -53,7 +53,7 @@ describe("trpc/truth", () => {
 		getUser: never,
 		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
-		getABTestingVariant: never,
+		setupABTestingVariant: never,
 		isThankYouUser: never,
 	});
 	describe("解答した内容に対して、結果が返る", () => {
@@ -145,7 +145,7 @@ describe("trpc/truth", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					getABTestingVariant: never,
+					setupABTestingVariant: never,
 					isThankYouUser: never,
 				});
 				const text =
@@ -166,7 +166,7 @@ describe("trpc/truth", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					getABTestingVariant: never,
+					setupABTestingVariant: never,
 					isThankYouUser: never,
 				});
 				const text =
@@ -186,7 +186,7 @@ describe("trpc/truth", () => {
 				getUser: never,
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
-				getABTestingVariant: never,
+				setupABTestingVariant: never,
 				isThankYouUser: never,
 			});
 			const text =

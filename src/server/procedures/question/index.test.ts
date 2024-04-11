@@ -5,7 +5,6 @@ import { generateId } from "@/common/util/id";
 import { applyTestHooks } from "@/libs/msw-cache/vitest";
 import { question } from ".";
 import { router } from "@/server/trpc";
-import { AB_TESTING_VARIANTS } from "@/common/abtesting";
 const never = () => {
 	throw new Error("Never");
 };
@@ -51,7 +50,7 @@ describe("trpc/question", () => {
 		getUser: never,
 		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
-		getABTestingVariant: () => ab,
+		setupABTestingVariant: async () => ab,
 		isThankYouUser: never,
 	});
 	describe("質問した内容に対して、結果が返る", () => {
@@ -76,7 +75,7 @@ describe("trpc/question", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					getABTestingVariant: () => ab,
+					setupABTestingVariant: async () => ab,
 					isThankYouUser: never,
 				});
 				const text = "人を殺しましたか？";
@@ -96,7 +95,7 @@ describe("trpc/question", () => {
 					getUser: never,
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					getABTestingVariant: () => ab,
+					setupABTestingVariant: async () => ab,
 					isThankYouUser: never,
 				});
 				const text = "人を殺しましたか？";
@@ -115,7 +114,7 @@ describe("trpc/question", () => {
 				getUser: never,
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
-				getABTestingVariant: () => ab,
+				setupABTestingVariant: async () => ab,
 				isThankYouUser: never,
 			});
 			const text = "人を殺しましたか？";

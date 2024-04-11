@@ -52,11 +52,12 @@ export const question = procedure
 				return hydrateStory(storyDbData);
 			})();
 			const recapturePromise = ctx.verifyRecaptcha(input.recaptchaToken);
+			const abPromise = ctx.setupABTestingVariant();
 			const { answer, hitQuestionExample } = await getAnswer(
 				input.text,
 				storyPromise,
 				recapturePromise,
-				ctx.getABTestingVariant(),
+				abPromise,
 			);
 			const user = await userPromise;
 			const story = await storyPromise;
