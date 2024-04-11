@@ -54,9 +54,9 @@ export const getStoriesRecommended = async (
 				(story.publishedAt ? now - story.publishedAt.getTime() : 0) + ONE_DAY;
 
 			const score =
-				((Math.pow(Math.max(correctSolutionsLength, 1), 0.6) + 1) *
+				(Math.pow(Math.max(correctSolutionsLength, 1), 0.3) *
 					Math.pow(Math.max(total, 1), 0.9) *
-					Math.pow(Math.max(questionLogsLength, 1), 0.3) *
+					Math.pow(Math.max(questionLogsLength, 1), -0.1) *
 					Math.pow(questionExamplesLength + 1, 0.3) *
 					Math.pow(rng(), 2.2)) /
 				Math.pow(timeFromPublished, 0.5);
