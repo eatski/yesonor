@@ -26,14 +26,12 @@ export const getAnswer = async (
 			.then((res) => res.data);
 	});
 	const { answer, hitQuestionExample } = await proura
-		.add("verifyRecaptcha", () => verifyRequestPromise)
-		.add("story", () => storyPromise)
 		.add("questionEmbedding", async () => {
 			await verifyRequestPromise;
 			return embeddingsDataLoader.load(question);
 		})
 		.add("sortedExamplesWithDistance", async (dependsOn) => {
-			const story = await dependsOn("story");
+			const story = await storyPromise;
 			const embeddings = await embeddingsDataLoader.loadMany(
 				story.questionExamples.map(({ question }) => question),
 			);
@@ -64,8 +62,8 @@ export const getAnswer = async (
 			return result;
 		})
 		.add("answer", async (dependsOn) => {
-			await dependsOn("verifyRecaptcha");
-			const story = await dependsOn("story");
+			await verifyRequestPromise;
+			const story = await storyPromise;
 			const examples = await dependsOn("sortedExamplesWithDistance");
 			const pickedFewExamples: typeof examples = [];
 			["True", "False", "Unknown"].forEach((answer) => {
