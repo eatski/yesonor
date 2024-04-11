@@ -23,6 +23,11 @@ export const createContext = async (context: CreateNextContextOptions) => {
 				abTestRate < 0 ||
 				abTestRate > 1
 			) {
+				//cookieを削除
+				context.res.setHeader(
+					"Set-Cookie",
+					`${AB_TESTING_COOKIE_NAME}=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`,
+				);
 				return AB_TESTING_VARIANTS.ONLY_SONNET;
 			}
 			const cookieValue = context.req.cookies[AB_TESTING_COOKIE_NAME];
