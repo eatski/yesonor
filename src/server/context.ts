@@ -7,18 +7,35 @@ import { verifyRecaptcha } from "./services/recaptcha";
 import {
 	AB_TESTING_COOKIE_NAME,
 	AB_TESTING_VARIANTS,
+	getAorBRandom,
 	validateABTestingVariant,
 } from "@/common/abtesting";
+import { get } from "@vercel/edge-config";
 
 export const createContext = async (context: CreateNextContextOptions) => {
 	return {
-		getABTestingVariant: () => {
+		setupABTestingVariant: async () => {
+			const abTestRate = await get("abTestRate");
+			if (
+				!abTestRate ||
+				!(typeof abTestRate === "number") ||
+				isNaN(abTestRate) ||
+				abTestRate < 0 ||
+				abTestRate > 1
+			) {
+				return AB_TESTING_VARIANTS.ONLY_SONNET;
+			}
 			const cookieValue = context.req.cookies[AB_TESTING_COOKIE_NAME];
-			// AもしくはBのクッキーがあるならそれを返す // なければランダムでAかBを返す
-			const variant =
-				(cookieValue && validateABTestingVariant(cookieValue)) ||
-				AB_TESTING_VARIANTS.ONLY_SONNET;
-			return variant;
+			const validated = cookieValue && validateABTestingVariant(cookieValue);
+			if (validated) {
+				return validated;
+			}
+			const random = getAorBRandom(abTestRate);
+			context.res.setHeader(
+				"Set-Cookie",
+				`${AB_TESTING_COOKIE_NAME}=${random}; Path=/; HttpOnly; Secure; SameSite=Strict`,
+			);
+			return random;
 		},
 		getUserOptional: async () => {
 			const session = await getServerSession(

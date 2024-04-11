@@ -14,7 +14,7 @@ export const getAnswer = async (
 	question: string,
 	storyPromise: Promise<Story>,
 	verifyRequestPromise: Promise<void>,
-	ab: ABTestingVariant,
+	abPromise: Promise<ABTestingVariant>,
 ) => {
 	const proura = prepareProura();
 	const embeddingsDataLoader = new DataLoader((texts: readonly string[]) => {
@@ -77,6 +77,7 @@ export const getAnswer = async (
 				truth: story.truth,
 				questionExamples: pickedFewExamples.map(({ example }) => example),
 			};
+			const ab = await abPromise;
 			return ab === AB_TESTING_VARIANTS.ONLY_SONNET
 				? await questionToAI(inputStory, question)
 				: await questionToAIWithHaiku(inputStory, question);
