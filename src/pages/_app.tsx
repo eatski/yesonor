@@ -54,6 +54,7 @@ export default function App({ Component, pageProps }: AppProps) {
 		import("js-cookie").then((jsCookie) => {
 			if (!process.env.NEXT_PUBLIC_AB_TEST_RATE) {
 				jsCookie.default.remove(AB_TESTING_COOKIE_NAME);
+				return;
 			}
 			const rate = Number(process.env.NEXT_PUBLIC_AB_TEST_RATE);
 			if (rate < 0 || rate > 1 || isNaN(rate)) {
