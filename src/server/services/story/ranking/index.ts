@@ -1,12 +1,15 @@
 import { prisma } from "@/libs/prisma";
 import { createGetStoryWhere, hydrateStory, omitStory } from "../functions";
 import { StoryHead } from "@/server/model/story";
+import { CURRENT_HOUR_SEED } from "@/common/util/currentDateSeed";
+import seedrandam from "seedrandom";
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
 const ONE_MONTH = ONE_DAY * 30;
 
 export const getStoriesRecommended = async (
 	count: number,
+	seed: string = CURRENT_HOUR_SEED,
 ): Promise<StoryHead[]> => {
 	const now = Date.now();
 	// すべてのストーリーを取得
@@ -36,6 +39,7 @@ export const getStoriesRecommended = async (
 		},
 		take: 100,
 	});
+	const rng = seedrandam(seed);
 	const scoredStories = stories
 		.filter((story) => story.evaluations.every((e) => e.rating !== 0))
 		.map((story) => {
@@ -54,7 +58,7 @@ export const getStoriesRecommended = async (
 					Math.pow(Math.max(total, 1), 0.9) *
 					Math.pow(Math.max(questionLogsLength, 1), 0.3) *
 					Math.pow(questionExamplesLength + 1, 0.3) *
-					Math.pow(Math.random(), 2.2)) /
+					Math.pow(rng(), 2.2)) /
 				Math.pow(timeFromPublished, 0.5);
 
 			return {
