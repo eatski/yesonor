@@ -15,7 +15,7 @@ import { get } from "@vercel/edge-config";
 export const createContext = async (context: CreateNextContextOptions) => {
 	return {
 		setupABTestingVariant: async () => {
-			const abTestRate = await get("abTestRate");
+			const abTestRate = await get("abTestRate").catch(() => null);
 			if (
 				!abTestRate ||
 				!(typeof abTestRate === "number") ||
