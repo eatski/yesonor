@@ -3,6 +3,17 @@ import { createGetStoryWhere, hydrateStory, omitStory } from "../functions";
 import { StoryHead } from "@/server/model/story";
 import { CURRENT_HOUR_SEED } from "@/common/util/currentDateSeed";
 import seedrandam from "seedrandom";
+import { get } from "@vercel/edge-config";
+import { z } from "zod";
+
+const rankingWeightSchema = z.object({
+	questionLogsLength: z.number(),
+	correctSolutionsLength: z.number(),
+	evaluationTotal: z.number(),
+	questionExamplesLength: z.number(),
+	random: z.number(),
+	timeFromPublished: z.number(),
+});
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
 const ONE_MONTH = ONE_DAY * 30;
@@ -13,32 +24,35 @@ export const getStoriesRecommended = async (
 ): Promise<StoryHead[]> => {
 	const now = Date.now();
 	// すべてのストーリーを取得
-	const stories = await prisma.story.findMany({
-		include: {
-			evaluations: true,
-			questionLogs: {
-				where: {
-					createdAt: {
-						gte: new Date(now - ONE_MONTH),
+	const [stories, weight] = await Promise.all([
+		prisma.story.findMany({
+			include: {
+				evaluations: true,
+				questionLogs: {
+					where: {
+						createdAt: {
+							gte: new Date(now - ONE_MONTH),
+						},
 					},
 				},
-			},
-			solutionLogs: {
-				where: {
-					createdAt: {
-						gte: new Date(now - ONE_MONTH * 3),
+				solutionLogs: {
+					where: {
+						createdAt: {
+							gte: new Date(now - ONE_MONTH * 3),
+						},
+						result: "Correct",
 					},
-					result: "Correct",
 				},
+				author: true,
 			},
-			author: true,
-		},
-		where: createGetStoryWhere({}),
-		orderBy: {
-			publishedAt: "desc",
-		},
-		take: 100,
-	});
+			where: createGetStoryWhere({}),
+			orderBy: {
+				publishedAt: "desc",
+			},
+			take: 100,
+		}),
+		get("rankingWeight").then(rankingWeightSchema.parse),
+	]);
 	const rng = seedrandam(seed);
 	const scoredStories = stories
 		.filter((story) => story.evaluations.every((e) => e.rating !== 0))
@@ -53,13 +67,20 @@ export const getStoriesRecommended = async (
 			const timeFromPublished =
 				(story.publishedAt ? now - story.publishedAt.getTime() : 0) + ONE_DAY;
 
-			const score =
-				(Math.pow(Math.max(correctSolutionsLength, 1), 0.3) *
-					Math.pow(Math.max(total, 1), 0.9) *
-					Math.pow(Math.max(questionLogsLength, 1), -0.1) *
-					Math.pow(questionExamplesLength + 1, 0.3) *
-					Math.pow(rng(), 2.2)) /
-				Math.pow(timeFromPublished, 0.5);
+			const source = [
+				[correctSolutionsLength, 1, weight.correctSolutionsLength],
+				[total, 1, weight.evaluationTotal],
+				[questionLogsLength, 1, weight.questionLogsLength],
+				[questionExamplesLength, 1, weight.questionExamplesLength],
+				[rng(), 0, weight.random],
+				[timeFromPublished, 1, weight.timeFromPublished],
+			] as const;
+
+			const score = source.reduce(
+				(acc, [value, min, weight]) =>
+					acc * Math.pow(Math.max(value, min), weight),
+				1,
+			);
 
 			return {
 				story: omitted,
