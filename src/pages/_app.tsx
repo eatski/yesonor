@@ -82,6 +82,11 @@ export default function App({ Component, pageProps }: AppProps) {
 					name="twitter:image"
 					content="https://iesona.com/card_square.png"
 				/>
+				<script
+					async
+					src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4007955646272580"
+					crossOrigin="anonymous"
+				/>
 			</Head>
 			<Script
 				src="https://www.googletagmanager.com/gtag/js?id=G-1VTTNL7SR2"
