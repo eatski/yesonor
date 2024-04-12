@@ -18,7 +18,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 				url: `/stories/${story.id}`,
 			})),
 		},
-		revalidate: revalidateTime.medium,
+		revalidate: revalidateTime.short,
 	};
 };
 
