@@ -7,6 +7,7 @@ import { getStories } from "@/server/services/story";
 import { revalidateTime } from "@/common/revalidate";
 import { RecommendCreateStory } from "@/components/recommendCreateStory";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
+import { Ads } from "@/components/ads";
 
 type Props = {
 	stories: Item[];
@@ -49,6 +50,13 @@ export default function Home({ stories, recommend }: Props) {
 				<div style={{ marginBottom: "24px" }}>
 					<RecommendCreateStory />
 				</div>
+				<aside
+					style={{
+						marginBottom: "24px",
+					}}
+				>
+					<Ads />
+				</aside>
 				<section style={{ marginBottom: "24px" }}>
 					<H2 label="新着ストーリー" />
 					<StoryList stories={stories} seeMoreUrl={"/stories"} />
