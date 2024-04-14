@@ -4,6 +4,7 @@ import { readFile } from "fs/promises";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { resolve } from "path";
 import Script from "next/script";
+import { useEffect, useRef } from "react";
 
 type Props = {
 	markdown: string;
@@ -72,6 +73,27 @@ export default function MarkdownDocumentPage({ markdown }: Props) {
 	return (
 		<Layout>
 			<Markdown source={markdown} />
+			<Ads />
+		</Layout>
+	);
+}
+
+const Ads = () => {
+	const initialized = useRef<boolean>(false);
+	useEffect(() => {
+		if (initialized.current) {
+			return;
+		}
+		try {
+			//@ts-expect-error
+			(adsbygoogle === (window.adsbygoogle || [])).push({});
+			initialized.current = true;
+		} catch (e) {
+			console.error(e);
+		}
+	}, []);
+	return (
+		<>
 			<Script
 				async
 				src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4007955646272580"
@@ -85,7 +107,6 @@ export default function MarkdownDocumentPage({ markdown }: Props) {
 				data-ad-format="auto"
 				data-full-width-responsive="true"
 			/>
-			<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-		</Layout>
+		</>
 	);
-}
+};
