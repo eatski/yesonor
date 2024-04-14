@@ -86,6 +86,7 @@ const Ads = () => {
 		}
 		try {
 			//@ts-expect-error
+
 			(adsbygoogle === (window.adsbygoogle || [])).push({});
 			initialized.current = true;
 		} catch (e) {
