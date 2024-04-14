@@ -1,9 +1,13 @@
 import Script from "next/script";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const Ads = () => {
 	const initialized = useRef<boolean>(false);
+	const [loaded, setLoaded] = useState(false);
 	useEffect(() => {
+		if (!loaded) {
+			return;
+		}
 		if (initialized.current) {
 			return;
 		}
@@ -16,13 +20,16 @@ export const Ads = () => {
 		} catch (e) {
 			console.error(e);
 		}
-	}, []);
+	}, [loaded]);
 	return (
 		<>
 			<Script
 				async
 				src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4007955646272580"
 				crossOrigin="anonymous"
+				onLoad={() => {
+					setLoaded(true);
+				}}
 			/>
 			<ins
 				className="adsbygoogle"
