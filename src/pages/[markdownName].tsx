@@ -73,7 +73,13 @@ export default function MarkdownDocumentPage({ markdown }: Props) {
 	return (
 		<Layout>
 			<Markdown source={markdown} />
-			<Ads />
+			<aside
+				style={{
+					marginTop: "24px",
+				}}
+			>
+				<Ads />
+			</aside>
 		</Layout>
 	);
 }
