@@ -3,6 +3,7 @@ import { Layout } from "@/components/layout";
 import { readFile } from "fs/promises";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { resolve } from "path";
+import Script from "next/script";
 
 type Props = {
 	markdown: string;
@@ -71,6 +72,20 @@ export default function MarkdownDocumentPage({ markdown }: Props) {
 	return (
 		<Layout>
 			<Markdown source={markdown} />
+			<Script
+				async
+				src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4007955646272580"
+				crossOrigin="anonymous"
+			/>
+			<ins
+				className="adsbygoogle"
+				style={{ display: "block" }}
+				data-ad-client="ca-pub-4007955646272580"
+				data-ad-slot="3140493959"
+				data-ad-format="auto"
+				data-full-width-responsive="true"
+			/>
+			<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 		</Layout>
 	);
 }
