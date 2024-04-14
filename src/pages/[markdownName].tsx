@@ -3,8 +3,6 @@ import { Layout } from "@/components/layout";
 import { readFile } from "fs/promises";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { resolve } from "path";
-import Script from "next/script";
-import { useEffect, useRef } from "react";
 import { Ads } from "@/components/ads";
 
 type Props = {
