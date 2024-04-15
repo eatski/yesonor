@@ -16,6 +16,7 @@ import { gtagEvent } from "@/common/util/gtag";
 import { keysOverride } from "@/components/headMeta";
 import { ConfirmModal } from "@/components/confirmModal";
 import { Toast } from "@/components/toast";
+import { AdsScriptsProvider } from "@/components/ads";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = useMemo(() => new QueryClient(), []);
@@ -82,11 +83,6 @@ export default function App({ Component, pageProps }: AppProps) {
 					name="twitter:image"
 					content="https://iesona.com/card_square.png"
 				/>
-				<script
-					async
-					src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4007955646272580"
-					crossOrigin="anonymous"
-				/>
 			</Head>
 			<Script
 				src="https://www.googletagmanager.com/gtag/js?id=G-1VTTNL7SR2"
@@ -100,18 +96,20 @@ export default function App({ Component, pageProps }: AppProps) {
           gtag('config', 'G-1VTTNL7SR2');
         `}
 			</Script>
-			<SessionProvider session={pageProps.session}>
-				<trpc.Provider client={trpcClient} queryClient={queryClient}>
-					<QueryClientProvider client={queryClient}>
-						<SetupAB />
-						<ConfirmModal>
-							<Toast>
-								<Component {...pageProps} />
-							</Toast>
-						</ConfirmModal>
-					</QueryClientProvider>
-				</trpc.Provider>
-			</SessionProvider>
+			<AdsScriptsProvider>
+				<SessionProvider session={pageProps.session}>
+					<trpc.Provider client={trpcClient} queryClient={queryClient}>
+						<QueryClientProvider client={queryClient}>
+							<SetupAB />
+							<ConfirmModal>
+								<Toast>
+									<Component {...pageProps} />
+								</Toast>
+							</ConfirmModal>
+						</QueryClientProvider>
+					</trpc.Provider>
+				</SessionProvider>
+			</AdsScriptsProvider>
 		</>
 	);
 }
