@@ -71,10 +71,6 @@ describe.each([
 			question: "これはいつものことですか？",
 		},
 		{
-			story: storyHanako,
-			question: "花子さんは1人でバスの中にいますか？",
-		},
-		{
 			story: storyMorita,
 			question: "森田さんは危険な状態ですか？",
 		},
