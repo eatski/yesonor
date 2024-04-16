@@ -80,7 +80,7 @@ export const questionToAIWithHaiku = async (
 	});
 	const block = response.content[0];
 	if (!block) {
-		throw new Error("AI's response has no content");
+		return questionToAI(story, question);
 	}
 	const parsed = haikuAnswer.safeParse(block.text);
 	const answer1st = parsed.success ? parsed.data : "Unknown";
