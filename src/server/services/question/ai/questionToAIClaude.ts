@@ -7,7 +7,6 @@ import { z } from "zod";
 import { MessageParam } from "@anthropic-ai/sdk/resources";
 
 const createMessages = (
-	systemPrompt: string,
 	story: {
 		quiz: string;
 		truth: string;
@@ -18,7 +17,15 @@ const createMessages = (
 	return [
 		{
 			role: "user",
-			content: systemPrompt,
+			content: "Let's play a quiz game.",
+		},
+		{
+			role: "assistant",
+			content: story.quiz,
+		},
+		{
+			role: "user",
+			content: "What is the truth?",
 		},
 		{
 			role: "assistant",
@@ -60,11 +67,8 @@ export const questionToAIWithHaiku = async (
 		model: "claude-3-haiku-20240307",
 		max_tokens: 1,
 		temperature: 0,
-		messages: createMessages(
-			(await systemPromptPromise).toString(),
-			story,
-			question,
-		),
+		messages: createMessages(story, question),
+		system: (await systemPromptPromise).toString(),
 	});
 	const block = response.content[0];
 	if (!block) {
@@ -93,11 +97,8 @@ export const questionToAI = async (
 		model: "claude-3-sonnet-20240229",
 		max_tokens: 1,
 		temperature: 0,
-		messages: createMessages(
-			(await systemPromptPromise).toString(),
-			story,
-			question,
-		),
+		messages: createMessages(story, question),
+		system: (await systemPromptPromise).toString(),
 	});
 	const block = response.content[0];
 	if (!block) {

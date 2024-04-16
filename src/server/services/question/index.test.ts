@@ -69,6 +69,10 @@ describe.each([
 			story: storyHanako,
 			question: "これはいつものことですか？",
 		},
+		{
+			story: storyHanako,
+			question: "花子さんは1人でバスの中にいますか？",
+		},
 	])(
 		"真相に対して正しい質問をするとTrueが返る $question",
 		async ({ question, story }) => {
