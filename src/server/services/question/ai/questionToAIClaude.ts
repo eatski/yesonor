@@ -31,6 +31,14 @@ const createMessages = (
 			role: "assistant",
 			content: story.truth,
 		},
+		{
+			role: "user",
+			content: "I will ask a few questions.",
+		},
+		{
+			role: "assistant",
+			content: "OK",
+		},
 		...story.questionExamples.flatMap(({ question, answer }) => {
 			return [
 				{

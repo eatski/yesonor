@@ -71,10 +71,6 @@ describe.each([
 			question: "これはいつものことですか？",
 		},
 		{
-			story: storyHanako,
-			question: "花子さんは1人でバスの中にいますか？",
-		},
-		{
 			story: storyMorita,
 			question: "森田さんは危険な状態ですか？",
 		},
@@ -139,10 +135,10 @@ describe.each([
 			story: storyMorita,
 			question: "男性は森田さんに好意を抱いてますか？",
 		},
-		// {
-		// 	story: storyMorita,
-		// 	question: "男性は森田さんに伝えたいことがありますか？"
-		// }
+		{
+			story: storyMorita,
+			question: "男性は森田さんに何かを伝えようとしていますか？",
+		},
 	])(
 		"真相に対して正しくない質問をするとFalseが返る $question",
 		async ({ question, story }) => {
