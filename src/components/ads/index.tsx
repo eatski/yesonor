@@ -29,7 +29,11 @@ export const AdsScriptsProvider: React.FC<PropsWithChildren> = ({
 	);
 };
 
-export const Ads = () => {
+export const Ads = ({
+	slot,
+}: {
+	slot: string;
+}) => {
 	const scriptsLoading = useContext(AdsScriptsContext);
 	const ref = useRef<HTMLModElement>(null);
 	useEffect(() => {
@@ -56,7 +60,7 @@ export const Ads = () => {
 			className="adsbygoogle"
 			style={{ display: "block" }}
 			data-ad-client="ca-pub-4007955646272580"
-			data-ad-slot="3140493959"
+			data-ad-slot={slot}
 			data-ad-format="auto"
 			data-full-width-responsive="true"
 		/>

@@ -4,6 +4,7 @@ import { readFile } from "fs/promises";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { resolve } from "path";
 import { Ads } from "@/components/ads";
+import { AdsBanner } from "@/components/adsBanner";
 
 type Props = {
 	markdown: string;
@@ -77,7 +78,7 @@ export default function MarkdownDocumentPage({ markdown }: Props) {
 					marginTop: "24px",
 				}}
 			>
-				<Ads />
+				<AdsBanner />
 			</aside>
 		</Layout>
 	);

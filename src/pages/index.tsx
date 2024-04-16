@@ -9,6 +9,7 @@ import { RecommendCreateStory } from "@/components/recommendCreateStory";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
 import { Ads } from "@/components/ads";
 import { AdsModal } from "@/components/adsModal";
+import { AdsBanner } from "@/components/adsBanner";
 
 type Props = {
 	stories: Item[];
@@ -57,7 +58,7 @@ export default function Home({ stories, recommend }: Props) {
 						marginBottom: "24px",
 					}}
 				>
-					<Ads />
+					<AdsBanner />
 				</aside>
 				<section style={{ marginBottom: "24px" }}>
 					<H2 label="新着ストーリー" />

@@ -73,7 +73,7 @@ export const AdsModal = () => {
 		<Modal isOpen={numberCount > 20}>
 			<div className={styles.container}>
 				<div className={styles.content}>
-					<Ads />
+					<Ads slot="8290299737" />
 				</div>
 				<div className={styles.lower}>
 					<Button
