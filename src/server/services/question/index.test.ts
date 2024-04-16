@@ -36,6 +36,7 @@ describe.each([
 	applyTestHooks();
 	const storyTamada = loadStory("test.yaml");
 	const storyHanako = loadStory("test2.yaml");
+	const storyMorita = loadStory("test3.yaml");
 	test.concurrent.each([
 		{
 			story: storyTamada,
@@ -72,6 +73,14 @@ describe.each([
 		{
 			story: storyHanako,
 			question: "花子さんは1人でバスの中にいますか？",
+		},
+		{
+			story: storyMorita,
+			question: "森田さんは危険な状態ですか？",
+		},
+		{
+			story: storyMorita,
+			question: "路地裏には死体がありますか？",
 		},
 	])(
 		"真相に対して正しい質問をするとTrueが返る $question",
@@ -114,6 +123,26 @@ describe.each([
 			story: storyHanako,
 			question: "バスが壊れてますか？",
 		},
+		{
+			story: storyMorita,
+			question: "森田さんは死んでいますか？",
+		},
+		{
+			story: storyMorita,
+			question: "男性は森田さんを殺しましたか？",
+		},
+		{
+			story: storyMorita,
+			question: "男性は森田さんと知り合いですか？",
+		},
+		{
+			story: storyMorita,
+			question: "男性は森田さんに好意を抱いてますか？",
+		},
+		// {
+		// 	story: storyMorita,
+		// 	question: "男性は森田さんに伝えたいことがありますか？"
+		// }
 	])(
 		"真相に対して正しくない質問をするとFalseが返る $question",
 		async ({ question, story }) => {
@@ -138,6 +167,10 @@ describe.each([
 		{
 			story: storyHanako,
 			question: "花子さんは良い人ですか？",
+		},
+		{
+			story: storyMorita,
+			question: "森田さんは仕事ができる人ですか？",
 		},
 	])(
 		"真相では言及されていない質問をするとUnknownが返る $question",
