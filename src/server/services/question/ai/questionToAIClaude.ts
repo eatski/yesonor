@@ -4,6 +4,44 @@ import { resolve } from "path";
 import { answer as answerSchema } from "../../../model/story";
 import { createMessage } from "@/libs/claude";
 import { z } from "zod";
+import { MessageParam } from "@anthropic-ai/sdk/resources";
+
+const createMessages = (
+	systemPrompt: string,
+	story: {
+		quiz: string;
+		truth: string;
+		questionExamples: QuestionExample[];
+	},
+	question: string,
+): MessageParam[] => {
+	return [
+		{
+			role: "user",
+			content: systemPrompt,
+		},
+		{
+			role: "assistant",
+			content: story.truth,
+		},
+		...story.questionExamples.flatMap(({ question, answer }) => {
+			return [
+				{
+					role: "user",
+					content: question,
+				},
+				{
+					role: "assistant",
+					content: answer,
+				},
+			] as const;
+		}),
+		{
+			role: "user",
+			content: question,
+		},
+	];
+};
 
 export const questionToAIWithHaiku = async (
 	story: {
@@ -22,33 +60,11 @@ export const questionToAIWithHaiku = async (
 		model: "claude-3-haiku-20240307",
 		max_tokens: 1,
 		temperature: 0,
-		messages: [
-			{
-				role: "user",
-				content: (await systemPromptPromise).toString(),
-			},
-			{
-				role: "assistant",
-				content: story.truth,
-			},
-			...story.questionExamples.flatMap(
-				(example) =>
-					[
-						{
-							role: "user",
-							content: example.question,
-						},
-						{
-							role: "assistant",
-							content: example.answer,
-						},
-					] as const,
-			),
-			{
-				role: "user",
-				content: question,
-			},
-		],
+		messages: createMessages(
+			(await systemPromptPromise).toString(),
+			story,
+			question,
+		),
 	});
 	const block = response.content[0];
 	if (!block) {
@@ -77,33 +93,11 @@ export const questionToAI = async (
 		model: "claude-3-sonnet-20240229",
 		max_tokens: 1,
 		temperature: 0,
-		messages: [
-			{
-				role: "user",
-				content: (await systemPromptPromise).toString(),
-			},
-			{
-				role: "assistant",
-				content: story.truth,
-			},
-			...story.questionExamples.flatMap(
-				(example) =>
-					[
-						{
-							role: "user",
-							content: example.question,
-						},
-						{
-							role: "assistant",
-							content: example.answer,
-						},
-					] as const,
-			),
-			{
-				role: "user",
-				content: question,
-			},
-		],
+		messages: createMessages(
+			(await systemPromptPromise).toString(),
+			story,
+			question,
+		),
 	});
 	const block = response.content[0];
 	if (!block) {
