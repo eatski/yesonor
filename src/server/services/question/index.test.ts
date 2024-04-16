@@ -139,10 +139,10 @@ describe.each([
 			story: storyMorita,
 			question: "男性は森田さんに好意を抱いてますか？",
 		},
-		// {
-		// 	story: storyMorita,
-		// 	question: "男性は森田さんに伝えたいことがありますか？"
-		// }
+		{
+			story: storyMorita,
+			question: "男性は森田さんに何かを伝えようとしていますか？",
+		},
 	])(
 		"真相に対して正しくない質問をするとFalseが返る $question",
 		async ({ question, story }) => {
