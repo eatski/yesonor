@@ -69,8 +69,15 @@ const useLocalStorage = () => {
 export const AdsModal = () => {
 	const [count, setCount] = useLocalStorage();
 	const numberCount = Number(count);
+	const open = numberCount > 20;
+
+	useEffect(() => {
+		if (open) {
+			localStorage.removeItem(STORAGE_KEY);
+		}
+	}, [open]);
 	return (
-		<Modal isOpen={numberCount > 20}>
+		<Modal isOpen={open}>
 			<div className={styles.container}>
 				<div className={styles.content}>
 					<Ads slot="8290299737" />
@@ -78,7 +85,6 @@ export const AdsModal = () => {
 				<div className={styles.lower}>
 					<Button
 						onClick={() => {
-							localStorage.removeItem(STORAGE_KEY);
 							setCount(0);
 						}}
 						color={"none"}
