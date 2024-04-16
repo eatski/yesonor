@@ -33,7 +33,7 @@ export const storyInit = z.object({
 	quiz: z
 		.string()
 		.nonempty(NON_EMPTY_MESSAGE)
-		.max(200, "200文字以内で入力してください"),
+		.max(140, "140文字以内で入力してください"),
 	truth: z
 		.string()
 		.nonempty(NON_EMPTY_MESSAGE)
