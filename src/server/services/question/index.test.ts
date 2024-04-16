@@ -92,6 +92,10 @@ describe.each([
 		},
 		{
 			story: storyTamada,
+			question: "山田さんは死んでいますか？",
+		},
+		{
+			story: storyTamada,
 			question: "女子トイレには他に誰かいますか？",
 		},
 		{

@@ -22,19 +22,10 @@ export const questionToAIWithHaiku = async (
 		model: "claude-3-haiku-20240307",
 		max_tokens: 1,
 		temperature: 0,
-		system: (await systemPromptPromise).toString(),
 		messages: [
 			{
 				role: "user",
-				content: "Please ask a quiz question.",
-			},
-			{
-				role: "assistant",
-				content: story.quiz,
-			},
-			{
-				role: "user",
-				content: "Please think of the truth.",
+				content: (await systemPromptPromise).toString(),
 			},
 			{
 				role: "assistant",
@@ -86,19 +77,10 @@ export const questionToAI = async (
 		model: "claude-3-sonnet-20240229",
 		max_tokens: 1,
 		temperature: 0,
-		system: (await systemPromptPromise).toString(),
 		messages: [
 			{
 				role: "user",
-				content: "Please ask a quiz question.",
-			},
-			{
-				role: "assistant",
-				content: story.quiz,
-			},
-			{
-				role: "user",
-				content: "Please think of the truth.",
+				content: (await systemPromptPromise).toString(),
 			},
 			{
 				role: "assistant",
