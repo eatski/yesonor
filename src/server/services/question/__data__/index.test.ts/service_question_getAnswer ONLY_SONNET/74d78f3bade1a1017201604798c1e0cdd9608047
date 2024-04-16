@@ -1,1 +1,0 @@
-{"value":{"id":"msg_012jb1yAKj4CZH3KwTQeP2Uo","type":"message","role":"assistant","model":"claude-3-sonnet-20240229","stop_sequence":null,"usage":{"input_tokens":519,"output_tokens":1},"content":[{"type":"text","text":"True"}],"stop_reason":"max_tokens"},"type":"Object","created":"2024-04-16T19:10:25.379Z","ttl":0}
