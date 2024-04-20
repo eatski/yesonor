@@ -9,14 +9,18 @@ export type Item = {
 	url: string;
 };
 
-export const StoryList: React.FC<{ stories: Item[]; seeMoreUrl?: string }> = ({
-	stories,
-	seeMoreUrl,
-}) => {
+export const StoryList: React.FC<{
+	stories: Item[];
+	seeMoreUrl?: string;
+	breakContent?: {
+		Component: React.ElementType;
+		step: number;
+	};
+}> = ({ stories, seeMoreUrl, breakContent }) => {
 	return (
 		<div className={styles.container}>
 			<ul>
-				{stories.map(({ story, url }) => {
+				{stories.map(({ story, url }, index) => {
 					return (
 						<li key={story.id}>
 							<Link href={url}>
@@ -30,6 +34,12 @@ export const StoryList: React.FC<{ stories: Item[]; seeMoreUrl?: string }> = ({
 							>
 								<StartIcon className={components.iconButton} />
 							</Link>
+							<aside>
+								{breakContent?.step &&
+									(index + 1) % breakContent.step === 0 && (
+										<breakContent.Component />
+									)}
+							</aside>
 						</li>
 					);
 				})}
