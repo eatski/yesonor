@@ -34,12 +34,13 @@ export const StoryList: React.FC<{
 							>
 								<StartIcon className={components.iconButton} />
 							</Link>
-							<aside>
-								{breakContent?.step &&
-									(index + 1) % breakContent.step === 0 && (
+							{index + 1 !== stories.length &&
+								breakContent?.step &&
+								(index + 1) % breakContent.step === 0 && (
+									<aside>
 										<breakContent.Component />
-									)}
-							</aside>
+									</aside>
+								)}
 						</li>
 					);
 				})}
