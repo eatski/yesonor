@@ -53,7 +53,7 @@ export default function Home({ stories, recommend }: Props) {
 						seeMoreUrl={"/stories/rank"}
 						breakContent={{
 							Component: Ads,
-							breakingPointNum: 4,
+							step: 5,
 						}}
 					/>
 				</section>

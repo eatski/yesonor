@@ -14,7 +14,7 @@ export const StoryList: React.FC<{
 	seeMoreUrl?: string;
 	breakContent?: {
 		Component: React.ElementType;
-		breakingPointNum: number;
+		step: number;
 	};
 }> = ({ stories, seeMoreUrl, breakContent }) => {
 	return (
@@ -35,9 +35,10 @@ export const StoryList: React.FC<{
 								<StartIcon className={components.iconButton} />
 							</Link>
 							<aside>
-								{breakContent?.breakingPointNum === index && (
-									<breakContent.Component />
-								)}
+								{breakContent?.step &&
+									(index + 1) % breakContent.step === 0 && (
+										<breakContent.Component />
+									)}
 							</aside>
 						</li>
 					);
