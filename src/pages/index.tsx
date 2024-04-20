@@ -48,7 +48,14 @@ export default function Home({ stories, recommend }: Props) {
 				</div>
 				<section style={{ marginBottom: "24px" }}>
 					<H2 label="おすすめストーリー" />
-					<StoryList stories={recommend} seeMoreUrl={"/stories/rank"} />
+					<StoryList
+						stories={recommend}
+						seeMoreUrl={"/stories/rank"}
+						breakContent={{
+							Component: Ads,
+							breakingPointNum: 4,
+						}}
+					/>
 				</section>
 				<div style={{ marginBottom: "24px" }}>
 					<RecommendCreateStory />
