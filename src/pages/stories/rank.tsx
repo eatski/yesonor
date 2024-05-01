@@ -4,7 +4,6 @@ import { Item, StoryList } from "@/components/storyList";
 import { H1 } from "@/designSystem/components/heading";
 import { revalidateTime } from "@/common/revalidate";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
-import { AdsBanner } from "@/components/adsBanner";
 
 type Props = {
 	stories: Item[];
@@ -28,13 +27,7 @@ export default function Story(props: Props) {
 		<Layout>
 			<main>
 				<H1>おすすめストーリー</H1>
-				<StoryList
-					stories={props.stories}
-					breakContent={{
-						Component: AdsBanner,
-						step: 10,
-					}}
-				/>
+				<StoryList stories={props.stories} />
 			</main>
 		</Layout>
 	);

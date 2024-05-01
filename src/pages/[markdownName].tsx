@@ -3,8 +3,6 @@ import { Layout } from "@/components/layout";
 import { readFile } from "fs/promises";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { resolve } from "path";
-import { Ads } from "@/components/ads";
-import { AdsBanner } from "@/components/adsBanner";
 
 type Props = {
 	markdown: string;
@@ -73,13 +71,6 @@ export default function MarkdownDocumentPage({ markdown }: Props) {
 	return (
 		<Layout>
 			<Markdown source={markdown} />
-			<aside
-				style={{
-					marginTop: "24px",
-				}}
-			>
-				<AdsBanner />
-			</aside>
 		</Layout>
 	);
 }
