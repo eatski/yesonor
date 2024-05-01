@@ -3,7 +3,6 @@ import { trpc } from "@/libs/trpc";
 import { Answer, Story } from "@/server/model/story";
 import { OPENAI_ERROR_MESSAGE } from "@/server/procedures/question/contract";
 import { useRef, useState } from "react";
-import { countUp } from "../adsModal";
 
 const last = <T>(array: T[]): T | null => {
 	if (array.length === 0) {
@@ -57,7 +56,6 @@ export const useQuestion = (story: UseQuestionStory) => {
 			: last(history);
 	return {
 		async onSubmit(text: string) {
-			countUp();
 			const id = pushHistory({ input: text, result: null });
 			const result = await mutateAsync({
 				storyId: story.id,
