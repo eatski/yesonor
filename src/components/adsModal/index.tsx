@@ -69,7 +69,7 @@ const useLocalStorage = () => {
 export const AdsModal = () => {
 	const [count, setCount] = useLocalStorage();
 	const numberCount = Number(count);
-	const open = numberCount > 5;
+	const open = numberCount > 100;
 
 	useEffect(() => {
 		if (open) {
