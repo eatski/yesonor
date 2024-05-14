@@ -24,7 +24,7 @@ export const questionToAI = async (
 ) => {
 	const response = await openai.chat.completions
 		.create({
-			model: "gpt-4-0613",
+			model: "gpt-4o",
 			function_call: {
 				name: "asnwer",
 			},
@@ -50,8 +50,24 @@ export const questionToAI = async (
 					content: (await systemPromptPromise).toString(),
 				},
 				{
+					role: "user",
+					content: "Let's play a quiz game.",
+				},
+				{
+					role: "assistant",
+					content: story.quiz,
+				},
+				{
+					role: "assistant",
+					content: "What is the truth?",
+				},
+				{
 					role: "assistant",
 					content: story.truth,
+				},
+				{
+					role: "user",
+					content: "答えがわからないのでいくつか質問をしますね。",
 				},
 				...story.questionExamples.flatMap(
 					({ question, answer, supplement }) => {
