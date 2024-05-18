@@ -1,5 +1,5 @@
+import { resolve } from "node:path";
 import Cache from "file-system-cache";
-import { resolve } from "path";
 
 export const initTioc = <T>(fetcher: (key: string) => Promise<T>) => {
 	const cache = Cache({

@@ -1,8 +1,8 @@
-import { HTMLProps, useId } from "react";
-import { AiOutlineMinusCircle } from "react-icons/ai";
-import styles from "./styles.module.scss";
 import components from "@/designSystem/components.module.scss";
 import { FormErrorMessage } from "@/designSystem/components/formErrorMessage";
+import { type HTMLProps, useId } from "react";
+import { AiOutlineMinusCircle } from "react-icons/ai";
+import styles from "./styles.module.scss";
 
 export type Props = {
 	index: number;

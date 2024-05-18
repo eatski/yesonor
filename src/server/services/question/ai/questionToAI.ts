@@ -1,11 +1,11 @@
-import { QuestionExample } from "@/server/model/story";
-import { TRPCError } from "@trpc/server";
-import { OPENAI_ERROR_MESSAGE } from "../../../procedures/question/contract";
-import { readFile } from "fs/promises";
-import { resolve } from "path";
-import { answer as answerSchema } from "../../../model/story";
-import { z } from "zod";
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { openai } from "@/libs/openai";
+import type { QuestionExample } from "@/server/model/story";
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import { answer as answerSchema } from "../../../model/story";
+import { OPENAI_ERROR_MESSAGE } from "../../../procedures/question/contract";
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),
 );

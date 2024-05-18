@@ -1,8 +1,9 @@
-import React, { useId, useState } from "react";
-import styles from "./styles.module.scss";
-import components from "@/designSystem/components.module.scss";
-import { AiOutlineSend } from "react-icons/ai";
 import { gtagEvent } from "@/common/util/gtag";
+import components from "@/designSystem/components.module.scss";
+import type React from "react";
+import { useId, useState } from "react";
+import { AiOutlineSend } from "react-icons/ai";
+import styles from "./styles.module.scss";
 
 export const QuestionForm: React.FC<{
 	onSubmit: (text: string) => void;

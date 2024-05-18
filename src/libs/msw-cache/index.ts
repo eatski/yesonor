@@ -1,11 +1,11 @@
+import { unlink } from "node:fs/promises";
 import { FileSystemCache } from "file-system-cache";
-import { unlink } from "fs/promises";
 import {
-	DefaultBodyType,
-	HttpResponse,
-	StrictRequest,
-	bypass,
 	http,
+	type DefaultBodyType,
+	HttpResponse,
+	type StrictRequest,
+	bypass,
 } from "msw";
 import { setupServer } from "msw/node";
 class ResponseCache {
@@ -55,14 +55,13 @@ export const initMswCacheServer = (basePath: string) => {
 			const cached = await cache.get(req.request.clone());
 			if (typeof cached === "object") {
 				return HttpResponse.json(cached);
-			} else {
-				const response = await fetch(bypass(req.request));
-				if (response.status === 200) {
-					const text = await response.clone().json();
-					await cache.set(req.request, text);
-				}
-				return response;
 			}
+			const response = await fetch(bypass(req.request));
+			if (response.status === 200) {
+				const text = await response.clone().json();
+				await cache.set(req.request, text);
+			}
+			return response;
 		}),
 	);
 	return {

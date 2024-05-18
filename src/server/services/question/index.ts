@@ -1,14 +1,14 @@
-import { ABTestingVariant, AB_TESTING_VARIANTS } from "@/common/abtesting";
+import { type ABTestingVariant, AB_TESTING_VARIANTS } from "@/common/abtesting";
 import { calculateEuclideanDistance } from "@/libs/math";
 import { openai } from "@/libs/openai";
 import { prepareProura } from "@/libs/proura";
-import {
+import type {
 	QuestionExample,
 	QuestionExampleWithCustomMessage,
 	Story,
 } from "@/server/model/story";
-import { questionToAI, questionToAIWithHaiku } from "./ai/questionToAIClaude";
 import DataLoader from "dataloader";
+import { questionToAI, questionToAIWithHaiku } from "./ai/questionToAIClaude";
 
 export const getAnswer = async (
 	question: string,

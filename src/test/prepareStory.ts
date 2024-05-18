@@ -1,6 +1,6 @@
+import { readFileSync } from "node:fs";
 import { parseYaml } from "@/common/util/parseYaml";
 import { PrismaClient } from "@prisma/client";
-import { readFileSync } from "fs";
 
 const prisma = new PrismaClient();
 

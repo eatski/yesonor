@@ -1,7 +1,7 @@
-import styles from "./styles.module.scss";
+import { gtagEvent } from "@/common/util/gtag";
 import components from "@/designSystem/components.module.scss";
 import Link from "next/link";
-import { gtagEvent } from "@/common/util/gtag";
+import styles from "./styles.module.scss";
 
 export const RecommendCreateStory: React.FC = () => {
 	return (

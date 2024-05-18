@@ -1,15 +1,15 @@
-import { Layout } from "@/components/layout";
-import { GetServerSideProps } from "next";
-import { z } from "zod";
-import { getStoryPrivate } from "@/server/services/story";
-import { getUserSession } from "@/server/getServerSideProps/getUserSession";
-import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
-import { Device } from "@/common/util/device";
-import { HeadMetaOverride } from "@/components/headMeta";
-import { Story } from "@/server/model/story";
+import type { Device } from "@/common/util/device";
 import { EditStory } from "@/components/editStory";
-import { useRouter } from "next/router";
 import { EditStoryYaml } from "@/components/editStoryYaml";
+import { HeadMetaOverride } from "@/components/headMeta";
+import { Layout } from "@/components/layout";
+import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
+import { getUserSession } from "@/server/getServerSideProps/getUserSession";
+import type { Story } from "@/server/model/story";
+import { getStoryPrivate } from "@/server/services/story";
+import type { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import { z } from "zod";
 
 type Props = {
 	storyId: string;

@@ -1,12 +1,12 @@
-import styles from "./styles.module.scss";
 import components from "@/designSystem/components.module.scss";
 import { trpc } from "@/libs/trpc";
-import { Story } from "@/server/model/story";
+import type { Story } from "@/server/model/story";
 import Link from "next/link";
-import { AiOutlineUpload } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { use } from "react";
+import { AiOutlineUpload } from "react-icons/ai";
 import { useConfirmModal } from "../confirmModal";
+import styles from "./styles.module.scss";
 
 export type Props = {
 	canUseFileDrop: boolean;

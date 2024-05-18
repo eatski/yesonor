@@ -1,6 +1,6 @@
 import Script from "next/script";
 import {
-	PropsWithChildren,
+	type PropsWithChildren,
 	createContext,
 	useContext,
 	useEffect,

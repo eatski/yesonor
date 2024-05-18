@@ -1,6 +1,6 @@
 import { getRecaptchaToken } from "@/common/util/grecaptcha";
 import { trpc } from "@/libs/trpc";
-import { Answer, Story } from "@/server/model/story";
+import type { Answer, Story } from "@/server/model/story";
 import { OPENAI_ERROR_MESSAGE } from "@/server/procedures/question/contract";
 import { useRef, useState } from "react";
 
@@ -52,7 +52,7 @@ export const useQuestion = (story: UseQuestionStory) => {
 			? {
 					input: variables.text,
 					result: error ? toErrorMessage(error) : null,
-			  }
+				}
 			: last(history);
 	return {
 		async onSubmit(text: string) {
@@ -81,7 +81,7 @@ export const useQuestion = (story: UseQuestionStory) => {
 			? {
 					input: latest.input,
 					result: latest.result,
-			  }
+				}
 			: null,
 		history: history.reduce<{ id: number; input: string; result: string }[]>(
 			(acc, cur) => {
@@ -93,7 +93,7 @@ export const useQuestion = (story: UseQuestionStory) => {
 								input: cur.input,
 								result: cur.result,
 							},
-					  ]
+						]
 					: acc;
 			},
 			[],

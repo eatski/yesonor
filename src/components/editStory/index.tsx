@@ -1,9 +1,9 @@
-import { trpc } from "@/libs/trpc";
-import React from "react";
-import { useRouter } from "next/router";
-import { StoryForm } from "../storyForm";
-import { StoryInit } from "@/server/model/story";
 import { H1 } from "@/designSystem/components/heading";
+import { trpc } from "@/libs/trpc";
+import type { StoryInit } from "@/server/model/story";
+import { useRouter } from "next/router";
+import type React from "react";
+import { StoryForm } from "../storyForm";
 
 export type Props = {
 	storyId: string;

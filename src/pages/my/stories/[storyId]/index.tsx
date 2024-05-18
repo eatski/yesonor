@@ -1,15 +1,15 @@
-import { Play } from "@/components/play";
-import { Layout } from "@/components/layout";
-import { StoryDescription } from "@/components/storyDescription";
-import { GetServerSideProps } from "next";
-import { z } from "zod";
-import { MyStoryMenu } from "@/components/myStoryMenu";
-import { getStoryPrivate } from "@/server/services/story";
-import { getUserSession } from "@/server/getServerSideProps/getUserSession";
-import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
-import { Device } from "@/common/util/device";
+import type { Device } from "@/common/util/device";
 import { HeadMetaOverride } from "@/components/headMeta";
-import { Story } from "@/server/model/story";
+import { Layout } from "@/components/layout";
+import { MyStoryMenu } from "@/components/myStoryMenu";
+import { Play } from "@/components/play";
+import { StoryDescription } from "@/components/storyDescription";
+import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
+import { getUserSession } from "@/server/getServerSideProps/getUserSession";
+import type { Story } from "@/server/model/story";
+import { getStoryPrivate } from "@/server/services/story";
+import type { GetServerSideProps } from "next";
+import { z } from "zod";
 
 type Props = {
 	story: Story;

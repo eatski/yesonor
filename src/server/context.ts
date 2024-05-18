@@ -1,16 +1,16 @@
-import { authConfig } from "@/pages/api/auth/[...nextauth]";
-import { TRPCError } from "@trpc/server";
-import { CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { getServerSession } from "next-auth/next";
-import { setTimeout } from "timers/promises";
-import { verifyRecaptcha } from "./services/recaptcha";
+import { setTimeout } from "node:timers/promises";
 import {
 	AB_TESTING_COOKIE_NAME,
 	AB_TESTING_VARIANTS,
 	getAorBRandom,
 	validateABTestingVariant,
 } from "@/common/abtesting";
+import { authConfig } from "@/pages/api/auth/[...nextauth]";
+import { TRPCError } from "@trpc/server";
+import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { get } from "@vercel/edge-config";
+import { getServerSession } from "next-auth/next";
+import { verifyRecaptcha } from "./services/recaptcha";
 
 export const createContext = async (context: CreateNextContextOptions) => {
 	return {
@@ -19,7 +19,7 @@ export const createContext = async (context: CreateNextContextOptions) => {
 			if (
 				!abTestRate ||
 				!(typeof abTestRate === "number") ||
-				isNaN(abTestRate) ||
+				Number.isNaN(abTestRate) ||
 				abTestRate < 0 ||
 				abTestRate > 1
 			) {
@@ -52,7 +52,7 @@ export const createContext = async (context: CreateNextContextOptions) => {
 				? {
 						id: session.custom.userId,
 						email: session.user.email,
-				  }
+					}
 				: null;
 		},
 		getUser: async () => {

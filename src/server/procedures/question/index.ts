@@ -1,15 +1,15 @@
-import { TRPCError } from "@trpc/server";
-import { z } from "zod";
-import { answer as answerSchema } from "../../model/story";
-import { procedure } from "../../trpc";
-import { QuestionExampleWithCustomMessage } from "./type";
 import { prisma } from "@/libs/prisma";
+import { getAnswer } from "@/server/services/question";
 import {
 	createGetStoryPrivateWhere,
 	createGetStoryWhere,
 	hydrateStory,
 } from "@/server/services/story/functions";
-import { getAnswer } from "@/server/services/question";
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import type { answer as answerSchema } from "../../model/story";
+import { procedure } from "../../trpc";
+import type { QuestionExampleWithCustomMessage } from "./type";
 
 export const question = procedure
 	.input(
@@ -34,10 +34,10 @@ export const question = procedure
 					? createGetStoryPrivateWhere({
 							storyId: input.storyId,
 							authorId: user.id,
-					  })
+						})
 					: createGetStoryWhere({
 							storyId: input.storyId,
-					  });
+						});
 				const storyDbData = await prisma.story.findFirst({
 					where: storyWhere,
 					include: {

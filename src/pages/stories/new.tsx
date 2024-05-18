@@ -1,9 +1,9 @@
-import { Device } from "@/common/util/device";
+import type { Device } from "@/common/util/device";
 import { Layout } from "@/components/layout";
 import { NewStory } from "@/components/newStory";
 import { getDeviceServer } from "@/server/getServerSideProps/getDevice";
 import { getUserSession } from "@/server/getServerSideProps/getUserSession";
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 
 type Props = {
 	device: Device;

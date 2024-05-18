@@ -17,7 +17,7 @@ export const getUser = ({ userId }: { userId: string }) => {
 				? {
 						id: user.id,
 						name: user.name,
-				  }
+					}
 				: null,
 		);
 };

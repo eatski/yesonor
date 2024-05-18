@@ -1,21 +1,21 @@
 import type { AppProps } from "next/app";
 
+import { trpc } from "@/libs/trpc";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import React, { useEffect, useMemo } from "react";
-import { trpc } from "@/libs/trpc";
 import "sanitize.css";
 import "@/designSystem/base.css";
 import { SessionProvider } from "next-auth/react";
 
-import Head from "next/head";
 import { brand } from "@/common/texts";
-import Script from "next/script";
-import { useRouter } from "next/router";
 import { gtagEvent } from "@/common/util/gtag";
-import { keysOverride } from "@/components/headMeta";
 import { ConfirmModal } from "@/components/confirmModal";
+import { keysOverride } from "@/components/headMeta";
 import { Toast } from "@/components/toast";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import Script from "next/script";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = useMemo(() => new QueryClient(), []);

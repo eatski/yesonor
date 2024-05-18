@@ -1,4 +1,6 @@
+import { createMessage } from "@/libs/claude";
 import { FALLBACK_DISTANCE, calculateEuclideanDistance } from "@/libs/math";
+import { openai } from "@/libs/openai";
 import { prisma } from "@/libs/prisma";
 import { prepareProura } from "@/libs/proura";
 import { Answer, truthCoincidence } from "@/server/model/story";
@@ -7,8 +9,6 @@ import { procedure } from "@/server/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createPrompt } from "./createPrompt";
-import { openai } from "@/libs/openai";
-import { createMessage } from "@/libs/claude";
 
 export const truth = procedure
 	.input(
@@ -33,10 +33,10 @@ export const truth = procedure
 					? getStoryPrivate({
 							storyId: input.storyId,
 							authorId: user.id,
-					  })
+						})
 					: getStory({
 							storyId: input.storyId,
-					  }));
+						}));
 				if (!story) {
 					throw new TRPCError({
 						code: "NOT_FOUND",

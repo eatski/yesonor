@@ -1,7 +1,7 @@
+import path from "node:path";
+import filenamify from "filenamify";
 import { afterAll, beforeAll } from "vitest";
 import { initMswCacheServer } from ".";
-import path from "path";
-import filenamify from "filenamify";
 
 export const applyTestHooks = () => {
 	let server: ReturnType<typeof initMswCacheServer> | null = null;

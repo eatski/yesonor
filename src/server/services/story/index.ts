@@ -1,5 +1,5 @@
 import { prisma } from "@/libs/prisma";
-import { Story, StoryHead } from "@/server/model/story";
+import type { Story, StoryHead } from "@/server/model/story";
 import { PrismaClient } from "@prisma/client";
 import {
 	createGetStoryPrivateWhere,

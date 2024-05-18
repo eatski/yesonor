@@ -1,7 +1,7 @@
+import { gtagEvent } from "@/common/util/gtag";
+import components from "@/designSystem/components.module.scss";
 import { signIn } from "next-auth/react";
 import styles from "./styles.module.scss";
-import components from "@/designSystem/components.module.scss";
-import { gtagEvent } from "@/common/util/gtag";
 
 export const RequireLogin: React.FC<{}> = () => {
 	return (

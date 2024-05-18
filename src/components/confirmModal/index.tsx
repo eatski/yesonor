@@ -1,8 +1,8 @@
 import { Button } from "@/designSystem/components/button";
 import React, { useCallback } from "react";
 import { useState } from "react";
-import styles from "./styles.module.scss";
 import { Modal } from "./../modal";
+import styles from "./styles.module.scss";
 
 const Context = React.createContext<(text: string) => Promise<boolean>>(() => {
 	throw new Error("Context is not provided");

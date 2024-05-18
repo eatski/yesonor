@@ -1,7 +1,7 @@
-import styles from "./styles.module.scss";
 import components from "@/designSystem/components.module.scss";
 import { Card } from "@/designSystem/components/card";
 import { DefinitionList } from "../definitionList";
+import styles from "./styles.module.scss";
 
 export type Props = {
 	truth: string;

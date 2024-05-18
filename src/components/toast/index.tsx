@@ -1,7 +1,7 @@
-import React, { useCallback } from "react";
-import styles from "./styles.module.scss";
-import { AiOutlineClose } from "react-icons/ai";
 import { IconButton } from "@/designSystem/components/button";
+import React, { useCallback } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import styles from "./styles.module.scss";
 
 const Context = React.createContext<(text: string) => void>(() => {
 	throw new Error("Context is not provided");

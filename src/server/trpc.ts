@@ -1,7 +1,7 @@
+import { setTimeout } from "node:timers/promises";
 import { TRPCError, initTRPC } from "@trpc/server";
-import { type createContext } from "./context";
-import { setTimeout } from "timers/promises";
 import { getHTTPStatusCodeFromError } from "@trpc/server/http";
+import type { createContext } from "./context";
 
 /**
  * Initialization of tRPC backend
@@ -21,7 +21,7 @@ export const procedure =
 				const result = await next();
 				await timer;
 				return result;
-		  })
+			})
 		: t.procedure.use(async ({ next }) => {
 				return await next().then((result) => {
 					if (result.ok) {
@@ -36,4 +36,4 @@ export const procedure =
 					});
 					return result;
 				});
-		  });
+			});

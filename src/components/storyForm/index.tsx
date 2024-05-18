@@ -1,13 +1,14 @@
-import React, { useId } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import styles from "./styles.module.scss";
 import components from "@/designSystem/components.module.scss";
-import { AiFillPlayCircle, AiOutlinePlus } from "react-icons/ai";
-import { storyInit, StoryInit } from "@/server/model/story";
-import { QuestionExampleForm } from "./components/questionExample";
-import { InformationParagragh } from "@/designSystem/components/information";
 import { FormErrorMessage } from "@/designSystem/components/formErrorMessage";
+import { InformationParagragh } from "@/designSystem/components/information";
+import { type StoryInit, storyInit } from "@/server/model/story";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type React from "react";
+import { useId } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { AiFillPlayCircle, AiOutlinePlus } from "react-icons/ai";
+import { QuestionExampleForm } from "./components/questionExample";
+import styles from "./styles.module.scss";
 
 export type Props = {
 	storyInit?: StoryInit;

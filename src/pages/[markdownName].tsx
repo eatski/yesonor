@@ -1,8 +1,8 @@
-import { Markdown } from "@/components/markdown";
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { Layout } from "@/components/layout";
-import { readFile } from "fs/promises";
-import { GetStaticPaths, GetStaticProps } from "next";
-import { resolve } from "path";
+import { Markdown } from "@/components/markdown";
+import type { GetStaticPaths, GetStaticProps } from "next";
 
 type Props = {
 	markdown: string;
