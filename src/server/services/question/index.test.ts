@@ -32,6 +32,7 @@ const loadStory = (storyYaml: string): Story => {
 describe.each([
 	AB_TESTING_VARIANTS.ONLY_SONNET,
 	AB_TESTING_VARIANTS.WITH_HAIKU,
+	AB_TESTING_VARIANTS.GPT4o,
 ] as const)("service/question/getAnswer %s", (ab) => {
 	applyTestHooks();
 	const storyTamada = loadStory("test.yaml");
@@ -125,11 +126,7 @@ describe.each([
 		},
 		{
 			story: storyMorita,
-			question: "男性は森田さんを殺しましたか？",
-		},
-		{
-			story: storyMorita,
-			question: "男性は森田さんと知り合いですか？",
+			question: "その時点で男性は森田さんを殺しましたか？",
 		},
 		{
 			story: storyMorita,

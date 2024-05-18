@@ -4,6 +4,7 @@ import { openai } from "@/libs/openai";
 import type { QuestionExample } from "@/server/model/story";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import zodToJsonSchema from "zod-to-json-schema";
 import { answer as answerSchema } from "../../../model/story";
 import { OPENAI_ERROR_MESSAGE } from "../../../procedures/question/contract";
 const systemPromptPromise = readFile(
@@ -11,7 +12,8 @@ const systemPromptPromise = readFile(
 );
 
 const functionArgsSchema = z.object({
-	answer: answerSchema,
+	"0_problemSolvingProcess": z.string(),
+	"1_answer": answerSchema,
 });
 
 export const questionToAI = async (
@@ -33,15 +35,7 @@ export const questionToAI = async (
 				{
 					name: "asnwer",
 					description: "Answer the question",
-					parameters: {
-						type: "object",
-						properties: {
-							answer: {
-								type: "string",
-								enum: ["True", "False", "Unknown"],
-							},
-						},
-					},
+					parameters: zodToJsonSchema(functionArgsSchema),
 				},
 			],
 			messages: [
@@ -50,16 +44,12 @@ export const questionToAI = async (
 					content: (await systemPromptPromise).toString(),
 				},
 				{
-					role: "user",
-					content: "Let's play a quiz game.",
-				},
-				{
 					role: "assistant",
 					content: story.quiz,
 				},
 				{
-					role: "assistant",
-					content: "What is the truth?",
+					role: "user",
+					content: "真相を教えてください。",
 				},
 				{
 					role: "assistant",
@@ -101,5 +91,5 @@ export const questionToAI = async (
 	if (!args) {
 		throw new Error("No args");
 	}
-	return functionArgsSchema.parse(JSON.parse(args)).answer;
+	return functionArgsSchema.parse(JSON.parse(args))["1_answer"];
 };
