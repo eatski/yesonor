@@ -63,6 +63,7 @@ export const initMswCacheServer = (basePath: string) => {
 			if (typeof cached === "object") {
 				return HttpResponse.json(cached);
 			}
+			console.log("Cache not hit. ", req.request.url);
 			const response = await fetch(bypass(req.request));
 			if (response.status === 200) {
 				const text = await response.clone().json();
