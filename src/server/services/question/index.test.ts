@@ -48,7 +48,7 @@ describe.each([
 		},
 		{
 			story: storyTamada,
-			question: "近くに他の人がいますか？",
+			question: "山田さんの近くに他の人がいますか？",
 		},
 		{
 			story: storyTamada,
