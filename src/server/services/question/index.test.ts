@@ -31,7 +31,7 @@ const loadStory = (storyYaml: string): Story => {
 };
 describe.each([
 	AB_TESTING_VARIANTS.ONLY_SONNET,
-	AB_TESTING_VARIANTS.WITH_HAIKU,
+	AB_TESTING_VARIANTS.GPT4O,
 	AB_TESTING_VARIANTS.GPT4O,
 ] as const)("service/question/getAnswer %s", (ab) => {
 	applyTestHooks();

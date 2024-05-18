@@ -16,7 +16,7 @@ import {
 
 const abTestVarToQuestionToAI = {
 	[AB_TESTING_VARIANTS.ONLY_SONNET]: questionToAISonnet,
-	[AB_TESTING_VARIANTS.WITH_HAIKU]: questionToAIWithHaiku,
+	[AB_TESTING_VARIANTS.GPT4O]: questionToAIWithHaiku,
 	[AB_TESTING_VARIANTS.GPT4O]: questionToAI,
 } as const;
 
