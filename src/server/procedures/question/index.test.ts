@@ -1,4 +1,5 @@
 import { resolve } from "node:path";
+import { ABTestingVariant } from "@/common/abtesting";
 import { generateId } from "@/common/util/id";
 import { applyTestHooks } from "@/libs/msw-cache/vitest";
 import { router } from "@/server/trpc";
@@ -17,7 +18,7 @@ const testeeRouter = router({
 });
 
 describe("trpc/question", () => {
-	const ab = "WITH_HAIKU" as const;
+	const ab: ABTestingVariant = "GPT4O";
 	const testYamlPath = resolve(process.cwd(), "fixtures", "test.yaml");
 	const TEST_USER1 = {
 		id: generateId(),
