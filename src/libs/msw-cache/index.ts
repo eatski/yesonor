@@ -28,7 +28,7 @@ class ResponseCache {
 		const key = await JSON.stringify(record);
 		this.usedCachePath.add(this.cache.path(key));
 		const cached = await this.cache.get(key);
-		return cached.response;
+		return cached?.response;
 	}
 	public async set(
 		configForKey: StrictRequest<DefaultBodyType>,
