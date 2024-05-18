@@ -9,14 +9,10 @@ import type {
 } from "@/server/model/story";
 import DataLoader from "dataloader";
 import { questionToAI } from "./ai/questionToAI";
-import {
-	questionToAI as questionToAISonnet,
-	questionToAIWithHaiku,
-} from "./ai/questionToAIClaude";
+import { questionToAI as questionToAISonnet } from "./ai/questionToAIClaude";
 
 const abTestVarToQuestionToAI = {
 	[AB_TESTING_VARIANTS.ONLY_SONNET]: questionToAISonnet,
-	[AB_TESTING_VARIANTS.GPT4O]: questionToAIWithHaiku,
 	[AB_TESTING_VARIANTS.GPT4O]: questionToAI,
 } as const;
 
