@@ -105,7 +105,7 @@ describe("trpc/question", () => {
 						text,
 						recaptchaToken: "anytoken",
 					}),
-				).rejects.toMatchInlineSnapshot("[TRPCError: NOT_FOUND]");
+				).rejects.toMatchSnapshot("エラー");
 			},
 		);
 		test("自分の作成したstoryの場合、privateなstoryに対して質問しても回答が返ってくる", async () => {

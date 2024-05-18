@@ -1,43 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`trpc/question > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 1`] = `"いい質問ですね！山田さんは人を殺しています。"`;
+exports[`trpc/question > storyの参照権限 > privateなstoryに対して質問すると回答が返ってこない > エラー 1`] = `[TRPCError: NOT_FOUND]`;
 
-exports[`trpc/question > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 2`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 3`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 4`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 5`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 6`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question ONLY_SONNET > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 1`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question ONLY_SONNET > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 2`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question ONLY_SONNET > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 3`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question WITH_HAIKU > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 1`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question WITH_HAIKU > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 2`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question WITH_HAIKU > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 3`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question abtesting=%s > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 1`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question abtesting=%s > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 2`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question abtesting=%s > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 3`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question abtesting=A > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 1`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question abtesting=A > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 2`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question abtesting=A > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 3`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question abtesting=B > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 1`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question abtesting=B > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 2`] = `"いい質問ですね！山田さんは人を殺しています。"`;
-
-exports[`trpc/question abtesting=B > customMessage > customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る 3`] = `"いい質問ですね！山田さんは人を殺しています。"`;
+exports[`trpc/question > storyの参照権限 > privateなstoryに対して質問すると回答が返ってこない > エラー 2`] = `[TRPCError: NOT_FOUND]`;
