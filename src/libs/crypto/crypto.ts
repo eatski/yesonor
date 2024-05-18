@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 export function encrypt(text: string, password: string): string {
 	const iv = crypto.randomBytes(16);

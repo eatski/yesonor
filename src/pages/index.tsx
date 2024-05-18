@@ -1,12 +1,12 @@
-import { Layout } from "@/components/layout";
+import { revalidateTime } from "@/common/revalidate";
 import { Landing } from "@/components/landing";
-import { GetStaticProps } from "next";
-import { Item, StoryList } from "@/components/storyList";
+import { Layout } from "@/components/layout";
+import { RecommendCreateStory } from "@/components/recommendCreateStory";
+import { type Item, StoryList } from "@/components/storyList";
 import { H2 } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
-import { revalidateTime } from "@/common/revalidate";
-import { RecommendCreateStory } from "@/components/recommendCreateStory";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
+import type { GetStaticProps } from "next";
 
 type Props = {
 	stories: Item[];

@@ -1,13 +1,13 @@
-import { trpc } from "@/libs/trpc";
-import React from "react";
-import { useRouter } from "next/router";
-import { StoryForm } from "../storyForm";
-import { H1 } from "@/designSystem/components/heading";
-import Link from "next/link";
+import type { Device } from "@/common/util/device";
 import components from "@/designSystem/components.module.scss";
+import { H1 } from "@/designSystem/components/heading";
+import { trpc } from "@/libs/trpc";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import type React from "react";
 import { AiOutlineUpload } from "react-icons/ai";
+import { StoryForm } from "../storyForm";
 import styles from "./styles.module.scss";
-import { Device } from "@/common/util/device";
 
 export type Props = {
 	device: Device;

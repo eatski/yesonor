@@ -1,4 +1,4 @@
-import { encrypt as en, decrypt as de } from "./crypto";
+import { decrypt as de, encrypt as en } from "./crypto";
 
 export const encrypt = (text: string): string => {
 	if (process.env.CRYPTO_KEY === undefined)

@@ -1,6 +1,6 @@
 import { AiFillRobot, AiOutlineComment } from "react-icons/ai";
-import styles from "./styles.module.scss";
 import { TypingText } from "../../designSystem/components/typing";
+import styles from "./styles.module.scss";
 
 type Props = {
 	question: string;
@@ -21,15 +21,15 @@ export const QuestionAndAnswer: React.FC<Props> = (props) => {
 					</TypingText>
 				</dd>
 			</div>
-			<hr role="presentation" />
+			<hr />
 			<div
 				className={styles.row}
 				data-status={
 					props.answer === undefined
 						? "idle"
 						: props.answer === null
-						? "loading"
-						: "success"
+							? "loading"
+							: "success"
 				}
 			>
 				<dt>

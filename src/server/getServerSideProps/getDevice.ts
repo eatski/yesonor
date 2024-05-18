@@ -1,5 +1,5 @@
-import { Device, getDevice } from "@/common/util/device";
-import { GetServerSidePropsContext } from "next";
+import { type Device, getDevice } from "@/common/util/device";
+import type { GetServerSidePropsContext } from "next";
 
 export const getDeviceServer = ({ req }: GetServerSidePropsContext): Device => {
 	// User Agent の解析

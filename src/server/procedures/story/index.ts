@@ -1,9 +1,9 @@
 import { router } from "@/server/trpc";
+import { delete_ } from "./delete";
 import { getByIdPrivate } from "./get";
+import { post } from "./post";
 import { publishFirst } from "./publish";
 import { put } from "./put";
-import { post } from "./post";
-import { delete_ } from "./delete";
 
 export const story = router({
 	getByIdPrivate,

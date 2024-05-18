@@ -1,9 +1,9 @@
+import components from "@/designSystem/components.module.scss";
 import { FocusableItem, Menu, MenuButton } from "@szhsin/react-menu";
 import { signIn, signOut, useSession } from "next-auth/react";
-import styles from "./styles.module.scss";
-import components from "@/designSystem/components.module.scss";
 import Link from "next/link";
 import { MenuIcon } from "./icon";
+import styles from "./styles.module.scss";
 
 const UserMenu = () => {
 	const session = useSession();

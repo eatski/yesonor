@@ -1,5 +1,5 @@
 import { authConfig } from "@/pages/api/auth/[...nextauth]";
-import { GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 
 export type UserSession = {

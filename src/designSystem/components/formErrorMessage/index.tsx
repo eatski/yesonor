@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import styles from "./styles.module.scss";
 
 export const FormErrorMessage: React.FC<PropsWithChildren<{ id: string }>> = ({

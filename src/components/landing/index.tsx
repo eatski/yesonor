@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import { brand } from "@/common/texts";
-import styles from "./styles.module.scss";
 import { QuestionAndAnswer } from "@/components/questionAndAnswer";
-import Link from "next/link";
+import type { Item } from "@/components/storyList";
 import components from "@/designSystem/components.module.scss";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { Item } from "@/components/storyList";
 import { useCallback, useState } from "react";
+import styles from "./styles.module.scss";
 
 export const Landing: React.FC<{ stories: Item[] }> = ({ stories }) => {
 	const router = useRouter();

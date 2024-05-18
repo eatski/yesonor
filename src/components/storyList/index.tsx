@@ -1,8 +1,8 @@
-import Link from "next/link";
-import styles from "./styles.module.scss";
 import components from "@/designSystem/components.module.scss";
+import type { StoryHead } from "@/server/model/story";
+import Link from "next/link";
 import { AiFillPlayCircle as StartIcon } from "react-icons/ai";
-import { StoryHead } from "@/server/model/story";
+import styles from "./styles.module.scss";
 
 export type Item = {
 	story: StoryHead;

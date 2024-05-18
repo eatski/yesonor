@@ -1,5 +1,5 @@
 import { refineQuestionLogs } from "@/server/services/questionLogs";
-import { NextApiHandler } from "next";
+import type { NextApiHandler } from "next";
 
 const handler: NextApiHandler = async (req, res) => {
 	if (req.method !== "POST") {
@@ -7,7 +7,7 @@ const handler: NextApiHandler = async (req, res) => {
 		return;
 	}
 	const take = Number(req.query.take);
-	if (isNaN(take)) {
+	if (Number.isNaN(take)) {
 		res.status(400).json({ message: "Invalid take" });
 		return;
 	}

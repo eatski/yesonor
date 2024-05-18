@@ -1,7 +1,7 @@
+import type { Story as DbStory } from "@prisma/client";
 import { z } from "zod";
-import { Override, Public } from "./util";
-import { Story as DbStory } from "@prisma/client";
-import { User } from "./user";
+import type { User } from "./user";
+import type { Override, Public } from "./util";
 
 const NON_EMPTY_MESSAGE = "この項目は必須です";
 

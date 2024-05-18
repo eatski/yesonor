@@ -1,7 +1,7 @@
 import { generateId } from "@/common/util/id";
 import { neverReach } from "@/common/util/never";
 import { prisma } from "@/libs/prisma";
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 if (

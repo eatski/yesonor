@@ -1,10 +1,10 @@
 import { Layout } from "@/components/layout";
-import { GetServerSideProps } from "next";
-import { Item, StoryList } from "@/components/storyList";
-import { H1 } from "@/designSystem/components/heading";
-import { getStoriesPrivate } from "@/server/services/story";
-import { getUserSession } from "@/server/getServerSideProps/getUserSession";
 import { RecommendCreateStory } from "@/components/recommendCreateStory";
+import { type Item, StoryList } from "@/components/storyList";
+import { H1 } from "@/designSystem/components/heading";
+import { getUserSession } from "@/server/getServerSideProps/getUserSession";
+import { getStoriesPrivate } from "@/server/services/story";
+import type { GetServerSideProps } from "next";
 
 type Props = {
 	stories: Item[];

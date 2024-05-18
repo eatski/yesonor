@@ -1,6 +1,7 @@
-import React, { useCallback, useId, useRef } from "react";
-import styles from "./styles.module.scss";
 import components from "@/designSystem/components.module.scss";
+import type React from "react";
+import { useCallback, useId, useRef } from "react";
+import styles from "./styles.module.scss";
 
 export const AnswerForm: React.FC<{
 	onSubmit: (text: string) => void;

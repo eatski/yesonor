@@ -1,14 +1,20 @@
-import { ABTestingVariant, AB_TESTING_VARIANTS } from "@/common/abtesting";
+import { type ABTestingVariant, AB_TESTING_VARIANTS } from "@/common/abtesting";
 import { calculateEuclideanDistance } from "@/libs/math";
 import { openai } from "@/libs/openai";
 import { prepareProura } from "@/libs/proura";
-import {
+import type {
 	QuestionExample,
 	QuestionExampleWithCustomMessage,
 	Story,
 } from "@/server/model/story";
-import { questionToAI, questionToAIWithHaiku } from "./ai/questionToAIClaude";
 import DataLoader from "dataloader";
+import { questionToAI } from "./ai/questionToAI";
+import { questionToAI as questionToAISonnet } from "./ai/questionToAIClaude";
+
+const abTestVarToQuestionToAI = {
+	[AB_TESTING_VARIANTS.ONLY_SONNET]: questionToAISonnet,
+	[AB_TESTING_VARIANTS.GPT4O]: questionToAI,
+} as const;
 
 export const getAnswer = async (
 	question: string,
@@ -78,9 +84,8 @@ export const getAnswer = async (
 				questionExamples: pickedFewExamples.map(({ example }) => example),
 			};
 			const ab = await abPromise;
-			return ab === AB_TESTING_VARIANTS.ONLY_SONNET
-				? await questionToAI(inputStory, question)
-				: await questionToAIWithHaiku(inputStory, question);
+			const selected = abTestVarToQuestionToAI[ab];
+			return selected(inputStory, question);
 		})
 		.add("hitQuestionExample", async (dependsOn) => {
 			const answer = await dependsOn("answer");

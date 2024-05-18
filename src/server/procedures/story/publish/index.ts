@@ -1,7 +1,7 @@
 import { procedure } from "@/server/trpc";
-import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 export const publishFirst = procedure
 	.input(

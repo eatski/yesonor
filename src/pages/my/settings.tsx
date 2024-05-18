@@ -1,11 +1,11 @@
 import { Layout } from "@/components/layout";
-import {
-	getUserSession,
-	UserSession,
-} from "@/server/getServerSideProps/getUserSession";
-import { GetServerSideProps } from "next";
 import { Settings } from "@/components/settings";
-import { getUser, User } from "@/server/services/user";
+import {
+	type UserSession,
+	getUserSession,
+} from "@/server/getServerSideProps/getUserSession";
+import { type User, getUser } from "@/server/services/user";
+import type { GetServerSideProps } from "next";
 
 type Props = {
 	session: UserSession;

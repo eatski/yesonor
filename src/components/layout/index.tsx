@@ -1,11 +1,12 @@
-import Link from "next/link";
-import React, { PropsWithChildren, Suspense, useEffect, useState } from "react";
-import styles from "./styles.module.scss";
 import components from "@/designSystem/components.module.scss";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import type React from "react";
+import { type PropsWithChildren, Suspense, useEffect, useState } from "react";
 import { Logo } from "./components/logo";
 import { UserMenu } from "./components/menu";
 import { PinnedInfo } from "./components/pinned";
+import styles from "./styles.module.scss";
 
 export const Layout: React.FC<
 	PropsWithChildren<{ upper?: React.ReactElement }>

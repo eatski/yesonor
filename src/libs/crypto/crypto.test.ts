@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { encrypt, decrypt } from "./crypto";
+import { decrypt, encrypt } from "./crypto";
 
 describe("crypto", () => {
 	test("もとに戻る", () => {

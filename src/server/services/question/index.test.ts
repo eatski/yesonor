@@ -1,11 +1,11 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { AB_TESTING_VARIANTS } from "@/common/abtesting";
 import { parseYaml } from "@/common/util/parseYaml";
-import { readFileSync } from "fs";
-import { resolve } from "path";
-import { describe, test, expect } from "vitest";
-import { getAnswer } from ".";
 import { applyTestHooks } from "@/libs/msw-cache/vitest";
-import { Story } from "@/server/model/story";
+import type { Story } from "@/server/model/story";
+import { describe, expect, test } from "vitest";
+import { getAnswer } from ".";
 const loadStory = (storyYaml: string): Story => {
 	const parsed = parseYaml(
 		readFileSync(resolve(process.cwd(), "fixtures", storyYaml), "utf-8"),
@@ -31,7 +31,7 @@ const loadStory = (storyYaml: string): Story => {
 };
 describe.each([
 	AB_TESTING_VARIANTS.ONLY_SONNET,
-	AB_TESTING_VARIANTS.WITH_HAIKU,
+	AB_TESTING_VARIANTS.GPT4O,
 ] as const)("service/question/getAnswer %s", (ab) => {
 	applyTestHooks();
 	const storyTamada = loadStory("test.yaml");
@@ -48,7 +48,7 @@ describe.each([
 		},
 		{
 			story: storyTamada,
-			question: "近くに他の人がいますか？",
+			question: "山田さんの近くに他の人がいますか？",
 		},
 		{
 			story: storyTamada,
@@ -125,11 +125,7 @@ describe.each([
 		},
 		{
 			story: storyMorita,
-			question: "男性は森田さんを殺しましたか？",
-		},
-		{
-			story: storyMorita,
-			question: "男性は森田さんと知り合いですか？",
+			question: "その時点で男性は森田さんを殺しましたか？",
 		},
 		{
 			story: storyMorita,

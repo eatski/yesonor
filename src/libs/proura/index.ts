@@ -48,9 +48,7 @@ const prepareInner = <P>(map: FunctionMap<P>): Proura<P> => {
 	};
 };
 
-type DependsOn<P> = {
-	<K extends keyof P>(key: K): Promise<P[K]>;
-};
+type DependsOn<P> = <K extends keyof P>(key: K) => Promise<P[K]>;
 
 type Proura<P> = {
 	add: <K extends string, T>(

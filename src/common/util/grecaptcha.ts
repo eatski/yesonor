@@ -13,10 +13,10 @@ export const getRecaptchaToken = async (): Promise<string> => {
 		}, 1000);
 		// @ts-ignore
 		const grecaptcha = window.grecaptcha;
-		grecaptcha.ready(function () {
+		grecaptcha.ready(() => {
 			grecaptcha
 				.execute(CLIENT_KEY, { action: "submit" })
-				.then(function (token: string) {
+				.then((token: string) => {
 					clearTimeout(timer);
 					resolve(token);
 				});

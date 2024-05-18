@@ -1,10 +1,11 @@
-import { describe, test, expect, beforeAll } from "vitest";
-import { prepareStoryFromYaml } from "@/test/prepareStory";
-import { resolve } from "path";
+import { resolve } from "node:path";
+import { ABTestingVariant } from "@/common/abtesting";
 import { generateId } from "@/common/util/id";
 import { applyTestHooks } from "@/libs/msw-cache/vitest";
-import { question } from ".";
 import { router } from "@/server/trpc";
+import { prepareStoryFromYaml } from "@/test/prepareStory";
+import { beforeAll, describe, expect, test } from "vitest";
+import { question } from ".";
 const never = () => {
 	throw new Error("Never");
 };
@@ -17,7 +18,7 @@ const testeeRouter = router({
 });
 
 describe("trpc/question", () => {
-	const ab = "WITH_HAIKU" as const;
+	const ab: ABTestingVariant = "GPT4O";
 	const testYamlPath = resolve(process.cwd(), "fixtures", "test.yaml");
 	const TEST_USER1 = {
 		id: generateId(),
@@ -105,7 +106,7 @@ describe("trpc/question", () => {
 						text,
 						recaptchaToken: "anytoken",
 					}),
-				).rejects.toMatchInlineSnapshot("[TRPCError: NOT_FOUND]");
+				).rejects.toMatchSnapshot("エラー");
 			},
 		);
 		test("自分の作成したstoryの場合、privateなstoryに対して質問しても回答が返ってくる", async () => {

@@ -14,20 +14,20 @@ exports[`initCacheMswServer > embeddings 1`] = `3`;
 exports[`initCacheMswServer > fetch 1`] = `
 {
   "abbreviation": "WAT",
-  "client_ip": "240b:10:1f20:2c00:841:54a1:c6c6:6dc6",
-  "datetime": "2024-03-17T16:32:23.600807+01:00",
-  "day_of_week": 0,
-  "day_of_year": 77,
+  "client_ip": "106.154.140.240",
+  "datetime": "2024-05-18T07:49:02.614684+01:00",
+  "day_of_week": 6,
+  "day_of_year": 139,
   "dst": false,
   "dst_from": null,
   "dst_offset": 0,
   "dst_until": null,
   "raw_offset": 3600,
   "timezone": "Africa/Lagos",
-  "unixtime": 1710689543,
-  "utc_datetime": "2024-03-17T15:32:23.600807+00:00",
+  "unixtime": 1716014942,
+  "utc_datetime": "2024-05-18T06:49:02.614684+00:00",
   "utc_offset": "+01:00",
-  "week_number": 11,
+  "week_number": 20,
 }
 `;
 

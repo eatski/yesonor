@@ -1,17 +1,19 @@
-import { QuestionExample } from "@/server/model/story";
-import { TRPCError } from "@trpc/server";
-import { OPENAI_ERROR_MESSAGE } from "../../../procedures/question/contract";
-import { readFile } from "fs/promises";
-import { resolve } from "path";
-import { answer as answerSchema } from "../../../model/story";
-import { z } from "zod";
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { openai } from "@/libs/openai";
+import type { QuestionExample } from "@/server/model/story";
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import zodToJsonSchema from "zod-to-json-schema";
+import { answer as answerSchema } from "../../../model/story";
+import { OPENAI_ERROR_MESSAGE } from "../../../procedures/question/contract";
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),
 );
 
 const functionArgsSchema = z.object({
-	answer: answerSchema,
+	"0_problemSolvingProcess": z.string(),
+	"1_answer": answerSchema,
 });
 
 export const questionToAI = async (
@@ -24,7 +26,7 @@ export const questionToAI = async (
 ) => {
 	const response = await openai.chat.completions
 		.create({
-			model: "gpt-4-0613",
+			model: "gpt-4o-2024-05-13",
 			function_call: {
 				name: "asnwer",
 			},
@@ -33,15 +35,7 @@ export const questionToAI = async (
 				{
 					name: "asnwer",
 					description: "Answer the question",
-					parameters: {
-						type: "object",
-						properties: {
-							answer: {
-								type: "string",
-								enum: ["True", "False", "Unknown"],
-							},
-						},
-					},
+					parameters: zodToJsonSchema(functionArgsSchema),
 				},
 			],
 			messages: [
@@ -51,7 +45,19 @@ export const questionToAI = async (
 				},
 				{
 					role: "assistant",
+					content: story.quiz,
+				},
+				{
+					role: "user",
+					content: "真相を教えてください。",
+				},
+				{
+					role: "assistant",
 					content: story.truth,
+				},
+				{
+					role: "user",
+					content: "答えがわからないのでいくつか質問をしますね。",
 				},
 				...story.questionExamples.flatMap(
 					({ question, answer, supplement }) => {
@@ -85,5 +91,5 @@ export const questionToAI = async (
 	if (!args) {
 		throw new Error("No args");
 	}
-	return functionArgsSchema.parse(JSON.parse(args)).answer;
+	return functionArgsSchema.parse(JSON.parse(args))["1_answer"];
 };

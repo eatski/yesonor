@@ -1,6 +1,6 @@
-import { setTimeout } from "timers/promises";
+import { setTimeout } from "node:timers/promises";
+import { describe, expect, test, vi } from "vitest";
 import { prepareProura } from ".";
-import { describe, test, expect, vi } from "vitest";
 
 describe("proura", () => {
 	test("proura", async () => {

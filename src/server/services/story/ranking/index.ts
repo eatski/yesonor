@@ -1,10 +1,10 @@
-import { prisma } from "@/libs/prisma";
-import { createGetStoryWhere, hydrateStory, omitStory } from "../functions";
-import { StoryHead } from "@/server/model/story";
 import { CURRENT_HOUR_SEED } from "@/common/util/currentDateSeed";
-import seedrandam from "seedrandom";
+import { prisma } from "@/libs/prisma";
+import type { StoryHead } from "@/server/model/story";
 import { get } from "@vercel/edge-config";
+import seedrandam from "seedrandom";
 import { z } from "zod";
+import { createGetStoryWhere, hydrateStory, omitStory } from "../functions";
 
 const rankingWeightSchema = z.object({
 	questionLogsLength: z.number(),
@@ -77,8 +77,7 @@ export const getStoriesRecommended = async (
 			] as const;
 
 			const score = source.reduce(
-				(acc, [value, min, weight]) =>
-					acc * Math.pow(Math.max(value, min), weight),
+				(acc, [value, min, weight]) => acc * Math.max(value, min) ** weight,
 				1,
 			);
 

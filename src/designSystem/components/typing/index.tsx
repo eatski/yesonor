@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * モバイル端末で一瞬だけ別の文字が引数として渡されてしまう問題を解決するためのカスタムフック

@@ -1,17 +1,17 @@
-import { H1 } from "@/designSystem/components/heading";
-import styles from "./styles.module.scss";
-import components from "@/designSystem/components.module.scss";
-import dayjs from "dayjs";
 import { brand } from "@/common/texts";
-import { AiOutlineCopy, AiOutlineTwitter } from "react-icons/ai";
-import CopyToClipboard from "react-copy-to-clipboard";
-import { StoryHead } from "@/server/model/story";
+import components from "@/designSystem/components.module.scss";
 import {
 	AnchorButton,
 	Button,
 	ButtonIconWrapper,
 } from "@/designSystem/components/button";
+import { H1 } from "@/designSystem/components/heading";
+import type { StoryHead } from "@/server/model/story";
+import dayjs from "dayjs";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { AiOutlineCopy, AiOutlineTwitter } from "react-icons/ai";
 import { useToast } from "../toast";
+import styles from "./styles.module.scss";
 
 dayjs.locale("ja");
 

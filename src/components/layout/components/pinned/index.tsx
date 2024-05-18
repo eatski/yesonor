@@ -1,9 +1,9 @@
-import { AiFillPushpin } from "react-icons/ai";
-import styles from "./styles.module.scss";
 import {
 	AnchorButton,
 	ButtonIconWrapper,
 } from "@/designSystem/components/button";
+import { AiFillPushpin } from "react-icons/ai";
+import styles from "./styles.module.scss";
 
 const PinnedItem = ({
 	title,

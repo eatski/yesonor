@@ -1,13 +1,13 @@
-import { InformationParagragh } from "@/designSystem/components/information";
-import styles from "./styles.module.scss";
-import components from "@/designSystem/components.module.scss";
-import { Card } from "@/designSystem/components/card";
-import { DefinitionList } from "../definitionList";
-import { AiOutlineLike } from "react-icons/ai";
-import { Button, ButtonIconWrapper } from "@/designSystem/components/button";
 import { gtagEvent } from "@/common/util/gtag";
 import { useToast } from "@/components/toast";
+import components from "@/designSystem/components.module.scss";
+import { Button, ButtonIconWrapper } from "@/designSystem/components/button";
+import { Card } from "@/designSystem/components/card";
+import { InformationParagragh } from "@/designSystem/components/information";
 import { trpc } from "@/libs/trpc";
+import { AiOutlineLike } from "react-icons/ai";
+import { DefinitionList } from "../definitionList";
+import styles from "./styles.module.scss";
 
 export type Props = {
 	storyId: string;
@@ -34,13 +34,14 @@ type DistanceLevel = "almost" | "close" | "not-bad" | "way-off";
 const calcDisplayDistanceLebel = (distance: number): DistanceLevel => {
 	if (distance <= 0.37) {
 		return "almost";
-	} else if (distance > 0.37 && distance <= 0.45) {
-		return "close";
-	} else if (distance > 0.45 && distance <= 0.6) {
-		return "not-bad";
-	} else {
-		return "way-off";
 	}
+	if (distance > 0.37 && distance <= 0.45) {
+		return "close";
+	}
+	if (distance > 0.45 && distance <= 0.6) {
+		return "not-bad";
+	}
+	return "way-off";
 };
 
 const levelToText: Record<DistanceLevel, string> = {

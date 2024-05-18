@@ -1,39 +1,46 @@
+import { unlink } from "node:fs/promises";
 import { FileSystemCache } from "file-system-cache";
-import { unlink } from "fs/promises";
 import {
-	DefaultBodyType,
-	HttpResponse,
-	StrictRequest,
-	bypass,
 	http,
+	type DefaultBodyType,
+	HttpResponse,
+	type StrictRequest,
+	bypass,
 } from "msw";
 import { setupServer } from "msw/node";
 class ResponseCache {
 	private readonly usedCachePath = new Set<string>();
 	constructor(private readonly cache: FileSystemCache) {}
-	private static async configToKey(
+
+	private static async configToRequestRecord(
 		config: StrictRequest<DefaultBodyType>,
-	): Promise<string> {
-		return JSON.stringify({
+	): Promise<Record<string, unknown>> {
+		return {
 			url: config.url,
 			body: await config.text(),
 			method: config.method,
-		});
+		};
 	}
 	public async get(
 		configForKey: StrictRequest<DefaultBodyType>,
 	): Promise<unknown> {
-		const key = await ResponseCache.configToKey(configForKey);
+		const record = await ResponseCache.configToRequestRecord(configForKey);
+		const key = await JSON.stringify(record);
 		this.usedCachePath.add(this.cache.path(key));
-		return this.cache.get(key);
+		const cached = await this.cache.get(key);
+		return cached?.response;
 	}
 	public async set(
 		configForKey: StrictRequest<DefaultBodyType>,
 		value: unknown,
 	) {
-		const key = await ResponseCache.configToKey(configForKey);
+		const record = await ResponseCache.configToRequestRecord(configForKey);
+		const key = await JSON.stringify(record);
 		this.usedCachePath.add(this.cache.path(key));
-		await this.cache.set(key, value);
+		await this.cache.set(key, {
+			request: record,
+			response: value,
+		});
 	}
 	public async clearUnusedCache() {
 		const caches = await this.cache.load();
@@ -55,14 +62,14 @@ export const initMswCacheServer = (basePath: string) => {
 			const cached = await cache.get(req.request.clone());
 			if (typeof cached === "object") {
 				return HttpResponse.json(cached);
-			} else {
-				const response = await fetch(bypass(req.request));
-				if (response.status === 200) {
-					const text = await response.clone().json();
-					await cache.set(req.request, text);
-				}
-				return response;
 			}
+			console.log("Cache not hit. ", req.request.url);
+			const response = await fetch(bypass(req.request));
+			if (response.status === 200) {
+				const text = await response.clone().json();
+				await cache.set(req.request, text);
+			}
+			return response;
 		}),
 	);
 	return {

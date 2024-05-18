@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { Modal } from "../modal";
-import { Ads } from "../ads";
-import styles from "./styles.module.scss";
 import { Button } from "@/designSystem/components/button";
+import { useEffect, useState } from "react";
 import { z } from "zod";
+import { Ads } from "../ads";
+import { Modal } from "../modal";
+import styles from "./styles.module.scss";
 
 const STORAGE_KEY = "adsModalCount";
 
@@ -28,9 +28,8 @@ const getCount = () => {
 			return 0;
 		}
 		return safeparsed.data.value;
-	} else {
-		return 0;
 	}
+	return 0;
 };
 
 export const countUp = () => {

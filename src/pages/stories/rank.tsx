@@ -1,9 +1,9 @@
-import { Layout } from "@/components/layout";
-import { GetStaticProps } from "next";
-import { Item, StoryList } from "@/components/storyList";
-import { H1 } from "@/designSystem/components/heading";
 import { revalidateTime } from "@/common/revalidate";
+import { Layout } from "@/components/layout";
+import { type Item, StoryList } from "@/components/storyList";
+import { H1 } from "@/designSystem/components/heading";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
+import type { GetStaticProps } from "next";
 
 type Props = {
 	stories: Item[];

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { createMessage } from "../claude";
-import { applyTestHooks } from "./vitest";
 import { openai } from "../openai";
+import { applyTestHooks } from "./vitest";
 
 describe("initCacheMswServer", () => {
 	applyTestHooks();
