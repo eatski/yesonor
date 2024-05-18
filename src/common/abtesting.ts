@@ -3,7 +3,7 @@ export const AB_TESTING_COOKIE_NAME = "abtesting";
 export const AB_TESTING_VARIANTS = {
 	ONLY_SONNET: "ONLY_SONNET",
 	WITH_HAIKU: "WITH_HAIKU",
-	GPT4o: "GPT4o",
+	GPT4O: "GPT4O",
 } as const;
 export type ABTestingVariant = keyof typeof AB_TESTING_VARIANTS;
 
