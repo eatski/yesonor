@@ -12,8 +12,7 @@ const systemPromptPromise = readFile(
 );
 
 const functionArgsSchema = z.object({
-	"0_problemSolvingProcess": z.string(),
-	"1_answer": answerSchema,
+	answer: answerSchema,
 });
 
 export const questionToAI = async (
@@ -91,5 +90,5 @@ export const questionToAI = async (
 	if (!args) {
 		throw new Error("No args");
 	}
-	return functionArgsSchema.parse(JSON.parse(args))["1_answer"];
+	return functionArgsSchema.parse(JSON.parse(args)).answer;
 };
