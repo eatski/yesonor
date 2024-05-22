@@ -4,16 +4,11 @@ import { openai } from "@/libs/openai";
 import type { QuestionExample } from "@/server/model/story";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import zodToJsonSchema from "zod-to-json-schema";
 import { answer as answerSchema } from "../../../model/story";
 import { OPENAI_ERROR_MESSAGE } from "../../../procedures/question/contract";
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),
 );
-
-const functionArgsSchema = z.object({
-	answer: answerSchema,
-});
 
 export const questionToAI = async (
 	story: {
@@ -26,17 +21,8 @@ export const questionToAI = async (
 	const response = await openai.chat.completions
 		.create({
 			model: "gpt-4o-2024-05-13",
-			function_call: {
-				name: "asnwer",
-			},
 			user: "testes",
-			functions: [
-				{
-					name: "asnwer",
-					description: "Answer the question",
-					parameters: zodToJsonSchema(functionArgsSchema),
-				},
-			],
+			max_tokens: 1,
 			messages: [
 				{
 					role: "system",
@@ -86,9 +72,9 @@ export const questionToAI = async (
 				cause: e,
 			});
 		});
-	const args = response.choices[0]?.message?.function_call?.arguments;
+	const args = response.choices[0]?.message.content;
 	if (!args) {
 		throw new Error("No args");
 	}
-	return functionArgsSchema.parse(JSON.parse(args)).answer;
+	return answerSchema.parse(args);
 };
