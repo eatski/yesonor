@@ -79,7 +79,7 @@ export const questionToAIWithHaiku = async (
 		system: (await systemPromptPromise).toString(),
 	});
 	const block = response.content[0];
-	if (!block) {
+	if (!block || block.type === "tool_use") {
 		return questionToAI(story, question);
 	}
 	const parsed = haikuAnswer.safeParse(block.text);
@@ -102,14 +102,14 @@ export const questionToAI = async (
 		resolve(process.cwd(), "prompts", "question_claude.md"),
 	);
 	const response = await createMessage({
-		model: "claude-3-sonnet-20240229",
+		model: "claude-3-5-sonnet-20240620",
 		max_tokens: 1,
 		temperature: 0,
 		messages: createMessages(story, question),
 		system: (await systemPromptPromise).toString(),
 	});
 	const block = response.content[0];
-	if (!block) {
+	if (!block || block.type === "tool_use") {
 		throw new Error("AI's response has no content");
 	}
 	const answer = answerSchema.safeParse(block.text);
