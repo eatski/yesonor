@@ -19,7 +19,7 @@
 		"build-storybook": "storybook build"
 	},
 	"dependencies": {
-		"@anthropic-ai/sdk": "^0.18.0",
+		"@anthropic-ai/sdk": "^0.24.0",
 		"@hookform/resolvers": "^3.1.0",
 		"@prisma/client": "^4.16.2",
 		"@szhsin/react-menu": "^4.0.3",

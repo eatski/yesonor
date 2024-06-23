@@ -3,7 +3,6 @@ import { FALLBACK_DISTANCE, calculateEuclideanDistance } from "@/libs/math";
 import { openai } from "@/libs/openai";
 import { prisma } from "@/libs/prisma";
 import { prepareProura } from "@/libs/proura";
-import { Answer, truthCoincidence } from "@/server/model/story";
 import { getStory, getStoryPrivate } from "@/server/services/story";
 import { procedure } from "@/server/trpc";
 import { TRPCError } from "@trpc/server";
@@ -80,7 +79,7 @@ export const truth = procedure
 					temperature: 0.0,
 					max_tokens: 8,
 				});
-				const text = content[0]?.text;
+				const text = content[0]?.type === "text" ? content[0].text : null;
 				const result = (["Correct", "Incorrect"] as const).find((word) =>
 					text?.includes(word),
 				);

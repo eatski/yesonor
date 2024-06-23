@@ -16,7 +16,7 @@ export const validateABTestingVariant = (
 };
 
 export const getAorBRandom = (rate: number): ABTestingVariant => {
-	return Math.random() < rate
+	return Math.random() > rate
 		? AB_TESTING_VARIANTS.ONLY_SONNET
 		: AB_TESTING_VARIANTS.GPT4O;
 };
