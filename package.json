@@ -65,7 +65,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "1.7.3",
 		"@next/bundle-analyzer": "^13.4.19",
-		"@playwright/test": "^1.33.0",
+		"@playwright/test": "^1.45.0",
 		"@storybook/addon-essentials": "^7.4.2",
 		"@storybook/addon-interactions": "^7.4.2",
 		"@storybook/addon-links": "^7.4.2",
