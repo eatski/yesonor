@@ -9,7 +9,6 @@
 		"start": "next start",
 		"lint": "next lint",
 		"test": "vitest",
-		"test:prepare": "ts-node -P ./tsconfig.node.json scripts/initTestData.ts",
 		"e2e:server": "cross-env NEXT_PUBLIC_DISABLE_RECAPTCHA='$(date)' npm run build && npm run start",
 		"e2e:dev": "npx playwright test --ui",
 		"e2e:server:dev": "cross-env NEXT_PUBLIC_DISABLE_RECAPTCHA='$(date)' npm run dev",
