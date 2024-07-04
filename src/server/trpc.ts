@@ -11,7 +11,7 @@ import type { createContext } from "./context";
  */
 const t = initTRPC.context<typeof createContext>().create();
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.E2E_TEST) {
 	console.log("Starting MSW cache server");
 	const server = initMswCacheServer(
 		resolve(process.cwd(), "__data__", "msw-cache"),
