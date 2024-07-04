@@ -1,4 +1,6 @@
+import { resolve } from "node:path";
 import { setTimeout } from "node:timers/promises";
+import { initMswCacheServer } from "@/libs/msw-cache";
 import { TRPCError, initTRPC } from "@trpc/server";
 import { getHTTPStatusCodeFromError } from "@trpc/server/http";
 import type { createContext } from "./context";
@@ -8,6 +10,14 @@ import type { createContext } from "./context";
  * Should be done only once per backend!
  */
 const t = initTRPC.context<typeof createContext>().create();
+
+if (process.env.NODE_ENV === "development") {
+	console.log("Starting MSW cache server");
+	const server = initMswCacheServer(
+		resolve(process.cwd(), "__data__", "msw-cache"),
+	);
+	server.listen();
+}
 
 /**
  * Export reusable router and procedure helpers
