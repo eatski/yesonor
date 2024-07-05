@@ -16,7 +16,7 @@ export const Landing: React.FC = () => {
 				<Link href="/situationPuzzle" className={components.buttonLink}>
 					水平思考クイズとは？
 				</Link>
-				<Link href="/situationPuzzle" className={components.buttonLink}>
+				<Link href="/sponsor" className={components.buttonLink}>
 					ご支援のお願い
 				</Link>
 			</div>
