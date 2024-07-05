@@ -22,6 +22,8 @@ import {
 	vitest,
 } from "vitest";
 
+import * as recapcha from "@/common/util/grecaptcha";
+
 const trpcMsw = createTRPCMsw<AppRouter>({
 	basePath: "/api/trpc",
 	baseUrl: "https://example.com/",
@@ -53,6 +55,9 @@ describe("useQuestion", () => {
 
 	beforeEach(() => {
 		server.listen();
+		vi.spyOn(recapcha, "getRecaptchaToken").mockReturnValue(
+			Promise.resolve("test"),
+		);
 	});
 
 	afterEach(() => {

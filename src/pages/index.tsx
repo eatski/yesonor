@@ -42,23 +42,28 @@ export default function Home({ stories, recommend }: Props) {
 	return (
 		<>
 			<Layout>
-				<div style={{ marginBottom: "72px" }}>
-					<Landing stories={recommend} />
-				</div>
-				<section
-					aria-labelledby={recommendLabelId}
-					style={{ marginBottom: "24px" }}
-				>
-					<H2 id={recommendLabelId} label="おすすめストーリー" />
-					<StoryList stories={recommend} seeMoreUrl={"/stories/rank"} />
-				</section>
-				<div style={{ marginBottom: "24px" }}>
-					<RecommendCreateStory />
-				</div>
-				<section aria-labelledby={newLabelId} style={{ marginBottom: "24px" }}>
-					<H2 id={newLabelId} label="新着ストーリー" />
-					<StoryList stories={stories} seeMoreUrl={"/stories"} />
-				</section>
+				<main>
+					<div style={{ marginBottom: "48px" }}>
+						<Landing stories={recommend} />
+					</div>
+					<section
+						aria-labelledby={recommendLabelId}
+						style={{ marginBottom: "24px" }}
+					>
+						<H2 id={recommendLabelId} label="おすすめストーリー" />
+						<StoryList stories={recommend} seeMoreUrl={"/stories/rank"} />
+					</section>
+					<div style={{ marginBottom: "24px" }}>
+						<RecommendCreateStory />
+					</div>
+					<section
+						aria-labelledby={newLabelId}
+						style={{ marginBottom: "24px" }}
+					>
+						<H2 id={newLabelId} label="新着ストーリー" />
+						<StoryList stories={stories} seeMoreUrl={"/stories"} />
+					</section>
+				</main>
 			</Layout>
 		</>
 	);
