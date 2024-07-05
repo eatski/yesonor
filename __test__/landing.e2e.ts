@@ -2,6 +2,7 @@ import { prepareStoryFromYaml } from '@/test/prepareStory';
 import { test, expect } from '@playwright/test';
 import { PrismaClient } from '@prisma/client';
 import { resolveFixturePath } from '../fixtures';
+import { generateId } from '@/common/util/id';
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -12,23 +13,23 @@ test('ランディングページ表示', async ({ page }) => {
   await expect(page).toHaveTitle(/Yesonor/);
 });
 
-test('aa', async ({ page }) => {
-    const id = "test"
+test('新着のストーリーが表示されている', async ({ page }) => {
+    const userId = generateId();
     const prisma = new PrismaClient();
     prisma.$connect();
     await prisma.user.upsert({
         where: {
-            id: id,
+            id: userId,
         },
         create: {
-            id: id,
+            id: userId,
         },
         update: {}
     })
-    const storyId = "test"
+    const storyId = generateId();
 
-    const cleanup = await prepareStoryFromYaml(resolveFixturePath("test.yaml"), {
-        authorId: id,
+    await prepareStoryFromYaml(resolveFixturePath("sample1.yaml"), {
+        authorId: userId,
         storyId: storyId,
         published: true
     })
@@ -41,6 +42,4 @@ test('aa', async ({ page }) => {
     
     // Expect a title "to contain" a substring.
     await expect(links).toBeVisible();
-
-    await cleanup();
 }); 
