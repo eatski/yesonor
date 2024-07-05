@@ -3,9 +3,6 @@ export const CLIENT_KEY = "6LcvVxAmAAAAABH21d-xJ76J1djolWL3WMaMV8ne";
 export const RECAPTCHA_COOKIE_KEY = "recaptcha-token";
 
 export const getRecaptchaToken = async (): Promise<string> => {
-	if (process.env.VITEST) {
-		return "test";
-	}
 	return new Promise((resolve, reject) => {
 		const timer = setTimeout(() => {
 			reject("timeout");
