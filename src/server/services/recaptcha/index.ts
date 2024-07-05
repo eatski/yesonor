@@ -12,7 +12,7 @@ export const verifyRecaptcha = async (token: string): Promise<void> => {
 		},
 	);
 	const json = await res.json();
-	if (!json.success) {
+	if (!json.success || json.score < 0.5) {
 		throw new Error("Recaptcha failed");
 	}
 };

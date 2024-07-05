@@ -7,14 +7,30 @@
     .row {
         display: flex;
         padding: 8px 12px 8px 0;
+        margin: 0;
         font-size: 16px;
         border-radius: 2px;
         justify-content: center;
-        &[data-status=loading] {
+        &[aria-busy=true] {
             filter: opacity(50%)
         }
-        &[data-status=idle] {
-            filter: opacity(0%)
+        .iconWrapper {
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            color: var(--color-base-fg-secondary);
+            svg {
+                height: 22px;
+                width: 22px;
+            }
+        }
+        .text {
+            margin-left: 4px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center; 
         }
     }
     hr {
@@ -32,23 +48,5 @@
             filter: opacity(100%)
         }
     }
-    dt {
-        font-size: 14px;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        color: var(--color-base-fg-secondary);
-        svg {
-            height: 22px;
-            width: 22px;
-        }
-    }
-    dd {
-        margin-left: 4px;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
-    }
+   
 }

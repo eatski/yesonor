@@ -16,7 +16,7 @@ export const QuestionResult: React.FC<Props> = ({
 	onHintButtonClicked,
 }) => {
 	return (
-		<section aria-label="質問の結果">
+		<section>
 			<div className={styles.resultContainer}>
 				<QuestionAndAnswer question={question} answer={answer} />
 			</div>

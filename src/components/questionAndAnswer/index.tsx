@@ -4,45 +4,36 @@ import styles from "./styles.module.scss";
 
 type Props = {
 	question: string;
-	answer: string | null | undefined;
+	answer: string | null;
 	onQuestionTypingEnd?: () => void;
 };
 
 export const QuestionAndAnswer: React.FC<Props> = (props) => {
 	return (
-		<dl className={styles.container}>
-			<div className={styles.row}>
-				<dt>
+		<div className={styles.container}>
+			<p className={styles.row}>
+				<div className={styles.iconWrapper}>
 					<AiOutlineComment role="img" aria-label="あなたの質問" />
-				</dt>
-				<dd className={styles.question}>
+				</div>
+				<div className={styles.text}>
 					<TypingText onTypingEnd={props.onQuestionTypingEnd}>
 						{props.question}
 					</TypingText>
-				</dd>
-			</div>
+				</div>
+			</p>
 			<hr />
-			<div
-				className={styles.row}
-				data-status={
-					props.answer === undefined
-						? "idle"
-						: props.answer === null
-							? "loading"
-							: "success"
-				}
-			>
-				<dt>
+			<p className={styles.row} role="status" aria-busy={props.answer === null}>
+				<div className={styles.iconWrapper}>
 					<AiFillRobot role="img" aria-label="AIからの回答" />
-				</dt>
-				<dd>
+				</div>
+				<div className={styles.text}>
 					{!props.answer ? (
 						"考え中..."
 					) : (
 						<TypingText>{props.answer}</TypingText>
 					)}
-				</dd>
-			</div>
-		</dl>
+				</div>
+			</p>
+		</div>
 	);
 };

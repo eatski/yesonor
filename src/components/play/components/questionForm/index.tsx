@@ -24,7 +24,7 @@ export const QuestionForm: React.FC<{
 			}}
 		>
 			<label htmlFor={questionInputId} className={styles.formLabel}>
-				AIに質問をする
+				AIへの質問
 			</label>
 			<div className={styles.formContent}>
 				<input

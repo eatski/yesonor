@@ -5,6 +5,7 @@ import {
 	getAorBRandom,
 	validateABTestingVariant,
 } from "@/common/abtesting";
+import { RECAPTCHA_COOKIE_KEY } from "@/common/util/grecaptcha";
 import { authConfig } from "@/pages/api/auth/[...nextauth]";
 import { TRPCError } from "@trpc/server";
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
@@ -90,6 +91,11 @@ export const createContext = async (context: CreateNextContextOptions) => {
 			return retryable(10);
 		},
 		verifyRecaptcha(token: string) {
+			if (
+				context.req.cookies[RECAPTCHA_COOKIE_KEY] === process.env.MACHINE_TOKEN
+			) {
+				return setTimeout(100);
+			}
 			return verifyRecaptcha(token).catch((e) => {
 				throw new TRPCError({
 					code: "BAD_REQUEST",

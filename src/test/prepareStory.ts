@@ -29,8 +29,12 @@ export const prepareStoryFromYaml = async (
 		},
 	});
 	const { questionExamples, ...rest } = story.data;
-	await prisma.story.create({
-		data: {
+	await prisma.story.upsert({
+		where: {
+			id: meta.storyId,
+		},
+		update: {},
+		create: {
 			...rest,
 			id: meta.storyId,
 			published: meta.published,

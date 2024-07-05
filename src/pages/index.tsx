@@ -7,6 +7,7 @@ import { H2 } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
 import type { GetStaticProps } from "next";
+import { useId } from "react";
 
 type Props = {
 	stories: Item[];
@@ -36,21 +37,26 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 };
 
 export default function Home({ stories, recommend }: Props) {
+	const recommendLabelId = useId();
+	const newLabelId = useId();
 	return (
 		<>
 			<Layout>
 				<div style={{ marginBottom: "72px" }}>
 					<Landing stories={recommend} />
 				</div>
-				<section style={{ marginBottom: "24px" }}>
-					<H2 label="おすすめストーリー" />
+				<section
+					aria-labelledby={recommendLabelId}
+					style={{ marginBottom: "24px" }}
+				>
+					<H2 id={recommendLabelId} label="おすすめストーリー" />
 					<StoryList stories={recommend} seeMoreUrl={"/stories/rank"} />
 				</section>
 				<div style={{ marginBottom: "24px" }}>
 					<RecommendCreateStory />
 				</div>
-				<section style={{ marginBottom: "24px" }}>
-					<H2 label="新着ストーリー" />
+				<section aria-labelledby={newLabelId} style={{ marginBottom: "24px" }}>
+					<H2 id={newLabelId} label="新着ストーリー" />
 					<StoryList stories={stories} seeMoreUrl={"/stories"} />
 				</section>
 			</Layout>
