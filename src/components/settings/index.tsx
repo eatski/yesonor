@@ -121,48 +121,51 @@ const Name: React.FC<Props> = ({ name }) => {
 const DeleteAccount: React.FC = () => {
 	const { mutateAsync, isLoading, isSuccess } =
 		trpc.deleteAccount.useMutation();
-	const confirm = useConfirmModal();
+	const { confirm, view } = useConfirmModal();
 	const toast = useToast();
 
 	return (
-		<section>
-			<h2>退会</h2>
-			<div className={styles.row}>
-				<div className={styles.left}>
-					{isLoading ? (
-						<p className={styles.small}>退会処理中...</p>
-					) : isSuccess ? (
-						<p className={styles.small}>退会しました。</p>
-					) : (
-						<p className={styles.small}>
-							退会すると、あなたが作成したストーリーが全て削除されます。
-						</p>
+		<>
+			{view}
+			<section>
+				<h2>退会</h2>
+				<div className={styles.row}>
+					<div className={styles.left}>
+						{isLoading ? (
+							<p className={styles.small}>退会処理中...</p>
+						) : isSuccess ? (
+							<p className={styles.small}>退会しました。</p>
+						) : (
+							<p className={styles.small}>
+								退会すると、あなたが作成したストーリーが全て削除されます。
+							</p>
+						)}
+					</div>
+					{!isLoading && !isSuccess && (
+						<div className={styles.right}>
+							<button
+								className={components.buttonDanger}
+								onClick={async () => {
+									if (
+										await confirm(
+											"本当に退会しますか？退会すると、あなたが作成したストーリーが全て削除されます。",
+										)
+									) {
+										await mutateAsync();
+										toast("退会しました。");
+										signOut({
+											callbackUrl: "/",
+										});
+									}
+								}}
+							>
+								退会
+							</button>
+						</div>
 					)}
 				</div>
-				{!isLoading && !isSuccess && (
-					<div className={styles.right}>
-						<button
-							className={components.buttonDanger}
-							onClick={async () => {
-								if (
-									await confirm(
-										"本当に退会しますか？退会すると、あなたが作成したストーリーが全て削除されます。",
-									)
-								) {
-									await mutateAsync();
-									toast("退会しました。");
-									signOut({
-										callbackUrl: "/",
-									});
-								}
-							}}
-						>
-							退会
-						</button>
-					</div>
-				)}
-			</div>
-		</section>
+			</section>
+		</>
 	);
 };
 

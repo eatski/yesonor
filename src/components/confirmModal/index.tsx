@@ -4,13 +4,7 @@ import { useState } from "react";
 import { Modal } from "./../modal";
 import styles from "./styles.module.scss";
 
-const Context = React.createContext<(text: string) => Promise<boolean>>(() => {
-	throw new Error("Context is not provided");
-});
-
-export function ConfirmModal({
-	children,
-}: React.PropsWithChildren): React.ReactElement {
+export function useConfirmModal() {
 	const [state, setState] = useState<{
 		text: string;
 		resolve: (value: boolean) => void;
@@ -26,9 +20,10 @@ export function ConfirmModal({
 			});
 		});
 	}, []);
-	return (
-		<>
-			<Context.Provider value={confirm}>{children}</Context.Provider>
+
+	return {
+		confirm,
+		view: (
 			<Modal isOpen={!!state}>
 				<p className={styles.text}>{state?.text}</p>
 				<div className={styles.buttons}>
@@ -48,10 +43,6 @@ export function ConfirmModal({
 					</Button>
 				</div>
 			</Modal>
-		</>
-	);
-}
-
-export function useConfirmModal<V>() {
-	return React.useContext(Context);
+		),
+	};
 }

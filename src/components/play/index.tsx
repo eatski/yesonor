@@ -37,7 +37,7 @@ const AnswerFormContainer: React.FC<{
 			gtagEvent(resultToEvent[data.result]);
 		},
 	});
-	const modalConfrim = useConfirmModal<boolean>();
+	const { confirm, view } = useConfirmModal();
 	const onSubmit = useCallback(
 		async (input: string) => {
 			gtagEvent("click_submit_answer");
@@ -51,13 +51,14 @@ const AnswerFormContainer: React.FC<{
 	);
 	return data ? (
 		<>
+			{view}
 			<AnswerResult
 				storyId={story.id}
 				solution={data.input}
 				onBackButtonClicked={reset}
 				onSeeTruthButtonClicked={async () => {
 					if (
-						await modalConfrim(
+						await confirm(
 							"本当に真相を見ますか？一度真相を見てしまうとこのストーリーを楽しむことができなくなります。",
 						)
 					) {
@@ -99,7 +100,7 @@ export function Play(props: Props) {
 	const goToSolution = useCallback(() => {
 		setMode("solution");
 	}, []);
-	const confirm = useConfirmModal();
+	const { confirm, view } = useConfirmModal();
 	const session = useSession();
 	const [mobileLimitation, setMobileLimitation] = useState(false);
 	const { data: isThankyouUser } = trpc.user.thankyou.useQuery();
@@ -153,6 +154,7 @@ export function Play(props: Props) {
 			)}
 			{question.history.length > 0 && (
 				<>
+					{view}
 					<div className={styles.sectionWrapper}>
 						<Feed
 							items={question.history.map(({ id, input, result }) => ({
