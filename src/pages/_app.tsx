@@ -115,6 +115,6 @@ const SetupAB = () => {
 	const { mutate } = trpc.abtest.setup.useMutation();
 	useEffect(() => {
 		mutate();
-	}, []);
+	}, [mutate]);
 	return null;
 };

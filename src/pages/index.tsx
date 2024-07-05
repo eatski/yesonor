@@ -44,7 +44,7 @@ export default function Home({ stories, recommend }: Props) {
 			<Layout>
 				<main>
 					<div style={{ marginBottom: "48px" }}>
-						<Landing stories={recommend} />
+						<Landing />
 					</div>
 					<section
 						aria-labelledby={recommendLabelId}
