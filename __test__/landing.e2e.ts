@@ -58,8 +58,6 @@ test('アクセシビリティ', async ({ page }) => {
         page
     });
 
-    page.screenshot
-
     const {violations} = await axe.disableRules('color-contrast') .analyze();
     expect(violations,violations.map(v => v.description).join("\n")).toEqual([]);
 });
