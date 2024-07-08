@@ -11,6 +11,8 @@ const prepare = async () => {
     const userId = generateId();
     const prisma = new PrismaClient();
     prisma.$connect();
+    await prisma.story.deleteMany();
+    await prisma.user.deleteMany();
     await prisma.user.upsert({
         where: {
             id: userId,
