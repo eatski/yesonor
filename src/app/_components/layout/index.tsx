@@ -1,10 +1,10 @@
+import { Logo } from "@/components/layout/components/logo";
+import { UserMenu } from "@/components/layout/components/menu";
+import { PinnedInfo } from "@/components/layout/components/pinned";
 import components from "@/designSystem/components.module.scss";
 import Link from "next/link";
 import type React from "react";
 import { type PropsWithChildren, Suspense } from "react";
-import { Logo } from "./components/logo";
-import { UserMenu } from "./components/menu";
-import { PinnedInfo } from "./components/pinned";
 import styles from "./styles.module.scss";
 
 export const Layout: React.FC<
