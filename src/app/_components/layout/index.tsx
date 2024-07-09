@@ -1,10 +1,10 @@
 import { Logo } from "@/components/layout/components/logo";
-import { UserMenu } from "@/components/layout/components/menu";
 import { PinnedInfo } from "@/components/layout/components/pinned";
 import components from "@/designSystem/components.module.scss";
 import Link from "next/link";
 import type React from "react";
 import { type PropsWithChildren, Suspense } from "react";
+import { UserMenu } from "./components/menu";
 import styles from "./styles.module.scss";
 
 export const Layout: React.FC<
@@ -20,6 +20,7 @@ export const Layout: React.FC<
 					<Link className={components.buttonBrandFg} href={"/stories/new"}>
 						ストーリーを投稿
 					</Link>
+					{/* @ts-ignore */}
 					<UserMenu />
 				</div>
 			</header>
