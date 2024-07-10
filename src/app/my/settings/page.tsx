@@ -1,4 +1,3 @@
-import { TrpcContextProvider } from "@/common/context/TrpcContextProvider";
 import { Settings } from "@/components/settings";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { getUser } from "@/server/services/user";
@@ -20,9 +19,5 @@ export default async function MyPage() {
 		notFound();
 	}
 
-	return (
-		<TrpcContextProvider>
-			<Settings name={user.name} email={session.email} />
-		</TrpcContextProvider>
-	);
+	return <Settings name={user.name} email={session.email} />;
 }

@@ -1,7 +1,9 @@
 import "sanitize.css";
 import "@/designSystem/base.css";
+import { TrpcContextProvider } from "@/common/context/TrpcContextProvider";
 import { brand } from "@/common/texts";
 import { keysOverride } from "@/components/headMeta";
+import { Toast } from "@/components/toast";
 import { Layout } from "./_components/layout";
 
 export const metadata = {
@@ -53,7 +55,11 @@ export default function RootLayout({
 				/>
 			</head>
 			<body>
-				<Layout>{children}</Layout>
+				<TrpcContextProvider>
+					<Toast>
+						<Layout>{children}</Layout>
+					</Toast>
+				</TrpcContextProvider>
 			</body>
 		</html>
 	);
