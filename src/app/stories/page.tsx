@@ -2,7 +2,6 @@ import { revalidateTime } from "@/common/revalidate";
 import { StoryList } from "@/components/storyList";
 import { H2 } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
-import { Layout } from "../_components/layout";
 
 export const revalidate = revalidateTime.short;
 
@@ -11,7 +10,7 @@ const NewerStories = async () => {
 		count: 100,
 	});
 	return (
-		<Layout>
+		<>
 			<H2 label="全てのストーリー" />
 			<StoryList
 				stories={stories.map((story) => ({
@@ -19,7 +18,7 @@ const NewerStories = async () => {
 					url: `/stories/${story.id}`,
 				}))}
 			/>
-		</Layout>
+		</>
 	);
 };
 

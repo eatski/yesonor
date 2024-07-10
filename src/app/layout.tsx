@@ -2,6 +2,7 @@ import "sanitize.css";
 import "@/designSystem/base.css";
 import { brand } from "@/common/texts";
 import { keysOverride } from "@/components/headMeta";
+import { Layout } from "./_components/layout";
 
 export const metadata = {
 	title: `${brand.serviceName}(${brand.serviceNickname}) - ${brand.serviceDescription}`,
@@ -51,7 +52,9 @@ export default function RootLayout({
 					content="https://iesona.com/card_square.png"
 				/>
 			</head>
-			<body>{children}</body>
+			<body>
+				<Layout>{children}</Layout>
+			</body>
 		</html>
 	);
 }
