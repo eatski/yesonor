@@ -5,15 +5,16 @@ import { Play } from "@/components/play";
 import { StoryDescription } from "@/components/storyDescription";
 import { Toast } from "@/components/toast";
 import type { Story } from "@/server/model/story";
-import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { getStories, getStory } from "@/server/services/story";
 import { get } from "@vercel/edge-config";
 import { cookies, headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 
-type Props = {
-	storyId: string;
+type StoryProps = {
+	params: {
+		storyId: string;
+	};
 };
 
 export const generateStaticParams = async () => {
@@ -29,7 +30,7 @@ const questionLimitationSchema = z.object({
 	desktopOnly: z.boolean(),
 });
 
-export default async function Story({ storyId }: Props) {
+export default async function Story({ params: { storyId } }: StoryProps) {
 	const story = await getStory({
 		storyId: storyId,
 	});
