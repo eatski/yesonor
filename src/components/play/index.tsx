@@ -1,21 +1,17 @@
-import { getDevice } from "@/common/util/device";
+"use client";
 import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import { gtagEvent } from "@/common/util/gtag";
 import components from "@/designSystem/components.module.scss";
 import { trpc } from "@/libs/trpc";
 import type { Story } from "@/server/model/story";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
 import Script from "next/script";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useConfirmModal } from "../confirmModal";
 import { AnswerForm } from "./components/answerForm";
 import { AnswerResult } from "./components/answerResult";
 import { Feed } from "./components/feed";
-import { MobileLimitation } from "./components/mobileLimitation";
 import { QuestionForm } from "./components/questionForm";
 import { QuestionResult } from "./components/questionResult";
-import { RequireLogin } from "./components/requireLogin";
 import { SeeTrurh } from "./components/seeTruth";
 import styles from "./styles.module.scss";
 import { useQuestion } from "./useQuestion";
@@ -101,23 +97,6 @@ export function Play(props: Props) {
 		setMode("solution");
 	}, []);
 	const { confirm, view } = useConfirmModal();
-	const session = useSession();
-	const [mobileLimitation, setMobileLimitation] = useState(false);
-	const { data: isThankyouUser } = trpc.user.thankyou.useQuery();
-	useEffect(() => {
-		const device = getDevice(undefined);
-		if (device === "mobile" && process.env.NEXT_PUBLIC_MOBILE_LIMITATION) {
-			setMobileLimitation(true);
-		}
-	}, []);
-	if (isThankyouUser === false && mobileLimitation) {
-		return <MobileLimitation />;
-	}
-	if (process.env.NEXT_PUBLIC_REQUIRE_LOGIN_TO_PLAY) {
-		if (session.status !== "loading" && !session.data?.user) {
-			return <RequireLogin />;
-		}
-	}
 	return (
 		<>
 			<Script
