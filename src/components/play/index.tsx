@@ -4,12 +4,14 @@ import { gtagEvent } from "@/common/util/gtag";
 import components from "@/designSystem/components.module.scss";
 import { trpc } from "@/libs/trpc";
 import type { Story } from "@/server/model/story";
+import { useQuery } from "@tanstack/react-query";
 import Script from "next/script";
-import { useCallback, useState } from "react";
+import { use, useCallback, useState } from "react";
 import { useConfirmModal } from "../confirmModal";
 import { AnswerForm } from "./components/answerForm";
 import { AnswerResult } from "./components/answerResult";
 import { Feed } from "./components/feed";
+import { MobileLimitation } from "./components/mobileLimitation";
 import { QuestionForm } from "./components/questionForm";
 import { QuestionResult } from "./components/questionResult";
 import { SeeTrurh } from "./components/seeTruth";
@@ -18,6 +20,15 @@ import { useQuestion } from "./useQuestion";
 
 type Props = {
 	story: Story;
+	fetchCanPlay: () => Promise<
+		| {
+				canPlay: true;
+		  }
+		| {
+				canPlay: false;
+				reason: "desktop_only";
+		  }
+	>;
 };
 
 const AnswerFormContainer: React.FC<{
@@ -87,8 +98,8 @@ const Truth: React.FC<{ story: Story; onBackButtonClicked: () => void }> = ({
 
 type Mode = "question" | "solution" | "truth";
 
-export function Play(props: Props) {
-	const question = useQuestion(props.story);
+export function Play({ story, fetchCanPlay }: Props) {
+	const question = useQuestion(story);
 	const [mode, setMode] = useState<Mode>("question");
 	const backToQuestion = useCallback(() => {
 		setMode("question");
@@ -96,7 +107,17 @@ export function Play(props: Props) {
 	const goToSolution = useCallback(() => {
 		setMode("solution");
 	}, []);
+	const { data: canPlayResult } = useQuery({
+		queryKey: [fetchCanPlay],
+		queryFn: () => fetchCanPlay(),
+	});
 	const { confirm, view } = useConfirmModal();
+	if (canPlayResult && !canPlayResult.canPlay) {
+		switch (canPlayResult.reason) {
+			case "desktop_only":
+				return <MobileLimitation />;
+		}
+	}
 	return (
 		<>
 			<Script
@@ -123,12 +144,12 @@ export function Play(props: Props) {
 			)}
 			{mode === "solution" && (
 				<div className={styles.sectionWrapper}>
-					<AnswerFormContainer story={props.story} changeMode={setMode} />
+					<AnswerFormContainer story={story} changeMode={setMode} />
 				</div>
 			)}
 			{mode === "truth" && (
 				<div className={styles.sectionWrapper}>
-					<Truth story={props.story} onBackButtonClicked={backToQuestion} />
+					<Truth story={story} onBackButtonClicked={backToQuestion} />
 				</div>
 			)}
 			{question.history.length > 0 && (
