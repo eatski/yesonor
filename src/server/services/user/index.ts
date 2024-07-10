@@ -7,7 +7,6 @@ export type User = {
 };
 
 export const getUser = async ({ userId }: { userId: string }) => {
-	await setTimeout(1000);
 	return prisma.user
 		.findUnique({
 			where: {
