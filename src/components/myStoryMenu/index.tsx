@@ -39,88 +39,91 @@ export const MyStoryMenu: React.FC<Props> = ({
 		publish.isLoading ||
 		getUpdated.isFetching;
 	const isError = del.error || put.error || publish.error;
-	const confirm = useConfirmModal();
+	const { confirm, view } = useConfirmModal();
 	return (
-		<div className={styles.container} data-loading={isLoading}>
-			{isLoading ? <div className={styles.loader} /> : null}
-			<div className={styles.content}>
-				{success || (
-					<p className={styles.important}>
-						{story.published
-							? "このストーリーは公開中です。"
-							: "このストーリーは未公開です。"}
-					</p>
-				)}
-				{
-					<>
-						<div className={styles.buttons}>
-							<Link
-								className={components.buttonLink}
-								href={`/my/stories/${storyId}/edit`}
-							>
-								編集
-							</Link>
-							<button
-								className={components.buttonDanger}
-								onClick={async () => {
-									if (!(await confirm("本当に削除しますか？"))) {
-										return;
-									}
-									del.mutate(
-										{
-											id: storyId,
-										},
-										{
-											onSuccess: () => {
-												router.push("/my/stories");
-											},
-										},
-									);
-								}}
-								disabled={isLoading}
-							>
-								削除
-							</button>
-							{story.published || (
+		<>
+			{view}
+			<div className={styles.container} data-loading={isLoading}>
+				{isLoading ? <div className={styles.loader} /> : null}
+				<div className={styles.content}>
+					{success || (
+						<p className={styles.important}>
+							{story.published
+								? "このストーリーは公開中です。"
+								: "このストーリーは未公開です。"}
+						</p>
+					)}
+					{
+						<>
+							<div className={styles.buttons}>
+								<Link
+									className={components.buttonLink}
+									href={`/my/stories/${storyId}/edit`}
+								>
+									編集
+								</Link>
 								<button
-									className={components.button}
-									onClick={() => {
-										publish.mutate(
+									className={components.buttonDanger}
+									onClick={async () => {
+										if (!(await confirm("本当に削除しますか？"))) {
+											return;
+										}
+										del.mutate(
 											{
 												id: storyId,
 											},
 											{
 												onSuccess: () => {
-													getUpdated.refetch();
+													router.push("/my/stories");
 												},
 											},
 										);
 									}}
 									disabled={isLoading}
 								>
-									公開
+									削除
 								</button>
+								{story.published || (
+									<button
+										className={components.button}
+										onClick={() => {
+											publish.mutate(
+												{
+													id: storyId,
+												},
+												{
+													onSuccess: () => {
+														getUpdated.refetch();
+													},
+												},
+											);
+										}}
+										disabled={isLoading}
+									>
+										公開
+									</button>
+								)}
+							</div>
+							{canUseFileDrop && (
+								<>
+									<Link
+										href={`/my/stories/${storyId}/edit?mode=file`}
+										className={components.button0}
+										data-size="small"
+									>
+										<AiOutlineUpload />
+										YAMLファイルをアップロードして編集する
+									</Link>
+								</>
 							)}
-						</div>
-						{canUseFileDrop && (
-							<>
-								<Link
-									href={`/my/stories/${storyId}/edit?mode=file`}
-									className={components.button0}
-									data-size="small"
-								>
-									<AiOutlineUpload />
-									YAMLファイルをアップロードして編集する
-								</Link>
-							</>
-						)}
-					</>
-				}
+						</>
+					}
 
-				{isError ? (
-					<p className={styles.error}>エラーが発生しました。</p>
-				) : null}
+					{isError ? (
+						<p className={styles.error}>エラーが発生しました。</p>
+					) : null}
+				</div>
 			</div>
-		</div>
+		</>
 	);
 };

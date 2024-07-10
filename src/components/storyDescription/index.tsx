@@ -2,15 +2,14 @@ import { brand } from "@/common/texts";
 import components from "@/designSystem/components.module.scss";
 import {
 	AnchorButton,
-	Button,
 	ButtonIconWrapper,
 } from "@/designSystem/components/button";
 import { H1 } from "@/designSystem/components/heading";
 import type { StoryHead } from "@/server/model/story";
 import dayjs from "dayjs";
-import CopyToClipboard from "react-copy-to-clipboard";
-import { AiOutlineCopy, AiOutlineTwitter } from "react-icons/ai";
-import { useToast } from "../toast";
+import { AiOutlineTwitter } from "react-icons/ai";
+
+import { CopyUrl } from "./components/CopyUrl";
 import styles from "./styles.module.scss";
 
 dayjs.locale("ja");
@@ -26,7 +25,6 @@ export const StoryDescription: React.FC<{
 		"hashtags",
 		`${brand.serviceNickname},水平思考クイズ,ウミガメのスープ`,
 	);
-	const toast = useToast();
 	return (
 		<header className={styles.container}>
 			<H1>{title}</H1>
@@ -63,19 +61,7 @@ export const StoryDescription: React.FC<{
 						</ButtonIconWrapper>
 						ツイート
 					</AnchorButton>
-					<CopyToClipboard
-						text={url}
-						onCopy={() => {
-							toast("URLをコピーしました。");
-						}}
-					>
-						<Button color="none" size="small">
-							<ButtonIconWrapper>
-								<AiOutlineCopy role="presentation" />
-							</ButtonIconWrapper>
-							URLをコピー
-						</Button>
-					</CopyToClipboard>
+					<CopyUrl url={url} />
 				</div>
 			)}
 		</header>

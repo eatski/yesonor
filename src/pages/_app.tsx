@@ -10,7 +10,6 @@ import { SessionProvider } from "next-auth/react";
 
 import { brand } from "@/common/texts";
 import { gtagEvent } from "@/common/util/gtag";
-import { ConfirmModal } from "@/components/confirmModal";
 import { keysOverride } from "@/components/headMeta";
 import { Toast } from "@/components/toast";
 import Head from "next/head";
@@ -99,11 +98,9 @@ export default function App({ Component, pageProps }: AppProps) {
 				<trpc.Provider client={trpcClient} queryClient={queryClient}>
 					<QueryClientProvider client={queryClient}>
 						<SetupAB />
-						<ConfirmModal>
-							<Toast>
-								<Component {...pageProps} />
-							</Toast>
-						</ConfirmModal>
+						<Toast>
+							<Component {...pageProps} />
+						</Toast>
 					</QueryClientProvider>
 				</trpc.Provider>
 			</SessionProvider>

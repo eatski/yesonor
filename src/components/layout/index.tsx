@@ -1,36 +1,16 @@
 import components from "@/designSystem/components.module.scss";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import type React from "react";
-import { type PropsWithChildren, Suspense, useEffect, useState } from "react";
+import { type PropsWithChildren, Suspense } from "react";
 import { Logo } from "./components/logo";
 import { UserMenu } from "./components/menu";
 import { PinnedInfo } from "./components/pinned";
+import { TransitionProgress } from "./components/transitionProgress";
 import styles from "./styles.module.scss";
 
 export const Layout: React.FC<
 	PropsWithChildren<{ upper?: React.ReactElement }>
 > = ({ children, upper }) => {
-	const router = useRouter();
-
-	const [loading, setLoading] = useState(false);
-
-	useEffect(() => {
-		const onStart = () => {
-			setLoading(true);
-		};
-		const onEnd = () => {
-			setLoading(false);
-		};
-		router.events.on("routeChangeStart", onStart);
-		router.events.on("routeChangeComplete", onEnd);
-		router.events.on("routeChangeError", onEnd);
-		return () => {
-			router.events.off("routeChangeStart", onStart);
-			router.events.off("routeChangeComplete", onEnd);
-			router.events.off("routeChangeError", onEnd);
-		};
-	}, [router]);
 	return (
 		<>
 			<header className={styles.header}>
@@ -44,9 +24,8 @@ export const Layout: React.FC<
 					<UserMenu />
 				</div>
 			</header>
-			{loading && <div className={styles.transitionStatus} />}
+			<TransitionProgress />
 			<PinnedInfo />
-
 			{upper ? (
 				<Suspense>
 					<div className={styles.upper}>

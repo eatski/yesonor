@@ -1,3 +1,4 @@
+import { AxeBuilder } from "@axe-core/playwright"
 import { prepareStoryFromYaml } from '@/test/prepareStory';
 import { test, expect } from '@playwright/test';
 import { PrismaClient } from '@prisma/client';
@@ -6,17 +7,12 @@ import { generateId } from '@/common/util/id';
 
 const BASE_URL = 'http://localhost:3000';
 
-test('ランディングページ表示', async ({ page }) => {
-  await page.goto(BASE_URL);
-
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Yesonor/);
-});
-
-test('新着のストーリーが表示されている', async ({ page }) => {
+const prepare = async () => {
     const userId = generateId();
     const prisma = new PrismaClient();
     prisma.$connect();
+    await prisma.story.deleteMany();
+    await prisma.user.deleteMany();
     await prisma.user.upsert({
         where: {
             id: userId,
@@ -33,7 +29,19 @@ test('新着のストーリーが表示されている', async ({ page }) => {
         storyId: storyId,
         published: true
     })
-    
+
+}
+
+test('ランディングページ表示', async ({ page }) => {
+  await prepare();
+  await page.goto(BASE_URL);
+
+  // Expect a title "to contain" a substring.
+  await expect(page).toHaveTitle(/Yesonor/);
+});
+
+test('新着のストーリーが表示されている', async ({ page }) => {
+    await prepare();
     await page.goto(BASE_URL);
 
     const newRegion = await page.getByRole('region', { name: "新着ストーリー" });
@@ -43,3 +51,15 @@ test('新着のストーリーが表示されている', async ({ page }) => {
     // Expect a title "to contain" a substring.
     await expect(links).toBeVisible();
 }); 
+
+test('アクセシビリティ', async ({ page }) => {
+    await prepare();
+    await page.goto(BASE_URL);
+
+    const axe = new AxeBuilder({
+        page
+    });
+
+    const {violations} = await axe.disableRules('color-contrast') .analyze();
+    expect(violations,violations.map(v => v.description).join("\n")).toEqual([]);
+});
