@@ -35,6 +35,7 @@ export const truth = procedure
 						})
 					: getStory({
 							storyId: input.storyId,
+							includePrivate: false,
 						}));
 				if (!story) {
 					throw new TRPCError({

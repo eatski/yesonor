@@ -1,10 +1,9 @@
-import { TrpcContextProvider } from "@/common/context/TrpcContextProvider";
 import { getDevice } from "@/common/util/device";
 import { HeadMetaOverride } from "@/components/headMeta";
 import { Play } from "@/components/play";
 import { StoryDescription } from "@/components/storyDescription";
-import { Toast } from "@/components/toast";
 import type { Story } from "@/server/model/story";
+import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { getStories, getStory } from "@/server/services/story";
 import { get } from "@vercel/edge-config";
 import { cookies, headers } from "next/headers";
@@ -33,50 +32,54 @@ const questionLimitationSchema = z.object({
 export default async function Story({ params: { storyId } }: StoryProps) {
 	const story = await getStory({
 		storyId: storyId,
+		includePrivate: true,
 	});
 	if (!story) {
-		return notFound();
+		notFound();
 	}
+	if (!story.published) {
+		const session = await getUserSession();
+		if (!session || session.userId !== story.author.id) {
+			notFound();
+		}
+	}
+
 	return (
 		<>
 			<HeadMetaOverride
 				titleHeadOverride={story.title}
 				descriptionOverride={story.quiz}
 			/>
-			<Toast>
-				<StoryDescription story={story} />
-			</Toast>
-			<TrpcContextProvider>
-				<Play
-					story={story}
-					fetchCanPlay={async () => {
-						"use server";
-						const thankyouCookie = cookies().get("thankyou");
-						if (
-							thankyouCookie &&
-							thankyouCookie.value === process.env.THANKYOU_CODE
-						) {
-							return {
-								canPlay: true,
-							};
-						}
-						const questionLimitation = questionLimitationSchema.parse(
-							await get("questionLimitation"),
-						);
-
-						const device = getDevice(headers().get("user-agent") || undefined);
-						if (questionLimitation.desktopOnly && device !== "desktop") {
-							return {
-								canPlay: false,
-								reason: "desktop_only",
-							};
-						}
+			<StoryDescription story={story} />
+			<Play
+				story={story}
+				fetchCanPlay={async () => {
+					"use server";
+					const thankyouCookie = cookies().get("thankyou");
+					if (
+						thankyouCookie &&
+						thankyouCookie.value === process.env.THANKYOU_CODE
+					) {
 						return {
 							canPlay: true,
 						};
-					}}
-				/>
-			</TrpcContextProvider>
+					}
+					const questionLimitation = questionLimitationSchema.parse(
+						await get("questionLimitation"),
+					);
+
+					const device = getDevice(headers().get("user-agent") || undefined);
+					if (questionLimitation.desktopOnly && device !== "desktop") {
+						return {
+							canPlay: false,
+							reason: "desktop_only",
+						};
+					}
+					return {
+						canPlay: true,
+					};
+				}}
+			/>
 		</>
 	);
 }

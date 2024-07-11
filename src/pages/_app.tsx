@@ -1,9 +1,7 @@
 import type { AppProps } from "next/app";
 
 import { trpc } from "@/libs/trpc";
-import { QueryClient } from "@tanstack/react-query";
-import { httpBatchLink } from "@trpc/client";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import "sanitize.css";
 import "@/designSystem/base.css";
 import { SessionProvider } from "next-auth/react";
