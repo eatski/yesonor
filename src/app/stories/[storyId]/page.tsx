@@ -1,3 +1,4 @@
+import { brand } from "@/common/texts";
 import { getDevice } from "@/common/util/device";
 import { HeadMetaOverride } from "@/components/headMeta";
 import { Play } from "@/components/play";
@@ -40,7 +41,7 @@ export const generateMetadata = async ({
 }: StoryProps): Promise<Metadata> => {
 	const story = await getStoryByRequest(storyId);
 	return {
-		title: story.title,
+		title: `${story.title} - ${brand.serviceNickname}`,
 		description: story.quiz,
 	};
 };
