@@ -62,10 +62,6 @@ export default async function Story({ params: { storyId } }: StoryProps) {
 	const story = await getStoryByRequest(storyId);
 	return (
 		<>
-			<HeadMetaOverride
-				titleHeadOverride={story.title}
-				descriptionOverride={story.quiz}
-			/>
 			<StoryDescription story={story} />
 			<Play
 				story={story}
