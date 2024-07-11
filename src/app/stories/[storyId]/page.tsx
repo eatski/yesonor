@@ -3,6 +3,7 @@ import { HeadMetaOverride } from "@/components/headMeta";
 import { Play } from "@/components/play";
 import { StoryDescription } from "@/components/storyDescription";
 import type { Story } from "@/server/model/story";
+import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { getStories, getStory } from "@/server/services/story";
 import { get } from "@vercel/edge-config";
 import { cookies, headers } from "next/headers";
@@ -31,10 +32,18 @@ const questionLimitationSchema = z.object({
 export default async function Story({ params: { storyId } }: StoryProps) {
 	const story = await getStory({
 		storyId: storyId,
+		includePrivate: true,
 	});
 	if (!story) {
-		return notFound();
+		notFound();
 	}
+	if (!story.published) {
+		const session = await getUserSession();
+		if (!session || session.userId !== story.author.id) {
+			notFound();
+		}
+	}
+
 	return (
 		<>
 			<HeadMetaOverride

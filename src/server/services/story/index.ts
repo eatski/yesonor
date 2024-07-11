@@ -24,10 +24,16 @@ export const getStories = (args: { count: number }): Promise<StoryHead[]> => {
 		.then((stories) => stories.map(omitStory));
 };
 
-export const getStory = (args: { storyId: string }): Promise<Story | null> => {
+export const getStory = (args: {
+	storyId: string;
+	includePrivate: boolean;
+}): Promise<Story | null> => {
 	return prisma.story
 		.findFirst({
-			where: createGetStoryWhere(args),
+			where: {
+				id: args.storyId,
+				published: args.includePrivate ? undefined : true,
+			},
 			include: {
 				author: true,
 			},
