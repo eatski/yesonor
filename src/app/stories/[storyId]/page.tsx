@@ -6,13 +6,42 @@ import type { Story } from "@/server/model/story";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { getStories, getStory } from "@/server/services/story";
 import { get } from "@vercel/edge-config";
+import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 import { z } from "zod";
 
 type StoryProps = {
 	params: {
 		storyId: string;
+	};
+};
+
+const getStoryByRequest = cache(async (storyId: string) => {
+	const story = await getStory({
+		storyId: storyId,
+		includePrivate: true,
+	});
+	if (!story) {
+		notFound();
+	}
+	if (!story.published) {
+		const session = await getUserSession();
+		if (!session || session.userId !== story.author.id) {
+			notFound();
+		}
+	}
+	return story;
+});
+
+export const generateMetadata = async ({
+	params: { storyId },
+}: StoryProps): Promise<Metadata> => {
+	const story = await getStoryByRequest(storyId);
+	return {
+		title: story.title,
+		description: story.quiz,
 	};
 };
 
@@ -30,26 +59,9 @@ const questionLimitationSchema = z.object({
 });
 
 export default async function Story({ params: { storyId } }: StoryProps) {
-	const story = await getStory({
-		storyId: storyId,
-		includePrivate: true,
-	});
-	if (!story) {
-		notFound();
-	}
-	if (!story.published) {
-		const session = await getUserSession();
-		if (!session || session.userId !== story.author.id) {
-			notFound();
-		}
-	}
-
+	const story = await getStoryByRequest(storyId);
 	return (
 		<>
-			<HeadMetaOverride
-				titleHeadOverride={story.title}
-				descriptionOverride={story.quiz}
-			/>
 			<StoryDescription story={story} />
 			<Play
 				story={story}
