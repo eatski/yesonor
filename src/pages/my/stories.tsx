@@ -3,7 +3,7 @@ import { RecommendCreateStory } from "@/components/recommendCreateStory";
 import { type Item, StoryList } from "@/components/storyList";
 import { H1 } from "@/designSystem/components/heading";
 import { getUserSession } from "@/server/getServerSideProps/getUserSession";
-import { getStoriesPrivate } from "@/server/services/story";
+import { getStoriesWithAuthorId } from "@/server/services/story";
 import type { GetServerSideProps } from "next";
 
 type Props = {
@@ -19,8 +19,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 			notFound: true,
 		};
 	}
-	const stories = await getStoriesPrivate({
+	const stories = await getStoriesWithAuthorId({
 		authorId: user.userId,
+		includePrivate: true,
 	});
 	return {
 		props: {
