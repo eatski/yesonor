@@ -6,8 +6,8 @@ import Link from "next/link";
 import { MenuIcon } from "./icon";
 import styles from "./styles.module.scss";
 
-const UserMenu: React.FC<{ isLogin: boolean }> = ({ isLogin }) => {
-	return isLogin ? (
+const UserMenu: React.FC<{ userId: string | null }> = ({ userId }) => {
+	return userId ? (
 		<Menu
 			menuButton={
 				<MenuButton aria-label="メニュー" className={styles.buttonReset}>
@@ -18,7 +18,11 @@ const UserMenu: React.FC<{ isLogin: boolean }> = ({ isLogin }) => {
 			<div className={styles.menu}>
 				<FocusableItem>
 					{({ ref }) => (
-						<Link ref={ref} className={components.button0} href={"/my/stories"}>
+						<Link
+							ref={ref}
+							className={components.button0}
+							href={`/users/${userId}/stories`}
+						>
 							自分のストーリー
 						</Link>
 					)}
