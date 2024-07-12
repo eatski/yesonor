@@ -1,6 +1,5 @@
 import { brand } from "@/common/texts";
 import { getDevice } from "@/common/util/device";
-import { HeadMetaOverride } from "@/components/headMeta";
 import { Play } from "@/components/play";
 import { StoryDescription } from "@/components/storyDescription";
 import type { Story } from "@/server/model/story";
@@ -10,8 +9,9 @@ import { get } from "@vercel/edge-config";
 import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { cache } from "react";
+import { Suspense, cache } from "react";
 import { z } from "zod";
+import { MyStoryMenu } from "./_components/myStoryMenu";
 
 type StoryProps = {
 	params: {
@@ -59,10 +59,23 @@ const questionLimitationSchema = z.object({
 	desktopOnly: z.boolean(),
 });
 
-export default async function Story({ params: { storyId } }: StoryProps) {
+const MyStoryMenuServer = async ({ story }: { story: Story }) => {
+	const session = await getUserSession();
+	if (!session || session.userId !== story.author.id) {
+		return null;
+	}
+	return <MyStoryMenu initialStory={story} />;
+};
+
+export default async function StoryPage({ params: { storyId } }: StoryProps) {
 	const story = await getStoryByRequest(storyId);
 	return (
 		<>
+			<Suspense>
+				{/* @ts-expect-error */}
+				<MyStoryMenuServer story={story} />
+			</Suspense>
+
 			<StoryDescription story={story} />
 			<Play
 				story={story}
