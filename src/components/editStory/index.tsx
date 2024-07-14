@@ -1,21 +1,39 @@
+"use client";
+import { Device } from "@/common/util/device";
+import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
 import { trpc } from "@/libs/trpc";
 import type { StoryInit } from "@/server/model/story";
-import { useRouter } from "next/router";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type React from "react";
+import { AiOutlineUpload } from "react-icons/ai";
 import { StoryForm } from "../storyForm";
+import styles from "./styles.module.scss";
 
 export type Props = {
 	storyId: string;
 	story: StoryInit;
+	device: Device;
 };
 
-export const EditStory: React.FC<Props> = ({ storyId, story }) => {
+export const EditStory: React.FC<Props> = ({ storyId, story, device }) => {
 	const { mutate, isError, isLoading } = trpc.story.put.useMutation();
 	const router = useRouter();
 	return (
 		<main>
 			<H1>{story.title}</H1>
+			{device === "desktop" && (
+				<div className={styles.navigation}>
+					<Link
+						href={`/stories/${storyId}/edit/yaml`}
+						className={components.button0}
+					>
+						<AiOutlineUpload />
+						YAMLファイルをアップロードして編集する
+					</Link>
+				</div>
+			)}
 			<StoryForm
 				storyInit={story}
 				onSubmit={(input) => {
@@ -26,7 +44,7 @@ export const EditStory: React.FC<Props> = ({ storyId, story }) => {
 						},
 						{
 							onSuccess: () => {
-								router.push(`/my/stories/${storyId}`);
+								router.push(`/stories/${storyId}`);
 							},
 						},
 					);
