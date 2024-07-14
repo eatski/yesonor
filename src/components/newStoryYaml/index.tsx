@@ -1,8 +1,9 @@
+"use client";
 import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
 import { trpc } from "@/libs/trpc";
 import type { StoryInit } from "@/server/model/story";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import type React from "react";
 import { useCallback } from "react";
 import { YamlFileDrop } from "../storyYamlFileDrop";
@@ -16,7 +17,7 @@ export const NewStoryYaml: React.FC = () => {
 		(story: StoryInit) => {
 			mutate(story, {
 				onSuccess: (data) => {
-					router.push(`/my/stories/${data.id}`);
+					router.push(`/stories/${data.id}`);
 				},
 			});
 		},
