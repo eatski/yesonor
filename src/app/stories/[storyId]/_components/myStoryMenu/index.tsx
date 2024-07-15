@@ -1,7 +1,6 @@
 "use client";
 import { useConfirmModal } from "@/components/confirmModal";
 import { useToast } from "@/components/toast";
-import components from "@/designSystem/components.module.scss";
 import {
 	Button,
 	ButtonIconWrapper,
@@ -106,26 +105,6 @@ export const MyStoryMenu: React.FC<Props> = ({ initialStory }) => {
 									</ButtonIconWrapper>
 									削除
 								</Button>
-								{story.published || (
-									<button
-										className={components.button}
-										onClick={() => {
-											publish.mutate(
-												{
-													id: storyId,
-												},
-												{
-													onSuccess: () => {
-														getUpdated.refetch();
-													},
-												},
-											);
-										}}
-										disabled={isLoading}
-									>
-										公開
-									</button>
-								)}
 							</div>
 						</>
 					}
