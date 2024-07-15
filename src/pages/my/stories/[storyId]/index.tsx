@@ -69,12 +69,7 @@ export default function StoryDraftPage(props: Props) {
 				}
 			>
 				<StoryDescription story={props.story} />
-				<Play
-					story={props.story}
-					fetchCanPlay={async () => ({
-						canPlay: true,
-					})}
-				/>
+				<Play story={props.story} />
 			</Layout>
 		</>
 	);

@@ -39,27 +39,6 @@ export const AnchorButton: React.FC<
 	);
 };
 
-export const GenericButton: React.FC<
-	React.DetailedHTMLProps<
-		React.AnchorHTMLAttributes<HTMLDivElement>,
-		HTMLDivElement
-	> & {
-		color: "zero" | "primary" | "secondary" | "none";
-		size: "small" | "medium" | "large";
-	}
-> = ({ children, className, color, size, ...props }) => {
-	return (
-		<div
-			{...props}
-			data-color={color}
-			data-size={size}
-			className={styles.button}
-		>
-			{children}
-		</div>
-	);
-};
-
 export const ButtonIconWrapper: React.FC<React.PropsWithChildren> = ({
 	children,
 }) => {
