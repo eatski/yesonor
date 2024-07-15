@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./styles.module.scss";
 
 export type ToggleButtonProps = {
@@ -28,7 +28,7 @@ export const ToggleWithLabel: React.FC<ToggleButtonProps & { label: string }> =
 		return (
 			<div className={styles.toggleWithLabel}>
 				<ToggleButton {...props} />
-				<span>{label}</span>
+				<span className={styles.toggleLabel}>{label}</span>
 			</div>
 		);
 	};
