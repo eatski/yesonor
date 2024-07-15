@@ -1,0 +1,34 @@
+
+
+.menu {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    width: 180px;
+    gap: 4px;
+    padding: 8px 4px;
+    background-color: var(--color-base-bg);
+    border-radius: 2px;
+    border: var(--border-primary);
+    filter: var(--filter-shadow);
+    button,a {
+        width: 100%;
+        text-align: center;
+    }
+    li {
+        list-style: none;
+    };
+    hr {
+        margin: 0;
+        border: none;
+        height: 1px;
+        background-color: var(--color-base-fg-silent);
+    }
+}
+
+.buttonReset {
+    border: none;
+    background-color: unset;
+    padding: 0;
+}

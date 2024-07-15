@@ -24,10 +24,16 @@ export const getStories = (args: { count: number }): Promise<StoryHead[]> => {
 		.then((stories) => stories.map(omitStory));
 };
 
-export const getStory = (args: { storyId: string }): Promise<Story | null> => {
+export const getStory = (args: {
+	storyId: string;
+	includePrivate: boolean;
+}): Promise<Story | null> => {
 	return prisma.story
 		.findFirst({
-			where: createGetStoryWhere(args),
+			where: {
+				id: args.storyId,
+				published: args.includePrivate ? undefined : true,
+			},
 			include: {
 				author: true,
 			},
@@ -88,14 +94,16 @@ export const getStoryHeadPrivate = async (args: {
 		});
 };
 
-export const getStoriesPrivate = async (args: { authorId: string }): Promise<
-	StoryHead[]
-> => {
+export const getStoriesWithAuthorId = async (args: {
+	authorId: string;
+	includePrivate: boolean;
+}): Promise<StoryHead[]> => {
 	const prisma = new PrismaClient();
 	return prisma.story
 		.findMany({
 			where: {
 				authorId: args.authorId,
+				published: args.includePrivate ? undefined : true,
 			},
 			orderBy: [
 				{

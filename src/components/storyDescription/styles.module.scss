@@ -20,7 +20,9 @@
             }
             dd {
                 margin: 0 0 0 4px;
-                
+                a {
+                    color: var(--color-base-fg-secondary);
+                }
             }
         }
         
