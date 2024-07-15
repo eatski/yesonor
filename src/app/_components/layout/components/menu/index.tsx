@@ -4,11 +4,16 @@ import { MenuIcon } from "./icon";
 
 const UserMenuLazy = lazy(() => import("./menu"));
 
-export const UserMenu = async () => {
-	const session = await getUserSession();
+export const UserMenu = () => {
 	return (
 		<Suspense fallback={<MenuIcon loading={true} />}>
-			<UserMenuLazy userId={session?.userId || null} />
+			{/* @ts-expect-error */}
+			<Inner />
 		</Suspense>
 	);
+};
+
+const Inner = async () => {
+	const session = await getUserSession();
+	return <UserMenuLazy userId={session?.userId || null} />;
 };
