@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { brand } from "@/common/texts";
+import type { Item } from "@/components/storyList";
 import components from "@/designSystem/components.module.scss";
 import Link from "next/link";
 import styles from "./styles.module.scss";

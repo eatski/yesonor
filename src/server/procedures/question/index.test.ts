@@ -52,6 +52,7 @@ describe("trpc/question", () => {
 		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
 		setupABTestingVariant: async () => ab,
+		isThankYouUser: never,
 	});
 	describe("質問した内容に対して、結果が返る", () => {
 		test.concurrent.each(["山田さんは犯罪者ですか？"])(
@@ -76,6 +77,7 @@ describe("trpc/question", () => {
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
 					setupABTestingVariant: async () => ab,
+					isThankYouUser: never,
 				});
 				const text = "人を殺しましたか？";
 				const result = await testee.question({
@@ -95,6 +97,7 @@ describe("trpc/question", () => {
 					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
 					setupABTestingVariant: async () => ab,
+					isThankYouUser: never,
 				});
 				const text = "人を殺しましたか？";
 				expect(
@@ -113,6 +116,7 @@ describe("trpc/question", () => {
 				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
 				setupABTestingVariant: async () => ab,
+				isThankYouUser: never,
 			});
 			const text = "人を殺しましたか？";
 			const result = await testee.question({

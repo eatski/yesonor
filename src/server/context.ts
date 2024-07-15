@@ -103,5 +103,7 @@ export const createContext = async (context: CreateNextContextOptions) => {
 				});
 			});
 		},
+		isThankYouUser: () =>
+			context.req.cookies.thankyou === process.env.THANKYOU_CODE,
 	};
 };

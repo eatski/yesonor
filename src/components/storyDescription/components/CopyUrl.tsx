@@ -1,4 +1,3 @@
-"use client";
 import { Button, ButtonIconWrapper } from "@/designSystem/components/button";
 import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
