@@ -1,8 +1,9 @@
+"use client";
 import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
 import { trpc } from "@/libs/trpc";
 import type { StoryHead, StoryInit } from "@/server/model/story";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import type React from "react";
 import { useCallback } from "react";
 import { YamlFileDrop } from "../storyYamlFileDrop";
@@ -23,7 +24,7 @@ export const EditStoryYaml: React.FC<{ initialStory: StoryHead }> = ({
 				},
 				{
 					onSuccess: () => {
-						router.push(`/my/stories/${initialStory.id}`);
+						router.push(`/stories/${initialStory.id}`);
 					},
 				},
 			);
@@ -51,7 +52,7 @@ export const EditStoryYaml: React.FC<{ initialStory: StoryHead }> = ({
 							ストーリーの書き方
 						</a>
 						<a
-							href={`/my/stories/${initialStory.id}`}
+							href={`/stories/${initialStory.id}`}
 							className={components.buttonLink}
 						>
 							ストーリーに戻る

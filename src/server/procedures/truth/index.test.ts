@@ -51,10 +51,8 @@ describe("trpc/truth", () => {
 	const testee = appRouter.createCaller({
 		getUserOptional: async () => null,
 		getUser: never,
-		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
 		setupABTestingVariant: never,
-		isThankYouUser: never,
 	});
 	describe("解答した内容に対して、結果が返る", () => {
 		test.each([
@@ -143,10 +141,8 @@ describe("trpc/truth", () => {
 				const testee = appRouter.createCaller({
 					getUserOptional: async () => user,
 					getUser: never,
-					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
 					setupABTestingVariant: never,
-					isThankYouUser: never,
 				});
 				const text =
 					"山田さんは人を殺害し、男性用トイレに隠そうとしていたが、見つかりそうになり女性用トイレに逃げた。";
@@ -164,10 +160,8 @@ describe("trpc/truth", () => {
 				const testee = appRouter.createCaller({
 					getUserOptional: async () => user,
 					getUser: never,
-					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
 					setupABTestingVariant: never,
-					isThankYouUser: never,
 				});
 				const text =
 					"山田さんは人を殺害し、男性用トイレに隠そうとしていたが、見つかりそうになり女性用トイレに逃げた。";
@@ -184,10 +178,8 @@ describe("trpc/truth", () => {
 			const testee = appRouter.createCaller({
 				getUserOptional: async () => TEST_USER2,
 				getUser: never,
-				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
 				setupABTestingVariant: never,
-				isThankYouUser: never,
 			});
 			const text =
 				"山田さんは人を殺害し、男性用トイレに隠そうとしていたが、見つかりそうになり女性用トイレに逃げた。";

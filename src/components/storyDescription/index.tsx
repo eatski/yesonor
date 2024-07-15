@@ -36,7 +36,9 @@ export const StoryDescription: React.FC<{
 						{author.name && (
 							<>
 								<dt>作成者</dt>
-								<dd>{author.name}</dd>
+								<dd>
+									<a href={`/users/${author.id}/stories`}>{author.name}</a>{" "}
+								</dd>
 							</>
 						)}
 					</div>

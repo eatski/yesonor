@@ -26,6 +26,5 @@ export const put = procedure
 				questionExamples: JSON.stringify(questionExamples),
 			},
 		});
-		ctx.doRevalidate(`/stories/${input.id}`).catch();
 		return true;
 	});

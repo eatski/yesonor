@@ -72,24 +72,6 @@ export const createContext = async (context: CreateNextContextOptions) => {
 				email: session.user.email,
 			};
 		},
-		doRevalidate(url: string) {
-			const retryable = (count: number, error?: any): Promise<void> => {
-				if (count) {
-					return setTimeout(3000).then(() =>
-						context.res.revalidate(url).catch((e) => {
-							return retryable(count - 1, e);
-						}),
-					);
-				}
-				console.error(error);
-				return Promise.reject(
-					new Error("revalidation failed", {
-						cause: error,
-					}),
-				);
-			};
-			return retryable(10);
-		},
 		verifyRecaptcha(token: string) {
 			if (
 				context.req.cookies[RECAPTCHA_COOKIE_KEY] === process.env.MACHINE_TOKEN
@@ -103,7 +85,5 @@ export const createContext = async (context: CreateNextContextOptions) => {
 				});
 			});
 		},
-		isThankYouUser: () =>
-			context.req.cookies.thankyou === process.env.THANKYOU_CODE,
 	};
 };

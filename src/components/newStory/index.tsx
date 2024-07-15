@@ -1,9 +1,10 @@
+"use client";
 import type { Device } from "@/common/util/device";
 import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
 import { trpc } from "@/libs/trpc";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import type React from "react";
 import { AiOutlineUpload } from "react-icons/ai";
 import { StoryForm } from "../storyForm";
@@ -22,7 +23,7 @@ export const NewStory: React.FC<Props> = ({ device }) => {
 			<H1>新しいストーリーを投稿</H1>
 			{device === "desktop" && (
 				<div className={styles.navigation}>
-					<Link href="/stories/newYaml" className={components.button0}>
+					<Link href="/stories/new/yaml" className={components.button0}>
 						<AiOutlineUpload />
 						YAMLファイルをアップロードして投稿する
 					</Link>
@@ -32,7 +33,7 @@ export const NewStory: React.FC<Props> = ({ device }) => {
 				onSubmit={(input) => {
 					mutate(input, {
 						onSuccess: (e) => {
-							router.push(`/my/stories/${e.id}`);
+							router.push(`/stories/${e.id}`);
 						},
 					});
 				}}

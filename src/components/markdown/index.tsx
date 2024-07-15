@@ -1,3 +1,4 @@
+"use client";
 import components from "@/designSystem/components.module.scss";
 import type React from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";

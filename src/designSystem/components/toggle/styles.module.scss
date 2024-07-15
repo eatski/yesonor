@@ -1,0 +1,39 @@
+.toggleSwitch {
+    position: relative;
+    width: 48px;
+    height: 22px;
+    border-radius: 22px;
+    background-color: var(--color-base-fg-silent);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.toggleSwitchOn {
+    background-color: var(--color-accent-bg);
+}
+
+.toggleSwitchSlider {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background-color: var(--color-accent-fg);
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.toggleSwitchOn .toggleSwitchSlider {
+    transform: translateX(24px);
+}
+
+.toggleWithLabel {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.toggleLabel {
+    font-size: 14px;
+    color: var(--button-text-color);
+}
