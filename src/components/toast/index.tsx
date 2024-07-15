@@ -1,4 +1,3 @@
-"use client";
 import { IconButton } from "@/designSystem/components/button";
 import React, { useCallback } from "react";
 import { AiOutlineClose } from "react-icons/ai";

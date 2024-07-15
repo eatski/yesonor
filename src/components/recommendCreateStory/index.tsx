@@ -1,4 +1,3 @@
-"use client";
 import { gtagEvent } from "@/common/util/gtag";
 import components from "@/designSystem/components.module.scss";
 import Link from "next/link";

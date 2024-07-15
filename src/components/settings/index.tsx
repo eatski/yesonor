@@ -1,10 +1,9 @@
-"use client";
 import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
 import { trpc } from "@/libs/trpc";
 import { signOut } from "next-auth/react";
 import type React from "react";
-import { useState } from "react";
+import { use, useState } from "react";
 import { useConfirmModal } from "../confirmModal";
 import { useToast } from "../toast";
 import styles from "./styles.module.scss";

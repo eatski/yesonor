@@ -1,12 +1,13 @@
-"use client";
+import { getDevice } from "@/common/util/device";
 import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import { gtagEvent } from "@/common/util/gtag";
 import components from "@/designSystem/components.module.scss";
 import { trpc } from "@/libs/trpc";
 import type { Story } from "@/server/model/story";
-import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 import Script from "next/script";
-import { use, useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useConfirmModal } from "../confirmModal";
 import { AnswerForm } from "./components/answerForm";
 import { AnswerResult } from "./components/answerResult";
@@ -14,21 +15,13 @@ import { Feed } from "./components/feed";
 import { MobileLimitation } from "./components/mobileLimitation";
 import { QuestionForm } from "./components/questionForm";
 import { QuestionResult } from "./components/questionResult";
+import { RequireLogin } from "./components/requireLogin";
 import { SeeTrurh } from "./components/seeTruth";
 import styles from "./styles.module.scss";
 import { useQuestion } from "./useQuestion";
 
 type Props = {
 	story: Story;
-	fetchCanPlay: () => Promise<
-		| {
-				canPlay: true;
-		  }
-		| {
-				canPlay: false;
-				reason: "desktop_only";
-		  }
-	>;
 };
 
 const AnswerFormContainer: React.FC<{
@@ -98,8 +91,8 @@ const Truth: React.FC<{ story: Story; onBackButtonClicked: () => void }> = ({
 
 type Mode = "question" | "solution" | "truth";
 
-export function Play({ story, fetchCanPlay }: Props) {
-	const question = useQuestion(story);
+export function Play(props: Props) {
+	const question = useQuestion(props.story);
 	const [mode, setMode] = useState<Mode>("question");
 	const backToQuestion = useCallback(() => {
 		setMode("question");
@@ -107,15 +100,22 @@ export function Play({ story, fetchCanPlay }: Props) {
 	const goToSolution = useCallback(() => {
 		setMode("solution");
 	}, []);
-	const { data: canPlayResult } = useQuery({
-		queryKey: [fetchCanPlay],
-		queryFn: () => fetchCanPlay(),
-	});
 	const { confirm, view } = useConfirmModal();
-	if (canPlayResult && !canPlayResult.canPlay) {
-		switch (canPlayResult.reason) {
-			case "desktop_only":
-				return <MobileLimitation />;
+	const session = useSession();
+	const [mobileLimitation, setMobileLimitation] = useState(false);
+	const { data: isThankyouUser } = trpc.user.thankyou.useQuery();
+	useEffect(() => {
+		const device = getDevice(undefined);
+		if (device === "mobile" && process.env.NEXT_PUBLIC_MOBILE_LIMITATION) {
+			setMobileLimitation(true);
+		}
+	}, []);
+	if (isThankyouUser === false && mobileLimitation) {
+		return <MobileLimitation />;
+	}
+	if (process.env.NEXT_PUBLIC_REQUIRE_LOGIN_TO_PLAY) {
+		if (session.status !== "loading" && !session.data?.user) {
+			return <RequireLogin />;
 		}
 	}
 	return (
@@ -144,12 +144,12 @@ export function Play({ story, fetchCanPlay }: Props) {
 			)}
 			{mode === "solution" && (
 				<div className={styles.sectionWrapper}>
-					<AnswerFormContainer story={story} changeMode={setMode} />
+					<AnswerFormContainer story={props.story} changeMode={setMode} />
 				</div>
 			)}
 			{mode === "truth" && (
 				<div className={styles.sectionWrapper}>
-					<Truth story={story} onBackButtonClicked={backToQuestion} />
+					<Truth story={props.story} onBackButtonClicked={backToQuestion} />
 				</div>
 			)}
 			{question.history.length > 0 && (
