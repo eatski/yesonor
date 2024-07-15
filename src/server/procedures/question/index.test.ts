@@ -49,7 +49,6 @@ describe("trpc/question", () => {
 	const testee = testeeRouter.createCaller({
 		getUserOptional: async () => null,
 		getUser: never,
-		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
 		setupABTestingVariant: async () => ab,
 	});
@@ -73,7 +72,6 @@ describe("trpc/question", () => {
 				const testee = testeeRouter.createCaller({
 					getUserOptional: async () => user,
 					getUser: never,
-					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
 					setupABTestingVariant: async () => ab,
 				});
@@ -92,7 +90,6 @@ describe("trpc/question", () => {
 				const testee = testeeRouter.createCaller({
 					getUserOptional: async () => user,
 					getUser: never,
-					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
 					setupABTestingVariant: async () => ab,
 				});
@@ -110,7 +107,6 @@ describe("trpc/question", () => {
 			const testee = testeeRouter.createCaller({
 				getUserOptional: async () => TEST_USER2,
 				getUser: never,
-				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
 				setupABTestingVariant: async () => ab,
 			});

@@ -30,6 +30,5 @@ export const publishFirst = procedure
 				code: "NOT_FOUND",
 			});
 		}
-		await ctx.doRevalidate(`/stories/${id}`).catch();
 		return true;
 	});

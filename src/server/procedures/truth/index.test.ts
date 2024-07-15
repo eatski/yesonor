@@ -51,7 +51,6 @@ describe("trpc/truth", () => {
 	const testee = appRouter.createCaller({
 		getUserOptional: async () => null,
 		getUser: never,
-		doRevalidate: never,
 		verifyRecaptcha: () => Promise.resolve(),
 		setupABTestingVariant: never,
 	});
@@ -142,7 +141,6 @@ describe("trpc/truth", () => {
 				const testee = appRouter.createCaller({
 					getUserOptional: async () => user,
 					getUser: never,
-					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
 					setupABTestingVariant: never,
 				});
@@ -162,7 +160,6 @@ describe("trpc/truth", () => {
 				const testee = appRouter.createCaller({
 					getUserOptional: async () => user,
 					getUser: never,
-					doRevalidate: never,
 					verifyRecaptcha: () => Promise.resolve(),
 					setupABTestingVariant: never,
 				});
@@ -181,7 +178,6 @@ describe("trpc/truth", () => {
 			const testee = appRouter.createCaller({
 				getUserOptional: async () => TEST_USER2,
 				getUser: never,
-				doRevalidate: never,
 				verifyRecaptcha: () => Promise.resolve(),
 				setupABTestingVariant: never,
 			});
