@@ -24,7 +24,7 @@ export const EditStoryYaml: React.FC<{ initialStory: StoryHead }> = ({
 				},
 				{
 					onSuccess: () => {
-						router.push(`/my/stories/${initialStory.id}`);
+						router.push(`/stories/${initialStory.id}`);
 					},
 				},
 			);
@@ -52,7 +52,7 @@ export const EditStoryYaml: React.FC<{ initialStory: StoryHead }> = ({
 							ストーリーの書き方
 						</a>
 						<a
-							href={`/my/stories/${initialStory.id}`}
+							href={`/stories/${initialStory.id}`}
 							className={components.buttonLink}
 						>
 							ストーリーに戻る

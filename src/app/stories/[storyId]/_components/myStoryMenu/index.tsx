@@ -91,7 +91,7 @@ export const MyStoryMenu: React.FC<Props> = ({ initialStory }) => {
 											},
 											{
 												onSuccess: () => {
-													router.push("/my/stories");
+													router.push(`/users/${story.author.id}/stories`);
 												},
 											},
 										);
