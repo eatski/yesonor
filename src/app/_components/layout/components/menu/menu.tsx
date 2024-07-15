@@ -29,11 +29,7 @@ const UserMenu: React.FC<{ userId: string | null }> = ({ userId }) => {
 				</FocusableItem>
 				<FocusableItem>
 					{({ ref }) => (
-						<Link
-							ref={ref}
-							className={components.button0}
-							href={"/my/settings"}
-						>
+						<Link ref={ref} className={components.button0} href={"/settings"}>
 							設定
 						</Link>
 					)}

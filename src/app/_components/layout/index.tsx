@@ -1,5 +1,5 @@
-import { Logo } from "@/components/layout/components/logo";
-import { PinnedInfo } from "@/components/layout/components/pinned";
+import { Logo } from "@/app/_components/layout/components/logo";
+import { PinnedInfo } from "@/app/_components/layout/components/pinned";
 import components from "@/designSystem/components.module.scss";
 import Link from "next/link";
 import type React from "react";
