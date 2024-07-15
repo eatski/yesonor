@@ -73,7 +73,7 @@ export const MyStoryMenu: React.FC<Props> = ({ initialStory }) => {
 									}}
 									isOn={story.published}
 								/>
-								<Link href={`/my/stories/${storyId}/edit`}>
+								<Link href={`/stories/${storyId}/edit`}>
 									<GenericButton color={"zero"} size={"medium"}>
 										<ButtonIconWrapper>
 											<AiFillEdit />

@@ -1,8 +1,9 @@
+"use client";
 import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
 import { trpc } from "@/libs/trpc";
 import type { StoryHead, StoryInit } from "@/server/model/story";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import type React from "react";
 import { useCallback } from "react";
 import { YamlFileDrop } from "../storyYamlFileDrop";

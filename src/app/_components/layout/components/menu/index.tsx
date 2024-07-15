@@ -8,7 +8,7 @@ export const UserMenu = async () => {
 	const session = await getUserSession();
 	return (
 		<Suspense fallback={<MenuIcon loading={true} />}>
-			<UserMenuLazy isLogin={!!session} />
+			<UserMenuLazy userId={session?.userId || null} />
 		</Suspense>
 	);
 };
