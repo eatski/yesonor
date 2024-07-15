@@ -23,7 +23,7 @@ export const NewStory: React.FC<Props> = ({ device }) => {
 			<H1>新しいストーリーを投稿</H1>
 			{device === "desktop" && (
 				<div className={styles.navigation}>
-					<Link href="/stories/newYaml" className={components.button0}>
+					<Link href="/stories/new/yaml" className={components.button0}>
 						<AiOutlineUpload />
 						YAMLファイルをアップロードして投稿する
 					</Link>
