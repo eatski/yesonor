@@ -1,6 +1,5 @@
 import { prisma } from "@/libs/prisma";
 import type { Story, StoryHead } from "@/server/model/story";
-import { PrismaClient } from "@prisma/client";
 import {
 	createGetStoryPrivateWhere,
 	createGetStoryWhere,
@@ -9,7 +8,6 @@ import {
 } from "./functions";
 
 export const getStories = (args: { count: number }): Promise<StoryHead[]> => {
-	const prisma = new PrismaClient();
 	return prisma.story
 		.findMany({
 			take: args.count,
@@ -98,7 +96,6 @@ export const getStoriesWithAuthorId = async (args: {
 	authorId: string;
 	includePrivate: boolean;
 }): Promise<StoryHead[]> => {
-	const prisma = new PrismaClient();
 	return prisma.story
 		.findMany({
 			where: {
