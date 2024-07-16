@@ -5,24 +5,15 @@ import { StoryList } from "@/components/storyList";
 import { H2 } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
-import { unstable_cache } from "next/cache";
 
 export const revalidate = revalidateTime.short;
-
-const cachedGetStoriesRecommended = unstable_cache(
-	getStoriesRecommended,
-	["getStoriesRecommended"],
-	{
-		revalidate: revalidateTime.short,
-	},
-);
 
 export default async function Home() {
 	const [stories, recommend] = await Promise.all([
 		getStories({
 			count: 5,
 		}),
-		cachedGetStoriesRecommended(10),
+		getStoriesRecommended(10),
 	]);
 	return (
 		<main>
