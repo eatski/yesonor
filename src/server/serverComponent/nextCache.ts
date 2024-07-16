@@ -11,10 +11,12 @@ type StringifyObject<T> = T extends Date
 type CacheFnParameters = Parameters<typeof unstable_cache>;
 type Tail<T extends any[]> = T extends [any, ...infer Rest] ? Rest : never;
 
-export const nextCache = <T>(
-	fn: () => Promise<T>,
+export const nextCache = <F extends (...args: any) => any>(
+	fn: F,
 	...tailParameters: Tail<CacheFnParameters>
-): (() => Promise<StringifyObject<T>>) => {
+): ((
+	...args: Parameters<F>
+) => Promise<StringifyObject<Awaited<ReturnType<F>>>>) => {
 	// @ts-ignore
 	return unstable_cache(fn, ...tailParameters);
 };
