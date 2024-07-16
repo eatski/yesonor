@@ -3,13 +3,11 @@ import { PinnedInfo } from "@/app/_components/layout/components/pinned";
 import components from "@/designSystem/components.module.scss";
 import Link from "next/link";
 import type React from "react";
-import { type PropsWithChildren, Suspense } from "react";
+import { type PropsWithChildren } from "react";
 import { UserMenu } from "./components/menu";
 import styles from "./styles.module.scss";
 
-export const Layout: React.FC<
-	PropsWithChildren<{ upper?: React.ReactElement }>
-> = ({ children, upper }) => {
+export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 	return (
 		<>
 			<header className={styles.header}>
@@ -20,18 +18,10 @@ export const Layout: React.FC<
 					<Link className={components.buttonBrandFg} href={"/stories/new"}>
 						ストーリーを投稿
 					</Link>
-					{/* @ts-ignore */}
 					<UserMenu />
 				</div>
 			</header>
 			<PinnedInfo />
-			{upper ? (
-				<Suspense>
-					<div className={styles.upper}>
-						<div className={styles.content}>{upper}</div>
-					</div>
-				</Suspense>
-			) : null}
 
 			<div className={styles.main}>{children}</div>
 			<footer className={styles.footer}>

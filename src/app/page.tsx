@@ -5,7 +5,6 @@ import { StoryList } from "@/components/storyList";
 import { H2 } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
-import { useId } from "react";
 
 export const revalidate = revalidateTime.short;
 

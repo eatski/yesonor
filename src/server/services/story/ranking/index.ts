@@ -1,6 +1,8 @@
+import { revalidateTime } from "@/common/revalidate";
 import { CURRENT_HOUR_SEED } from "@/common/util/currentDateSeed";
 import { prisma } from "@/libs/prisma";
 import type { StoryHead } from "@/server/model/story";
+import { nextCache } from "@/server/serverComponent/nextCache";
 import { get } from "@vercel/edge-config";
 import seedrandam from "seedrandom";
 import { z } from "zod";
@@ -18,14 +20,10 @@ const rankingWeightSchema = z.object({
 const ONE_DAY = 1000 * 60 * 60 * 24;
 const ONE_MONTH = ONE_DAY * 30;
 
-export const getStoriesRecommended = async (
-	count: number,
-	seed: string = CURRENT_HOUR_SEED,
-): Promise<StoryHead[]> => {
-	const now = Date.now();
-	// すべてのストーリーを取得
-	const [stories, weight] = await Promise.all([
-		prisma.story.findMany({
+const findStoriesToRank = nextCache(
+	async () => {
+		const now = Date.now();
+		const stories = await prisma.story.findMany({
 			include: {
 				evaluations: true,
 				questionLogs: {
@@ -50,22 +48,45 @@ export const getStoriesRecommended = async (
 				publishedAt: "desc",
 			},
 			take: 100,
-		}),
+		});
+		return stories.map((story) => {
+			return {
+				omitted: omitStory(story),
+				hydrated: hydrateStory(story),
+				original: story,
+			};
+		});
+	},
+	["findStoriesToRank"],
+	{
+		revalidate: revalidateTime.medium,
+	},
+);
+
+export const getStoriesRecommended = async (
+	count: number,
+	seed: string = CURRENT_HOUR_SEED,
+): Promise<StoryHead[]> => {
+	const now = Date.now();
+	// すべてのストーリーを取得
+	const [stories, weight] = await Promise.all([
+		findStoriesToRank(),
 		get("rankingWeight").then(rankingWeightSchema.parse),
 	]);
 	const rng = seedrandam(seed);
 	const scoredStories = stories
-		.filter((story) => story.evaluations.every((e) => e.rating !== 0))
+		.filter(({ original }) => original.evaluations.every((e) => e.rating !== 0))
 		.map((story) => {
-			const { questionLogs, evaluations, solutionLogs, ...rest } = story;
-			const hydreted = hydrateStory(rest);
-			const omitted = omitStory(rest);
+			const { hydrated, omitted, original } = story;
+			const { questionLogs, evaluations, solutionLogs, ...rest } = original;
+
 			const correctSolutionsLength = solutionLogs.length;
 			const questionLogsLength = questionLogs.length;
 			const total = evaluations.reduce((acc, e) => acc + e.rating - 3, 0);
-			const questionExamplesLength = hydreted.questionExamples.length;
+			const questionExamplesLength = hydrated.questionExamples.length;
 			const timeFromPublished =
-				(story.publishedAt ? now - story.publishedAt.getTime() : 0) + ONE_DAY;
+				(rest.publishedAt ? now - new Date(rest.publishedAt).getTime() : 0) +
+				ONE_DAY;
 
 			const source = [
 				[correctSolutionsLength, 1, weight.correctSolutionsLength],

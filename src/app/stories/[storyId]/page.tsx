@@ -72,7 +72,6 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 	return (
 		<>
 			<Suspense>
-				{/* @ts-expect-error */}
 				<MyStoryMenuServer story={story} />
 			</Suspense>
 

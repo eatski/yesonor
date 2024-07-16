@@ -1,6 +1,7 @@
+import { revalidateTime } from "@/common/revalidate";
 import { prisma } from "@/libs/prisma";
 import type { Story, StoryHead } from "@/server/model/story";
-import { PrismaClient } from "@prisma/client";
+import { nextCache } from "@/server/serverComponent/nextCache";
 import {
 	createGetStoryPrivateWhere,
 	createGetStoryWhere,
@@ -8,21 +9,26 @@ import {
 	omitStory,
 } from "./functions";
 
-export const getStories = (args: { count: number }): Promise<StoryHead[]> => {
-	const prisma = new PrismaClient();
-	return prisma.story
-		.findMany({
-			take: args.count,
-			where: createGetStoryWhere({}),
-			orderBy: {
-				publishedAt: "desc",
-			},
-			include: {
-				author: true,
-			},
-		})
-		.then((stories) => stories.map(omitStory));
-};
+export const getStories = nextCache(
+	(args: { count: number }): Promise<StoryHead[]> => {
+		return prisma.story
+			.findMany({
+				take: args.count,
+				where: createGetStoryWhere({}),
+				orderBy: {
+					publishedAt: "desc",
+				},
+				include: {
+					author: true,
+				},
+			})
+			.then((stories) => stories.map(omitStory));
+	},
+	["getStories"],
+	{
+		revalidate: revalidateTime.short,
+	},
+);
 
 export const getStory = (args: {
 	storyId: string;
@@ -98,7 +104,6 @@ export const getStoriesWithAuthorId = async (args: {
 	authorId: string;
 	includePrivate: boolean;
 }): Promise<StoryHead[]> => {
-	const prisma = new PrismaClient();
 	return prisma.story
 		.findMany({
 			where: {
