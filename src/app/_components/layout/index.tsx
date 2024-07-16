@@ -18,7 +18,6 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 					<Link className={components.buttonBrandFg} href={"/stories/new"}>
 						ストーリーを投稿
 					</Link>
-					{/* @ts-ignore */}
 					<UserMenu />
 				</div>
 			</header>

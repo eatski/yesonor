@@ -7,7 +7,6 @@ const UserMenuLazy = lazy(() => import("./menu"));
 export const UserMenu = () => {
 	return (
 		<Suspense fallback={<MenuIcon loading={true} />}>
-			{/* @ts-expect-error */}
 			<Inner />
 		</Suspense>
 	);
