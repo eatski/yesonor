@@ -2,8 +2,10 @@ import { resolve } from "node:path";
 import { generateId } from "@/common/util/id";
 import { applyTestHooks } from "@/libs/msw-cache/vitest";
 import { appRouter } from "@/server";
+import * as nextCacheModule from "@/server/serverComponent/nextCache";
 import { prepareStoryFromYaml } from "@/test/prepareStory";
-import { beforeAll, describe, expect, test } from "vitest";
+import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
+
 const never = () => {
 	throw new Error("Never");
 };
@@ -25,6 +27,10 @@ describe("trpc/truth", () => {
 	const TEST2_ID = generateId();
 	const TEST_ID_PRIVATE = generateId();
 	applyTestHooks();
+	beforeEach(() => {
+		// HACK: nextCacheをserviceから切り離す
+		vi.spyOn(nextCacheModule, "nextCache").mockImplementation((fn) => fn);
+	});
 	beforeAll(async () => {
 		console.log(TEST1_ID, TEST2_ID, TEST_ID_PRIVATE);
 		const cleanup1 = await prepareStoryFromYaml(testYamlPath1, {
