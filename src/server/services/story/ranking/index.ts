@@ -63,50 +63,58 @@ const findStoriesToRank = nextCache(
 	},
 );
 
-export const getStoriesRecommended = async (
-	count: number,
-	seed: string = CURRENT_HOUR_SEED,
-): Promise<StoryHead[]> => {
-	const now = Date.now();
-	// すべてのストーリーを取得
-	const [stories, weight] = await Promise.all([
-		findStoriesToRank(),
-		get("rankingWeight").then(rankingWeightSchema.parse),
-	]);
-	const rng = seedrandam(seed);
-	const scoredStories = stories
-		.filter(({ original }) => original.evaluations.every((e) => e.rating !== 0))
-		.map((story) => {
-			const { hydrated, omitted, original } = story;
-			const { questionLogs, evaluations, solutionLogs, ...rest } = original;
+export const getStoriesRecommended = nextCache(
+	async (
+		count: number,
+		seed: string = CURRENT_HOUR_SEED,
+	): Promise<StoryHead[]> => {
+		const now = Date.now();
+		// すべてのストーリーを取得
+		const [stories, weight] = await Promise.all([
+			findStoriesToRank(),
+			get("rankingWeight").then(rankingWeightSchema.parse),
+		]);
+		const rng = seedrandam(seed);
+		const scoredStories = stories
+			.filter(({ original }) =>
+				original.evaluations.every((e) => e.rating !== 0),
+			)
+			.map((story) => {
+				const { hydrated, omitted, original } = story;
+				const { questionLogs, evaluations, solutionLogs, ...rest } = original;
 
-			const correctSolutionsLength = solutionLogs.length;
-			const questionLogsLength = questionLogs.length;
-			const total = evaluations.reduce((acc, e) => acc + e.rating - 3, 0);
-			const questionExamplesLength = hydrated.questionExamples.length;
-			const timeFromPublished =
-				(rest.publishedAt ? now - new Date(rest.publishedAt).getTime() : 0) +
-				ONE_DAY;
+				const correctSolutionsLength = solutionLogs.length;
+				const questionLogsLength = questionLogs.length;
+				const total = evaluations.reduce((acc, e) => acc + e.rating - 3, 0);
+				const questionExamplesLength = hydrated.questionExamples.length;
+				const timeFromPublished =
+					(rest.publishedAt ? now - new Date(rest.publishedAt).getTime() : 0) +
+					ONE_DAY;
 
-			const source = [
-				[correctSolutionsLength, 1, weight.correctSolutionsLength],
-				[total, 1, weight.evaluationTotal],
-				[questionLogsLength, 1, weight.questionLogsLength],
-				[questionExamplesLength, 1, weight.questionExamplesLength],
-				[rng(), 0, weight.random],
-				[timeFromPublished, 1, weight.timeFromPublished],
-			] as const;
+				const source = [
+					[correctSolutionsLength, 1, weight.correctSolutionsLength],
+					[total, 1, weight.evaluationTotal],
+					[questionLogsLength, 1, weight.questionLogsLength],
+					[questionExamplesLength, 1, weight.questionExamplesLength],
+					[rng(), 0, weight.random],
+					[timeFromPublished, 1, weight.timeFromPublished],
+				] as const;
 
-			const score = source.reduce(
-				(acc, [value, min, weight]) => acc * Math.max(value, min) ** weight,
-				1,
-			);
+				const score = source.reduce(
+					(acc, [value, min, weight]) => acc * Math.max(value, min) ** weight,
+					1,
+				);
 
-			return {
-				story: omitted,
-				score,
-			};
-		});
-	scoredStories.sort((a, b) => b.score - a.score);
-	return scoredStories.map((e) => e.story).slice(0, count);
-};
+				return {
+					story: omitted,
+					score,
+				};
+			});
+		scoredStories.sort((a, b) => b.score - a.score);
+		return scoredStories.map((e) => e.story).slice(0, count);
+	},
+	["getStoriesRecommended"],
+	{
+		revalidate: revalidateTime.medium,
+	},
+);
