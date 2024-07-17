@@ -3,31 +3,27 @@ import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
 import { trpc } from "@/libs/trpc";
 import type { StoryHead, StoryInit } from "@/server/model/story";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import type React from "react";
 import { useCallback } from "react";
 import { YamlFileDrop } from "../storyYamlFileDrop";
 import styles from "./styles.module.scss";
 
-export const EditStoryYaml: React.FC<{ initialStory: StoryHead }> = ({
-	initialStory,
-}) => {
+export const EditStoryYaml: React.FC<{
+	initialStory: StoryHead;
+	onSubmit: (data: StoryInit) => Promise<void>;
+}> = ({ initialStory, onSubmit }) => {
 	const router = useRouter();
-	const { mutate, isIdle } = trpc.story.put.useMutation();
+	const { mutate, isIdle } = useMutation(onSubmit);
 
 	const handleFileRead = useCallback(
 		(story: StoryInit) => {
-			mutate(
-				{
-					id: initialStory.id,
-					story: story,
+			mutate(story, {
+				onSuccess: () => {
+					router.push(`/stories/${initialStory.id}`);
 				},
-				{
-					onSuccess: () => {
-						router.push(`/stories/${initialStory.id}`);
-					},
-				},
-			);
+			});
 		},
 		[initialStory.id, mutate, router],
 	);

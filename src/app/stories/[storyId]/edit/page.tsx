@@ -2,6 +2,8 @@ import { getDevice } from "@/common/util/device";
 import { EditStory } from "@/components/editStory";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { getStoryPrivate } from "@/server/services/story";
+import { updateStory } from "@/server/services/story/updateStory";
+import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { z } from "zod";
@@ -24,5 +26,20 @@ export default async function StoryEditPage({ params }: { params: unknown }) {
 		notFound();
 	}
 	const device = getDevice(headers().get("user-agent") || undefined);
-	return <EditStory story={story} storyId={storyId} device={device} />;
+	return (
+		<EditStory
+			story={story}
+			storyId={storyId}
+			device={device}
+			onSubmit={async (input) => {
+				"use server";
+				await updateStory({
+					storyId,
+					input: input,
+					userId: user.userId,
+				});
+				revalidateTag(`/stories/${storyId}`);
+			}}
+		/>
+	);
 }

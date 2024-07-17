@@ -70,17 +70,26 @@ export const getStoryPrivate = async (args: {
 	storyId: string;
 	authorId: string;
 }): Promise<Story | null> => {
-	return prisma.story
-		.findFirst({
-			where: createGetStoryPrivateWhere(args),
-			include: {
-				author: true,
-			},
-		})
-		.then((story) => {
-			if (story == null) return null;
-			return hydrateStory(story);
-		});
+	return nextCache(
+		() => {
+			return prisma.story
+				.findFirst({
+					where: createGetStoryPrivateWhere(args),
+					include: {
+						author: true,
+					},
+				})
+				.then((story) => {
+					if (story == null) return null;
+					return hydrateStory(story);
+				});
+		},
+		["getStoryPrivate", args.storyId, args.authorId],
+		{
+			revalidate: revalidateTime.short,
+			tags: [`/stories/${args.storyId}`],
+		},
+	)();
 };
 
 export const getStoryHeadPrivate = async (args: {
