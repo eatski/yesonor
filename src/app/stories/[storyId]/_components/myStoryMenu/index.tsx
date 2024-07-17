@@ -31,15 +31,10 @@ export const MyStoryMenu: React.FC<Props> = ({ initialStory }) => {
 	const story = getUpdated.data ?? initialStory;
 
 	const del = trpc.story.delete_.useMutation();
-	const put = trpc.story.put.useMutation();
 	const publish = trpc.story.publishFirst.useMutation();
 	const router = useRouter();
-	const isLoading =
-		del.isLoading ||
-		put.isLoading ||
-		publish.isLoading ||
-		getUpdated.isFetching;
-	const isError = del.error || put.error || publish.error;
+	const isLoading = del.isLoading || publish.isLoading || getUpdated.isFetching;
+	const isError = del.error || publish.error;
 	const { confirm, view } = useConfirmModal();
 	const toast = useToast();
 

@@ -2,8 +2,8 @@
 import { Device } from "@/common/util/device";
 import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
-import { trpc } from "@/libs/trpc";
 import type { StoryInit } from "@/server/model/story";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type React from "react";
@@ -15,10 +15,16 @@ export type Props = {
 	storyId: string;
 	story: StoryInit;
 	device: Device;
+	onSubmit: (data: StoryInit) => Promise<void>;
 };
 
-export const EditStory: React.FC<Props> = ({ storyId, story, device }) => {
-	const { mutate, isError, isLoading } = trpc.story.put.useMutation();
+export const EditStory: React.FC<Props> = ({
+	storyId,
+	story,
+	device,
+	onSubmit,
+}) => {
+	const { isLoading, mutate, isError } = useMutation(onSubmit);
 	const router = useRouter();
 	return (
 		<main>
@@ -37,17 +43,11 @@ export const EditStory: React.FC<Props> = ({ storyId, story, device }) => {
 			<StoryForm
 				storyInit={story}
 				onSubmit={(input) => {
-					mutate(
-						{
-							id: storyId,
-							story: input,
+					mutate(input, {
+						onSuccess: () => {
+							router.push(`/stories/${storyId}`);
 						},
-						{
-							onSuccess: () => {
-								router.push(`/stories/${storyId}`);
-							},
-						},
-					);
+					});
 				}}
 				isLoading={isLoading}
 				isError={isError}
