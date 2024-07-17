@@ -3,6 +3,8 @@ import { resolve } from "node:path";
 import { Markdown } from "@/components/markdown";
 import { z } from "zod";
 
+export const dynamicParams = false;
+
 const paramsSchema = z.object({
 	markdownName: z.string(),
 });
