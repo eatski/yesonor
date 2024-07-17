@@ -20,48 +20,42 @@ const rankingWeightSchema = z.object({
 const ONE_DAY = 1000 * 60 * 60 * 24;
 const ONE_MONTH = ONE_DAY * 30;
 
-const findStoriesToRank = nextCache(
-	async () => {
-		const now = Date.now();
-		const stories = await prisma.story.findMany({
-			include: {
-				evaluations: true,
-				questionLogs: {
-					where: {
-						createdAt: {
-							gte: new Date(now - ONE_MONTH),
-						},
+const findStoriesToRank = async () => {
+	const now = Date.now();
+	const stories = await prisma.story.findMany({
+		include: {
+			evaluations: true,
+			questionLogs: {
+				where: {
+					createdAt: {
+						gte: new Date(now - ONE_MONTH),
 					},
 				},
-				solutionLogs: {
-					where: {
-						createdAt: {
-							gte: new Date(now - ONE_MONTH * 3),
-						},
-						result: "Correct",
+			},
+			solutionLogs: {
+				where: {
+					createdAt: {
+						gte: new Date(now - ONE_MONTH * 3),
 					},
+					result: "Correct",
 				},
-				author: true,
 			},
-			where: createGetStoryWhere({}),
-			orderBy: {
-				publishedAt: "desc",
-			},
-			take: 100,
-		});
-		return stories.map((story) => {
-			return {
-				omitted: omitStory(story),
-				hydrated: hydrateStory(story),
-				original: story,
-			};
-		});
-	},
-	["findStoriesToRank"],
-	{
-		revalidate: revalidateTime.medium,
-	},
-);
+			author: true,
+		},
+		where: createGetStoryWhere({}),
+		orderBy: {
+			publishedAt: "desc",
+		},
+		take: 100,
+	});
+	return stories.map((story) => {
+		return {
+			omitted: omitStory(story),
+			hydrated: hydrateStory(story),
+			original: story,
+		};
+	});
+};
 
 export const getStoriesRecommended = nextCache(
 	async (
@@ -88,8 +82,7 @@ export const getStoriesRecommended = nextCache(
 				const total = evaluations.reduce((acc, e) => acc + e.rating - 3, 0);
 				const questionExamplesLength = hydrated.questionExamples.length;
 				const timeFromPublished =
-					(rest.publishedAt ? now - new Date(rest.publishedAt).getTime() : 0) +
-					ONE_DAY;
+					(rest.publishedAt ? now - rest.publishedAt.getTime() : 0) + ONE_DAY;
 
 				const source = [
 					[correctSolutionsLength, 1, weight.correctSolutionsLength],
