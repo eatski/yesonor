@@ -90,10 +90,12 @@ const MyStoryMenuServer = async ({ story }: { story: Story }) => {
 					storyId: id,
 					userId: session.userId,
 				});
-				if (result === "NOT_FOUND") {
-					notFound();
+				switch (result) {
+					case "NOT_FOUND":
+						notFound();
+					case "OK":
+						revalidateTag(`/stories/${id}`);
 				}
-				revalidateTag(`/stories/${id}`);
 			}}
 		/>
 	);
