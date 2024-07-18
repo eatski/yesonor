@@ -11,6 +11,7 @@ import { verifyRecaptcha } from "@/server/services/recaptcha";
 import { getStories, getStory } from "@/server/services/story";
 import { deleteStory } from "@/server/services/story/deleteStory";
 import { publishStoryAtFirst } from "@/server/services/story/publishStory";
+import { postStoryEvalution } from "@/server/services/storyEvalution/post";
 import { get } from "@vercel/edge-config";
 import { Metadata } from "next";
 import { revalidateTag } from "next/cache";
@@ -151,6 +152,17 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 					"use server";
 					await verifyRecaptcha(input.recaptchaToken);
 					return checkAnswer(input.text, story);
+				}}
+				postStoryEvalution={async () => {
+					"use server";
+					const user = await getUserSession();
+					if (!user) {
+						notFound();
+					}
+					await postStoryEvalution({
+						storyId: story.id,
+						userId: user.userId,
+					});
 				}}
 			/>
 		</>

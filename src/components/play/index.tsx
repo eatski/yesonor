@@ -48,6 +48,7 @@ type Props = {
 		isCorrect: boolean;
 		distance: number;
 	}>;
+	postStoryEvalution: () => Promise<void>;
 };
 
 const AnswerFormContainer: React.FC<{
@@ -60,7 +61,8 @@ const AnswerFormContainer: React.FC<{
 		isCorrect: boolean;
 		distance: number;
 	}>;
-}> = ({ story, changeMode, checkAnswer }) => {
+	postStoryEvalution: () => Promise<void>;
+}> = ({ story, changeMode, checkAnswer, postStoryEvalution }) => {
 	const { mutate, isLoading, data, reset, isError } = useMutation(
 		async (text: string) => {
 			const response = await checkAnswer({
@@ -94,7 +96,6 @@ const AnswerFormContainer: React.FC<{
 		<>
 			{view}
 			<AnswerResult
-				storyId={story.id}
 				solution={data.input}
 				onBackButtonClicked={reset}
 				onSeeTruthButtonClicked={async () => {
@@ -109,6 +110,7 @@ const AnswerFormContainer: React.FC<{
 				truth={story.truth}
 				isCorrect={data.isCorrect}
 				distance={data.distance}
+				postStoryEvalution={postStoryEvalution}
 			/>
 		</>
 	) : (
@@ -137,6 +139,7 @@ export function Play({
 	fetchCanPlay,
 	sendQuestion,
 	checkAnswer,
+	postStoryEvalution,
 }: Props) {
 	const question = useQuestion(sendQuestion);
 	const [mode, setMode] = useState<Mode>("question");
@@ -187,6 +190,7 @@ export function Play({
 						story={story}
 						changeMode={setMode}
 						checkAnswer={checkAnswer}
+						postStoryEvalution={postStoryEvalution}
 					/>
 				</div>
 			)}
