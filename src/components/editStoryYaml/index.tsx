@@ -1,7 +1,6 @@
 "use client";
 import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
-import { trpc } from "@/libs/trpc";
 import type { StoryHead, StoryInit } from "@/server/model/story";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";

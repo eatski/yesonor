@@ -7,7 +7,6 @@ import {
 	GenericButton,
 } from "@/designSystem/components/button";
 import { ToggleWithLabel } from "@/designSystem/components/toggle";
-import { trpc } from "@/libs/trpc";
 import type { Story } from "@/server/model/story";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";

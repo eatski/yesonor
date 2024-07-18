@@ -1,7 +1,7 @@
 "use client";
 import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
-import { trpc } from "@/libs/trpc";
+import { useMutation } from "@tanstack/react-query";
 import { signOut } from "next-auth/react";
 import type React from "react";
 import { useState } from "react";
@@ -12,9 +12,11 @@ import styles from "./styles.module.scss";
 export type Props = {
 	name: string | null;
 	email: string;
+	changeName: (name: string) => Promise<void>;
+	deleteUser: () => Promise<void>;
 };
 
-const LoginInfo = ({ email }: Props) => {
+const LoginInfo = ({ email }: Pick<Props, "email">) => {
 	return (
 		<section>
 			<h2>ログイン情報</h2>
@@ -29,7 +31,10 @@ const LoginInfo = ({ email }: Props) => {
 	);
 };
 
-const Name: React.FC<Props> = ({ name }) => {
+const Name: React.FC<Pick<Props, "changeName" | "name">> = ({
+	name,
+	changeName,
+}) => {
 	type EditingState =
 		| { inputValue: string; isEditing: true }
 		| { isEditing: false };
@@ -37,13 +42,7 @@ const Name: React.FC<Props> = ({ name }) => {
 	const [editingState, setEditingState] = useState<EditingState>({
 		isEditing: false,
 	});
-	const {
-		mutateAsync,
-		isLoading,
-		data: editedName,
-	} = trpc.user.putName.useMutation();
-
-	const currentName = editedName ?? name;
+	const { mutateAsync, isLoading } = useMutation(changeName);
 
 	return (
 		<section>
@@ -54,7 +53,7 @@ const Name: React.FC<Props> = ({ name }) => {
 						className={styles.row}
 						onSubmit={async (e) => {
 							e.preventDefault();
-							await mutateAsync({ name: editingState.inputValue });
+							await mutateAsync(editingState.inputValue);
 							setEditingState({ isEditing: false });
 						}}
 					>
@@ -96,15 +95,16 @@ const Name: React.FC<Props> = ({ name }) => {
 				) : (
 					<div className={styles.row}>
 						<div className={styles.left}>
-							<p>{currentName || "未設定"}</p>
+							<p>{name || "未設定"}</p>
 						</div>
 
 						<div className={styles.right}>
 							<button
+								type="button"
 								className={components.buttonLink}
 								onClick={() => {
 									setEditingState({
-										inputValue: currentName ?? "",
+										inputValue: name ?? "",
 										isEditing: true,
 									});
 								}}
@@ -119,9 +119,8 @@ const Name: React.FC<Props> = ({ name }) => {
 	);
 };
 
-const DeleteAccount: React.FC = () => {
-	const { mutateAsync, isLoading, isSuccess } =
-		trpc.deleteAccount.useMutation();
+const DeleteAccount: React.FC<Pick<Props, "deleteUser">> = ({ deleteUser }) => {
+	const { mutateAsync, isLoading, isSuccess } = useMutation(deleteUser);
 	const { confirm, view } = useConfirmModal();
 	const toast = useToast();
 
@@ -170,13 +169,18 @@ const DeleteAccount: React.FC = () => {
 	);
 };
 
-export const Settings: React.FC<Props> = ({ name, email }) => {
+export const Settings: React.FC<Props> = ({
+	name,
+	email,
+	changeName,
+	deleteUser,
+}) => {
 	return (
 		<main className={styles.container}>
 			<H1>設定</H1>
-			<LoginInfo name={name} email={email} />
-			<Name name={name} email={email} />
-			<DeleteAccount />
+			<LoginInfo email={email} />
+			<Name name={name} changeName={changeName} />
+			<DeleteAccount deleteUser={deleteUser} />
 		</main>
 	);
 };

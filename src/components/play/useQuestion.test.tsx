@@ -1,16 +1,10 @@
 // @vitest-environment jsdom
-
-import type { AppRouter } from "@/server";
-import { createTRPCMsw } from "msw-trpc";
 import { useQuestion } from "./useQuestion";
 
 import { setTimeout } from "node:timers/promises";
-import { trpc } from "@/libs/trpc";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import { httpBatchLink } from "@trpc/client";
 import { setupServer } from "msw/node";
-import fetch from "node-fetch";
 import { type PropsWithChildren, useMemo } from "react";
 import {
 	afterEach,
@@ -24,29 +18,10 @@ import {
 
 import * as recapcha from "@/common/util/grecaptcha";
 
-const trpcMsw = createTRPCMsw<AppRouter>({
-	basePath: "/api/trpc",
-	baseUrl: "https://example.com/",
-});
-
 const Provider: React.FC<PropsWithChildren> = ({ children }) => {
 	const queryClient = useMemo(() => new QueryClient(), []);
-	const trpcClient = useMemo(
-		() =>
-			trpc.createClient({
-				links: [
-					httpBatchLink({
-						url: "https://example.com/",
-						fetch: fetch as any,
-					}),
-				],
-			}),
-		[],
-	);
 	return (
-		<trpc.Provider client={trpcClient} queryClient={queryClient}>
-			<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-		</trpc.Provider>
+		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 	);
 };
 

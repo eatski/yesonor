@@ -2,7 +2,6 @@
 import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import { gtagEvent } from "@/common/util/gtag";
 import components from "@/designSystem/components.module.scss";
-import { trpc } from "@/libs/trpc";
 import type {
 	QuestionExampleWithCustomMessage,
 	Story,
