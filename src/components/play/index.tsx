@@ -8,7 +8,7 @@ import type {
 	Story,
 	answer as answerSchema,
 } from "@/server/model/story";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Script from "next/script";
 import { useCallback, useState } from "react";
 import { z } from "zod";
@@ -41,32 +41,54 @@ type Props = {
 		answer: z.infer<typeof answerSchema>;
 		hitQuestionExample: QuestionExampleWithCustomMessage | null;
 	}>;
+	checkAnswer: (args: {
+		text: string;
+		recaptchaToken: string;
+	}) => Promise<{
+		isCorrect: boolean;
+		distance: number;
+	}>;
 };
 
 const AnswerFormContainer: React.FC<{
 	story: Story;
 	changeMode: (mode: Mode) => void;
-}> = ({ story, changeMode }) => {
-	const { mutate, isLoading, data, reset, isError } = trpc.truth.useMutation({
-		onSuccess(data) {
-			const resultToEvent = {
-				Incorrect: "success_answer_incorrect",
-				Correct: "success_answer_correct",
-			} as const;
-			gtagEvent(resultToEvent[data.result]);
+	checkAnswer: (args: {
+		text: string;
+		recaptchaToken: string;
+	}) => Promise<{
+		isCorrect: boolean;
+		distance: number;
+	}>;
+}> = ({ story, changeMode, checkAnswer }) => {
+	const { mutate, isLoading, data, reset, isError } = useMutation(
+		async (text: string) => {
+			const response = await checkAnswer({
+				text: text,
+				recaptchaToken: await getRecaptchaToken(),
+			});
+			return {
+				...response,
+				input: text,
+			};
 		},
-	});
+		{
+			onSuccess(data) {
+				gtagEvent(
+					data.isCorrect
+						? "success_answer_correct"
+						: "success_answer_incorrect",
+				);
+			},
+		},
+	);
 	const { confirm, view } = useConfirmModal();
 	const onSubmit = useCallback(
 		async (input: string) => {
 			gtagEvent("click_submit_answer");
-			mutate({
-				storyId: story.id,
-				text: input,
-				recaptchaToken: await getRecaptchaToken(),
-			});
+			mutate(input);
 		},
-		[mutate, story.id],
+		[mutate],
 	);
 	return data ? (
 		<>
@@ -85,7 +107,7 @@ const AnswerFormContainer: React.FC<{
 					}
 				}}
 				truth={story.truth}
-				isCorrect={data.result === "Correct"}
+				isCorrect={data.isCorrect}
 				distance={data.distance}
 			/>
 		</>
@@ -110,7 +132,12 @@ const Truth: React.FC<{ story: Story; onBackButtonClicked: () => void }> = ({
 
 type Mode = "question" | "solution" | "truth";
 
-export function Play({ story, fetchCanPlay, sendQuestion }: Props) {
+export function Play({
+	story,
+	fetchCanPlay,
+	sendQuestion,
+	checkAnswer,
+}: Props) {
 	const question = useQuestion(sendQuestion);
 	const [mode, setMode] = useState<Mode>("question");
 	const backToQuestion = useCallback(() => {
@@ -156,7 +183,11 @@ export function Play({ story, fetchCanPlay, sendQuestion }: Props) {
 			)}
 			{mode === "solution" && (
 				<div className={styles.sectionWrapper}>
-					<AnswerFormContainer story={story} changeMode={setMode} />
+					<AnswerFormContainer
+						story={story}
+						changeMode={setMode}
+						checkAnswer={checkAnswer}
+					/>
 				</div>
 			)}
 			{mode === "truth" && (

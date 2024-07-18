@@ -1,11 +1,9 @@
 import { deleteAccount } from "./procedures/deleteAccount";
 import { storyEvalution } from "./procedures/storyEvalution";
-import { truth } from "./procedures/truth";
 import { user } from "./procedures/user";
 import { router } from "./trpc";
 
 export const appRouter = router({
-	truth,
 	deleteAccount,
 	user,
 	storyEvalution,
