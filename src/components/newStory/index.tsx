@@ -2,7 +2,8 @@
 import type { Device } from "@/common/util/device";
 import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
-import { trpc } from "@/libs/trpc";
+import { StoryInit } from "@/server/model/story";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type React from "react";
@@ -12,11 +13,12 @@ import styles from "./styles.module.scss";
 
 export type Props = {
 	device: Device;
+	createStory: (data: StoryInit) => Promise<string>;
 };
 
-export const NewStory: React.FC<Props> = ({ device }) => {
-	const { mutate, isError, isLoading } = trpc.story.post.useMutation();
+export const NewStory: React.FC<Props> = ({ device, createStory }) => {
 	const router = useRouter();
+	const { mutateAsync, isError, isLoading } = useMutation(createStory);
 
 	return (
 		<main>
@@ -30,12 +32,9 @@ export const NewStory: React.FC<Props> = ({ device }) => {
 				</div>
 			)}
 			<StoryForm
-				onSubmit={(input) => {
-					mutate(input, {
-						onSuccess: (e) => {
-							router.push(`/stories/${e.id}`);
-						},
-					});
+				onSubmit={async (input) => {
+					const id = await mutateAsync(input);
+					router.push(`/stories/${id}`);
 				}}
 				isLoading={isLoading}
 				isError={isError}

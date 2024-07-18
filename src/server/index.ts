@@ -1,7 +1,6 @@
 import { abtest } from "./procedures/abtest";
 import { deleteAccount } from "./procedures/deleteAccount";
 import { question } from "./procedures/question";
-import { story } from "./procedures/story";
 import { storyEvalution } from "./procedures/storyEvalution";
 import { truth } from "./procedures/truth";
 import { user } from "./procedures/user";
@@ -12,7 +11,6 @@ export const appRouter = router({
 	truth,
 	deleteAccount,
 	user,
-	story,
 	storyEvalution,
 	abtest,
 });
