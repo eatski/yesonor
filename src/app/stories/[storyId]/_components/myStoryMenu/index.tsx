@@ -9,31 +9,28 @@ import {
 import { ToggleWithLabel } from "@/designSystem/components/toggle";
 import { trpc } from "@/libs/trpc";
 import type { Story } from "@/server/model/story";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import styles from "./styles.module.scss";
 
 export type Props = {
-	initialStory: Story;
+	story: Story;
+	deleteStory: () => Promise<void>;
+	publishStory: () => Promise<void>;
 };
 
-export const MyStoryMenu: React.FC<Props> = ({ initialStory }) => {
-	const storyId = initialStory.id;
-	const getUpdated = trpc.story.getByIdPrivate.useQuery(
-		{
-			id: storyId,
-		},
-		{
-			enabled: false,
-		},
-	);
-	const story = getUpdated.data ?? initialStory;
-
-	const del = trpc.story.delete_.useMutation();
-	const publish = trpc.story.publishFirst.useMutation();
+export const MyStoryMenu: React.FC<Props> = ({
+	story,
+	deleteStory,
+	publishStory,
+}) => {
+	const storyId = story.id;
+	const del = useMutation(deleteStory);
+	const publish = useMutation(publishStory);
 	const router = useRouter();
-	const isLoading = del.isLoading || publish.isLoading || getUpdated.isFetching;
+	const isLoading = del.isLoading || publish.isLoading;
 	const isError = del.error || publish.error;
 	const { confirm, view } = useConfirmModal();
 	const toast = useToast();
@@ -51,16 +48,7 @@ export const MyStoryMenu: React.FC<Props> = ({ initialStory }) => {
 									label={story.published ? "公開中" : "未公開"}
 									onToggle={() => {
 										if (!story.published) {
-											publish.mutate(
-												{
-													id: storyId,
-												},
-												{
-													onSuccess: () => {
-														getUpdated.refetch();
-													},
-												},
-											);
+											publish.mutate();
 										} else {
 											toast("ストーリーの非公開機能はまだ実装されていません。");
 										}
@@ -80,16 +68,8 @@ export const MyStoryMenu: React.FC<Props> = ({ initialStory }) => {
 										if (!(await confirm("本当に削除しますか？"))) {
 											return;
 										}
-										del.mutate(
-											{
-												id: storyId,
-											},
-											{
-												onSuccess: () => {
-													router.push(`/users/${story.author.id}/stories`);
-												},
-											},
-										);
+										await del.mutateAsync();
+										router.push(`/users/${story.author.id}/stories`);
 									}}
 									disabled={isLoading}
 									color="zero"
