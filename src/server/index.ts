@@ -1,4 +1,3 @@
-import { abtest } from "./procedures/abtest";
 import { deleteAccount } from "./procedures/deleteAccount";
 import { storyEvalution } from "./procedures/storyEvalution";
 import { truth } from "./procedures/truth";
@@ -10,7 +9,6 @@ export const appRouter = router({
 	deleteAccount,
 	user,
 	storyEvalution,
-	abtest,
 });
 
 // Export type router type signature,

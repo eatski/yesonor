@@ -4,6 +4,7 @@ import { Play } from "@/components/play";
 import { StoryDescription } from "@/components/storyDescription";
 import type { Story } from "@/server/model/story";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
+import { setupABTestValue } from "@/server/serverComponent/setupABTestingVariant";
 import { getAnswer } from "@/server/services/question";
 import { verifyRecaptcha } from "@/server/services/recaptcha";
 import { getStories, getStory } from "@/server/services/story";
@@ -143,12 +144,7 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 				sendQuestion={async (input) => {
 					"use server";
 					await verifyRecaptcha(input.recaptchaToken);
-					return getAnswer(
-						input.text,
-						story,
-						//TODO: implement AB testing
-						Promise.resolve("ONLY_SONNET"),
-					);
+					return getAnswer(input.text, story, setupABTestValue());
 				}}
 			/>
 		</>

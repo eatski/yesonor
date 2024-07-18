@@ -58,7 +58,6 @@ describe("trpc/truth", () => {
 		getUserOptional: async () => null,
 		getUser: never,
 		verifyRecaptcha: () => Promise.resolve(),
-		setupABTestingVariant: never,
 	});
 	describe("解答した内容に対して、結果が返る", () => {
 		test.each([
@@ -148,7 +147,6 @@ describe("trpc/truth", () => {
 					getUserOptional: async () => user,
 					getUser: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					setupABTestingVariant: never,
 				});
 				const text =
 					"山田さんは人を殺害し、男性用トイレに隠そうとしていたが、見つかりそうになり女性用トイレに逃げた。";
@@ -167,7 +165,6 @@ describe("trpc/truth", () => {
 					getUserOptional: async () => user,
 					getUser: never,
 					verifyRecaptcha: () => Promise.resolve(),
-					setupABTestingVariant: never,
 				});
 				const text =
 					"山田さんは人を殺害し、男性用トイレに隠そうとしていたが、見つかりそうになり女性用トイレに逃げた。";
@@ -185,7 +182,6 @@ describe("trpc/truth", () => {
 				getUserOptional: async () => TEST_USER2,
 				getUser: never,
 				verifyRecaptcha: () => Promise.resolve(),
-				setupABTestingVariant: never,
 			});
 			const text =
 				"山田さんは人を殺害し、男性用トイレに隠そうとしていたが、見つかりそうになり女性用トイレに逃げた。";
