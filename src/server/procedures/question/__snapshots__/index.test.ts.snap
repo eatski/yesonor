@@ -1,5 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`trpc/question > storyの参照権限 > privateなstoryに対して質問すると回答が返ってこない > エラー 1`] = `[TRPCError: NOT_FOUND]`;
-
-exports[`trpc/question > storyの参照権限 > privateなstoryに対して質問すると回答が返ってこない > エラー 2`] = `[TRPCError: NOT_FOUND]`;

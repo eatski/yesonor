@@ -3,10 +3,15 @@ import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import { gtagEvent } from "@/common/util/gtag";
 import components from "@/designSystem/components.module.scss";
 import { trpc } from "@/libs/trpc";
-import type { Story } from "@/server/model/story";
+import type {
+	QuestionExampleWithCustomMessage,
+	Story,
+	answer as answerSchema,
+} from "@/server/model/story";
 import { useQuery } from "@tanstack/react-query";
 import Script from "next/script";
-import { use, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
+import { z } from "zod";
 import { useConfirmModal } from "../confirmModal";
 import { AnswerForm } from "./components/answerForm";
 import { AnswerResult } from "./components/answerResult";
@@ -29,6 +34,13 @@ type Props = {
 				reason: "desktop_only";
 		  }
 	>;
+	sendQuestion: (args: {
+		text: string;
+		recaptchaToken: string;
+	}) => Promise<{
+		answer: z.infer<typeof answerSchema>;
+		hitQuestionExample: QuestionExampleWithCustomMessage | null;
+	}>;
 };
 
 const AnswerFormContainer: React.FC<{
@@ -98,8 +110,8 @@ const Truth: React.FC<{ story: Story; onBackButtonClicked: () => void }> = ({
 
 type Mode = "question" | "solution" | "truth";
 
-export function Play({ story, fetchCanPlay }: Props) {
-	const question = useQuestion(story);
+export function Play({ story, fetchCanPlay, sendQuestion }: Props) {
+	const question = useQuestion(sendQuestion);
 	const [mode, setMode] = useState<Mode>("question");
 	const backToQuestion = useCallback(() => {
 		setMode("question");

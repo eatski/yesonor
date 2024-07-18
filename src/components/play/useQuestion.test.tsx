@@ -65,29 +65,21 @@ describe("useQuestion", () => {
 	});
 
 	it("should return the latest question and answer", async () => {
-		const mutation = vi.fn();
 		// Arrange
-		const storyId = "testes";
-		server.use(
-			trpcMsw.question.mutation(async (input) => {
-				mutation(input);
-				await setTimeout(100);
-				return {
-					answer: "True",
-					hitQuestionExample: null,
-				};
-			}),
-		);
+		const sendQuestionMock = vi.fn(async () => {
+			await setTimeout(100);
+			return {
+				answer: "True",
+				hitQuestionExample: null,
+			} as const;
+		});
 
 		// Act
 
 		const useQuestionMock = vitest.fn(useQuestion);
 
 		const { result, rerender } = renderHook(
-			() =>
-				useQuestionMock({
-					id: storyId,
-				}),
+			() => useQuestionMock(sendQuestionMock),
 			{
 				wrapper: Provider,
 			},
@@ -144,24 +136,18 @@ describe("useQuestion", () => {
 			]
 		`);
 
-		expect(mutation.mock.calls).toMatchInlineSnapshot(`
+		expect(sendQuestionMock.mock.calls).toMatchInlineSnapshot(`
 			[
 			  [
 			    {
-			      "0": {
-			        "recaptchaToken": "test",
-			        "storyId": "testes",
-			        "text": "太郎は犬ですか？",
-			      },
+			      "recaptchaToken": "test",
+			      "text": "太郎は犬ですか？",
 			    },
 			  ],
 			  [
 			    {
-			      "0": {
-			        "recaptchaToken": "test",
-			        "storyId": "testes",
-			        "text": "太郎は猫ですか？",
-			      },
+			      "recaptchaToken": "test",
+			      "text": "太郎は猫ですか？",
 			    },
 			  ],
 			]

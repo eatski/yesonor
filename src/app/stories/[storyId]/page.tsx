@@ -4,6 +4,8 @@ import { Play } from "@/components/play";
 import { StoryDescription } from "@/components/storyDescription";
 import type { Story } from "@/server/model/story";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
+import { getAnswer } from "@/server/services/question";
+import { verifyRecaptcha } from "@/server/services/recaptcha";
 import { getStories, getStory } from "@/server/services/story";
 import { deleteStory } from "@/server/services/story/deleteStory";
 import { publishStoryAtFirst } from "@/server/services/story/publishStory";
@@ -137,6 +139,16 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 					return {
 						canPlay: true,
 					};
+				}}
+				sendQuestion={async (input) => {
+					"use server";
+					await verifyRecaptcha(input.recaptchaToken);
+					return getAnswer(
+						input.text,
+						story,
+						//TODO: implement AB testing
+						Promise.resolve("ONLY_SONNET"),
+					);
 				}}
 			/>
 		</>

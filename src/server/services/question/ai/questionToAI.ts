@@ -3,9 +3,7 @@ import { resolve } from "node:path";
 import { openai } from "@/libs/openai";
 import type { QuestionExample } from "@/server/model/story";
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 import { answer as answerSchema } from "../../../model/story";
-import { OPENAI_ERROR_MESSAGE } from "../../../procedures/question/contract";
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),
 );
@@ -68,7 +66,6 @@ export const questionToAI = async (
 		.catch((e) => {
 			throw new TRPCError({
 				code: "INTERNAL_SERVER_ERROR",
-				message: OPENAI_ERROR_MESSAGE,
 				cause: e,
 			});
 		});

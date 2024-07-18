@@ -81,12 +81,7 @@ describe.each([
 	])(
 		"真相に対して正しい質問をするとTrueが返る $question",
 		async ({ question, story }) => {
-			const result = await getAnswer(
-				question,
-				Promise.resolve(story),
-				Promise.resolve(),
-				Promise.resolve(ab),
-			);
+			const result = await getAnswer(question, story, Promise.resolve(ab));
 			expect(result.answer).toEqual("True");
 		},
 	);
@@ -138,12 +133,7 @@ describe.each([
 	])(
 		"真相に対して正しくない質問をするとFalseが返る $question",
 		async ({ question, story }) => {
-			const result = await getAnswer(
-				question,
-				Promise.resolve(story),
-				Promise.resolve(),
-				Promise.resolve(ab),
-			);
+			const result = await getAnswer(question, story, Promise.resolve(ab));
 			expect(result.answer).toEqual("False");
 		},
 	);
@@ -167,12 +157,7 @@ describe.each([
 	])(
 		"真相では言及されていない質問をするとUnknownが返る $question",
 		async ({ question, story }) => {
-			const result = await getAnswer(
-				question,
-				Promise.resolve(story),
-				Promise.resolve(),
-				Promise.resolve(ab),
-			);
+			const result = await getAnswer(question, story, Promise.resolve(ab));
 			expect(result.answer).toEqual("Unknown");
 		},
 	);
@@ -200,12 +185,7 @@ describe.each([
 	])(
 		"customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る $question",
 		async ({ question, story, expected }) => {
-			const result = await getAnswer(
-				question,
-				Promise.resolve(story),
-				Promise.resolve(),
-				Promise.resolve(ab),
-			);
+			const result = await getAnswer(question, story, Promise.resolve(ab));
 			expect(result.hitQuestionExample?.customMessage).toBe(expected);
 		},
 	);
@@ -217,12 +197,7 @@ describe.each([
 	])(
 		"customMessageを持つquestionExamlpeに近しくない質問をすると、customMessageが返らない",
 		async ({ question, story }) => {
-			const result = await getAnswer(
-				question,
-				Promise.resolve(story),
-				Promise.resolve(),
-				Promise.resolve(ab),
-			);
+			const result = await getAnswer(question, story, Promise.resolve(ab));
 			expect(result.hitQuestionExample?.customMessage).not.toBeDefined();
 		},
 	);
