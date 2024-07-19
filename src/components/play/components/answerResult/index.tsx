@@ -4,19 +4,19 @@ import components from "@/designSystem/components.module.scss";
 import { Button, ButtonIconWrapper } from "@/designSystem/components/button";
 import { Card } from "@/designSystem/components/card";
 import { InformationParagragh } from "@/designSystem/components/information";
-import { trpc } from "@/libs/trpc";
+import { useMutation } from "@tanstack/react-query";
 import { AiOutlineLike } from "react-icons/ai";
 import { DefinitionList } from "../definitionList";
 import styles from "./styles.module.scss";
 
 export type Props = {
-	storyId: string;
 	solution: string;
 	isCorrect: boolean;
 	truth: string;
 	distance: number;
 	onBackButtonClicked: () => void;
 	onSeeTruthButtonClicked: () => void;
+	postStoryEvalution: () => Promise<void>;
 };
 
 type DistanceLevel = "almost" | "close" | "not-bad" | "way-off";
@@ -51,21 +51,21 @@ const levelToText: Record<DistanceLevel, string> = {
 	"way-off": "もう少し質問してみて",
 };
 export const AnswerResult: React.FC<Props> = ({
-	storyId,
 	solution,
 	truth,
 	distance,
 	isCorrect,
 	onBackButtonClicked,
 	onSeeTruthButtonClicked,
+	postStoryEvalution,
 }) => {
 	const distanceLevel = calcDisplayDistanceLebel(distance);
 	const toast = useToast();
 	const {
 		mutateAsync: post,
-		isLoading,
 		isSuccess,
-	} = trpc.storyEvalution.post.useMutation();
+		isLoading,
+	} = useMutation(postStoryEvalution);
 	return (
 		<div className={styles.container}>
 			<Card variant={isCorrect ? "success" : undefined}>
@@ -99,9 +99,7 @@ export const AnswerResult: React.FC<Props> = ({
 								type={"button"}
 								onClick={async () => {
 									gtagEvent("like_story");
-									await post({
-										storyId,
-									});
+									await post();
 									toast("いいねしました！");
 								}}
 								color="none"

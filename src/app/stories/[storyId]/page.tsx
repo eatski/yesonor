@@ -4,9 +4,17 @@ import { Play } from "@/components/play";
 import { StoryDescription } from "@/components/storyDescription";
 import type { Story } from "@/server/model/story";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
+import { setupABTestValue } from "@/server/serverComponent/setupABTestingVariant";
+import { checkAnswer } from "@/server/services/answer";
+import { askQuestio } from "@/server/services/question";
+import { verifyRecaptcha } from "@/server/services/recaptcha";
 import { getStories, getStory } from "@/server/services/story";
+import { deleteStory } from "@/server/services/story/deleteStory";
+import { publishStoryAtFirst } from "@/server/services/story/publishStory";
+import { postStoryEvalution } from "@/server/services/storyEvalution/post";
 import { get } from "@vercel/edge-config";
 import { Metadata } from "next";
+import { revalidateTag } from "next/cache";
 import { cookies, headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Suspense, cache } from "react";
@@ -64,7 +72,38 @@ const MyStoryMenuServer = async ({ story }: { story: Story }) => {
 	if (!session || session.userId !== story.author.id) {
 		return null;
 	}
-	return <MyStoryMenu initialStory={story} />;
+	const { id } = story;
+	return (
+		<MyStoryMenu
+			story={story}
+			deleteStory={async () => {
+				"use server";
+				const result = await deleteStory({
+					storyId: id,
+					userId: session.userId,
+				});
+				switch (result) {
+					case "NOT_FOUND":
+						notFound();
+					case "OK":
+						revalidateTag(`/stories/${id}`);
+				}
+			}}
+			publishStory={async () => {
+				"use server";
+				const result = await publishStoryAtFirst({
+					storyId: id,
+					userId: session.userId,
+				});
+				switch (result) {
+					case "NOT_FOUND":
+						notFound();
+					case "OK":
+						revalidateTag(`/stories/${id}`);
+				}
+			}}
+		/>
+	);
 };
 
 export default async function StoryPage({ params: { storyId } }: StoryProps) {
@@ -103,6 +142,27 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 					return {
 						canPlay: true,
 					};
+				}}
+				sendQuestion={async (input) => {
+					"use server";
+					await verifyRecaptcha(input.recaptchaToken);
+					return askQuestio(input.text, story, setupABTestValue());
+				}}
+				checkAnswer={async (input) => {
+					"use server";
+					await verifyRecaptcha(input.recaptchaToken);
+					return checkAnswer(input.text, story);
+				}}
+				postStoryEvalution={async () => {
+					"use server";
+					const user = await getUserSession();
+					if (!user) {
+						notFound();
+					}
+					await postStoryEvalution({
+						storyId: story.id,
+						userId: user.userId,
+					});
 				}}
 			/>
 		</>

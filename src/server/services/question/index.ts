@@ -16,10 +16,9 @@ const abTestVarToQuestionToAI = {
 	[AB_TESTING_VARIANTS.GPT4O]: questionToAI,
 } as const;
 
-export const getAnswer = async (
+export const askQuestio = async (
 	question: string,
-	storyPromise: Promise<Story>,
-	verifyRequestPromise: Promise<void>,
+	story: Story,
 	abPromise: Promise<ABTestingVariant>,
 ) => {
 	const proura = prepareProura();
@@ -33,11 +32,9 @@ export const getAnswer = async (
 	});
 	const { answer, hitQuestionExample } = await proura
 		.add("questionEmbedding", async () => {
-			await verifyRequestPromise;
 			return embeddingsDataLoader.load(question);
 		})
 		.add("sortedExamplesWithDistance", async (dependsOn) => {
-			const story = await storyPromise;
 			const embeddings = await embeddingsDataLoader.loadMany(
 				story.questionExamples.map(({ question }) => question),
 			);
@@ -68,8 +65,6 @@ export const getAnswer = async (
 			return result;
 		})
 		.add("answer", async (dependsOn) => {
-			await verifyRequestPromise;
-			const story = await storyPromise;
 			const examples = await dependsOn("sortedExamplesWithDistance");
 			const pickedFewExamples: typeof examples = [];
 			["True", "False", "Unknown"].forEach((answer) => {

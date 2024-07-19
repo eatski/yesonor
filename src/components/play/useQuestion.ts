@@ -1,8 +1,13 @@
 import { getRecaptchaToken } from "@/common/util/grecaptcha";
-import { trpc } from "@/libs/trpc";
-import type { Answer, Story } from "@/server/model/story";
-import { OPENAI_ERROR_MESSAGE } from "@/server/procedures/question/contract";
+import type {
+	Answer,
+	QuestionExampleWithCustomMessage,
+	Story,
+	answer,
+} from "@/server/model/story";
+import { useMutation } from "@tanstack/react-query";
 import { useRef, useState } from "react";
+import { z } from "zod";
 
 const last = <T>(array: T[]): T | null => {
 	if (array.length === 0) {
@@ -11,10 +16,7 @@ const last = <T>(array: T[]): T | null => {
 	return array[array.length - 1] || null;
 };
 
-const toErrorMessage = (error: unknown) => {
-	if (error instanceof Error && error.message === OPENAI_ERROR_MESSAGE) {
-		return "AIの調子が悪いみたいです。しばらく待ってからもう一度お試しください。";
-	}
+const toErrorMessage = (_: unknown) => {
 	return "エラーです。AIが回答を生成できませんでした。";
 };
 
@@ -43,10 +45,18 @@ const useMutableHistory = () => {
 	};
 };
 
-export const useQuestion = (story: UseQuestionStory) => {
+export const useQuestion = (
+	sendQuestion: (args: {
+		text: string;
+		recaptchaToken: string;
+	}) => Promise<{
+		answer: z.infer<typeof answer>;
+		hitQuestionExample: QuestionExampleWithCustomMessage | null;
+	}>,
+) => {
 	const { history, pushHistory, updateHistory } = useMutableHistory();
 	const { mutateAsync, isLoading, variables, error } =
-		trpc.question.useMutation();
+		useMutation(sendQuestion);
 	const latest =
 		error && variables
 			? {
@@ -58,7 +68,6 @@ export const useQuestion = (story: UseQuestionStory) => {
 		async onSubmit(text: string) {
 			const id = pushHistory({ input: text, result: null });
 			const result = await mutateAsync({
-				storyId: story.id,
 				text,
 				recaptchaToken: await getRecaptchaToken(),
 			});

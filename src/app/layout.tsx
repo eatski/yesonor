@@ -1,6 +1,6 @@
 import "sanitize.css";
 import "@/designSystem/base.css";
-import { TrpcContextProvider } from "@/common/context/TrpcContextProvider";
+import { ReactQueryContextProvider } from "@/common/context/ReactQueryContextProvider";
 import { brand } from "@/common/texts";
 import { keysOverride } from "@/components/headMeta";
 import { Toast } from "@/components/toast";
@@ -50,11 +50,11 @@ export default function RootLayout({
 				/>
 			</head>
 			<body>
-				<TrpcContextProvider>
+				<ReactQueryContextProvider>
 					<Toast>
 						<Layout>{children}</Layout>
 					</Toast>
-				</TrpcContextProvider>
+				</ReactQueryContextProvider>
 			</body>
 		</html>
 	);

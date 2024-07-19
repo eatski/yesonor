@@ -3,7 +3,7 @@ import { StoryList } from "@/components/storyList";
 import { H1 } from "@/designSystem/components/heading";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { getStoriesWithAuthorId } from "@/server/services/story";
-import { getUser } from "@/server/services/user";
+import { getUser } from "@/server/services/user/getUser";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 

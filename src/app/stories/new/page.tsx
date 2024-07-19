@@ -1,6 +1,7 @@
 import { type Device, getDevice } from "@/common/util/device";
 import { NewStory } from "@/components/newStory";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
+import { createStory } from "@/server/services/story/createStory";
 import { headers } from "next/headers";
 import { RedirectType, redirect } from "next/navigation";
 
@@ -13,5 +14,17 @@ export default async function NewStoryPage() {
 		);
 	}
 	const device = getDevice(headers().get("user-agent") || undefined);
-	return <NewStory device={device} />;
+	return (
+		<NewStory
+			device={device}
+			createStory={async (data) => {
+				"use server";
+				const id = await createStory({
+					userId: session.userId,
+					data,
+				});
+				return id;
+			}}
+		/>
+	);
 }

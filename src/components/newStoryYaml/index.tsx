@@ -1,28 +1,18 @@
 "use client";
 import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
-import { trpc } from "@/libs/trpc";
 import type { StoryInit } from "@/server/model/story";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import type React from "react";
-import { useCallback } from "react";
 import { YamlFileDrop } from "../storyYamlFileDrop";
 import styles from "./styles.module.scss";
 
-export const NewStoryYaml: React.FC = () => {
+export const NewStoryYaml: React.FC<{
+	createStory: (story: StoryInit) => Promise<string>;
+}> = ({ createStory }) => {
 	const router = useRouter();
-	const { mutate, isIdle } = trpc.story.post.useMutation();
-
-	const handleFileRead = useCallback(
-		(story: StoryInit) => {
-			mutate(story, {
-				onSuccess: (data) => {
-					router.push(`/stories/${data.id}`);
-				},
-			});
-		},
-		[mutate, router],
-	);
+	const { mutateAsync, isIdle } = useMutation(createStory);
 
 	return (
 		<main className={styles.container}>
@@ -32,7 +22,12 @@ export const NewStoryYaml: React.FC = () => {
 				<>
 					<h2>YAMLファイルをアップロードして投稿する</h2>
 					<div className={styles.fileDropContainer}>
-						<YamlFileDrop onFileRead={handleFileRead} />
+						<YamlFileDrop
+							onFileRead={async (story) => {
+								const id = await mutateAsync(story);
+								router.push(`/stories/${id}`);
+							}}
+						/>
 					</div>
 					<a
 						href="/howToWriteStory"
