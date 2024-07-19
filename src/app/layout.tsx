@@ -4,6 +4,7 @@ import { ReactQueryContextProvider } from "@/common/context/ReactQueryContextPro
 import { brand } from "@/common/texts";
 import { keysOverride } from "@/components/headMeta";
 import { Toast } from "@/components/toast";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
 import { Layout } from "./_components/layout";
 
@@ -68,6 +69,7 @@ export default function RootLayout({
 						<Layout>{children}</Layout>
 					</Toast>
 				</ReactQueryContextProvider>
+				<SpeedInsights />
 			</body>
 		</html>
 	);
