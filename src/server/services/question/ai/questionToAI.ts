@@ -16,7 +16,7 @@ export const questionToAI = async (
 	question: string,
 ) => {
 	const response = await openai.chat.completions.create({
-		model: "gpt-4o-2024-05-13",
+		model: "gpt-4o-mini-2024-07-18",
 		user: "testes",
 		max_tokens: 1,
 		messages: [

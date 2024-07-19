@@ -16,7 +16,7 @@ export const setupABTestValue = async () => {
 		abTestRate > 1
 	) {
 		cookies().delete(AB_TESTING_COOKIE_NAME);
-		return AB_TESTING_VARIANTS.ONLY_SONNET;
+		return AB_TESTING_VARIANTS.GPT4O;
 	}
 	const random = getAorBRandom(abTestRate);
 	cookies().set(AB_TESTING_COOKIE_NAME, random, {
