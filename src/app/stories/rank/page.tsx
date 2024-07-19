@@ -3,7 +3,7 @@ import { StoryList } from "@/components/storyList";
 import { H2 } from "@/designSystem/components/heading";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
 
-export const revalidate = revalidateTime.short;
+export const revalidate = revalidateTime.medium;
 
 const RankStories = async () => {
 	const stories = await getStoriesRecommended(50);

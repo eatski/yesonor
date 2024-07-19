@@ -6,7 +6,7 @@ import { H2 } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
 
-export const revalidate = revalidateTime.short;
+export const revalidate = revalidateTime.medium;
 
 export default async function Home() {
 	const [stories, recommend] = await Promise.all([
