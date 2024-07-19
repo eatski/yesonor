@@ -3,7 +3,6 @@ import { CURRENT_HOUR_SEED } from "@/common/util/currentDateSeed";
 import { prisma } from "@/libs/prisma";
 import type { StoryHead } from "@/server/model/story";
 import { nextCache } from "@/server/serverComponent/nextCache";
-import { get } from "@vercel/edge-config";
 import seedrandam from "seedrandom";
 import { z } from "zod";
 import { createGetStoryWhere, hydrateStory, omitStory } from "../functions";
@@ -56,18 +55,19 @@ const findStoriesToRank = async () => {
 		};
 	});
 };
-
 export const getStoriesRecommended = nextCache(
 	async (
 		count: number,
 		seed: string = CURRENT_HOUR_SEED,
 	): Promise<StoryHead[]> => {
 		const now = Date.now();
-		// すべてのストーリーを取得
-		const [stories, weight] = await Promise.all([
-			findStoriesToRank(),
-			get("rankingWeight").then(rankingWeightSchema.parse),
-		]);
+		if (!process.env.RANKING_WEIGHT) {
+			throw new Error("RANKING_WEIGHT is not defined");
+		}
+		const weight = rankingWeightSchema.parse(
+			JSON.parse(process.env.RANKING_WEIGHT),
+		);
+		const stories = await findStoriesToRank();
 		const rng = seedrandam(seed);
 		const scoredStories = stories
 			.filter(({ original }) =>
@@ -106,7 +106,7 @@ export const getStoriesRecommended = nextCache(
 		scoredStories.sort((a, b) => b.score - a.score);
 		return scoredStories.map((e) => e.story).slice(0, count);
 	},
-	["getStoriesRecommended"],
+	["getStoriesRecommende"],
 	{
 		revalidate: revalidateTime.medium,
 	},
