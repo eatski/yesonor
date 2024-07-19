@@ -62,7 +62,7 @@ export const StoryForm: React.FC<Props> = ({
 					type="submit"
 					className={components.button}
 				>
-					<span>テストプレイ</span>
+					<span>保存して確認</span>
 					<AiFillPlayCircle />
 				</button>
 			</div>
