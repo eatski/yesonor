@@ -4,6 +4,7 @@ import { ReactQueryContextProvider } from "@/common/context/ReactQueryContextPro
 import { brand } from "@/common/texts";
 import { keysOverride } from "@/components/headMeta";
 import { Toast } from "@/components/toast";
+import Script from "next/script";
 import { Layout } from "./_components/layout";
 
 export const metadata = {
@@ -49,6 +50,18 @@ export default function RootLayout({
 					content="https://iesona.com/card_square.png"
 				/>
 			</head>
+			<Script
+				src="https://www.googletagmanager.com/gtag/js?id=G-1VTTNL7SR2"
+				strategy="afterInteractive"
+			/>
+			<Script id="google-analytics" strategy="afterInteractive">
+				{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-1VTTNL7SR2');
+        `}
+			</Script>
 			<body>
 				<ReactQueryContextProvider>
 					<Toast>
