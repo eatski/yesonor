@@ -44,7 +44,7 @@ export const MyStoryMenu: React.FC<Props> = ({
 						<>
 							<div className={styles.buttons}>
 								<ToggleWithLabel
-									label={story.published ? "公開中" : "未公開"}
+									label={story.published ? "公開中" : "公開する"}
 									onToggle={() => {
 										if (!story.published) {
 											publish.mutate();
