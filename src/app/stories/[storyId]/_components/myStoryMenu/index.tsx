@@ -1,6 +1,5 @@
 "use client";
 import { useConfirmModal } from "@/components/confirmModal";
-import { useToast } from "@/components/toast";
 import {
 	Button,
 	ButtonIconWrapper,
@@ -17,22 +16,21 @@ import styles from "./styles.module.scss";
 export type Props = {
 	story: Story;
 	deleteStory: () => Promise<void>;
-	publishStory: () => Promise<void>;
+	toggleStoryPublic: () => Promise<void>;
 };
 
 export const MyStoryMenu: React.FC<Props> = ({
 	story,
 	deleteStory,
-	publishStory,
+	toggleStoryPublic,
 }) => {
 	const storyId = story.id;
 	const del = useMutation(deleteStory);
-	const publish = useMutation(publishStory);
+	const toggle = useMutation(toggleStoryPublic);
 	const router = useRouter();
-	const isLoading = del.isLoading || publish.isLoading;
-	const isError = del.error || publish.error;
+	const isLoading = del.isLoading || toggle.isLoading;
+	const isError = del.error || toggle.error;
 	const { confirm, view } = useConfirmModal();
-	const toast = useToast();
 
 	return (
 		<>
@@ -46,11 +44,7 @@ export const MyStoryMenu: React.FC<Props> = ({
 								<ToggleWithLabel
 									label={story.published ? "公開中" : "公開する"}
 									onToggle={() => {
-										if (!story.published) {
-											publish.mutate();
-										} else {
-											toast("ストーリーの非公開機能はまだ実装されていません。");
-										}
+										toggle.mutate();
 									}}
 									isOn={story.published}
 								/>
