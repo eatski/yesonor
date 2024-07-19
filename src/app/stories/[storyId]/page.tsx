@@ -10,7 +10,10 @@ import { askQuestio } from "@/server/services/question";
 import { verifyRecaptcha } from "@/server/services/recaptcha";
 import { getStories, getStory } from "@/server/services/story";
 import { deleteStory } from "@/server/services/story/deleteStory";
-import { publishStoryAtFirst } from "@/server/services/story/publishStory";
+import {
+	publishStory,
+	unpublishStory,
+} from "@/server/services/story/publishStory";
 import { postStoryEvalution } from "@/server/services/storyEvalution/post";
 import { get } from "@vercel/edge-config";
 import { Metadata } from "next";
@@ -72,7 +75,7 @@ const MyStoryMenuServer = async ({ story }: { story: Story }) => {
 	if (!session || session.userId !== story.author.id) {
 		return null;
 	}
-	const { id } = story;
+	const { id, published, publishedAt } = story;
 	return (
 		<MyStoryMenu
 			story={story}
@@ -89,17 +92,31 @@ const MyStoryMenuServer = async ({ story }: { story: Story }) => {
 						revalidateTag(`/stories/${id}`);
 				}
 			}}
-			publishStory={async () => {
+			toggleStoryPublic={async () => {
 				"use server";
-				const result = await publishStoryAtFirst({
-					storyId: id,
-					userId: session.userId,
-				});
-				switch (result) {
-					case "NOT_FOUND":
-						notFound();
-					case "OK":
-						revalidateTag(`/stories/${id}`);
+				if (published) {
+					const result = await unpublishStory({
+						storyId: id,
+						userId: session.userId,
+					});
+					switch (result) {
+						case "NOT_FOUND":
+							notFound();
+						case "OK":
+							revalidateTag(`/stories/${id}`);
+					}
+				} else {
+					const result = await publishStory({
+						storyId: id,
+						userId: session.userId,
+						atFirst: publishedAt === null,
+					});
+					switch (result) {
+						case "NOT_FOUND":
+							notFound();
+						case "OK":
+							revalidateTag(`/stories/${id}`);
+					}
 				}
 			}}
 		/>
