@@ -28,7 +28,7 @@
 		"@vercel/edge-config": "^1.1.0",
 		"@vercel/speed-insights": "^1.0.12",
 		"axios": "^1.6.8",
-		"axios-cache-interceptor": "^0.8.4",
+		"axios-cache-interceptor": "^0.10.0",
 		"dataloader": "^2.2.2",
 		"dayjs": "^1.11.7",
 		"eslint": "8.39.0",
