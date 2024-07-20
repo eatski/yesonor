@@ -61,7 +61,7 @@
 		"zod-to-json-schema": "^3.21.4"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.7.3",
+		"@biomejs/biome": "1.8.3",
 		"@next/bundle-analyzer": "^13.4.19",
 		"@playwright/test": "^1.45.0",
 		"@storybook/addon-essentials": "^7.4.2",
