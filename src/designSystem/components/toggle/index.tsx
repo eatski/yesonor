@@ -23,12 +23,13 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({
 	);
 };
 
-export const ToggleWithLabel: React.FC<ToggleButtonProps & { label: string }> =
-	({ label, ...props }) => {
-		return (
-			<div className={styles.toggleWithLabel}>
-				<ToggleButton {...props} />
-				<span className={styles.toggleLabel}>{label}</span>
-			</div>
-		);
-	};
+export const ToggleWithLabel: React.FC<
+	ToggleButtonProps & { label: string }
+> = ({ label, ...props }) => {
+	return (
+		<div className={styles.toggleWithLabel}>
+			<ToggleButton {...props} />
+			<span className={styles.toggleLabel}>{label}</span>
+		</div>
+	);
+};
