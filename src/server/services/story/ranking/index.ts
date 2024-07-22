@@ -56,10 +56,7 @@ const findStoriesToRank = async () => {
 	});
 };
 export const getStoriesRecommended = nextCache(
-	async (
-		count: number,
-		seed: string = CURRENT_HOUR_SEED,
-	): Promise<StoryHead[]> => {
+	async (count: number): Promise<StoryHead[]> => {
 		const now = Date.now();
 		if (!process.env.RANKING_WEIGHT) {
 			throw new Error("RANKING_WEIGHT is not defined");
@@ -68,7 +65,7 @@ export const getStoriesRecommended = nextCache(
 			JSON.parse(process.env.RANKING_WEIGHT),
 		);
 		const stories = await findStoriesToRank();
-		const rng = seedrandam(seed);
+		const rng = seedrandam(CURRENT_HOUR_SEED);
 		const scoredStories = stories
 			.filter(({ original }) =>
 				original.evaluations.every((e) => e.rating !== 0),
