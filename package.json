@@ -87,7 +87,7 @@
 		"eslint-plugin-storybook": "0.8.0",
 		"file-system-cache": "2.4.7",
 		"filenamify": "6.0.0",
-		"husky": "8.0.3",
+		"husky": "9.1.1",
 		"jsdom": "24.1.1",
 		"lint-staged": "13.3.0",
 		"msw": "2.3.2",
