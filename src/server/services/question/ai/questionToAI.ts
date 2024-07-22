@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { openai } from "@/libs/openai";
-import type { QuestionExample } from "@/server/model/story";
+import { openai } from "../../../../libs/openai";
+import type { QuestionExample } from "../../../../server/model/story";
 import { answer as answerSchema } from "../../../model/story";
 const systemPromptPromise = readFile(
 	resolve(process.cwd(), "prompts", "question.md"),

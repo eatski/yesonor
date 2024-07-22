@@ -1,8 +1,11 @@
-import { createMessage } from "@/libs/claude";
-import { FALLBACK_DISTANCE, calculateEuclideanDistance } from "@/libs/math";
-import { openai } from "@/libs/openai";
-import { prepareProura } from "@/libs/proura";
-import { Story } from "@/server/model/story";
+import { createMessage } from "../../../libs/claude";
+import {
+	FALLBACK_DISTANCE,
+	calculateEuclideanDistance,
+} from "../../../libs/math";
+import { openai } from "../../../libs/openai";
+import { prepareProura } from "../../../libs/proura";
+import { Story } from "../../../server/model/story";
 import { createPrompt } from "./createPrompt";
 
 export const checkAnswer = async (answer: string, story: Story) => {

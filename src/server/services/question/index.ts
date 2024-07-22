@@ -1,13 +1,16 @@
-import { type ABTestingVariant, AB_TESTING_VARIANTS } from "@/common/abtesting";
-import { calculateEuclideanDistance } from "@/libs/math";
-import { openai } from "@/libs/openai";
-import { prepareProura } from "@/libs/proura";
+import DataLoader from "dataloader";
+import {
+	type ABTestingVariant,
+	AB_TESTING_VARIANTS,
+} from "../../../common/abtesting";
+import { calculateEuclideanDistance } from "../../../libs/math";
+import { openai } from "../../../libs/openai";
+import { prepareProura } from "../../../libs/proura";
 import type {
 	QuestionExample,
 	QuestionExampleWithCustomMessage,
 	Story,
-} from "@/server/model/story";
-import DataLoader from "dataloader";
+} from "../../../server/model/story";
 import { questionToAI } from "./ai/questionToAI";
 import { questionToAI as questionToAISonnet } from "./ai/questionToAIClaude";
 

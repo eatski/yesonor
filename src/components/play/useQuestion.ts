@@ -1,13 +1,13 @@
-import { getRecaptchaToken } from "@/common/util/grecaptcha";
+import { useMutation } from "@tanstack/react-query";
+import { useRef, useState } from "react";
+import { z } from "zod";
+import { getRecaptchaToken } from "../../common/util/grecaptcha";
 import type {
 	Answer,
 	QuestionExampleWithCustomMessage,
 	Story,
 	answer,
-} from "@/server/model/story";
-import { useMutation } from "@tanstack/react-query";
-import { useRef, useState } from "react";
-import { z } from "zod";
+} from "../../server/model/story";
 
 const last = <T>(array: T[]): T | null => {
 	if (array.length === 0) {
