@@ -48,7 +48,7 @@
 		"seedrandom": "3.0.5",
 		"ua-parser-js": "1.0.35",
 		"yaml": "2.4.5",
-		"zod": "3.21.4",
+		"zod": "3.23.8",
 		"zod-to-json-schema": "3.21.4"
 	},
 	"devDependencies": {
