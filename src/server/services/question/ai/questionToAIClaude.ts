@@ -1,9 +1,9 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { createMessage } from "@/libs/claude";
-import type { QuestionExample } from "@/server/model/story";
 import type { MessageParam } from "@anthropic-ai/sdk/resources";
 import { z } from "zod";
+import { createMessage } from "../../../../libs/claude";
+import type { QuestionExample } from "../../../../server/model/story";
 import { answer as answerSchema } from "../../../model/story";
 
 const createMessages = (

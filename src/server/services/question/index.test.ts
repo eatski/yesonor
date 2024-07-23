@@ -1,11 +1,11 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { AB_TESTING_VARIANTS } from "@/common/abtesting";
-import { parseYaml } from "@/common/util/parseYaml";
-import { applyTestHooks } from "@/libs/msw-cache/vitest";
-import type { Story } from "@/server/model/story";
 import { describe, expect, test } from "vitest";
 import { askQuestio } from ".";
+import { AB_TESTING_VARIANTS } from "../../../common/abtesting";
+import { parseYaml } from "../../../common/util/parseYaml";
+import { applyTestHooks } from "../../../libs/msw-cache/vitest";
+import type { Story } from "../../../server/model/story";
 const loadStory = (storyYaml: string): Story => {
 	const parsed = parseYaml(
 		readFileSync(resolve(process.cwd(), "fixtures", storyYaml), "utf-8"),

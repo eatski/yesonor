@@ -1,15 +1,10 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { parseYaml } from "@/common/util/parseYaml";
-import { applyTestHooks } from "@/libs/msw-cache/vitest";
-import { Story } from "@/server/model/story";
 import { describe, expect, test } from "vitest";
 import { checkAnswer } from ".";
-
-const never = () => {
-	throw new Error("Never");
-};
-
+import { parseYaml } from "../../../common/util/parseYaml";
+import { applyTestHooks } from "../../../libs/msw-cache/vitest";
+import { Story } from "../../../server/model/story";
 const loadStory = (storyYaml: string): Story => {
 	const parsed = parseYaml(
 		readFileSync(resolve(process.cwd(), "fixtures", storyYaml), "utf-8"),

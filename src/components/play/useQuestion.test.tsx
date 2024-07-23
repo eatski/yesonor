@@ -16,7 +16,7 @@ import {
 	vitest,
 } from "vitest";
 
-import * as recapcha from "@/common/util/grecaptcha";
+import * as recapcha from "../../common/util/grecaptcha";
 
 const Provider: React.FC<PropsWithChildren> = ({ children }) => {
 	const queryClient = useMemo(() => new QueryClient(), []);
