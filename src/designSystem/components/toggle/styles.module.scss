@@ -26,14 +26,3 @@
 .toggleSwitchOn .toggleSwitchSlider {
     transform: translateX(24px);
 }
-
-.toggleWithLabel {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.toggleLabel {
-    font-size: 14px;
-    color: var(--button-text-color);
-}

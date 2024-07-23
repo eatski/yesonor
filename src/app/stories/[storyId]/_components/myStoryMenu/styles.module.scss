@@ -54,3 +54,14 @@
   font-size: 14px;
   margin: 0 0 8px;
 }
+.toggleWithLabel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  label {
+    margin: 0;
+    font-size: 14px;
+    color: var(--button-text-color);
+  }
+  padding: 0 4px;
+}

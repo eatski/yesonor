@@ -5,11 +5,12 @@ import {
 	ButtonIconWrapper,
 	GenericButton,
 } from "@/designSystem/components/button";
-import { ToggleWithLabel } from "@/designSystem/components/toggle";
+import { ToggleButton } from "@/designSystem/components/toggle";
 import type { Story } from "@/server/model/story";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useId } from "react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import styles from "./styles.module.scss";
 
@@ -31,6 +32,7 @@ export const MyStoryMenu: React.FC<Props> = ({
 	const isLoading = del.isLoading || toggle.isLoading;
 	const isError = del.error || toggle.error;
 	const { confirm, view } = useConfirmModal();
+	const toggleId = useId();
 
 	return (
 		<>
@@ -41,13 +43,18 @@ export const MyStoryMenu: React.FC<Props> = ({
 					{
 						<>
 							<div className={styles.buttons}>
-								<ToggleWithLabel
-									label={story.published ? "公開中" : "公開する"}
-									onToggle={() => {
-										toggle.mutate();
-									}}
-									isOn={story.published}
-								/>
+								<div className={styles.toggleWithLabel}>
+									<ToggleButton
+										id={toggleId}
+										isOn={story.published}
+										onToggle={() => {
+											toggle.mutate();
+										}}
+									/>
+									<label htmlFor={toggleId}>
+										{story.published ? "公開中" : "公開する"}
+									</label>
+								</div>
 								<Link href={`/stories/${storyId}/edit`}>
 									<GenericButton color={"zero"} size={"medium"}>
 										<ButtonIconWrapper>
