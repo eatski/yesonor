@@ -1,3 +1,5 @@
+@use "../../designSystem/tokens.scss" as tokens;
+
 .toast {
     position: fixed;
     display: flex;
@@ -10,8 +12,7 @@
     background-color: var(--color-base-bg-info);
     color: var(--color-base-fg-secondary);
     font-size: 14px;
-    filter: var(--filter-shadow);
-    border-radius: 2px;
+    filter: tokens.$elevation-filter-1;
     animation: toast 0.2s ease-in forwards;
     @keyframes toast {
         0% {
@@ -22,7 +23,6 @@
         }
     }
     p {
-        margin: 0;
-        line-height: 1.8;
+        margin: auto 0;
     }
 }

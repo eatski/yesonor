@@ -30,7 +30,7 @@ export const Toast: React.FC<React.PropsWithChildren> = ({ children }) => {
 				}
 				return message;
 			});
-		}, 6000);
+		}, 60000);
 	}, []);
 	return (
 		<>

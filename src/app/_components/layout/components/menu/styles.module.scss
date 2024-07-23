@@ -1,4 +1,4 @@
-
+@use "../../../../../designSystem/tokens.scss" as tokens;
 
 .menu {
     position: relative;
@@ -11,7 +11,7 @@
     background-color: var(--color-base-bg);
     border-radius: 2px;
     border: var(--border-primary);
-    filter: var(--filter-shadow);
+    filter: tokens.$elevation-filter-1;
     button,a {
         width: 100%;
         text-align: center;
