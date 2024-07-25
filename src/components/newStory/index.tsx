@@ -1,6 +1,5 @@
 "use client";
 import type { Device } from "@/common/util/device";
-import components from "@/designSystem/components.module.scss";
 import {
 	ButtonIconWrapper,
 	GenericButton,
