@@ -1,5 +1,5 @@
 import { QuestionAndAnswer } from "@/components/questionAndAnswer";
-import button from "@/designSystem/components.module.scss";
+import { Button } from "@/designSystem/components/button";
 import styles from "./styles.module.scss";
 
 export type Props = {
@@ -21,13 +21,13 @@ export const QuestionResult: React.FC<Props> = ({
 				<QuestionAndAnswer question={question} answer={answer} />
 			</div>
 			<div className={styles.buttonContainer}>
-				<button className={button.button} onClick={onAnswerButtonClicked}>
+				<Button color="primary" size="medium" onClick={onAnswerButtonClicked}>
 					謎は解けましたか？
-				</button>
+				</Button>
 				{onHintButtonClicked && (
-					<button className={button.button2} onClick={onHintButtonClicked}>
+					<Button color="secondary" size="medium" onClick={onHintButtonClicked}>
 						ヒントを見る
-					</button>
+					</Button>
 				)}
 			</div>
 		</section>

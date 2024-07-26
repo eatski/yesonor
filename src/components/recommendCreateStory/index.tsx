@@ -1,6 +1,6 @@
 "use client";
 import { gtagEvent } from "@/common/util/gtag";
-import components from "@/designSystem/components.module.scss";
+import { GenericButton } from "@/designSystem/components/button";
 import Link from "next/link";
 import styles from "./styles.module.scss";
 
@@ -13,9 +13,10 @@ export const RecommendCreateStory: React.FC = () => {
 					gtagEvent("click_recommend_create_story");
 				}}
 				href="/stories/new"
-				className={components.button}
 			>
-				投稿する
+				<GenericButton color="primary" size="medium">
+					投稿する
+				</GenericButton>
 			</Link>
 		</aside>
 	);

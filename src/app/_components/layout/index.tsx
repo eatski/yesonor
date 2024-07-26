@@ -1,6 +1,6 @@
 import { Logo } from "@/app/_components/layout/components/logo";
 import { PinnedInfo } from "@/app/_components/layout/components/pinned";
-import components from "@/designSystem/components.module.scss";
+import { GenericButton } from "@/designSystem/components/button";
 import Link from "next/link";
 import type React from "react";
 import { type PropsWithChildren } from "react";
@@ -15,8 +15,10 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 					<Logo />
 				</Link>
 				<div className={styles.right}>
-					<Link className={components.buttonBrandFg} href={"/stories/new"}>
-						ストーリーを投稿
+					<Link href={"/stories/new"}>
+						<GenericButton color={"brand"} size={"medium"}>
+							ストーリーを投稿
+						</GenericButton>
 					</Link>
 					<UserMenu />
 				</div>

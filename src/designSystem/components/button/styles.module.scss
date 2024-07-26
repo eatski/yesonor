@@ -11,6 +11,10 @@
 .button {
     @include buttonBase;
     gap: 4px;
+    width: auto;
+    &[data-width="full"]{
+        width: 100%;
+    }
     &[data-color="zero"]{
         background-color: unset;
         --button-text-color: var(--color-base-fg);
@@ -28,6 +32,11 @@
         background-color: var(--color-base-bg);
         --button-text-color: var(--color-base-fg);
         border: var(--border-primary);
+    }
+    &[data-color="brand"]{
+        background-color: transparent;
+        --button-text-color: var(--color-brand-fg);
+        border: var(--border-primary)
     }
     &[data-size="small"]{
         font-size: 12px;

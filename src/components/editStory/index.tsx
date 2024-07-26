@@ -1,6 +1,9 @@
 "use client";
 import { Device } from "@/common/util/device";
-import components from "@/designSystem/components.module.scss";
+import {
+	ButtonIconWrapper,
+	GenericButton,
+} from "@/designSystem/components/button";
 import { H1 } from "@/designSystem/components/heading";
 import type { StoryInit } from "@/server/model/story";
 import { useMutation } from "@tanstack/react-query";
@@ -31,12 +34,13 @@ export const EditStory: React.FC<Props> = ({
 			<H1>{story.title}</H1>
 			{device === "desktop" && (
 				<div className={styles.navigation}>
-					<Link
-						href={`/stories/${storyId}/edit/yaml`}
-						className={components.button0}
-					>
-						<AiOutlineUpload />
-						YAMLファイルをアップロードして編集する
+					<Link href={`/stories/${storyId}/edit/yaml`}>
+						<GenericButton color={"zero"} size={"small"}>
+							<ButtonIconWrapper>
+								<AiOutlineUpload />
+							</ButtonIconWrapper>
+							YAMLファイルをアップロードして編集する
+						</GenericButton>
 					</Link>
 				</div>
 			)}

@@ -1,6 +1,9 @@
 "use client";
 import type { Device } from "@/common/util/device";
-import components from "@/designSystem/components.module.scss";
+import {
+	ButtonIconWrapper,
+	GenericButton,
+} from "@/designSystem/components/button";
 import { H1 } from "@/designSystem/components/heading";
 import { StoryInit } from "@/server/model/story";
 import { useMutation } from "@tanstack/react-query";
@@ -25,9 +28,13 @@ export const NewStory: React.FC<Props> = ({ device, createStory }) => {
 			<H1>新しいストーリーを投稿</H1>
 			{device === "desktop" && (
 				<div className={styles.navigation}>
-					<Link href="/stories/new/yaml" className={components.button0}>
-						<AiOutlineUpload />
-						YAMLファイルをアップロードして投稿する
+					<Link href={`/stories/new/yaml`}>
+						<GenericButton color={"zero"} size={"small"}>
+							<ButtonIconWrapper>
+								<AiOutlineUpload />
+							</ButtonIconWrapper>
+							YAMLファイルをアップロードして投稿する
+						</GenericButton>
 					</Link>
 				</div>
 			)}

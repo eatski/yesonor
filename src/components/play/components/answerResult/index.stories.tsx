@@ -1,19 +1,25 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
+import { ReactQueryContextProvider } from "@/common/context/ReactQueryContextProvider";
+import { Toast } from "@/components/toast";
+import { fn } from "@storybook/test";
+import { ComponentProps } from "react";
 import { AnswerResult } from ".";
+
+const ConfiguredAnswerResult = (props: ComponentProps<typeof AnswerResult>) => {
+	return (
+		<ReactQueryContextProvider>
+			<Toast>
+				<AnswerResult {...props} />
+			</Toast>
+		</ReactQueryContextProvider>
+	);
+};
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof AnswerResult> = {
 	title: "AnswerResult",
-	component: AnswerResult,
-	parameters: {
-		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
-		layout: "centered",
-	},
-	// This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-	tags: ["autodocs"],
-	// More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-	argTypes: {},
+	component: ConfiguredAnswerResult,
 };
 
 export default meta;
@@ -24,6 +30,9 @@ export const NotCorrect: Story = {
 		solution: "solution",
 		distance: 0.3,
 		isCorrect: false,
+		onBackButtonClicked: fn(),
+		onSeeTruthButtonClicked: fn(),
+		postStoryEvalution: fn(),
 	},
 };
 
@@ -32,5 +41,8 @@ export const Correct: Story = {
 		solution: "solution",
 		isCorrect: true,
 		truth: "truth",
+		onBackButtonClicked: fn(),
+		onSeeTruthButtonClicked: fn(),
+		postStoryEvalution: fn(),
 	},
 };
