@@ -3,6 +3,7 @@ import { IconButton } from "@/designSystem/components/button";
 import { FormErrorMessage } from "@/designSystem/components/formErrorMessage";
 import { InformationParagragh } from "@/designSystem/components/information";
 import { Input } from "@/designSystem/components/input";
+import { TextArea } from "@/designSystem/components/textArea";
 import { type StoryInit, storyInit } from "@/server/model/story";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type React from "react";
@@ -88,11 +89,13 @@ export const StoryForm: React.FC<Props> = ({
 			<div className={styles.field}>
 				<label>
 					問題文
-					<textarea
-						{...register("quiz")}
-						placeholder="例: 太郎さんは視力がとてもいいのにメガネをかけている。なぜか？"
-						className={components.textarea}
-						aria-errormessage={quizFormErrorMessageId}
+					<TextArea
+						originalProps={{
+							placeholder:
+								"例: 太郎さんは視力がとてもいいのにメガネをかけている。なぜか？",
+							"aria-errormessage": quizFormErrorMessageId,
+							...register("quiz"),
+						}}
 					/>
 					{errors.quiz && (
 						<FormErrorMessage id={quizFormErrorMessageId}>
@@ -107,11 +110,13 @@ export const StoryForm: React.FC<Props> = ({
 					<InformationParagragh>
 						AIは質問に対する回答を生成する際にこの文章を参照します。そのため、真相は詳細まで記述することをお勧めします。
 					</InformationParagragh>
-					<textarea
-						{...register("truth")}
-						placeholder="例: 太郎さんはオシャレ好きであり、おしゃれのために伊達メガネをかけている。"
-						className={components.input}
-						aria-errormessage={truthFormErrorMessageId}
+					<TextArea
+						originalProps={{
+							placeholder:
+								"例: 太郎さんはオシャレ好きであり、おしゃれのために伊達メガネをかけている。",
+							"aria-errormessage": truthFormErrorMessageId,
+							...register("truth"),
+						}}
 					/>
 					{errors.truth && (
 						<FormErrorMessage id={truthFormErrorMessageId}>
@@ -127,11 +132,12 @@ export const StoryForm: React.FC<Props> = ({
 						この文章はAIが解答者の解答を判定する際に使用します。詳細に説明しすぎると、AIに解答者の解答が「情報が不足している」と判断されてしまうため、
 						<strong>真相の核心を最低限の言葉で</strong>記述してください。
 					</InformationParagragh>
-					<textarea
-						{...register("simpleTruth")}
-						placeholder="例: 太郎さんは伊達メガネをかけている。"
-						className={components.input}
-						aria-errormessage={simpleTruthFormErrorMessageId}
+					<TextArea
+						originalProps={{
+							"aria-errormessage": simpleTruthFormErrorMessageId,
+							placeholder: "例: 太郎さんは伊達メガネをかけている。",
+							...register("simpleTruth"),
+						}}
 					/>
 					{errors.simpleTruth && (
 						<FormErrorMessage id={simpleTruthFormErrorMessageId}>

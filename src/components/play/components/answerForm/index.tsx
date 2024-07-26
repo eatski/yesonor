@@ -1,5 +1,5 @@
-import components from "@/designSystem/components.module.scss";
 import { Button } from "@/designSystem/components/button";
+import { TextArea } from "@/designSystem/components/textArea";
 import type React from "react";
 import { useCallback, useId, useRef } from "react";
 import styles from "./styles.module.scss";
@@ -31,12 +31,13 @@ export const AnswerForm: React.FC<{
 			<label htmlFor={answerInputId} className={styles.formLabel}>
 				あなたの推理
 			</label>
-			<textarea
-				required
-				id={answerInputId}
-				className={components.textarea}
-				placeholder="あなたが推理した物語の真相"
-				onChange={onChangeHandler}
+			<TextArea
+				originalProps={{
+					required: true,
+					id: answerInputId,
+					placeholder: "あなたが推理した物語の真相",
+					onChange: onChangeHandler,
+				}}
 			/>
 			<div className={styles.buttonContainer}>
 				<div className={styles.buttonItem}>
