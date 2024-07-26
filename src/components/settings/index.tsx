@@ -82,6 +82,7 @@ const Name: React.FC<Pick<Props, "changeName" | "name">> = ({
 									戻る
 								</Button>
 								<Button
+									type="submit"
 									color="primary"
 									size="medium"
 									data-loading={isLoading}
