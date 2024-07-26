@@ -83,8 +83,23 @@ export const IconButton: React.FC<
 	>
 > = ({ children, className, ...props }) => {
 	return (
-		<button type={"button"} {...props} className={styles.iconButton}>
+		<button type={"button"} {...props} className={styles.iconButtonFuture}>
 			{children}
 		</button>
+	);
+};
+
+export const IconGenericButton: React.FC<
+	React.PropsWithChildren<
+		React.DetailedHTMLProps<
+			React.AnchorHTMLAttributes<HTMLDivElement>,
+			HTMLDivElement
+		>
+	>
+> = ({ children, className, ...props }) => {
+	return (
+		<div {...props} className={styles.iconButtonFuture}>
+			{children}
+		</div>
 	);
 };

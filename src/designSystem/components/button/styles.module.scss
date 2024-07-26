@@ -65,16 +65,20 @@
     }
 }
 
-.iconButton {
+.iconButtonFuture {
     background-color: unset;
     color: var(--color-base-fg);
     border: none;
     padding: 0;
+    cursor: pointer;
     &:hover{
         opacity: 0.8;
     }
+    height: 100%;
+    width: 100%;
     svg{
-        height: 16px;
-        width: 16px;
+        display: block;
+        height: 100%;
+        width: 100%;
     }
 }
