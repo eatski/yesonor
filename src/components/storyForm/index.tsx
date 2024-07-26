@@ -1,5 +1,8 @@
-import components from "@/designSystem/components.module.scss";
-import { IconButton } from "@/designSystem/components/button";
+import {
+	Button,
+	ButtonIconWrapper,
+	IconButton,
+} from "@/designSystem/components/button";
 import { FormErrorMessage } from "@/designSystem/components/formErrorMessage";
 import { InformationParagragh } from "@/designSystem/components/information";
 import { Input } from "@/designSystem/components/input";
@@ -60,14 +63,17 @@ export const StoryForm: React.FC<Props> = ({
 		<form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
 			{isError && <p className={styles.error}>エラーが発生しました</p>}
 			<div className={styles.upperMenu}>
-				<button
+				<Button
 					disabled={isLoading}
 					type="submit"
-					className={components.button}
+					color="primary"
+					size="medium"
 				>
-					<span>保存して確認</span>
-					<AiFillPlayCircle />
-				</button>
+					保存して確認
+					<ButtonIconWrapper>
+						<AiFillPlayCircle />
+					</ButtonIconWrapper>
+				</Button>
 			</div>
 			<div className={styles.field}>
 				<label>

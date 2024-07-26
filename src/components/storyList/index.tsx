@@ -1,4 +1,3 @@
-import components from "@/designSystem/components.module.scss";
 import {
 	GenericButton,
 	IconGenericButton,
