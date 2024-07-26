@@ -72,9 +72,11 @@ export const StoryForm: React.FC<Props> = ({
 				<label>
 					タイトル
 					<Input
-						{...register("title")}
-						placeholder="例: 太郎さんのメガネ"
-						aria-errormessage={titleFormErrorMessageId}
+						originalProps={{
+							placeholder: "例: 太郎さんのメガネ",
+							"aria-errormessage": titleFormErrorMessageId,
+							...register("title"),
+						}}
 					/>
 					{errors.title && (
 						<FormErrorMessage id={titleFormErrorMessageId}>

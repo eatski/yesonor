@@ -45,9 +45,11 @@ export const QuestionExampleForm = ({
 				<label>
 					質問
 					<Input
-						{...questionInput}
-						placeholder="例: 太郎さんはオシャレ好きですか？"
-						aria-errormessage={questionFormErrorMessageId}
+						originalProps={{
+							...questionInput,
+							placeholder: "例: 太郎さんはオシャレ好きですか？",
+							"aria-errormessage": questionFormErrorMessageId,
+						}}
 					/>
 					{questionError && (
 						<FormErrorMessage id={questionFormErrorMessageId}>
@@ -72,9 +74,11 @@ export const QuestionExampleForm = ({
 				<label>
 					カスタムメッセージ
 					<Input
-						{...customMessageInput}
-						placeholder="例: いい質問です！オシャレ好きです。"
-						aria-errormessage={customMessageFormErrorMessageId}
+						originalProps={{
+							...customMessageInput,
+							placeholder: "例: いい質問です！オシャレ好きです。",
+							"aria-errormessage": customMessageFormErrorMessageId,
+						}}
 					/>
 					{customMessageError && (
 						<FormErrorMessage id={customMessageFormErrorMessageId}>

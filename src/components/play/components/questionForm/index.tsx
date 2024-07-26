@@ -29,11 +29,14 @@ export const QuestionForm: React.FC<{
 			</label>
 			<div className={styles.formContent}>
 				<Input
-					id={questionInputId}
-					required
-					placeholder="はい or いいえ で答えられる質問"
-					value={inputValue}
-					onChange={(e) => setInputValue(e.target.value)}
+					originalProps={{
+						id: questionInputId,
+						type: "text",
+						required: true,
+						placeholder: "はい or いいえ で答えられる質問",
+						value: inputValue,
+						onChange: (e) => setInputValue(e.target.value),
+					}}
 				/>
 				<Button
 					color="primary"

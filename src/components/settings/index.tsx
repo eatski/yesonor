@@ -60,14 +60,15 @@ const Name: React.FC<Pick<Props, "changeName" | "name">> = ({
 					>
 						<div className={styles.left}>
 							<Input
-								type="text"
-								value={editingState.inputValue}
-								onChange={(e) =>
-									setEditingState({
-										inputValue: e.target.value,
-										isEditing: true,
-									})
-								}
+								originalProps={{
+									type: "text",
+									value: editingState.inputValue,
+									onChange: (e) =>
+										setEditingState({
+											inputValue: e.target.value,
+											isEditing: true,
+										}),
+								}}
 							/>
 						</div>
 						<div className={styles.right}>
