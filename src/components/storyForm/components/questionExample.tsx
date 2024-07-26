@@ -1,4 +1,5 @@
 import components from "@/designSystem/components.module.scss";
+import { IconButton } from "@/designSystem/components/button";
 import { FormErrorMessage } from "@/designSystem/components/formErrorMessage";
 import { Input } from "@/designSystem/components/input";
 import { type HTMLProps, useId } from "react";
@@ -30,13 +31,15 @@ export const QuestionExampleForm = ({
 		<div key={index} className={styles.container}>
 			<div className={styles.head}>
 				Q{index + 1}:
-				<button
-					aria-label="この質問例を削除"
-					type="button"
-					onClick={onClickRemove}
-				>
-					<AiOutlineMinusCircle className={components.iconButtonDanger} />
-				</button>
+				<div className={styles.headRight}>
+					<IconButton
+						color="danger"
+						aria-label="この質問例を削除"
+						onClick={onClickRemove}
+					>
+						<AiOutlineMinusCircle />
+					</IconButton>
+				</div>
 			</div>
 			<div className={styles.field}>
 				<label>

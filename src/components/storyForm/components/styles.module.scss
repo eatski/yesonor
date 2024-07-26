@@ -10,10 +10,11 @@
         margin-bottom: 8px;
         display: flex;
         align-items: center;
-        button {
-            border: none;
-            background-color: unset;
+        .headRight {
             margin-left: auto;
+            height: 20px;
+            width: 20px;
         }
+
     }
 }

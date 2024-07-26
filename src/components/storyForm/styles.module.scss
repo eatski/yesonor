@@ -52,14 +52,11 @@
             }
         }
     }
-    .questionExampleFoot {
+    .addQuestionButton {
         display: flex;
         justify-content: center;
-        margin-bottom: 8px;
-        button {
-            border: none;
-            background-color: unset;
-            color: var(--color-base-fg-secondary);
-        }
+        margin: 0 auto 8px;
+        height: 24px;
+        width: 24px;
     }
 }

@@ -1,4 +1,5 @@
 import components from "@/designSystem/components.module.scss";
+import { IconButton } from "@/designSystem/components/button";
 import { FormErrorMessage } from "@/designSystem/components/formErrorMessage";
 import { InformationParagragh } from "@/designSystem/components/information";
 import { Input } from "@/designSystem/components/input";
@@ -173,16 +174,16 @@ export const StoryForm: React.FC<Props> = ({
 						/>
 					</div>
 				))}
-				<div className={styles.questionExampleFoot}>
-					<button
-						type="button"
-						aria-label="質問例を追加"
+				<div className={styles.addQuestionButton}>
+					<IconButton
+						aria-label="追加"
+						color="zero"
 						onClick={() =>
 							append({ question: "", answer: "Unknown", customMessage: "" })
 						}
 					>
-						<AiOutlinePlus className={components.iconButtonLink} />
-					</button>
+						<AiOutlinePlus />
+					</IconButton>
 				</div>
 			</fieldset>
 		</form>
