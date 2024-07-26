@@ -1,5 +1,6 @@
 import { gtagEvent } from "@/common/util/gtag";
 import components from "@/designSystem/components.module.scss";
+import { Button } from "@/designSystem/components/button";
 import type React from "react";
 import { useId, useState } from "react";
 import { AiOutlineSend } from "react-icons/ai";
@@ -35,14 +36,14 @@ export const QuestionForm: React.FC<{
 					value={inputValue}
 					onChange={(e) => setInputValue(e.target.value)}
 				/>
-				<button
-					className={components.button}
-					type="submit"
+				<Button
+					color="primary"
+					size="medium"
 					disabled={isLoading}
 					aria-label="質問を送信"
 				>
 					<AiOutlineSend size={"16px"} />
-				</button>
+				</Button>
 			</div>
 		</form>
 	);

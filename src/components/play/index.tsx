@@ -1,7 +1,7 @@
 "use client";
 import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import { gtagEvent } from "@/common/util/gtag";
-import components from "@/designSystem/components.module.scss";
+import { Button } from "@/designSystem/components/button";
 import type {
 	QuestionExampleWithCustomMessage,
 	Story,
@@ -213,7 +213,7 @@ export function Play({
 					{mode !== "truth" && question.history.length > 5 && (
 						<div className={styles.sectionWrapper}>
 							<section className={styles.buttonContainer}>
-								<button
+								<Button
 									onClick={async () => {
 										if (
 											await confirm(
@@ -223,10 +223,11 @@ export function Play({
 											setMode("truth");
 										}
 									}}
-									className={components.button2}
+									color="secondary"
+									size="medium"
 								>
 									諦めて真相を見る
-								</button>
+								</Button>
 							</section>
 						</div>
 					)}
