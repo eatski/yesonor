@@ -1,5 +1,5 @@
-import components from "@/designSystem/components.module.scss";
 import React from "react";
+import styles from "./styles.module.scss";
 
 export const Input: React.FC<{
 	originalProps: Omit<
@@ -10,5 +10,5 @@ export const Input: React.FC<{
 		"className"
 	>;
 }> = (props) => {
-	return <input {...props.originalProps} className={components.input} />;
+	return <input {...props.originalProps} className={styles.input} />;
 };
