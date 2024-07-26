@@ -1,5 +1,6 @@
 import components from "@/designSystem/components.module.scss";
 import { FormErrorMessage } from "@/designSystem/components/formErrorMessage";
+import { Input } from "@/designSystem/components/input";
 import { type HTMLProps, useId } from "react";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import styles from "./styles.module.scss";
@@ -40,10 +41,9 @@ export const QuestionExampleForm = ({
 			<div className={styles.field}>
 				<label>
 					質問
-					<input
+					<Input
 						{...questionInput}
 						placeholder="例: 太郎さんはオシャレ好きですか？"
-						className={components.input}
 						aria-errormessage={questionFormErrorMessageId}
 					/>
 					{questionError && (
@@ -68,10 +68,9 @@ export const QuestionExampleForm = ({
 			<div className={styles.field}>
 				<label>
 					カスタムメッセージ
-					<input
+					<Input
 						{...customMessageInput}
 						placeholder="例: いい質問です！オシャレ好きです。"
-						className={components.input}
 						aria-errormessage={customMessageFormErrorMessageId}
 					/>
 					{customMessageError && (

@@ -1,6 +1,7 @@
 import components from "@/designSystem/components.module.scss";
 import { FormErrorMessage } from "@/designSystem/components/formErrorMessage";
 import { InformationParagragh } from "@/designSystem/components/information";
+import { Input } from "@/designSystem/components/input";
 import { type StoryInit, storyInit } from "@/server/model/story";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type React from "react";
@@ -69,10 +70,9 @@ export const StoryForm: React.FC<Props> = ({
 			<div className={styles.field}>
 				<label>
 					タイトル
-					<input
+					<Input
 						{...register("title")}
 						placeholder="例: 太郎さんのメガネ"
-						className={components.input}
 						aria-errormessage={titleFormErrorMessageId}
 					/>
 					{errors.title && (

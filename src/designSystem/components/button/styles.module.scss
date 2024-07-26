@@ -38,6 +38,10 @@
         --button-text-color: var(--color-brand-fg);
         border: var(--border-primary)
     }
+    &[data-color="danger"]{
+        background-color: var(--color-accent-bg-danger);
+        --button-text-color: var(--color-accent-fg);
+    }
     &[data-size="small"]{
         font-size: 12px;
         .iconWrapper {

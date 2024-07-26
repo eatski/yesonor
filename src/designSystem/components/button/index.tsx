@@ -2,7 +2,7 @@ import type React from "react";
 import styles from "./styles.module.scss";
 
 type ButtonProps = {
-	color: "zero" | "primary" | "secondary" | "none" | "brand";
+	color: "zero" | "primary" | "secondary" | "none" | "brand" | "danger";
 	size: "small" | "medium" | "large";
 	width?: "auto" | "full";
 };
