@@ -1,7 +1,7 @@
-import components from "@/designSystem/components.module.scss";
 import { IconButton } from "@/designSystem/components/button";
 import { FormErrorMessage } from "@/designSystem/components/formErrorMessage";
 import { Input } from "@/designSystem/components/input";
+import { Select } from "@/designSystem/components/select";
 import { type HTMLProps, useId } from "react";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import styles from "./styles.module.scss";
@@ -61,13 +61,14 @@ export const QuestionExampleForm = ({
 			<div className={styles.field}>
 				<label>
 					回答
-					<div className={components.selectWrapper}>
-						<select {...answerInput}>
-							<option value="True">はい</option>
-							<option value="False">いいえ</option>
-							<option value="Unknown">わからない</option>
-						</select>
-					</div>
+					<Select
+						originalProps={answerInput}
+						options={[
+							{ value: "True", label: "はい" },
+							{ value: "False", label: "いいえ" },
+							{ value: "Unknown", label: "わからない" },
+						]}
+					></Select>
 				</label>
 			</div>
 			<div className={styles.field}>

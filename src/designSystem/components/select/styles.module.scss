@@ -1,0 +1,35 @@
+
+
+.selectWrapper {
+    position: relative;
+    select {
+        border: var(--border-primary);
+        border-radius: 2px;
+        padding: 4px 8px;
+        font-size: 16px;
+        background-color: var(--color-base-bg);
+        color: var(--color-base-fg);
+        font-weight: 400;
+        position: relative;
+        appearance: none;
+        &:focus {
+            outline: none;
+        }
+        &::placeholder {
+            font-weight: 400;
+        }
+        width: 100%;
+    }
+    &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid var(--color-base-fg-secondary);
+    }
+}
