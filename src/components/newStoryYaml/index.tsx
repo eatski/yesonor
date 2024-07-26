@@ -1,5 +1,5 @@
 "use client";
-import { AnchorButton } from "@/designSystem/components/button";
+import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
 import type { StoryInit } from "@/server/model/story";
 import { useMutation } from "@tanstack/react-query";
@@ -29,15 +29,14 @@ export const NewStoryYaml: React.FC<{
 							}}
 						/>
 					</div>
-					<AnchorButton
+					<a
 						href="/howToWriteStory"
 						target="_blank"
+						className={components.buttonLink}
 						rel="noreferrer"
-						color="none"
-						size="medium"
 					>
 						ストーリーの書き方
-					</AnchorButton>
+					</a>
 				</>
 			) : (
 				<p>投稿中</p>

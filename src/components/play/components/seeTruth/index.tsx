@@ -1,4 +1,4 @@
-import { Button } from "@/designSystem/components/button";
+import components from "@/designSystem/components.module.scss";
 import { Card } from "@/designSystem/components/card";
 import { DefinitionList } from "../definitionList";
 import styles from "./styles.module.scss";
@@ -18,9 +18,13 @@ export const SeeTrurh: React.FC<Props> = ({ truth, onBackButtonClicked }) => {
 				</DefinitionList>
 				{
 					<div className={styles.buttonContainer}>
-						<Button onClick={onBackButtonClicked} color="none" size="medium">
+						<button
+							type={"button"}
+							onClick={onBackButtonClicked}
+							className={components.buttonLink}
+						>
 							戻る
-						</Button>
+						</button>
 					</div>
 				}
 			</Card>

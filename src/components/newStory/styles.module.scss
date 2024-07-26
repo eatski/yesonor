@@ -1,6 +1,16 @@
-@use "../../designSystem/tokens.scss" as tokens;
 .navigation {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: tokens.$spacing-separated-item;
+    a {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--color-base-fg-secondary);
+        font-size: 12px;
+        margin-bottom: 8px;
+        margin-left: auto;
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
 }

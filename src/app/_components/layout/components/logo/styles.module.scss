@@ -1,6 +1,6 @@
-@use "../../../../../designSystem/tokens.scss" as tokens;
 .logo {
     margin: 0;
+    line-height: 0.7;
     font-weight: 400;
     display: flex;
     span {
@@ -8,7 +8,7 @@
         margin-left: 8px;
         font-weight: 400;
         color: var(--color-brand-fg);
-        line-height: tokens.$typography-line-height-oneline;
+        line-height: 1;
     }
     path {
         fill: var(--color-brand-fg);

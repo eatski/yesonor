@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/designSystem/components/button";
+import components from "@/designSystem/components.module.scss";
 import type React from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import ReactMarkdown from "react-markdown";
@@ -21,9 +21,7 @@ const CopyButton = ({ text }: { text: string }) => {
 				toast("クリップボードにコピーしました");
 			}}
 		>
-			<Button color="none" size="small">
-				copy
-			</Button>
+			<button className={components.buttonLink}>copy</button>
 		</CopyToClipboard>
 	);
 };

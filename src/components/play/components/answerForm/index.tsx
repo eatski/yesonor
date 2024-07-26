@@ -1,5 +1,4 @@
 import components from "@/designSystem/components.module.scss";
-import { Button } from "@/designSystem/components/button";
 import type React from "react";
 import { useCallback, useId, useRef } from "react";
 import styles from "./styles.module.scss";
@@ -39,27 +38,23 @@ export const AnswerForm: React.FC<{
 				onChange={onChangeHandler}
 			/>
 			<div className={styles.buttonContainer}>
-				<div className={styles.buttonItem}>
-					<Button
-						onClick={onCancel}
-						disabled={isLoading}
-						color="none"
-						size="medium"
-						width="full"
-					>
-						まだわからない
-					</Button>
-				</div>
-				<div className={styles.buttonItem}>
-					<Button
-						disabled={isLoading}
-						color="primary"
-						size="medium"
-						width="full"
-					>
-						回答する
-					</Button>
-				</div>
+				<button
+					className={components.buttonLink}
+					type="button"
+					onClick={onCancel}
+					disabled={isLoading}
+					data-width="medium"
+				>
+					まだわからない
+				</button>
+				<button
+					className={components.button}
+					type="submit"
+					disabled={isLoading}
+					data-width="medium"
+				>
+					回答する
+				</button>
 			</div>
 			{isError && <p className={styles.error}>エラーが発生しました。</p>}
 		</form>

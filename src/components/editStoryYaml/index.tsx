@@ -1,9 +1,8 @@
 "use client";
-import { AnchorButton, GenericButton } from "@/designSystem/components/button";
+import components from "@/designSystem/components.module.scss";
 import { H1 } from "@/designSystem/components/heading";
 import type { StoryHead, StoryInit } from "@/server/model/story";
 import { useMutation } from "@tanstack/react-query";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type React from "react";
 import { useCallback } from "react";
@@ -39,20 +38,20 @@ export const EditStoryYaml: React.FC<{
 						<YamlFileDrop onFileRead={handleFileRead} />
 					</div>
 					<div className={styles.buttons}>
-						<AnchorButton
+						<a
 							href="/howToWriteStory"
 							target="_blank"
+							className={components.buttonLink}
 							rel="noreferrer"
-							color="none"
-							size="medium"
 						>
 							ストーリーの書き方
-						</AnchorButton>
-						<Link href={`/stories/${initialStory.id}`}>
-							<GenericButton color="none" size="medium">
-								ストーリーに戻る
-							</GenericButton>
-						</Link>
+						</a>
+						<a
+							href={`/stories/${initialStory.id}`}
+							className={components.buttonLink}
+						>
+							ストーリーに戻る
+						</a>
 					</div>
 				</>
 			) : (

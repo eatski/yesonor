@@ -1,4 +1,5 @@
 import { brand } from "@/common/texts";
+import components from "@/designSystem/components.module.scss";
 import {
 	AnchorButton,
 	ButtonIconWrapper,
@@ -48,6 +49,7 @@ export const StoryDescription: React.FC<{
 				<div className={styles.share}>
 					<AnchorButton
 						href={twitterUrl.toString()}
+						className={components.buttonLink}
 						target="_blank"
 						rel="noreferrer"
 						color={"none"}

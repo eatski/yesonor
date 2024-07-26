@@ -1,5 +1,6 @@
 import { gtagEvent } from "@/common/util/gtag";
 import { useToast } from "@/components/toast";
+import components from "@/designSystem/components.module.scss";
 import { Button, ButtonIconWrapper } from "@/designSystem/components/button";
 import { Card } from "@/designSystem/components/card";
 import { InformationParagragh } from "@/designSystem/components/information";
@@ -112,18 +113,22 @@ export const AnswerResult: React.FC<Props> = ({
 							</Button>
 						)}
 						{!isCorrect && (
-							<Button onClick={onBackButtonClicked} color="none" size="medium">
+							<button
+								type={"button"}
+								onClick={onBackButtonClicked}
+								className={components.buttonLink}
+							>
 								戻る
-							</Button>
+							</button>
 						)}
 						{!isCorrect && distanceLevel === "almost" && (
-							<Button
+							<button
+								type={"button"}
 								onClick={onSeeTruthButtonClicked}
-								color="secondary"
-								size="medium"
+								className={components.button2}
 							>
 								真相を見る
-							</Button>
+							</button>
 						)}
 					</div>
 				}

@@ -1,5 +1,5 @@
 "use client";
-import { Button, GenericButton } from "@/designSystem/components/button";
+import components from "@/designSystem/components.module.scss";
 import { FocusableItem, Menu, MenuButton } from "@szhsin/react-menu";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -18,49 +18,47 @@ const UserMenu: React.FC<{ userId: string | null }> = ({ userId }) => {
 			<div className={styles.menu}>
 				<FocusableItem>
 					{({ ref }) => (
-						<Link ref={ref} href={`/users/${userId}/stories`}>
-							<GenericButton color="zero" size="medium" width="full">
-								自分のストーリー
-							</GenericButton>
+						<Link
+							ref={ref}
+							className={components.button0}
+							href={`/users/${userId}/stories`}
+						>
+							自分のストーリー
 						</Link>
 					)}
 				</FocusableItem>
 				<FocusableItem>
 					{({ ref }) => (
-						<Link ref={ref} href={"/settings"}>
-							<GenericButton color="zero" size="medium" width="full">
-								設定
-							</GenericButton>
+						<Link ref={ref} className={components.button0} href={"/settings"}>
+							設定
 						</Link>
 					)}
 				</FocusableItem>
 				<hr />
 				<FocusableItem>
 					{({ ref }) => (
-						<Button
+						<button
 							ref={ref}
+							className={components.button0}
 							onClick={() => {
 								signOut();
 							}}
-							color="zero"
-							size="medium"
 						>
 							ログアウト
-						</Button>
+						</button>
 					)}
 				</FocusableItem>
 			</div>
 		</Menu>
 	) : (
-		<Button
-			color="brand"
-			size="medium"
+		<button
+			className={components.buttonBrandFg}
 			onClick={() => {
 				signIn();
 			}}
 		>
 			ログイン
-		</Button>
+		</button>
 	);
 };
 

@@ -1,5 +1,4 @@
 import components from "@/designSystem/components.module.scss";
-import { GenericButton } from "@/designSystem/components/button";
 import type { StoryHead } from "@/server/model/story";
 import Link from "next/link";
 import { AiFillPlayCircle as StartIcon } from "react-icons/ai";
@@ -48,10 +47,8 @@ export const StoryList: React.FC<{
 			</ul>
 			{seeMoreUrl && (
 				<div className={styles.seeMore}>
-					<Link href={seeMoreUrl}>
-						<GenericButton color="none" size="medium">
-							もっと見る
-						</GenericButton>
+					<Link className={components.buttonLink} href={seeMoreUrl}>
+						もっと見る
 					</Link>
 				</div>
 			)}

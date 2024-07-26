@@ -1,0 +1,18 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    border-radius: 2px;
+    background-color: var(--color-base-bg-accent);
+    p {
+        font-size: 16px;
+        margin: 0;
+        font-weight: bold;
+    }
+    li {
+        color: var(--color-base-fg-secondary);
+    }
+}
