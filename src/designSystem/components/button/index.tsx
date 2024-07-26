@@ -1,8 +1,10 @@
 import type React from "react";
 import styles from "./styles.module.scss";
 
+type Color = "zero" | "primary" | "secondary" | "none" | "brand" | "danger";
+
 type ButtonProps = {
-	color: "zero" | "primary" | "secondary" | "none" | "brand" | "danger";
+	color: Color;
 	size: "small" | "medium" | "large";
 	width?: "auto" | "full";
 };
@@ -74,16 +76,26 @@ export const ButtonIconWrapper: React.FC<React.PropsWithChildren> = ({
 	return <span className={styles.iconWrapper}>{children}</span>;
 };
 
+type IconButtonProps = {
+	color: Color;
+};
+
 export const IconButton: React.FC<
 	React.PropsWithChildren<
 		React.DetailedHTMLProps<
 			React.ButtonHTMLAttributes<HTMLButtonElement>,
 			HTMLButtonElement
 		>
-	>
-> = ({ children, className, ...props }) => {
+	> &
+		IconButtonProps
+> = ({ children, className, color, ...props }) => {
 	return (
-		<button type={"button"} {...props} className={styles.iconButtonFuture}>
+		<button
+			type={"button"}
+			data-color={color}
+			{...props}
+			className={styles.iconButtonFuture}
+		>
 			{children}
 		</button>
 	);
@@ -95,10 +107,11 @@ export const IconGenericButton: React.FC<
 			React.AnchorHTMLAttributes<HTMLDivElement>,
 			HTMLDivElement
 		>
-	>
-> = ({ children, className, ...props }) => {
+	> &
+		IconButtonProps
+> = ({ children, className, color, ...props }) => {
 	return (
-		<div {...props} className={styles.iconButtonFuture}>
+		<div {...props} data-color={color} className={styles.iconButtonFuture}>
 			{children}
 		</div>
 	);

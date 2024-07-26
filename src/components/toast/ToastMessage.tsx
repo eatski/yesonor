@@ -13,7 +13,7 @@ export const ToastMessage: React.FC<{
 				{text}
 			</p>
 			<div className={styles.iconButtonContainer}>
-				<IconButton onClick={onDeleteClick} aria-label="閉じる">
+				<IconButton color="zero" onClick={onDeleteClick} aria-label="閉じる">
 					<Icon />
 				</IconButton>
 			</div>
