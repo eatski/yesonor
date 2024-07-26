@@ -52,6 +52,7 @@ export const AnswerForm: React.FC<{
 				</div>
 				<div className={styles.buttonItem}>
 					<Button
+						type="submit"
 						disabled={isLoading}
 						color="primary"
 						size="medium"

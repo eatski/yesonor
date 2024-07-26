@@ -38,6 +38,7 @@ export const QuestionForm: React.FC<{
 				<Button
 					color="primary"
 					size="medium"
+					type="submit"
 					disabled={isLoading}
 					aria-label="質問を送信"
 				>
