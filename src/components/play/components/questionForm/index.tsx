@@ -1,6 +1,6 @@
 import { gtagEvent } from "@/common/util/gtag";
-import components from "@/designSystem/components.module.scss";
 import { Button } from "@/designSystem/components/button";
+import { Input } from "@/designSystem/components/input";
 import type React from "react";
 import { useId, useState } from "react";
 import { AiOutlineSend } from "react-icons/ai";
@@ -28,17 +28,20 @@ export const QuestionForm: React.FC<{
 				AIへの質問
 			</label>
 			<div className={styles.formContent}>
-				<input
-					id={questionInputId}
-					className={components.input}
-					required
-					placeholder="はい or いいえ で答えられる質問"
-					value={inputValue}
-					onChange={(e) => setInputValue(e.target.value)}
+				<Input
+					originalProps={{
+						id: questionInputId,
+						type: "text",
+						required: true,
+						placeholder: "はい or いいえ で答えられる質問",
+						value: inputValue,
+						onChange: (e) => setInputValue(e.target.value),
+					}}
 				/>
 				<Button
 					color="primary"
 					size="medium"
+					type="submit"
 					disabled={isLoading}
 					aria-label="質問を送信"
 				>

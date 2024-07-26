@@ -11,7 +11,7 @@ const UserMenu: React.FC<{ userId: string | null }> = ({ userId }) => {
 		<Menu
 			menuButton={
 				<MenuButton aria-label="メニュー" className={styles.buttonReset}>
-					<MenuIcon loading={false} />
+					<MenuIcon />
 				</MenuButton>
 			}
 		>

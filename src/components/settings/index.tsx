@@ -1,6 +1,7 @@
 "use client";
-import components from "@/designSystem/components.module.scss";
+import { Button } from "@/designSystem/components/button";
 import { H1 } from "@/designSystem/components/heading";
+import { Input } from "@/designSystem/components/input";
 import { useMutation } from "@tanstack/react-query";
 import { signOut } from "next-auth/react";
 import type React from "react";
@@ -58,37 +59,38 @@ const Name: React.FC<Pick<Props, "changeName" | "name">> = ({
 						}}
 					>
 						<div className={styles.left}>
-							<input
-								className={components.input}
-								type="text"
-								value={editingState.inputValue}
-								onChange={(e) =>
-									setEditingState({
-										inputValue: e.target.value,
-										isEditing: true,
-									})
-								}
+							<Input
+								originalProps={{
+									type: "text",
+									value: editingState.inputValue,
+									onChange: (e) =>
+										setEditingState({
+											inputValue: e.target.value,
+											isEditing: true,
+										}),
+								}}
 							/>
 						</div>
 						<div className={styles.right}>
 							<div className={styles.buttons}>
-								<button
-									type="button"
-									className={components.buttonLink}
+								<Button
+									color="none"
+									size="medium"
 									onClick={() => {
 										setEditingState({ isEditing: false });
 									}}
 								>
 									戻る
-								</button>
-								<button
+								</Button>
+								<Button
 									type="submit"
-									className={components.button}
+									color="primary"
+									size="medium"
 									data-loading={isLoading}
 									disabled={isLoading}
 								>
 									保存
-								</button>
+								</Button>
 							</div>
 						</div>
 					</form>
@@ -99,9 +101,9 @@ const Name: React.FC<Pick<Props, "changeName" | "name">> = ({
 						</div>
 
 						<div className={styles.right}>
-							<button
-								type="button"
-								className={components.buttonLink}
+							<Button
+								color="none"
+								size="medium"
 								onClick={() => {
 									setEditingState({
 										inputValue: name ?? "",
@@ -110,7 +112,7 @@ const Name: React.FC<Pick<Props, "changeName" | "name">> = ({
 								}}
 							>
 								変更
-							</button>
+							</Button>
 						</div>
 					</div>
 				)}
@@ -143,8 +145,9 @@ const DeleteAccount: React.FC<Pick<Props, "deleteUser">> = ({ deleteUser }) => {
 					</div>
 					{!isLoading && !isSuccess && (
 						<div className={styles.right}>
-							<button
-								className={components.buttonDanger}
+							<Button
+								color="danger"
+								size="medium"
 								onClick={async () => {
 									if (
 										await confirm(
@@ -160,7 +163,7 @@ const DeleteAccount: React.FC<Pick<Props, "deleteUser">> = ({ deleteUser }) => {
 								}}
 							>
 								退会
-							</button>
+							</Button>
 						</div>
 					)}
 				</div>

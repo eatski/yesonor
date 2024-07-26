@@ -1,6 +1,10 @@
-import components from "@/designSystem/components.module.scss";
+import { IconGenericButton } from "@/designSystem/components/button";
 import { AiOutlineUnorderedList as Icon } from "react-icons/ai";
 
-export const MenuIcon = ({ loading }: { loading: boolean }) => {
-	return <Icon className={components.iconButtonBrandFg} />;
+export const MenuIcon = () => {
+	return (
+		<IconGenericButton color="none">
+			<Icon />
+		</IconGenericButton>
+	);
 };

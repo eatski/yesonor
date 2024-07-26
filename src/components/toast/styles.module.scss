@@ -3,6 +3,7 @@
 .toast {
     position: fixed;
     display: flex;
+    align-items: center;
     top: 76px;
     right: 12px;
     gap: 4px;
@@ -24,5 +25,9 @@
     }
     p {
         margin: auto 0;
+    }
+    .iconButtonContainer {
+        height: 16px;
+        width: 16px;
     }
 }

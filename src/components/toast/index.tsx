@@ -1,8 +1,6 @@
 "use client";
-import { IconButton } from "@/designSystem/components/button";
 import React, { useCallback } from "react";
-import { AiOutlineClose } from "react-icons/ai";
-import styles from "./styles.module.scss";
+import { ToastMessage } from "./ToastMessage";
 
 const Context = React.createContext<(text: string) => void>(() => {
 	throw new Error("Context is not provided");
@@ -36,19 +34,11 @@ export const Toast: React.FC<React.PropsWithChildren> = ({ children }) => {
 		<>
 			<Context.Provider value={context}>{children}</Context.Provider>
 			{message && (
-				<div key={message.id} className={styles.toast}>
-					<p role="log" aria-live="polite">
-						{message.text}
-					</p>
-					<IconButton
-						onClick={() => {
-							setMessage(null);
-						}}
-						aria-label="消す"
-					>
-						<AiOutlineClose />
-					</IconButton>
-				</div>
+				<ToastMessage
+					key={message.id}
+					text={message.text}
+					onDeleteClick={() => setMessage(null)}
+				/>
 			)}
 		</>
 	);

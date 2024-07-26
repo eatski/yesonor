@@ -8,13 +8,7 @@
     }
 }
 
-.button {
-    @include buttonBase;
-    gap: 4px;
-    width: auto;
-    &[data-width="full"]{
-        width: 100%;
-    }
+@mixin color {
     &[data-color="zero"]{
         background-color: unset;
         --button-text-color: var(--color-base-fg);
@@ -37,6 +31,20 @@
         background-color: transparent;
         --button-text-color: var(--color-brand-fg);
         border: var(--border-primary)
+    }
+    &[data-color="danger"]{
+        background-color: var(--color-accent-bg-danger);
+        --button-text-color: var(--color-accent-fg);
+    }
+}
+
+.button {
+    @include buttonBase;
+    @include color;
+    gap: 4px;
+    width: auto;
+    &[data-width="full"]{
+        width: 100%;
     }
     &[data-size="small"]{
         font-size: 12px;
@@ -61,16 +69,38 @@
     }
 }
 
-.iconButton {
+.iconButtonFuture {
     background-color: unset;
     color: var(--color-base-fg);
     border: none;
     padding: 0;
+    cursor: pointer;
     &:hover{
         opacity: 0.8;
     }
+    height: 100%;
+    width: 100%;
     svg{
-        height: 16px;
-        width: 16px;
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
+    &[data-color="zero"]{
+        color: unset;
+    }
+    &[data-color="primary"]{
+        color: var(--color-accent-bg);
+    }
+    &[data-color="secondary"]{
+        color: var(--color-accent-bg-secondary);
+    }
+    &[data-color="none"]{
+        color: var(--color-base-bg);
+    }
+    &[data-color="brand"]{
+        color: transparent;
+    }
+    &[data-color="danger"]{
+        color: var(--color-accent-bg-danger);
     }
 }

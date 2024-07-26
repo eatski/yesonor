@@ -38,28 +38,13 @@
         margin-right: 8px;
         margin-left: auto;
         z-index: 1;
-        button {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            border-radius: 8px;
-            font-size: 14px;
-            padding: 6px 8px;
-            box-shadow: 0 0 2px var(--color-base-fg-silent);
-            svg {
-                width: 24px;
-                height: 24px;
-            }
-        }
+        box-shadow: 0 0 3px var(--color-base-fg-silent);
     }
-    .questionExampleFoot {
+    .addQuestionButton {
         display: flex;
         justify-content: center;
-        margin-bottom: 8px;
-        button {
-            border: none;
-            background-color: unset;
-            color: var(--color-base-fg-secondary);
-        }
+        margin: 0 auto 8px;
+        height: 24px;
+        width: 24px;
     }
 }
