@@ -131,7 +131,7 @@
         color: var(--color-base-bg);
     }
     &[data-color="brand"]{
-        color: transparent;
+        color: var(--color-brand-fg);
     }
     &[data-color="danger"]{
         color: var(--color-accent-bg-danger);

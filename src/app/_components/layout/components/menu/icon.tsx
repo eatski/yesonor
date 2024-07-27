@@ -3,7 +3,7 @@ import { AiOutlineUnorderedList as Icon } from "react-icons/ai";
 
 export const MenuIcon = () => {
 	return (
-		<IconGenericButton color="none">
+		<IconGenericButton color="brand">
 			<Icon />
 		</IconGenericButton>
 	);
