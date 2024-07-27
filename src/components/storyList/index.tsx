@@ -1,10 +1,6 @@
-import {
-	GenericButton,
-	IconGenericButton,
-} from "@/designSystem/components/button";
+import { GenericButton } from "@/designSystem/components/button";
 import type { StoryHead } from "@/server/model/story";
 import Link from "next/link";
-import { AiFillPlayCircle as StartIcon } from "react-icons/ai";
 import styles from "./styles.module.scss";
 
 export type Item = {
