@@ -8,7 +8,7 @@ import { setupABTestValue } from "@/server/serverComponent/setupABTestingVariant
 import { checkAnswer } from "@/server/services/answer";
 import { askQuestio } from "@/server/services/question";
 import { verifyRecaptcha } from "@/server/services/recaptcha";
-import { getStories, getStory } from "@/server/services/story";
+import { getStories, getStory, getStoryPrivate } from "@/server/services/story";
 import { deleteStory } from "@/server/services/story/deleteStory";
 import {
 	publishStory,
@@ -30,32 +30,34 @@ type StoryProps = {
 	};
 };
 
-const getStoryByRequest = cache(async (storyId: string) => {
-	try {
-		const story = await getStory({
-			storyId: storyId,
-			includePrivate: true,
-		});
-		if (!story) {
-			notFound();
-		}
-		if (!story.published) {
-			const session = await getUserSession();
-			if (!session || session.userId !== story.author.id) {
+const getStoryByRequest = cache(
+	async (storyId: string, userId: string | null) => {
+		try {
+			const story = await (userId
+				? getStoryPrivate({
+						storyId: storyId,
+						authorId: userId,
+					})
+				: getStory({
+						storyId: storyId,
+						includePrivate: false,
+					}));
+			if (!story) {
 				notFound();
 			}
+			return story;
+		} catch (e) {
+			console.error(e);
+			throw new Error("Failed to get story");
 		}
-		return story;
-	} catch (e) {
-		console.error(e);
-		throw new Error("Failed to get story");
-	}
-});
+	},
+);
 
 export const generateMetadata = async ({
 	params: { storyId },
 }: StoryProps): Promise<Metadata> => {
-	const story = await getStoryByRequest(storyId);
+	const session = await getUserSession();
+	const story = await getStoryByRequest(storyId, session?.userId || null);
 	return {
 		title: `${story.title} - ${brand.serviceNickname}`,
 		description: story.quiz,
@@ -129,7 +131,8 @@ const MyStoryMenuServer = async ({ story }: { story: Story }) => {
 };
 
 export default async function StoryPage({ params: { storyId } }: StoryProps) {
-	const story = await getStoryByRequest(storyId);
+	const session = await getUserSession();
+	const story = await getStoryByRequest(storyId, session?.userId || null);
 	return (
 		<>
 			<Suspense>
