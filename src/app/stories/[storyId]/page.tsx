@@ -31,20 +31,25 @@ type StoryProps = {
 };
 
 const getStoryByRequest = cache(async (storyId: string) => {
-	const story = await getStory({
-		storyId: storyId,
-		includePrivate: true,
-	});
-	if (!story) {
-		notFound();
-	}
-	if (!story.published) {
-		const session = await getUserSession();
-		if (!session || session.userId !== story.author.id) {
+	try {
+		const story = await getStory({
+			storyId: storyId,
+			includePrivate: true,
+		});
+		if (!story) {
 			notFound();
 		}
+		if (!story.published) {
+			const session = await getUserSession();
+			if (!session || session.userId !== story.author.id) {
+				notFound();
+			}
+		}
+		return story;
+	} catch (e) {
+		console.error(e);
+		throw new Error("Failed to get story");
 	}
-	return story;
 });
 
 export const generateMetadata = async ({
