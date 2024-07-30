@@ -48,7 +48,7 @@ const getStoryByRequest = cache(
 			return story;
 		} catch (e) {
 			console.error(e);
-			throw new Error("Failed to get story");
+			throw e;
 		}
 	},
 );
