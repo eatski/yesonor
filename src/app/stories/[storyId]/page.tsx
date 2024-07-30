@@ -3,7 +3,10 @@ import { getDevice } from "@/common/util/device";
 import { Play } from "@/components/play";
 import { StoryDescription } from "@/components/storyDescription";
 import type { Story } from "@/server/model/story";
-import { getUserSession } from "@/server/serverComponent/getUserSession";
+import {
+	UserSession,
+	getUserSession,
+} from "@/server/serverComponent/getUserSession";
 import { setupABTestValue } from "@/server/serverComponent/setupABTestingVariant";
 import { checkAnswer } from "@/server/services/answer";
 import { askQuestio } from "@/server/services/question";
@@ -77,14 +80,10 @@ const questionLimitationSchema = z.object({
 	desktopOnly: z.boolean(),
 });
 
-const MyStoryMenuServer = async ({ story }: { story: Story }) => {
-	const session = await getUserSession().catch((e) => {
-		console.error(e);
-		throw e;
-	});
-	if (!session || session.userId !== story.author.id) {
-		return null;
-	}
+const MyStoryMenuServer = async ({
+	story,
+	session,
+}: { story: Story; session: UserSession }) => {
 	const { id, published, publishedAt } = story;
 	return (
 		<MyStoryMenu
@@ -141,10 +140,7 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 	const story = await getStoryByRequest(storyId, session?.userId || null);
 	return (
 		<>
-			<Suspense>
-				<MyStoryMenuServer story={story} />
-			</Suspense>
-
+			{session && <MyStoryMenuServer story={story} session={session} />}
 			<StoryDescription story={story} />
 			<Play
 				story={story}
