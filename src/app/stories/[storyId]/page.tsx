@@ -78,7 +78,10 @@ const questionLimitationSchema = z.object({
 });
 
 const MyStoryMenuServer = async ({ story }: { story: Story }) => {
-	const session = await getUserSession();
+	const session = await getUserSession().catch((e) => {
+		console.error(e);
+		throw new Error("Failed to get user session");
+	});
 	if (!session || session.userId !== story.author.id) {
 		return null;
 	}
@@ -131,7 +134,10 @@ const MyStoryMenuServer = async ({ story }: { story: Story }) => {
 };
 
 export default async function StoryPage({ params: { storyId } }: StoryProps) {
-	const session = await getUserSession();
+	const session = await getUserSession().catch((e) => {
+		console.error(e);
+		throw new Error("Failed to get user session");
+	});
 	const story = await getStoryByRequest(storyId, session?.userId || null);
 	return (
 		<>
