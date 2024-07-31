@@ -1,4 +1,5 @@
 import { GenericButton } from "@/designSystem/components/button";
+import { Heading } from "@/designSystem/components/heading";
 import type { StoryHead } from "@/server/model/story";
 import Link from "next/link";
 import styles from "./styles.module.scss";
@@ -23,7 +24,7 @@ export const StoryList: React.FC<{
 					return (
 						<li key={story.id}>
 							<Link href={url}>
-								<h2 className={styles.title}>{story.title}</h2>
+								<Heading level={3}>{story.title}</Heading>
 								<p>{story.quiz}</p>
 							</Link>
 							{index + 1 !== stories.length &&

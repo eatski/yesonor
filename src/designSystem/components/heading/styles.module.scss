@@ -5,4 +5,25 @@
     font-size: 20px;
     font-weight: 400;
     margin: 0 0 8px;
+    color: var(--color-base-fg);
+}
+
+.headingFuture {
+    font-weight: 400;
+    color: var(--color-base-fg);
+}
+
+h1.headingFuture {
+    font-size: 20px;
+    margin: 0 0 8px;
+}
+
+h2.headingFuture {
+    font-size: 20px;
+    margin: 0 0 8px;
+}
+
+h3.headingFuture {
+    font-size: 16px;
+    margin: 0 0 4px;
 }
