@@ -45,7 +45,7 @@ const findStoriesToRank = async () => {
 		orderBy: {
 			publishedAt: "desc",
 		},
-		take: 100,
+		take: 300,
 	});
 	return stories.map((story) => {
 		return {
