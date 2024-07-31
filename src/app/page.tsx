@@ -16,7 +16,7 @@ export default async function Home() {
 		getStoriesRecommended(10),
 	]);
 	return (
-		<main>
+		<div>
 			<div style={{ marginBottom: "48px" }}>
 				<Landing />
 			</div>
@@ -43,6 +43,6 @@ export default async function Home() {
 					seeMoreUrl={"/stories"}
 				/>
 			</section>
-		</main>
+		</div>
 	);
 }
