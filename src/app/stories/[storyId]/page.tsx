@@ -80,11 +80,15 @@ const questionLimitationSchema = z.object({
 	desktopOnly: z.boolean(),
 });
 
-const MyStoryMenuServer = async ({
-	story,
-	session,
-}: { story: Story; session: UserSession }) => {
-	const { id, published, publishedAt } = story;
+const MyStoryMenuServer = async ({ story }: { story: Story }) => {
+	const session = await getUserSession().catch((e) => {
+		console.error(e);
+		throw e;
+	});
+	const { id, published, publishedAt, author } = story;
+	if (!session || author.id !== session.userId) {
+		return null;
+	}
 	return (
 		<MyStoryMenu
 			story={story}
@@ -140,7 +144,7 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 	const story = await getStoryByRequest(storyId, session?.userId || null);
 	return (
 		<>
-			{session && <MyStoryMenuServer story={story} session={session} />}
+			{session && <MyStoryMenuServer story={story} />}
 			<StoryDescription story={story} />
 			<Play
 				story={story}
