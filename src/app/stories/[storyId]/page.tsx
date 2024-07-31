@@ -3,12 +3,15 @@ import { getDevice } from "@/common/util/device";
 import { Play } from "@/components/play";
 import { StoryDescription } from "@/components/storyDescription";
 import type { Story } from "@/server/model/story";
-import { getUserSession } from "@/server/serverComponent/getUserSession";
+import {
+	UserSession,
+	getUserSession,
+} from "@/server/serverComponent/getUserSession";
 import { setupABTestValue } from "@/server/serverComponent/setupABTestingVariant";
 import { checkAnswer } from "@/server/services/answer";
 import { askQuestio } from "@/server/services/question";
 import { verifyRecaptcha } from "@/server/services/recaptcha";
-import { getStories, getStory } from "@/server/services/story";
+import { getStories, getStory, getStoryPrivate } from "@/server/services/story";
 import { deleteStory } from "@/server/services/story/deleteStory";
 import {
 	publishStory,
@@ -30,27 +33,34 @@ type StoryProps = {
 	};
 };
 
-const getStoryByRequest = cache(async (storyId: string) => {
-	const story = await getStory({
-		storyId: storyId,
-		includePrivate: true,
-	});
-	if (!story) {
-		notFound();
-	}
-	if (!story.published) {
-		const session = await getUserSession();
-		if (!session || session.userId !== story.author.id) {
-			notFound();
+const getStoryByRequest = cache(
+	async (storyId: string, userId: string | null) => {
+		try {
+			const story = await (userId
+				? getStoryPrivate({
+						storyId: storyId,
+						authorId: userId,
+					})
+				: getStory({
+						storyId: storyId,
+						includePrivate: false,
+					}));
+			if (!story) {
+				notFound();
+			}
+			return story;
+		} catch (e) {
+			console.error(e);
+			throw e;
 		}
-	}
-	return story;
-});
+	},
+);
 
 export const generateMetadata = async ({
 	params: { storyId },
 }: StoryProps): Promise<Metadata> => {
-	const story = await getStoryByRequest(storyId);
+	const session = await getUserSession();
+	const story = await getStoryByRequest(storyId, session?.userId || null);
 	return {
 		title: `${story.title} - ${brand.serviceNickname}`,
 		description: story.quiz,
@@ -70,11 +80,10 @@ const questionLimitationSchema = z.object({
 	desktopOnly: z.boolean(),
 });
 
-const MyStoryMenuServer = async ({ story }: { story: Story }) => {
-	const session = await getUserSession();
-	if (!session || session.userId !== story.author.id) {
-		return null;
-	}
+const MyStoryMenuServer = async ({
+	story,
+	session,
+}: { story: Story; session: UserSession }) => {
 	const { id, published, publishedAt } = story;
 	return (
 		<MyStoryMenu
@@ -124,13 +133,14 @@ const MyStoryMenuServer = async ({ story }: { story: Story }) => {
 };
 
 export default async function StoryPage({ params: { storyId } }: StoryProps) {
-	const story = await getStoryByRequest(storyId);
+	const session = await getUserSession().catch((e) => {
+		console.error(e);
+		throw e;
+	});
+	const story = await getStoryByRequest(storyId, session?.userId || null);
 	return (
 		<>
-			<Suspense>
-				<MyStoryMenuServer story={story} />
-			</Suspense>
-
+			{session && <MyStoryMenuServer story={story} session={session} />}
 			<StoryDescription story={story} />
 			<Play
 				story={story}

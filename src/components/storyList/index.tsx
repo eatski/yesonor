@@ -1,10 +1,6 @@
-import {
-	GenericButton,
-	IconGenericButton,
-} from "@/designSystem/components/button";
+import { GenericButton } from "@/designSystem/components/button";
 import type { StoryHead } from "@/server/model/story";
 import Link from "next/link";
-import { AiFillPlayCircle as StartIcon } from "react-icons/ai";
 import styles from "./styles.module.scss";
 
 export type Item = {
@@ -29,11 +25,6 @@ export const StoryList: React.FC<{
 							<Link href={url}>
 								<h2 className={styles.title}>{story.title}</h2>
 								<p>{story.quiz}</p>
-								<div className={styles.iconContainer}>
-									<IconGenericButton color="primary">
-										<StartIcon />
-									</IconGenericButton>
-								</div>
 							</Link>
 							{index + 1 !== stories.length &&
 								breakContent?.step &&
