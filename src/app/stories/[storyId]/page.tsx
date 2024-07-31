@@ -144,7 +144,7 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 	const story = await getStoryByRequest(storyId, session?.userId || null);
 	return (
 		<>
-			{session && <MyStoryMenuServer story={story} />}
+			<MyStoryMenuServer story={story} />
 			<StoryDescription story={story} />
 			<Play
 				story={story}
