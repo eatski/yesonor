@@ -24,7 +24,7 @@ export const NewStory: React.FC<Props> = ({ device, createStory }) => {
 	const { mutateAsync, isError, isLoading } = useMutation(createStory);
 
 	return (
-		<main>
+		<div>
 			<H1>新しいストーリーを投稿</H1>
 			{device === "desktop" && (
 				<div className={styles.navigation}>
@@ -46,6 +46,6 @@ export const NewStory: React.FC<Props> = ({ device, createStory }) => {
 				isLoading={isLoading}
 				isError={isError}
 			/>
-		</main>
+		</div>
 	);
 };

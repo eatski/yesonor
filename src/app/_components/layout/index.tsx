@@ -24,8 +24,7 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 				</div>
 			</header>
 			<PinnedInfo />
-
-			<div className={styles.main}>{children}</div>
+			<main className={styles.main}>{children}</main>
 			<footer className={styles.footer}>
 				<div className={styles.footerLinks}>
 					<Link href="/terms">利用規約</Link>

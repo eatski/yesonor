@@ -15,7 +15,7 @@ export const NewStoryYaml: React.FC<{
 	const { mutateAsync, isIdle } = useMutation(createStory);
 
 	return (
-		<main className={styles.container}>
+		<div className={styles.container}>
 			<H1>新しいストーリーを投稿</H1>
 			<p>YAML形式で記述したストーリーを投稿できます。</p>
 			{isIdle ? (
@@ -42,6 +42,6 @@ export const NewStoryYaml: React.FC<{
 			) : (
 				<p>投稿中</p>
 			)}
-		</main>
+		</div>
 	);
 };

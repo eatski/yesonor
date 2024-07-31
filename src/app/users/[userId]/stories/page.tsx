@@ -33,7 +33,7 @@ export default async function UsersStories({ params }: { params: unknown }) {
 	}));
 
 	return (
-		<main>
+		<div>
 			<H1>{authorName}のストーリー</H1>
 			{stories.length ? (
 				<StoryList stories={stories} />
@@ -41,6 +41,6 @@ export default async function UsersStories({ params }: { params: unknown }) {
 				// FIXME: 別人のストーリーを見たときに表示されるのはおかしい
 				<RecommendCreateStory />
 			)}
-		</main>
+		</div>
 	);
 }

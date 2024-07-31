@@ -29,7 +29,7 @@ export const EditStoryYaml: React.FC<{
 	);
 
 	return (
-		<main className={styles.container}>
+		<div className={styles.container}>
 			<H1>{initialStory.title}</H1>
 			<p>ストーリーをYAML形式で記述して編集できます。</p>
 			{isIdle ? (
@@ -58,6 +58,6 @@ export const EditStoryYaml: React.FC<{
 			) : (
 				<p>編集中</p>
 			)}
-		</main>
+		</div>
 	);
 };

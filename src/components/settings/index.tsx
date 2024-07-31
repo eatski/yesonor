@@ -179,11 +179,11 @@ export const Settings: React.FC<Props> = ({
 	deleteUser,
 }) => {
 	return (
-		<main className={styles.container}>
+		<div className={styles.container}>
 			<H1>設定</H1>
 			<LoginInfo email={email} />
 			<Name name={name} changeName={changeName} />
 			<DeleteAccount deleteUser={deleteUser} />
-		</main>
+		</div>
 	);
 };

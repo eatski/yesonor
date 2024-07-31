@@ -30,7 +30,7 @@ export const EditStory: React.FC<Props> = ({
 	const { isLoading, mutate, isError } = useMutation(onSubmit);
 	const router = useRouter();
 	return (
-		<main>
+		<div>
 			<H1>{story.title}</H1>
 			{device === "desktop" && (
 				<div className={styles.navigation}>
@@ -56,6 +56,6 @@ export const EditStory: React.FC<Props> = ({
 				isLoading={isLoading}
 				isError={isError}
 			/>
-		</main>
+		</div>
 	);
 };
