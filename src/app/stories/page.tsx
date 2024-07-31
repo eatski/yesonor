@@ -7,7 +7,7 @@ export const revalidate = revalidateTime.short;
 
 const NewerStories = async () => {
 	const stories = await getStories({
-		count: 100,
+		count: 300,
 	});
 	return (
 		<>
