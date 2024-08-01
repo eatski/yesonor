@@ -30,6 +30,7 @@ export default async function Home() {
 						story,
 						url: `/stories/${story.id}`,
 					}))}
+					level={3}
 				/>
 				<Link href="/stories/rank" className={styles.seeMore}>
 					<GenericButton color="none" size="medium">
@@ -47,6 +48,7 @@ export default async function Home() {
 						story,
 						url: `/stories/${story.id}`,
 					}))}
+					level={3}
 				/>
 				<Link href="/stories" className={styles.seeMore}>
 					<GenericButton color="none" size="medium">
