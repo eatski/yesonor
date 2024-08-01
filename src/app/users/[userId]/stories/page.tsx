@@ -39,7 +39,9 @@ export default async function UsersStories({ params }: { params: unknown }) {
 				<StoryList stories={stories} />
 			) : (
 				// FIXME: 別人のストーリーを見たときに表示されるのはおかしい
-				<RecommendCreateStory />
+				<aside>
+					<RecommendCreateStory />
+				</aside>
 			)}
 		</div>
 	);

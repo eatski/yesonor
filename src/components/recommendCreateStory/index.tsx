@@ -6,7 +6,7 @@ import styles from "./styles.module.scss";
 
 export const RecommendCreateStory: React.FC = () => {
 	return (
-		<aside className={styles.container}>
+		<div className={styles.container}>
 			<h2>自作のストーリーを投稿しませんか？</h2>
 			<Link
 				onClick={() => {
@@ -18,6 +18,6 @@ export const RecommendCreateStory: React.FC = () => {
 					投稿する
 				</GenericButton>
 			</Link>
-		</aside>
+		</div>
 	);
 };

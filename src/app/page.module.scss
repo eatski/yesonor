@@ -1,0 +1,7 @@
+@use "../designSystem/tokens.scss" as tokens;
+
+.container {
+    > section,aside {
+        margin-bottom: tokens.$spacing-s;
+    }
+}

@@ -5,6 +5,7 @@ import { StoryList } from "@/components/storyList";
 import { H2 } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
+import styles from "./page.module.scss";
 
 export const revalidate = revalidateTime.medium;
 
@@ -16,11 +17,11 @@ export default async function Home() {
 		getStoriesRecommended(10),
 	]);
 	return (
-		<div>
+		<div className={styles.container}>
 			<div style={{ marginBottom: "48px" }}>
 				<Landing />
 			</div>
-			<section style={{ marginBottom: "24px" }}>
+			<section>
 				<H2 label="おすすめストーリー" />
 				<StoryList
 					stories={recommend.map((story) => ({
@@ -30,10 +31,10 @@ export default async function Home() {
 					seeMoreUrl={"/stories/rank"}
 				/>
 			</section>
-			<div style={{ marginBottom: "24px" }}>
+			<aside>
 				<RecommendCreateStory />
-			</div>
-			<section style={{ marginBottom: "24px" }}>
+			</aside>
+			<section>
 				<H2 label="新着ストーリー" />
 				<StoryList
 					stories={stories.map((story) => ({
