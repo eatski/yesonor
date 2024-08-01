@@ -1,7 +1,8 @@
+@use "../../tokens.scss" as tokens;
 .input {
     border: var(--border-primary);
     border-radius: 2px;
-    padding: 4px 8px;
+    padding: tokens.$spacing-padding-atom-y tokens.$spacing-padding-atom-x;
     font-size: 17px;
     background-color: var(--color-base-bg);
     color: var(--color-base-fg);

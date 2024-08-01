@@ -1,3 +1,4 @@
+@use "../../tokens.scss" as tokens;
 .iconWrapper {
     display: flex;
     & > * {
@@ -39,7 +40,7 @@
 .button {
     @include color;
     font-size: 14px;
-    padding: 4px 8px;
+    padding: tokens.$spacing-padding-atom-y tokens.$spacing-padding-atom-x;
     border: var(--border-primary);
     box-sizing: border-box;
     border-radius: 2px;
@@ -68,7 +69,7 @@
         height: 14px;
         animation: spin 1s linear infinite;
     }
-    gap: 4px;
+    gap: tokens.$spacing-x3s;
     width: auto;
     &[data-width="full"]{
         width: 100%;
