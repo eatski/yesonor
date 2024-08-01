@@ -1,3 +1,5 @@
+@use "./tokens.scss" as tokens;
+
 html {
     --color-base-bg: #FFFFFF;
     --color-base-bg-overlay: rgba(255, 255, 255, 0.6);
@@ -46,6 +48,6 @@ html {
 
 * {
     font-family: var(--font-family);
-    line-height: 1.5;
+    line-height: tokens.$typography-line-height-paragraph;
     text-decoration: none;
 }
