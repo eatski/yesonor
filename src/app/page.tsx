@@ -2,9 +2,11 @@ import { revalidateTime } from "@/common/revalidate";
 import { Landing } from "@/components/landing";
 import { RecommendCreateStory } from "@/components/recommendCreateStory";
 import { StoryList } from "@/components/storyList";
+import { GenericButton } from "@/designSystem/components/button";
 import { H2 } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
+import Link from "next/link";
 import styles from "./page.module.scss";
 
 export const revalidate = revalidateTime.medium;
@@ -28,8 +30,12 @@ export default async function Home() {
 						story,
 						url: `/stories/${story.id}`,
 					}))}
-					seeMoreUrl={"/stories/rank"}
 				/>
+				<Link href="/stories/rank" className={styles.seeMore}>
+					<GenericButton color="none" size="medium">
+						おすすめを見る
+					</GenericButton>
+				</Link>
 			</section>
 			<aside>
 				<RecommendCreateStory />
@@ -41,8 +47,12 @@ export default async function Home() {
 						story,
 						url: `/stories/${story.id}`,
 					}))}
-					seeMoreUrl={"/stories"}
 				/>
+				<Link href="/stories" className={styles.seeMore}>
+					<GenericButton color="none" size="medium">
+						全てのストーリー
+					</GenericButton>
+				</Link>
 			</section>
 		</div>
 	);
