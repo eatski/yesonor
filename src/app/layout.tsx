@@ -6,7 +6,7 @@ import { keysOverride } from "@/components/headMeta";
 import { Toast } from "@/components/toast";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
-import { Layout } from "./_components/layout";
+import { Layout } from "../components/layout";
 
 export const metadata = {
 	title: `${brand.serviceName}(${brand.serviceNickname}) - ${brand.serviceDescription}`,

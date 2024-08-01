@@ -1,10 +1,10 @@
-import { Logo } from "@/app/_components/layout/components/logo";
-import { PinnedInfo } from "@/app/_components/layout/components/pinned";
 import { GenericButton } from "@/designSystem/components/button";
 import Link from "next/link";
 import type React from "react";
 import { type PropsWithChildren } from "react";
+import { Logo } from "./components/logo";
 import { UserMenu } from "./components/menu";
+import { PinnedInfo } from "./components/pinned";
 import styles from "./styles.module.scss";
 
 export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
