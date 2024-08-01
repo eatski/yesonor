@@ -13,19 +13,20 @@
 .headingFuture {
     font-weight: 400;
     color: var(--color-base-fg);
+    line-height: tokens.$typography-line-height-label;
 }
 
 h1.headingFuture {
     font-size: 20px;
-    margin: 0 0 tokens.$spacing-xxs;
+    margin: 0 0 tokens.$spacing-xs;
 }
 
 h2.headingFuture {
     font-size: 20px;
-    margin: 0 0 tokens.$spacing-xxs;
+    margin: 0 0 tokens.$spacing-xs;
 }
 
 h3.headingFuture {
     font-size: 16px;
-    margin: 0 0 tokens.$spacing-x3s;
+    margin: 0 0 tokens.$spacing-xxs;
 }
