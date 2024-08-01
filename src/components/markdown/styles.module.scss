@@ -1,3 +1,4 @@
+@use "../../designSystem/tokens.scss" as tokens;
 .copyButtonContainer {
     position: absolute;
     top: 0;
@@ -11,16 +12,16 @@
 .container {
     p {
         margin: 0;
-        font-size: 16px;
+        font-size: tokens.$typography-font-size-m;
         color: var(--color-base-fg-secondary);
     }
     h1,h2,h3 {
-        margin: 16px 0;
+        margin: tokens.$spacing-xs 0;
     }
     h4,h5,h6 {
-        margin: 8px 0;
+        margin: tokens.$spacing-xxs 0;
     }
     ul {
-        padding-left: 24px;
+        padding-left: tokens.$spacing-s;
     }
 }
