@@ -1,4 +1,24 @@
-$typography-line-height-default: 1.5;
-$typography-line-height-oneline: 1;
+$typography-line-height-paragraph: 1.5;
+$typography-line-height-label: 1;
+
+$typography-font-size-xs: 12px;
+$typography-font-size-s: 14px;
+$typography-font-size-m: 16px;
+$typography-font-size-l: 20px;
+$typography-font-size-xl: 24px;
+$typography-font-size-xxl: 32px;
+$typography-font-size-x3l: 40px;
+
 $elevation-filter-1: drop-shadow(0 0 2px var(--color-base-fg-silent));
-$spacing-separated-item: 4px;
+$spacing-x3s: 4px;
+$spacing-xxs: 8px;
+$spacing-xs: 16px;
+$spacing-s: 24px;
+$spacing-m: 32px;
+$spacing-l: 48px;
+$spacing-xl: 64px;
+
+$spacing-padding-atom-y: 4px;
+$spacing-padding-atom-x: 8px;
+
+$layout-fixed-width-m: 180px

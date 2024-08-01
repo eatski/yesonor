@@ -1,3 +1,5 @@
+@use "../../tokens.scss" as tokens;
+
 .container {
     display: flex;
     flex-direction: column;
@@ -15,15 +17,15 @@
 
 h1.headingFuture {
     font-size: 20px;
-    margin: 0 0 8px;
+    margin: 0 0 tokens.$spacing-xxs;
 }
 
 h2.headingFuture {
     font-size: 20px;
-    margin: 0 0 8px;
+    margin: 0 0 tokens.$spacing-xxs;
 }
 
 h3.headingFuture {
     font-size: 16px;
-    margin: 0 0 4px;
+    margin: 0 0 tokens.$spacing-x3s;
 }

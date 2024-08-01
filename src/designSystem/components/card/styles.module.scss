@@ -1,8 +1,10 @@
+@use "../../tokens.scss" as tokens;
+
 .container {
     &[data-variant="success"]{
         background-color: var(--color-base-bg-success);
     }
     border-radius: 8px;
-    padding: 20px;
+    padding: tokens.$spacing-xs;
     border: var(--border-primary);
 }

@@ -3,10 +3,7 @@ import { getDevice } from "@/common/util/device";
 import { Play } from "@/components/play";
 import { StoryDescription } from "@/components/storyDescription";
 import type { Story } from "@/server/model/story";
-import {
-	UserSession,
-	getUserSession,
-} from "@/server/serverComponent/getUserSession";
+import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { setupABTestValue } from "@/server/serverComponent/setupABTestingVariant";
 import { checkAnswer } from "@/server/services/answer";
 import { askQuestio } from "@/server/services/question";
@@ -25,7 +22,7 @@ import { cookies, headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Suspense, cache } from "react";
 import { z } from "zod";
-import { MyStoryMenu } from "./_components/myStoryMenu";
+import { MyStoryMenu } from "../../../components/myStoryMenu";
 
 type StoryProps = {
 	params: {

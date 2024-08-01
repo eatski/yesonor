@@ -1,7 +1,8 @@
+@use "../../tokens.scss" as tokens;
 .container {
-    margin: 0 0 8px;
+    margin: 0 0 8px; //FIXME: marginは持たない
     font-size: 14px;
-    padding: 12px;
+    padding: tokens.$spacing-padding-atom-x tokens.$spacing-xs;
     word-wrap: break-word;
     color: var(--color-base-fg-secondary);
     background-color: var(--color-base-bg-info);
@@ -10,6 +11,6 @@
 
     &[data-size="small"]{
         font-size: 13px;
-        padding: 8px;
+        padding: tokens.$spacing-padding-atom-x tokens.$spacing-xxs;
     }
 }

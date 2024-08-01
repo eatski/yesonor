@@ -1,4 +1,3 @@
-import { GenericButton } from "@/designSystem/components/button";
 import { Heading } from "@/designSystem/components/heading";
 import type { StoryHead } from "@/server/model/story";
 import Link from "next/link";
@@ -11,12 +10,11 @@ export type Item = {
 
 export const StoryList: React.FC<{
 	stories: Item[];
-	seeMoreUrl?: string;
 	breakContent?: {
 		Component: React.ElementType;
 		step: number;
 	};
-}> = ({ stories, seeMoreUrl, breakContent }) => {
+}> = ({ stories, breakContent }) => {
 	return (
 		<div className={styles.container}>
 			<ul>
@@ -38,15 +36,6 @@ export const StoryList: React.FC<{
 					);
 				})}
 			</ul>
-			{seeMoreUrl && (
-				<div className={styles.seeMore}>
-					<Link href={seeMoreUrl}>
-						<GenericButton color="none" size="medium">
-							もっと見る
-						</GenericButton>
-					</Link>
-				</div>
-			)}
 		</div>
 	);
 };
