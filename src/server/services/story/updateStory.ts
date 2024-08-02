@@ -1,6 +1,5 @@
 import { prisma } from "@/libs/prisma";
 import { storyInit } from "@/server/model/story";
-import { revalidateTag } from "next/cache";
 import { z } from "zod";
 
 type Input = z.infer<typeof storyInit>;
@@ -10,6 +9,11 @@ export const updateStory = async ({
 	input,
 	userId,
 }: { storyId: string; input: Input; userId: string }) => {
+	const validate = storyInit.safeParse(input);
+	if (validate.error) {
+		console.warn(validate.error.message);
+		return false;
+	}
 	const { questionExamples, ...storyData } = input;
 
 	await prisma.story.updateMany({
@@ -22,4 +26,5 @@ export const updateStory = async ({
 			questionExamples: JSON.stringify(questionExamples),
 		},
 	});
+	return true;
 };

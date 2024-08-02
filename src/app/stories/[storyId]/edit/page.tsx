@@ -33,11 +33,14 @@ export default async function StoryEditPage({ params }: { params: unknown }) {
 			device={device}
 			onSubmit={async (input) => {
 				"use server";
-				await updateStory({
+				const ok = await updateStory({
 					storyId,
 					input: input,
 					userId: user.userId,
 				});
+				if (!ok) {
+					notFound();
+				}
 				revalidateTag(`/stories/${storyId}`);
 			}}
 		/>
