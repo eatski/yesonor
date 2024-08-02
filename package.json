@@ -90,7 +90,7 @@
 		"husky": "9.1.4",
 		"jsdom": "24.1.1",
 		"lint-staged": "15.2.7",
-		"msw": "2.3.4",
+		"msw": "2.3.5",
 		"next-sitemap": "4.2.3",
 		"node-html-parser": "6.1.13",
 		"prisma": "4.16.2",
