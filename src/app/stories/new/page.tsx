@@ -3,7 +3,7 @@ import { NewStory } from "@/components/newStory";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { createStory } from "@/server/services/story/createStory";
 import { headers } from "next/headers";
-import { RedirectType, redirect } from "next/navigation";
+import { RedirectType, notFound, redirect } from "next/navigation";
 
 export default async function NewStoryPage() {
 	const session = await getUserSession();
@@ -23,6 +23,9 @@ export default async function NewStoryPage() {
 					userId: session.userId,
 					data,
 				});
+				if (id === null) {
+					notFound();
+				}
 				return id;
 			}}
 		/>
