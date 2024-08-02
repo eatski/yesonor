@@ -13,19 +13,17 @@
 .headingFuture {
     font-weight: 400;
     color: var(--color-base-fg);
-}
-
-h1.headingFuture {
-    font-size: 20px;
-    margin: 0 0 tokens.$spacing-xxs;
-}
-
-h2.headingFuture {
-    font-size: 20px;
-    margin: 0 0 tokens.$spacing-xxs;
-}
-
-h3.headingFuture {
-    font-size: 16px;
-    margin: 0 0 tokens.$spacing-x3s;
+    line-height: tokens.$typography-line-height-label;
+    &[data-size="large"]{
+        font-size: tokens.$typography-font-size-l;
+        margin: 0 0 tokens.$spacing-xs;
+    }
+    &[data-size="medium"]{
+        font-size: tokens.$typography-font-size-m;
+        margin: 0 0 tokens.$spacing-xxs;
+    }
+    &[data-size="small"]{
+        font-size: tokens.$typography-font-size-s;
+        margin: 0 0 tokens.$spacing-x3s;
+    }
 }

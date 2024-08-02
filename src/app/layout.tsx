@@ -1,5 +1,5 @@
 import "sanitize.css";
-import "@/designSystem/base.css";
+import "@/designSystem/base.scss";
 import { ReactQueryContextProvider } from "@/common/context/ReactQueryContextProvider";
 import { brand } from "@/common/texts";
 import { keysOverride } from "@/components/headMeta";

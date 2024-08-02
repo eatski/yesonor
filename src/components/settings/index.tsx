@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/designSystem/components/button";
-import { H1 } from "@/designSystem/components/heading";
+import { Heading } from "@/designSystem/components/heading";
 import { Input } from "@/designSystem/components/input";
 import { useMutation } from "@tanstack/react-query";
 import { signOut } from "next-auth/react";
@@ -99,7 +99,6 @@ const Name: React.FC<Pick<Props, "changeName" | "name">> = ({
 						<div className={styles.left}>
 							<p>{name || "未設定"}</p>
 						</div>
-
 						<div className={styles.right}>
 							<Button
 								color="none"
@@ -180,7 +179,7 @@ export const Settings: React.FC<Props> = ({
 }) => {
 	return (
 		<div className={styles.container}>
-			<H1>設定</H1>
+			<Heading level={1}>設定</Heading>
 			<LoginInfo email={email} />
 			<Name name={name} changeName={changeName} />
 			<DeleteAccount deleteUser={deleteUser} />

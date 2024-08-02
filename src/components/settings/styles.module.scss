@@ -1,32 +1,32 @@
+@use "../../designSystem//tokens.scss" as tokens;
+
 .container {
-    hr {
-        margin: 0;
-        border: none;
-        height: 1px;
-        background-color: var(--color-base-fg-silent);
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     h2 {
-        font-size: 14px;
+        font-size: tokens.$typography-font-size-m;
         margin: 0;
-        margin-bottom: 8px;
+        margin-bottom: tokens.$spacing-xxs;
     }
     section {
-        margin-bottom: 24px;
+        width: 100%;
+        margin-bottom: tokens.$spacing-s;
     }
     .row {
         display: flex;
-        gap: 8px;
+        gap: tokens.$spacing-xs;
         align-items: center;
         justify-content: flex-end;
         flex-wrap: wrap;
         p {
-            margin: 0 4px 0;
-            font-size: 16px;
+            margin: 0 tokens.$spacing-padding-atom-x 0;
+            font-size: tokens.$typography-font-size-m;
             color: var(--color-base-fg-secondary);
             &.small {
-                font-size: 14px;
+                font-size: tokens.$typography-font-size-s;
                 strong {
-                    font-size: 16px;
+                    font-size: tokens.$typography-font-size-m;
                 }
             }
         }
@@ -34,19 +34,15 @@
             flex-grow: 1;
             input {
                 width: 100%;
-                min-width: 300px;
             }
         }
         .right {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            button {
-                height: fit-content;
-            }
             .buttons {
                 display: flex;
-                gap: 8px;
+                gap: tokens.$spacing-xxs;
             }
         }
     }

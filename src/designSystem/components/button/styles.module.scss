@@ -39,8 +39,9 @@
 
 .button {
     @include color;
+    line-height: tokens.$typography-line-height-label;
     font-size: 14px;
-    padding: tokens.$spacing-padding-atom-y tokens.$spacing-padding-atom-x;
+    padding: tokens.$spacing-xxs tokens.$spacing-padding-atom-x;
     border: var(--border-primary);
     box-sizing: border-box;
     border-radius: 2px;

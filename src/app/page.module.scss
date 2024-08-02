@@ -1,12 +1,11 @@
 @use "../designSystem/tokens.scss" as tokens;
 
-.container {
-    > section,aside {
-        margin-bottom: tokens.$spacing-s;
-    }
+.landing {
+    margin-bottom: tokens.$spacing-l;
 }
-.seeMore {
-    margin: 0 auto;
-    display: block;
-    width: fit-content;
+.region {
+    margin-bottom: tokens.$spacing-m;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

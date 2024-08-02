@@ -1,4 +1,4 @@
-import { Heading } from "@/designSystem/components/heading";
+import { Heading, LayoutLevel } from "@/designSystem/components/heading";
 import type { StoryHead } from "@/server/model/story";
 import Link from "next/link";
 import styles from "./styles.module.scss";
@@ -14,7 +14,8 @@ export const StoryList: React.FC<{
 		Component: React.ElementType;
 		step: number;
 	};
-}> = ({ stories, breakContent }) => {
+	level: LayoutLevel;
+}> = ({ stories, breakContent, level }) => {
 	return (
 		<div className={styles.container}>
 			<ul>
@@ -22,7 +23,9 @@ export const StoryList: React.FC<{
 					return (
 						<li key={story.id}>
 							<Link href={url}>
-								<Heading level={3}>{story.title}</Heading>
+								<Heading level={level} size="medium">
+									{story.title}
+								</Heading>
 								<p>{story.quiz}</p>
 							</Link>
 							{index + 1 !== stories.length &&

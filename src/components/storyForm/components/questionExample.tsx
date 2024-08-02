@@ -25,8 +25,9 @@ export const QuestionExampleForm = ({
 	customMessageError,
 	onClickRemove,
 }: Props) => {
-	const questionFormErrorMessageId = useId();
-	const customMessageFormErrorMessageId = useId();
+	const uniqueId = useId();
+	const getFieldId = (name: string, type: "err" | "input") =>
+		`${uniqueId}-${name}-${type}`;
 	return (
 		<div key={index} className={styles.container}>
 			<div className={styles.head}>
@@ -42,51 +43,56 @@ export const QuestionExampleForm = ({
 				</div>
 			</div>
 			<div className={styles.field}>
-				<label>
-					質問
-					<Input
-						originalProps={{
-							...questionInput,
-							placeholder: "例: 太郎さんはオシャレ好きですか？",
-							"aria-errormessage": questionFormErrorMessageId,
-						}}
-					/>
-					{questionError && (
-						<FormErrorMessage id={questionFormErrorMessageId}>
-							{questionError}
-						</FormErrorMessage>
-					)}
-				</label>
+				<label htmlFor={getFieldId("question", "input")}>質問</label>
+				<Input
+					originalProps={{
+						...questionInput,
+						id: getFieldId("question", "input"),
+						placeholder: "例: 太郎さんはオシャレ好きですか？",
+						"aria-errormessage": questionError
+							? getFieldId("question", "err")
+							: undefined,
+					}}
+				/>
+				{questionError && (
+					<FormErrorMessage id={getFieldId("question", "err")}>
+						{questionError}
+					</FormErrorMessage>
+				)}
 			</div>
 			<div className={styles.field}>
-				<label>
-					回答
-					<Select
-						originalProps={answerInput}
-						options={[
-							{ value: "True", label: "はい" },
-							{ value: "False", label: "いいえ" },
-							{ value: "Unknown", label: "わからない" },
-						]}
-					></Select>
-				</label>
+				<label htmlFor={getFieldId("answer", "input")}>回答</label>
+				<Select
+					originalProps={{
+						id: getFieldId("answer", "input"),
+						...answerInput,
+					}}
+					options={[
+						{ value: "True", label: "はい" },
+						{ value: "False", label: "いいえ" },
+						{ value: "Unknown", label: "わからない" },
+					]}
+				></Select>
 			</div>
 			<div className={styles.field}>
-				<label>
+				<label htmlFor={getFieldId("customMessage", "input")}>
 					カスタムメッセージ
-					<Input
-						originalProps={{
-							...customMessageInput,
-							placeholder: "例: いい質問です！オシャレ好きです。",
-							"aria-errormessage": customMessageFormErrorMessageId,
-						}}
-					/>
-					{customMessageError && (
-						<FormErrorMessage id={customMessageFormErrorMessageId}>
-							{customMessageError}
-						</FormErrorMessage>
-					)}
 				</label>
+				<Input
+					originalProps={{
+						...customMessageInput,
+						id: getFieldId("customMessage", "input"),
+						placeholder: "例: いい質問です！オシャレ好きです。",
+						"aria-errormessage": customMessageError
+							? getFieldId("customMessage", "err")
+							: undefined,
+					}}
+				/>
+				{customMessageError && (
+					<FormErrorMessage id={getFieldId("customMessage", "err")}>
+						{customMessageError}
+					</FormErrorMessage>
+				)}
 			</div>
 		</div>
 	);

@@ -36,7 +36,7 @@ export default async function UsersStories({ params }: { params: unknown }) {
 		<div>
 			<H1>{authorName}のストーリー</H1>
 			{stories.length ? (
-				<StoryList stories={stories} />
+				<StoryList level={2} stories={stories} />
 			) : (
 				// FIXME: 別人のストーリーを見たときに表示されるのはおかしい
 				<aside>

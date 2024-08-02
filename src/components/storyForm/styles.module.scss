@@ -1,33 +1,23 @@
+@use "../../designSystem/tokens.scss" as tokens;
+
 .container {
     display: flex;
     flex-direction: column;
     textarea {
-        min-height: 100px;
-    }
-    label {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        font-size: 14px;
-        color: var(--color-base-fg-secondary);
-        font-weight: bold;
-    }
-    .field {
-        margin-bottom: 16px;
+        min-height: tokens.$layout-fixed-height-m;
     }
     .questionExampleItem {
-        margin-bottom: 12px;
+        margin-bottom: tokens.$spacing-padding-organism;
     }
     fieldset {
-        margin: 0 0 24px;
-        padding: 8px 16px;
+        margin: 0;
+        padding: tokens.$spacing-padding-organism;
         display: flex;
         flex-direction: column;
         legend {
             font-size: 14px;
             color: var(--color-base-fg-secondary);
             font-weight: bold;
-            margin-bottom: 4px;
         }
         border: var(--border-primary);
         border-radius: 2px;
@@ -47,4 +37,14 @@
         height: 24px;
         width: 24px;
     }
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 14px;
+    color: var(--color-base-fg-secondary);
+    font-weight: bold;
+    margin-bottom: 16px;
 }

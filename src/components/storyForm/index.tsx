@@ -1,3 +1,4 @@
+import { get } from "http";
 import {
 	Button,
 	ButtonIconWrapper,
@@ -23,6 +24,8 @@ export type Props = {
 	isError: boolean;
 };
 
+const resolver = zodResolver(storyInit);
+
 export const StoryForm: React.FC<Props> = ({
 	onSubmit,
 	isError,
@@ -46,18 +49,19 @@ export const StoryForm: React.FC<Props> = ({
 				{ question: "", answer: "Unknown", customMessage: "" },
 			],
 		},
-		resolver: zodResolver(storyInit),
+		resolver,
 	});
 
 	const { fields, append, remove } = useFieldArray<StoryInit>({
 		control,
 		name: "questionExamples",
 	});
-	const titleFormErrorMessageId = useId();
-	const quizFormErrorMessageId = useId();
-	const truthFormErrorMessageId = useId();
 	const simpleTruthFormErrorMessageId = useId();
 	const questionExampleFormErrorMessageId = useId();
+
+	const uniqueId = useId();
+	const getFieldId = (name: keyof StoryInit, type: "err" | "input") =>
+		`${uniqueId}-${name}-${type}`;
 
 	return (
 		<form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
@@ -76,81 +80,85 @@ export const StoryForm: React.FC<Props> = ({
 				</Button>
 			</div>
 			<div className={styles.field}>
-				<label>
-					タイトル
-					<Input
-						originalProps={{
-							placeholder: "例: 太郎さんのメガネ",
-							"aria-errormessage": titleFormErrorMessageId,
-							...register("title"),
-						}}
-					/>
-					{errors.title && (
-						<FormErrorMessage id={titleFormErrorMessageId}>
-							{errors.title.message}
-						</FormErrorMessage>
-					)}
-				</label>
+				<label htmlFor={getFieldId("title", "input")}>タイトル</label>
+				<Input
+					originalProps={{
+						id: getFieldId("title", "input"),
+						placeholder: "例: 太郎さんのメガネ",
+						"aria-errormessage": errors.title
+							? getFieldId("title", "err")
+							: undefined,
+						...register("title"),
+					}}
+				/>
+				{errors.title && (
+					<FormErrorMessage id={getFieldId("title", "err")}>
+						{errors.title.message}
+					</FormErrorMessage>
+				)}
 			</div>
 			<div className={styles.field}>
-				<label>
-					問題文
-					<TextArea
-						originalProps={{
-							placeholder:
-								"例: 太郎さんは視力がとてもいいのにメガネをかけている。なぜか？",
-							"aria-errormessage": quizFormErrorMessageId,
-							...register("quiz"),
-						}}
-					/>
-					{errors.quiz && (
-						<FormErrorMessage id={quizFormErrorMessageId}>
-							{errors.quiz.message}
-						</FormErrorMessage>
-					)}
-				</label>
+				<label htmlFor={getFieldId("quiz", "input")}>問題文</label>
+				<TextArea
+					originalProps={{
+						id: getFieldId("quiz", "input"),
+						placeholder:
+							"例: 太郎さんは視力がとてもいいのにメガネをかけている。なぜか？",
+						"aria-errormessage": errors.quiz
+							? getFieldId("quiz", "err")
+							: undefined,
+						...register("quiz"),
+					}}
+				/>
+				{errors.quiz && (
+					<FormErrorMessage id={getFieldId("quiz", "err")}>
+						{errors.quiz.message}
+					</FormErrorMessage>
+				)}
 			</div>
 			<div className={styles.field}>
-				<label>
-					真相
-					<InformationParagragh>
-						AIは質問に対する回答を生成する際にこの文章を参照します。そのため、真相は詳細まで記述することをお勧めします。
-					</InformationParagragh>
-					<TextArea
-						originalProps={{
-							placeholder:
-								"例: 太郎さんはオシャレ好きであり、おしゃれのために伊達メガネをかけている。",
-							"aria-errormessage": truthFormErrorMessageId,
-							...register("truth"),
-						}}
-					/>
-					{errors.truth && (
-						<FormErrorMessage id={truthFormErrorMessageId}>
-							{errors.truth.message}
-						</FormErrorMessage>
-					)}
-				</label>
+				<label htmlFor={getFieldId("truth", "input")}>真相</label>
+				<InformationParagragh>
+					AIは質問に対する回答を生成する際にこの文章を参照します。そのため、真相は詳細まで記述することをお勧めします。
+				</InformationParagragh>
+				<TextArea
+					originalProps={{
+						id: getFieldId("truth", "input"),
+						placeholder:
+							"例: 太郎さんはオシャレ好きであり、おしゃれのために伊達メガネをかけている。",
+						"aria-errormessage": errors.truth
+							? getFieldId("truth", "err")
+							: undefined,
+						...register("truth"),
+					}}
+				/>
+				{errors.truth && (
+					<FormErrorMessage id={getFieldId("truth", "err")}>
+						{errors.truth.message}
+					</FormErrorMessage>
+				)}
 			</div>
 			<div className={styles.field}>
-				<label>
-					簡潔な真相
-					<InformationParagragh>
-						この文章はAIが解答者の解答を判定する際に使用します。詳細に説明しすぎると、AIに解答者の解答が「情報が不足している」と判断されてしまうため、
-						<strong>真相の核心を最低限の言葉で</strong>記述してください。
-					</InformationParagragh>
-					<TextArea
-						originalProps={{
-							"aria-errormessage": simpleTruthFormErrorMessageId,
-							placeholder: "例: 太郎さんは伊達メガネをかけている。",
-							...register("simpleTruth"),
-						}}
-					/>
-					{errors.simpleTruth && (
-						<FormErrorMessage id={simpleTruthFormErrorMessageId}>
-							{errors.simpleTruth.message}
-						</FormErrorMessage>
-					)}
-				</label>
+				<label htmlFor={getFieldId("simpleTruth", "input")}>簡潔な真相</label>
+				<InformationParagragh>
+					この文章はAIが解答者の解答を判定する際に使用します。詳細に説明しすぎると、AIに解答者の解答が「情報が不足している」と判断されてしまうため、
+					<strong>真相の核心を最低限の言葉で</strong>記述してください。
+				</InformationParagragh>
+				<TextArea
+					originalProps={{
+						id: getFieldId("simpleTruth", "input"),
+						"aria-errormessage": errors.simpleTruth
+							? getFieldId("simpleTruth", "err")
+							: undefined,
+						placeholder: "例: 太郎さんは伊達メガネをかけている。",
+						...register("simpleTruth"),
+					}}
+				/>
+				{errors.simpleTruth && (
+					<FormErrorMessage id={getFieldId("simpleTruth", "err")}>
+						{errors.simpleTruth.message}
+					</FormErrorMessage>
+				)}
 			</div>
 			<fieldset
 				aria-errormessage={questionExampleFormErrorMessageId}

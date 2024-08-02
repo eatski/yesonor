@@ -4,7 +4,7 @@ import {
 	ButtonIconWrapper,
 	GenericButton,
 } from "@/designSystem/components/button";
-import { H1 } from "@/designSystem/components/heading";
+import { Heading } from "@/designSystem/components/heading";
 import { StoryInit } from "@/server/model/story";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
@@ -24,8 +24,8 @@ export const NewStory: React.FC<Props> = ({ device, createStory }) => {
 	const { mutateAsync, isError, isLoading } = useMutation(createStory);
 
 	return (
-		<div>
-			<H1>新しいストーリーを投稿</H1>
+		<div className={styles.container}>
+			<Heading level={1}>新しいストーリーを投稿</Heading>
 			{device === "desktop" && (
 				<div className={styles.navigation}>
 					<Link href={`/stories/new/yaml`}>

@@ -3,7 +3,7 @@ import { Landing } from "@/components/landing";
 import { RecommendCreateStory } from "@/components/recommendCreateStory";
 import { StoryList } from "@/components/storyList";
 import { GenericButton } from "@/designSystem/components/button";
-import { H2 } from "@/designSystem/components/heading";
+import { Heading } from "@/designSystem/components/heading";
 import { getStories } from "@/server/services/story";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
 import Link from "next/link";
@@ -20,16 +20,17 @@ export default async function Home() {
 	]);
 	return (
 		<div className={styles.container}>
-			<div style={{ marginBottom: "48px" }}>
+			<div className={styles.landing}>
 				<Landing />
 			</div>
-			<section>
-				<H2 label="おすすめストーリー" />
+			<section className={styles.region}>
+				<Heading level={2}>おすすめストーリー</Heading>
 				<StoryList
 					stories={recommend.map((story) => ({
 						story,
 						url: `/stories/${story.id}`,
 					}))}
+					level={3}
 				/>
 				<Link href="/stories/rank" className={styles.seeMore}>
 					<GenericButton color="none" size="medium">
@@ -37,16 +38,17 @@ export default async function Home() {
 					</GenericButton>
 				</Link>
 			</section>
-			<aside>
+			<aside className={styles.region}>
 				<RecommendCreateStory />
 			</aside>
-			<section>
-				<H2 label="新着ストーリー" />
+			<section className={styles.region}>
+				<Heading level={2}>新着ストーリー</Heading>
 				<StoryList
 					stories={stories.map((story) => ({
 						story,
 						url: `/stories/${story.id}`,
 					}))}
+					level={3}
 				/>
 				<Link href="/stories" className={styles.seeMore}>
 					<GenericButton color="none" size="medium">

@@ -1,5 +1,11 @@
 .container {
     .field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        font-size: 14px;
+        color: var(--color-base-fg-secondary);
+        font-weight: bold;
         margin-bottom: 8px;
     }
     .head {
