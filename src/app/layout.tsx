@@ -2,7 +2,6 @@ import "sanitize.css";
 import "@/designSystem/base.scss";
 import { ReactQueryContextProvider } from "@/common/context/ReactQueryContextProvider";
 import { brand } from "@/common/texts";
-import { keysOverride } from "@/components/headMeta";
 import { Toast } from "@/components/toast";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
@@ -29,17 +28,11 @@ export default function RootLayout({
 				<link rel="icon" href="/favicon.ico" />
 				<meta property="og:url" content="https://iesona.com" />
 				<meta
-					key={keysOverride.metaOgpTitle}
 					property="og:title"
 					content={`${brand.serviceName}(${brand.serviceNickname}) - ${brand.serviceDescription}`}
 				/>
+				<meta property="og:site_name" content={brand.serviceName} />
 				<meta
-					key={keysOverride.metaOgpTitle}
-					property="og:site_name"
-					content={brand.serviceName}
-				/>
-				<meta
-					key={keysOverride.metaOgpDescription}
 					property="og:description"
 					content={brand.serviceDescriptionLong}
 				/>
