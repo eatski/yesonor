@@ -5,17 +5,13 @@
     z-index: 2;
     display: flex;
     flex-direction: column;
-    width: 180px;
-    gap: 4px;
-    padding: 8px 4px;
+    width: tokens.$layout-fixed-width-m;
+    gap: tokens.$spacing-x3s;
+    padding: tokens.$spacing-padding-atom;
     background-color: var(--color-base-bg);
-    border-radius: 2px;
+    border-radius: tokens.$border-radius;
     border: var(--border-primary);
     filter: tokens.$elevation-filter-1;
-    button,a {
-        width: 100%;
-        text-align: center;
-    }
     li {
         list-style: none;
     };
@@ -31,6 +27,6 @@
     border: none;
     background-color: unset;
     padding: 0;
-    height: 30px;
-    width: 30px;
+    height: tokens.$typography-font-size-xxl;
+    width: tokens.$typography-font-size-xxl;
 }

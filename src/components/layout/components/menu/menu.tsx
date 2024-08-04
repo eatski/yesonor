@@ -44,6 +44,7 @@ const UserMenu: React.FC<{ userId: string | null }> = ({ userId }) => {
 							}}
 							color="zero"
 							size="medium"
+							width="full"
 						>
 							ログアウト
 						</Button>
