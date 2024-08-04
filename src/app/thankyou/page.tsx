@@ -1,20 +1,6 @@
-import { Button } from "@/designSystem/components/button";
 import { cookies } from "next/headers";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { useCallback } from "react";
 import { SetCode } from "./_components/SetThankyouCode";
-
-const setCode = async (code: string) => {
-	"use server";
-	cookies().set("thankyou", code, {
-		httpOnly: true,
-		secure: true,
-		//3年
-		maxAge: 60 * 60 * 24 * 365 * 3,
-		sameSite: "none",
-	});
-};
 
 export default async function Thankyou({
 	searchParams,
