@@ -20,7 +20,7 @@
         justify-content: flex-end;
         flex-wrap: wrap;
         p {
-            margin: 0 tokens.$spacing-padding-atom-x 0;
+            margin: 0 tokens.$spacing-padding-atom 0;
             font-size: tokens.$typography-font-size-m;
             color: var(--color-base-fg-secondary);
             &.small {
