@@ -11,30 +11,32 @@
     &[data-color="zero"]{
         background-color: unset;
         --button-text-color: var(--color-base-fg);
-        border: none;
+        border-color: rgba(0,0,0,0);
     }
     &[data-color="primary"]{
         background-color: var(--color-accent-bg);
         --button-text-color: var(--color-accent-fg);
-        border:  var(--color-accent-bg)
+        border-color: var(--color-accent-bg)
     }
     &[data-color="secondary"]{
         background-color: var(--color-accent-bg-secondary);
         --button-text-color: var(--color-accent-fg);
+        border-color: var(--color-accent-bg-secondary)
     }
     &[data-color="none"]{
         background-color: var(--color-base-bg);
         --button-text-color: var(--color-base-fg);
-        border: var(--border-primary);
+        border-color: var(--color-base-fg-silent);
     }
     &[data-color="brand"]{
         background-color: transparent;
         --button-text-color: var(--color-brand-fg);
-        border: var(--border-primary)
+        border-color: var(--color-base-fg-silent)
     }
     &[data-color="danger"]{
         background-color: var(--color-accent-bg-danger);
         --button-text-color: var(--color-accent-fg);
+        border-color: var(--color-accent-bg-danger)
     }
 }
 
@@ -43,9 +45,10 @@
     line-height: tokens.$typography-line-height-label;
     font-size: 14px;
     padding: tokens.$spacing-xxs tokens.$spacing-padding-atom;
-    border: var(--border-primary);
     box-sizing: border-box;
     border-radius: 2px;
+    border-width: 1px;
+    border-style: solid;
     cursor: pointer;
     height: 100%;
     text-decoration: none;
