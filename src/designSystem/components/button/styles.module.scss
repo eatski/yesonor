@@ -16,6 +16,7 @@
     &[data-color="primary"]{
         background-color: var(--color-accent-bg);
         --button-text-color: var(--color-accent-fg);
+        border:  var(--color-accent-bg)
     }
     &[data-color="secondary"]{
         background-color: var(--color-accent-bg-secondary);
