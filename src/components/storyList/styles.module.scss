@@ -1,3 +1,5 @@
+@use "../../designSystem/tokens.scss" as tokens;
+
 .container {
     display: flex;
     flex-direction: column;
@@ -12,7 +14,7 @@
     li {
         border-top: var(--border-primary);
         list-style: none;
-        padding: 16px 0px;
+        padding: tokens.$spacing-padding-molecule 0px;
     }
 
     a {
@@ -21,16 +23,10 @@
 
     p {
         margin: 0;
-        font-size: 14px;
+        font-size: tokens.$typography-font-size-s;
         color: var(--color-base-fg-secondary);
-        margin-bottom: 12px;
-        max-height: 80px;
+        margin-bottom: tokens.$spacing-padding-atom;
+        max-height: tokens.$layout-fixed-height-m;
         overflow: hidden;
-    }
-
-    .iconContainer {
-        width: 24px;
-        height: 24px;
-        margin: 0 auto;
     }
 }
