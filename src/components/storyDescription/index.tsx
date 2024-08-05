@@ -3,11 +3,12 @@ import {
 	AnchorButton,
 	ButtonIconWrapper,
 } from "@/designSystem/components/button";
-import { H1 } from "@/designSystem/components/heading";
+import { Heading } from "@/designSystem/components/heading";
 import type { StoryHead } from "@/server/model/story";
 import dayjs from "dayjs";
 import { AiOutlineTwitter } from "react-icons/ai";
 
+import Link from "next/link";
 import { CopyUrl } from "./components/CopyUrl";
 import styles from "./styles.module.scss";
 
@@ -26,12 +27,14 @@ export const StoryDescription: React.FC<{
 	);
 	return (
 		<header className={styles.container}>
-			<H1>{title}</H1>
+			<Heading level={1}>{title}</Heading>
 			{publishedAt && (
 				<div className={styles.basic}>
 					<div>投稿日: {dayjs(publishedAt).format("YYYY/MM/DD")}</div>
 					{author.name && (
-						<a href={`/users/${author.id}/stories`}>作成者: {author.name}</a>
+						<Link href={`/users/${author.id}/stories`}>
+							作成者: {author.name}
+						</Link>
 					)}
 				</div>
 			)}

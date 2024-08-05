@@ -1,0 +1,7 @@
+@use "../../../designSystem/tokens.scss" as tokens;
+.storyMenu {
+    margin-bottom: tokens.$spacing-padding-organism;
+}
+.heading {
+    margin-bottom: tokens.$spacing-padding-organism;
+}

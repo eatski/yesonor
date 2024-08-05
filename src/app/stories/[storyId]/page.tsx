@@ -20,9 +20,10 @@ import { Metadata } from "next";
 import { revalidateTag } from "next/cache";
 import { cookies, headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { Suspense, cache } from "react";
+import { cache } from "react";
 import { z } from "zod";
 import { MyStoryMenu } from "../../../components/myStoryMenu";
+import styles from "./page.module.scss";
 
 type StoryProps = {
 	params: {
@@ -141,8 +142,12 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 	const story = await getStoryByRequest(storyId, session?.userId || null);
 	return (
 		<>
-			<MyStoryMenuServer story={story} />
-			<StoryDescription story={story} />
+			<div className={styles.storyMenu}>
+				<MyStoryMenuServer story={story} />
+			</div>
+			<div className={styles.heading}>
+				<StoryDescription story={story} />
+			</div>
 			<Play
 				story={story}
 				fetchCanPlay={async () => {
