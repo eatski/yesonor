@@ -21,7 +21,7 @@
 		"@anthropic-ai/sdk": "0.25.0",
 		"@hookform/resolvers": "3.1.0",
 		"@prisma/client": "5.17.0",
-		"@szhsin/react-menu": "4.2.1",
+		"@szhsin/react-menu": "4.2.2",
 		"@tanstack/react-query": "4.36.1",
 		"@vercel/edge-config": "1.2.1",
 		"@vercel/speed-insights": "1.0.12",
