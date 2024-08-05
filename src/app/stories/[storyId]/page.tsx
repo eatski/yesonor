@@ -88,25 +88,12 @@ const MyStoryMenuServer = async ({ story }: { story: Story }) => {
 		return null;
 	}
 	return (
-		<MyStoryMenu
-			story={story}
-			deleteStory={async () => {
-				"use server";
-				const result = await deleteStory({
-					storyId: id,
-					userId: session.userId,
-				});
-				switch (result) {
-					case "NOT_FOUND":
-						notFound();
-					case "OK":
-						revalidateTag(`/stories/${id}`);
-				}
-			}}
-			toggleStoryPublic={async () => {
-				"use server";
-				if (published) {
-					const result = await unpublishStory({
+		<div className={styles.storyMenu}>
+			<MyStoryMenu
+				story={story}
+				deleteStory={async () => {
+					"use server";
+					const result = await deleteStory({
 						storyId: id,
 						userId: session.userId,
 					});
@@ -116,21 +103,36 @@ const MyStoryMenuServer = async ({ story }: { story: Story }) => {
 						case "OK":
 							revalidateTag(`/stories/${id}`);
 					}
-				} else {
-					const result = await publishStory({
-						storyId: id,
-						userId: session.userId,
-						atFirst: publishedAt === null,
-					});
-					switch (result) {
-						case "NOT_FOUND":
-							notFound();
-						case "OK":
-							revalidateTag(`/stories/${id}`);
+				}}
+				toggleStoryPublic={async () => {
+					"use server";
+					if (published) {
+						const result = await unpublishStory({
+							storyId: id,
+							userId: session.userId,
+						});
+						switch (result) {
+							case "NOT_FOUND":
+								notFound();
+							case "OK":
+								revalidateTag(`/stories/${id}`);
+						}
+					} else {
+						const result = await publishStory({
+							storyId: id,
+							userId: session.userId,
+							atFirst: publishedAt === null,
+						});
+						switch (result) {
+							case "NOT_FOUND":
+								notFound();
+							case "OK":
+								revalidateTag(`/stories/${id}`);
+						}
 					}
-				}
-			}}
-		/>
+				}}
+			/>
+		</div>
 	);
 };
 
@@ -142,9 +144,7 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 	const story = await getStoryByRequest(storyId, session?.userId || null);
 	return (
 		<>
-			<div className={styles.storyMenu}>
-				<MyStoryMenuServer story={story} />
-			</div>
+			<MyStoryMenuServer story={story} />
 			<div className={styles.heading}>
 				<StoryDescription story={story} />
 			</div>
