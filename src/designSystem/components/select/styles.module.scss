@@ -5,7 +5,7 @@
     select {
         border: var(--border-primary);
         border-radius: 2px;
-        padding: tokens.$spacing-padding-atom-y tokens.$spacing-padding-atom-x;
+        padding: tokens.$spacing-padding-atom;
         font-size: 16px;
         background-color: var(--color-base-bg);
         color: var(--color-base-fg);
@@ -19,6 +19,7 @@
             font-weight: 400;
         }
         width: 100%;
+        line-height: tokens.$typography-line-height-label;
     }
     &:after {
         content: '';
