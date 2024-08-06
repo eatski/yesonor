@@ -20,9 +20,10 @@ import { Metadata } from "next";
 import { revalidateTag } from "next/cache";
 import { cookies, headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { Suspense, cache } from "react";
+import { cache } from "react";
 import { z } from "zod";
 import { MyStoryMenu } from "../../../components/myStoryMenu";
+import styles from "./page.module.scss";
 
 type StoryProps = {
 	params: {
@@ -87,25 +88,12 @@ const MyStoryMenuServer = async ({ story }: { story: Story }) => {
 		return null;
 	}
 	return (
-		<MyStoryMenu
-			story={story}
-			deleteStory={async () => {
-				"use server";
-				const result = await deleteStory({
-					storyId: id,
-					userId: session.userId,
-				});
-				switch (result) {
-					case "NOT_FOUND":
-						notFound();
-					case "OK":
-						revalidateTag(`/stories/${id}`);
-				}
-			}}
-			toggleStoryPublic={async () => {
-				"use server";
-				if (published) {
-					const result = await unpublishStory({
+		<div className={styles.storyMenu}>
+			<MyStoryMenu
+				story={story}
+				deleteStory={async () => {
+					"use server";
+					const result = await deleteStory({
 						storyId: id,
 						userId: session.userId,
 					});
@@ -115,21 +103,36 @@ const MyStoryMenuServer = async ({ story }: { story: Story }) => {
 						case "OK":
 							revalidateTag(`/stories/${id}`);
 					}
-				} else {
-					const result = await publishStory({
-						storyId: id,
-						userId: session.userId,
-						atFirst: publishedAt === null,
-					});
-					switch (result) {
-						case "NOT_FOUND":
-							notFound();
-						case "OK":
-							revalidateTag(`/stories/${id}`);
+				}}
+				toggleStoryPublic={async () => {
+					"use server";
+					if (published) {
+						const result = await unpublishStory({
+							storyId: id,
+							userId: session.userId,
+						});
+						switch (result) {
+							case "NOT_FOUND":
+								notFound();
+							case "OK":
+								revalidateTag(`/stories/${id}`);
+						}
+					} else {
+						const result = await publishStory({
+							storyId: id,
+							userId: session.userId,
+							atFirst: publishedAt === null,
+						});
+						switch (result) {
+							case "NOT_FOUND":
+								notFound();
+							case "OK":
+								revalidateTag(`/stories/${id}`);
+						}
 					}
-				}
-			}}
-		/>
+				}}
+			/>
+		</div>
 	);
 };
 
@@ -142,7 +145,9 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 	return (
 		<>
 			<MyStoryMenuServer story={story} />
-			<StoryDescription story={story} />
+			<div className={styles.heading}>
+				<StoryDescription story={story} />
+			</div>
 			<Play
 				story={story}
 				fetchCanPlay={async () => {
