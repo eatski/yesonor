@@ -3,4 +3,10 @@
     display: flex;
     justify-content: flex-end;
     margin-bottom: tokens.$spacing-x3s;
+    width: 100%;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

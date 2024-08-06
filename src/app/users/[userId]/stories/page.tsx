@@ -1,11 +1,12 @@
 import { RecommendCreateStory } from "@/components/recommendCreateStory";
 import { StoryList } from "@/components/storyList";
-import { H1 } from "@/designSystem/components/heading";
+import { Heading } from "@/designSystem/components/heading";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { getStoriesWithAuthorId } from "@/server/services/story";
 import { getUser } from "@/server/services/user/getUser";
 import { notFound } from "next/navigation";
 import { z } from "zod";
+import styles from "./page.module.scss";
 
 const paramsSchema = z.object({
 	userId: z.string(),
@@ -33,8 +34,8 @@ export default async function UsersStories({ params }: { params: unknown }) {
 	}));
 
 	return (
-		<div>
-			<H1>{authorName}のストーリー</H1>
+		<div className={styles.container}>
+			<Heading level={1}>{authorName}のストーリー</Heading>
 			{stories.length ? (
 				<StoryList level={2} stories={stories} />
 			) : (
