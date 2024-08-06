@@ -1,6 +1,6 @@
 "use client";
 import { AnchorButton } from "@/designSystem/components/button";
-import { H1 } from "@/designSystem/components/heading";
+import { Heading } from "@/designSystem/components/heading";
 import type { StoryInit } from "@/server/model/story";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,7 @@ export const NewStoryYaml: React.FC<{
 
 	return (
 		<div className={styles.container}>
-			<H1>新しいストーリーを投稿</H1>
+			<Heading level={1}>新しいストーリーを投稿</Heading>
 			<p>YAML形式で記述したストーリーを投稿できます。</p>
 			{isIdle ? (
 				<>

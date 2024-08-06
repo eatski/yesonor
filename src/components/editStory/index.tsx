@@ -4,7 +4,7 @@ import {
 	ButtonIconWrapper,
 	GenericButton,
 } from "@/designSystem/components/button";
-import { H1 } from "@/designSystem/components/heading";
+import { Heading } from "@/designSystem/components/heading";
 import type { StoryInit } from "@/server/model/story";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
@@ -30,8 +30,8 @@ export const EditStory: React.FC<Props> = ({
 	const { isLoading, mutate, isError } = useMutation(onSubmit);
 	const router = useRouter();
 	return (
-		<div>
-			<H1>{story.title}</H1>
+		<div className={styles.container}>
+			<Heading level={1}>{story.title}</Heading>
 			{device === "desktop" && (
 				<div className={styles.navigation}>
 					<Link href={`/stories/${storyId}/edit/yaml`}>
