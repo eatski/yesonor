@@ -41,7 +41,9 @@ const getStoryByRequest = cache(
 					})
 				: getStory({
 						storyId: storyId,
-						includePrivate: false,
+						filter: {
+							type: "onlyPublic",
+						},
 					}));
 			if (!story) {
 				notFound();
