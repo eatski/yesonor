@@ -155,26 +155,6 @@ export const getStoryPrivate = async (args: {
 	)();
 };
 
-export const getStoryWithWithAuthorId = async (args: {
-	storyId: string;
-	authorId: string;
-}): Promise<Story | null> => {
-	return prisma.story
-		.findFirst({
-			where: {
-				id: args.storyId,
-				authorId: args.authorId,
-			},
-			include: {
-				author: true,
-			},
-		})
-		.then((story) => {
-			if (story == null) return null;
-			return hydrateStory(story);
-		});
-};
-
 export const getStoriesWithAuthorId = async (args: {
 	authorId: string;
 	includePrivate: boolean;
