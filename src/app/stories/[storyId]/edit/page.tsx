@@ -1,7 +1,7 @@
 import { getDevice } from "@/common/util/device";
 import { EditStory } from "@/components/editStory";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
-import { getStoryPrivate } from "@/server/services/story";
+import { getStory } from "@/server/services/story";
 import { updateStory } from "@/server/services/story/updateStory";
 import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
@@ -18,9 +18,12 @@ export default async function StoryEditPage({ params }: { params: unknown }) {
 	if (!user) {
 		notFound();
 	}
-	const story = await getStoryPrivate({
+	const story = await getStory({
 		storyId,
-		authorId: user.userId,
+		filter: {
+			type: "withAuthorId",
+			authorId: user.userId,
+		},
 	});
 	if (!story) {
 		notFound();

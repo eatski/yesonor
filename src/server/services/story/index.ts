@@ -30,24 +30,87 @@ export const getStories = nextCache(
 	},
 );
 
-export const getStory = (args: {
+type FilterForFindFirst =
+	| {
+			type: "onlyPublic" | "includePrivate";
+	  }
+	| {
+			type: "publicOrWithAuthor" | "withAuthorId";
+			authorId: string;
+	  };
+
+const cacheKeyByFilter = (filter: FilterForFindFirst) => {
+	const simpleTypedFilter: {
+		type: FilterForFindFirst["type"];
+		authorId?: string;
+	} = filter;
+	return [simpleTypedFilter.type, simpleTypedFilter.authorId].filter(
+		(v) => v != null,
+	);
+};
+
+const createFindFirstWhereByFilter = (
+	storyId: string,
+	filter: FilterForFindFirst,
+): {} & NonNullable<Parameters<typeof prisma.story.findFirst>[0]>["where"] => {
+	switch (filter.type) {
+		case "onlyPublic":
+			return {
+				id: storyId,
+				published: true,
+			};
+		case "includePrivate":
+			return {
+				id: storyId,
+			};
+		case "publicOrWithAuthor":
+			return {
+				id: storyId,
+				OR: [
+					{
+						published: true,
+					},
+					{
+						authorId: filter.authorId,
+					},
+				],
+			};
+		case "withAuthorId":
+			return {
+				id: storyId,
+				authorId: filter.authorId,
+			};
+	}
+};
+
+export const getStory = ({
+	storyId,
+	filter,
+}: {
 	storyId: string;
-	includePrivate: boolean;
+	filter: FilterForFindFirst;
 }): Promise<Story | null> => {
-	return prisma.story
-		.findFirst({
-			where: {
-				id: args.storyId,
-				published: args.includePrivate ? undefined : true,
-			},
-			include: {
-				author: true,
-			},
-		})
-		.then((story) => {
-			if (story == null) return null;
-			return hydrateStory(story);
-		});
+	return nextCache(
+		() =>
+			prisma.story
+				.findFirst({
+					where: {
+						...createFindFirstWhereByFilter(storyId, filter),
+					},
+					include: {
+						author: true,
+					},
+				})
+				.then((story) => {
+					if (story == null) return null;
+					return hydrateStory(story);
+				}),
+		["_getStory", storyId, ...cacheKeyByFilter(filter)],
+		{
+			revalidate: revalidateTime.short,
+			tags: [`/stories/${storyId}`],
+		},
+	)();
 };
 
 export const getStoryHead = (args: {
@@ -92,20 +155,23 @@ export const getStoryPrivate = async (args: {
 	)();
 };
 
-export const getStoryHeadPrivate = async (args: {
+export const getStoryWithWithAuthorId = async (args: {
 	storyId: string;
 	authorId: string;
-}): Promise<StoryHead | null> => {
+}): Promise<Story | null> => {
 	return prisma.story
 		.findFirst({
-			where: createGetStoryPrivateWhere(args),
+			where: {
+				id: args.storyId,
+				authorId: args.authorId,
+			},
 			include: {
 				author: true,
 			},
 		})
 		.then((story) => {
 			if (story == null) return null;
-			return omitStory(story);
+			return hydrateStory(story);
 		});
 };
 
