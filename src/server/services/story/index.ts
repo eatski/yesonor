@@ -2,12 +2,7 @@ import { revalidateTime } from "@/common/revalidate";
 import { prisma } from "@/libs/prisma";
 import type { Story, StoryHead } from "@/server/model/story";
 import { nextCache } from "@/server/serverComponent/nextCache";
-import {
-	createGetStoryPrivateWhere,
-	createGetStoryWhere,
-	hydrateStory,
-	omitStory,
-} from "./functions";
+import { createGetStoryWhere, hydrateStory, omitStory } from "./functions";
 
 export const getStories = nextCache(
 	(args: { count: number }): Promise<StoryHead[]> => {
@@ -109,48 +104,6 @@ export const getStory = ({
 		{
 			revalidate: revalidateTime.short,
 			tags: [`/stories/${storyId}`],
-		},
-	)();
-};
-
-export const getStoryHead = (args: {
-	storyId: string;
-}): Promise<StoryHead | null> => {
-	return prisma.story
-		.findFirst({
-			where: createGetStoryWhere(args),
-			include: {
-				author: true,
-			},
-		})
-		.then((story) => {
-			if (story == null) return null;
-			return omitStory(story);
-		});
-};
-
-export const getStoryPrivate = async (args: {
-	storyId: string;
-	authorId: string;
-}): Promise<Story | null> => {
-	return nextCache(
-		() => {
-			return prisma.story
-				.findFirst({
-					where: createGetStoryPrivateWhere(args),
-					include: {
-						author: true,
-					},
-				})
-				.then((story) => {
-					if (story == null) return null;
-					return hydrateStory(story);
-				});
-		},
-		["getStoryPrivate", args.storyId, args.authorId],
-		{
-			revalidate: revalidateTime.short,
-			tags: [`/stories/${args.storyId}`],
 		},
 	)();
 };

@@ -8,7 +8,7 @@ import { setupABTestValue } from "@/server/serverComponent/setupABTestingVariant
 import { checkAnswer } from "@/server/services/answer";
 import { askQuestio } from "@/server/services/question";
 import { verifyRecaptcha } from "@/server/services/recaptcha";
-import { getStories, getStory, getStoryPrivate } from "@/server/services/story";
+import { getStories, getStory } from "@/server/services/story";
 import { deleteStory } from "@/server/services/story/deleteStory";
 import {
 	publishStory,
@@ -34,17 +34,17 @@ type StoryProps = {
 const getStoryByRequest = cache(
 	async (storyId: string, userId: string | null) => {
 		try {
-			const story = await (userId
-				? getStoryPrivate({
-						storyId: storyId,
-						authorId: userId,
-					})
-				: getStory({
-						storyId: storyId,
-						filter: {
+			const story = await getStory({
+				storyId: storyId,
+				filter: userId
+					? {
+							type: "publicOrWithAuthor",
+							authorId: userId,
+						}
+					: {
 							type: "onlyPublic",
 						},
-					}));
+			});
 			if (!story) {
 				notFound();
 			}
