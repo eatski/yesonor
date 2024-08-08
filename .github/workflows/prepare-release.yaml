@@ -11,8 +11,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - name: Install GitHub CLI
-        run: sudo npm install -g @githubnext/github
+        uses: dawidd6/action-install-gh-cli@v1
+
+      - name: Authenticate GitHub CLI
+        run: gh auth login --with-token <<< "$GITHUB_TOKEN"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fetch all branches
         run: git fetch --all
