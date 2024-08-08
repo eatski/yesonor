@@ -92,21 +92,3 @@ export const createGetStoryWhere = (args: { storyId?: string }) => {
 		published: true,
 	};
 };
-
-export const createGetStoryPrivateWhere = (args: {
-	storyId: string;
-	authorId: string;
-}) => {
-	return {
-		OR: [
-			{
-				id: args.storyId,
-				authorId: args.authorId,
-			},
-			{
-				id: args.storyId,
-				published: true,
-			},
-		],
-	};
-};
