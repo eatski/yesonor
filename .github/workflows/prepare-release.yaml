@@ -36,8 +36,6 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          source: main
-          destination: production
           title: 'Update production branch'
           body: 'This PR updates the production branch with changes from the main branch.'
           draft: false
