@@ -10,31 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Fetch all branches
-        run: git fetch --all
-
-      - name: Check if there are changes between main and production
-        id: check_diff
-        run: |
-          git checkout main
-          git pull origin main
-          git checkout production
-          git pull origin production
-          DIFF=$(git diff main production)
-          if [ -z "$DIFF" ]; then
-            echo "No changes detected."
-            echo "::set-output name=changes::false"
-          else
-            echo "Changes detected."
-            echo "::set-output name=changes::true"
-          fi
+        uses: actions/checkout@v4
 
       - name: Create Pull Request
-        if: steps.check_diff.outputs.changes == 'true'
         run: |
-          gh pr create --title "Update production branch" --body "This PR updates the production branch with changes from main." --base production --head main
+          if [ $(gh pr list --head main --base production --json number --jq '. | length') -eq 0 ]; then
+            gh pr create --title "New PR from main to production" --body "This PR is automatically created by the script" --head main --base production
+          else
+            echo "PR already exists between main and production."
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
