@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Install GitHub CLI
+        run: sudo npm install -g @githubnext/github
 
       - name: Fetch all branches
         run: git fetch --all
@@ -33,11 +35,5 @@ jobs:
 
       - name: Create Pull Request
         if: steps.check_diff.outputs.changes == 'true'
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: 'Update production branch'
-          body: 'This PR updates the production branch with changes from the main branch.'
-          draft: false
-          base: production
-          branch: release
+        run: |
+          gh pr create --title "Update production branch" --body "This PR updates the production branch with changes from main." --base production --head main --label "automerge"
