@@ -35,3 +35,6 @@ jobs:
         if: steps.check_diff.outputs.changes == 'true'
         run: |
           gh pr create --title "Update production branch" --body "This PR updates the production branch with changes from main." --base production --head main --label "automerge"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
