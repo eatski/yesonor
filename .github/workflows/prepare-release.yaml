@@ -40,4 +40,4 @@ jobs:
           body: 'This PR updates the production branch with changes from the main branch.'
           draft: false
           base: production
-          branch: main
+          branch: release
