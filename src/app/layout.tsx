@@ -21,10 +21,6 @@ export default function RootLayout({
 		<html lang="ja">
 			<head>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-				<meta
-					name="google-site-verification"
-					content="IOUrzGJWxf4PAzsbT3sjOdM63TI1ELMEpDhmtX0QlWQ"
-				/>
 				<link rel="icon" href="/favicon.ico" />
 				<meta property="og:url" content="https://iesona.com" />
 				<meta
@@ -42,6 +38,10 @@ export default function RootLayout({
 				<meta
 					name="twitter:image"
 					content="https://iesona.com/card_square.png"
+				/>
+				<meta
+					name="google-site-verification"
+					content="toLriA_msPJP10377YaTkJyFwrtjpZUR9NqyWeug61s"
 				/>
 			</head>
 			<Script
