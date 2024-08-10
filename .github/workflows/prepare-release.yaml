@@ -15,7 +15,7 @@ jobs:
       - name: Create Pull Request
         run: |
           if [ $(gh pr list --head main --base production --json number --jq '. | length') -eq 0 ]; then
-            gh pr create --title "New PR from main to production" --body "This PR is automatically created by the script" --head main --base production
+            gh pr create --title "Release to Production" --body "This PR is automatically created by the Github Actions" --head main --base production
           else
             echo "PR already exists between main and production."
           fi
