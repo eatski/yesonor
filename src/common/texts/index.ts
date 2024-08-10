@@ -1,4 +1,5 @@
 export const brand = {
+	origin: "https://iesona.com",
 	serviceName: "Yesonor",
 	serviceNickname: "いえそな",
 	serviceDescription:
