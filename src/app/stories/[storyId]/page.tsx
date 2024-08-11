@@ -61,9 +61,15 @@ export const generateMetadata = async ({
 }: StoryProps): Promise<Metadata> => {
 	const session = await getUserSession();
 	const story = await getStoryByRequest(storyId, session?.userId || null);
+	const title = `${story.title} - ${brand.serviceDescription}`;
+	const description = story.quiz;
 	return {
-		title: `${story.title} - ${brand.serviceNickname}`,
-		description: story.quiz,
+		title,
+		description,
+		openGraph: {
+			title,
+			description,
+		},
 	};
 };
 
