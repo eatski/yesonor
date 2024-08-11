@@ -1,5 +1,4 @@
 import { getDevice } from "@/common/util/device";
-import { EditStory } from "@/components/editStory";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { getStory } from "@/server/services/story";
 import { updateStory } from "@/server/services/story/updateStory";
@@ -9,6 +8,7 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import { z } from "zod";
+import { EditStorySwitchMode } from "./_components/EditStorySwitchMode";
 
 const getDataByRequest = cache(async (storyId: string) => {
 	const user = await getUserSession();
@@ -54,9 +54,8 @@ export default async function StoryEditPage({ params }: { params: unknown }) {
 	const { story, user } = await getDataByRequest(storyId);
 	const device = getDevice(headers().get("user-agent") || undefined);
 	return (
-		<EditStory
+		<EditStorySwitchMode
 			story={story}
-			storyId={storyId}
 			device={device}
 			onSubmit={async (input) => {
 				"use server";

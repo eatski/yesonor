@@ -34,7 +34,7 @@ export const EditStory: React.FC<Props> = ({
 			<Heading level={1}>{story.title}</Heading>
 			{device === "desktop" && (
 				<div className={styles.navigation}>
-					<Link href={`/stories/${storyId}/edit/yaml`}>
+					<Link href={`/stories/${storyId}/edit?mode=yaml`}>
 						<GenericButton color={"zero"} size={"small"}>
 							<ButtonIconWrapper>
 								<AiOutlineUpload />
