@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://iesona.com
+
+# Sitemaps
+Sitemap: https://iesona.com/sitemap.xml

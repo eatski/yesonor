@@ -40,9 +40,3 @@ next-env.d.ts
 /playwright-report/
 /playwright/.cache/
 /db
-
-# sitemap
-/public/sitemap.xml
-/public/sitemap-*.xml
-
-robots.txt
