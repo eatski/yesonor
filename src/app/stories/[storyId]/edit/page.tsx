@@ -57,7 +57,7 @@ export default async function StoryEditPage({ params }: { params: unknown }) {
 		<EditStorySwitchMode
 			story={story}
 			device={device}
-			onSubmit={async (input) => {
+			saveStory={async (input) => {
 				"use server";
 				const ok = await updateStory({
 					storyId,

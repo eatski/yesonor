@@ -15,10 +15,10 @@ export const EditStoryYaml: React.FC<{
 		title: string;
 		id: string;
 	};
-	onSubmit: (data: StoryInit) => Promise<void>;
-}> = ({ story, onSubmit }) => {
+	saveStory: (data: StoryInit) => Promise<void>;
+}> = ({ story, saveStory }) => {
 	const router = useRouter();
-	const { mutate, isIdle } = useMutation(onSubmit);
+	const { mutate, isIdle } = useMutation(saveStory);
 	const storyId = story.id;
 
 	const handleFileRead = useCallback(

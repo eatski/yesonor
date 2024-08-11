@@ -18,16 +18,16 @@ export type Props = {
 	storyId: string;
 	story: StoryInit;
 	device: Device;
-	onSubmit: (data: StoryInit) => Promise<void>;
+	saveStory: (data: StoryInit) => Promise<void>;
 };
 
 export const EditStory: React.FC<Props> = ({
 	storyId,
 	story,
 	device,
-	onSubmit,
+	saveStory,
 }) => {
-	const { isLoading, mutate, isError } = useMutation(onSubmit);
+	const { isLoading, mutate, isError } = useMutation(saveStory);
 	const router = useRouter();
 	return (
 		<div className={styles.container}>
