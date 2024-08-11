@@ -4,12 +4,28 @@ import { ReactQueryContextProvider } from "@/common/context/ReactQueryContextPro
 import { brand } from "@/common/texts";
 import { Toast } from "@/components/toast";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Metadata } from "next";
 import Script from "next/script";
 import { Layout } from "../components/layout";
 
-export const metadata = {
+export const metadata: Metadata = {
 	title: `${brand.serviceName}(${brand.serviceNickname}) - ${brand.serviceDescription}`,
 	description: brand.serviceDescriptionLong,
+	openGraph: {
+		title: `${brand.serviceName}(${brand.serviceNickname}) - ${brand.serviceDescription}`,
+		description: brand.serviceDescriptionLong,
+		siteName: brand.serviceName,
+		url: brand.origin,
+		type: "website",
+		images: `${brand.origin}/card.png`,
+	},
+	twitter: {
+		card: "summary",
+		images: `${brand.origin}/card_square.png`,
+	},
+	verification: {
+		google: "toLriA_msPJP10377YaTkJyFwrtjpZUR9NqyWeug61s",
+	},
 };
 
 export default function RootLayout({
@@ -22,27 +38,6 @@ export default function RootLayout({
 			<head>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<link rel="icon" href="/favicon.ico" />
-				<meta property="og:url" content="https://iesona.com" />
-				<meta
-					property="og:title"
-					content={`${brand.serviceName}(${brand.serviceNickname}) - ${brand.serviceDescription}`}
-				/>
-				<meta property="og:site_name" content={brand.serviceName} />
-				<meta
-					property="og:description"
-					content={brand.serviceDescriptionLong}
-				/>
-				<meta property="og:type" content="website" />
-				<meta property="og:image" content="https://iesona.com/card.png" />
-				<meta name="twitter:card" content="summary" />
-				<meta
-					name="twitter:image"
-					content="https://iesona.com/card_square.png"
-				/>
-				<meta
-					name="google-site-verification"
-					content="toLriA_msPJP10377YaTkJyFwrtjpZUR9NqyWeug61s"
-				/>
 			</head>
 			<Script
 				src="https://www.googletagmanager.com/gtag/js?id=G-1VTTNL7SR2"
