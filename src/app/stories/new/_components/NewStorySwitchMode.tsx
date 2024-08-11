@@ -1,3 +1,4 @@
+"use client";
 import { type Device } from "@/common/util/device";
 import { NewStory } from "@/components/newStory";
 import { NewStoryYaml } from "@/components/newStoryYaml";
