@@ -1,4 +1,4 @@
-import { type Device, getDevice } from "@/common/util/device";
+import { getDevice } from "@/common/util/device";
 import { NewStory } from "@/components/newStory";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { createStory } from "@/server/services/story/createStory";

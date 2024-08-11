@@ -28,7 +28,7 @@ export const NewStory: React.FC<Props> = ({ device, createStory }) => {
 			<Heading level={1}>新しいストーリーを投稿</Heading>
 			{device === "desktop" && (
 				<div className={styles.navigation}>
-					<Link href={`/stories/new/yaml`}>
+					<Link href={`/stories/new?mode=yaml`}>
 						<GenericButton color={"zero"} size={"small"}>
 							<ButtonIconWrapper>
 								<AiOutlineUpload />
