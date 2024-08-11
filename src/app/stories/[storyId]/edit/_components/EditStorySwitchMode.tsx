@@ -8,11 +8,11 @@ import { useSearchParams } from "next/navigation";
 export const EditStorySwitchMode = ({
 	story,
 	device,
-	onSubmit,
+	saveStory,
 }: {
 	story: Story;
 	device: Device;
-	onSubmit: (data: StoryInit) => Promise<void>;
+	saveStory: (data: StoryInit) => Promise<void>;
 }) => {
 	const searchParams = useSearchParams();
 	const mode = searchParams?.get("mode");
@@ -23,7 +23,7 @@ export const EditStorySwitchMode = ({
 					title: story.title,
 					id: story.id,
 				}}
-				onSubmit={onSubmit}
+				saveStory={saveStory}
 			/>
 		);
 	} else {
@@ -32,7 +32,7 @@ export const EditStorySwitchMode = ({
 				storyId={story.id}
 				story={story}
 				device={device}
-				onSubmit={onSubmit}
+				saveStory={saveStory}
 			/>
 		);
 	}
