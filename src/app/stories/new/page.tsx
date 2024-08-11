@@ -1,9 +1,14 @@
-import { type Device, getDevice } from "@/common/util/device";
-import { NewStory } from "@/components/newStory";
+import { getDevice } from "@/common/util/device";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { createStory } from "@/server/services/story/createStory";
+import { Metadata } from "next";
 import { headers } from "next/headers";
 import { RedirectType, notFound, redirect } from "next/navigation";
+import { NewStorySwitchMode } from "./_components/NewStorySwitchMode";
+
+export const metadata: Metadata = {
+	title: "新しいストーリー",
+};
 
 export default async function NewStoryPage() {
 	const session = await getUserSession();
@@ -15,7 +20,7 @@ export default async function NewStoryPage() {
 	}
 	const device = getDevice(headers().get("user-agent") || undefined);
 	return (
-		<NewStory
+		<NewStorySwitchMode
 			device={device}
 			createStory={async (data) => {
 				"use server";
