@@ -19,7 +19,7 @@ const abTestVarToQuestionToAI = {
 	[AB_TESTING_VARIANTS.GPT4O]: questionToAI,
 } as const;
 
-export const askQuestio = async (
+export const askQuestion = async (
 	question: string,
 	story: Story,
 	abPromise: Promise<ABTestingVariant>,
