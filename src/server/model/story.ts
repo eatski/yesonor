@@ -92,18 +92,3 @@ export type QuestionExample = z.infer<typeof questionExample>;
 export type QuestionExampleWithCustomMessage = QuestionExample & {
 	customMessage: string;
 };
-
-export const filterWithCustomMessage = (
-	examples: QuestionExample[],
-): QuestionExampleWithCustomMessage[] => {
-	const filterd: QuestionExampleWithCustomMessage[] = [];
-	for (const example of examples) {
-		if (example.customMessage) {
-			filterd.push({
-				...example,
-				customMessage: example.customMessage,
-			});
-		}
-	}
-	return filterd;
-};

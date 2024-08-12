@@ -1,8 +1,7 @@
-import { getDevice } from "@/common/util/device";
+import { getDevice } from "@/server/serverComponent/getDevice";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { createStory } from "@/server/services/story/createStory";
 import { Metadata } from "next";
-import { headers } from "next/headers";
 import { RedirectType, notFound, redirect } from "next/navigation";
 import { NewStorySwitchMode } from "./_components/NewStorySwitchMode";
 
@@ -18,7 +17,7 @@ export default async function NewStoryPage() {
 			RedirectType.replace,
 		);
 	}
-	const device = getDevice(headers().get("user-agent") || undefined);
+	const device = getDevice();
 	return (
 		<NewStorySwitchMode
 			device={device}

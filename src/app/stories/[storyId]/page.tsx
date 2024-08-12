@@ -1,12 +1,13 @@
 import { brand } from "@/common/texts";
-import { getDevice } from "@/common/util/device";
+import { uaToDevice } from "@/common/util/device";
 import { Play } from "@/components/play";
 import { StoryDescription } from "@/components/storyDescription";
 import type { Story } from "@/server/model/story";
+import { getDevice } from "@/server/serverComponent/getDevice";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { setupABTestValue } from "@/server/serverComponent/setupABTestingVariant";
 import { checkAnswer } from "@/server/services/answer";
-import { askQuestio } from "@/server/services/question";
+import { askQuestion } from "@/server/services/question";
 import { verifyRecaptcha } from "@/server/services/recaptcha";
 import { getStories, getStory } from "@/server/services/story";
 import { deleteStory } from "@/server/services/story/deleteStory";
@@ -173,7 +174,7 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 						await get("questionLimitation"),
 					);
 
-					const device = getDevice(headers().get("user-agent") || undefined);
+					const device = getDevice();
 					if (questionLimitation.desktopOnly && device !== "desktop") {
 						return {
 							canPlay: false,
@@ -187,7 +188,7 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 				sendQuestion={async (input) => {
 					"use server";
 					await verifyRecaptcha(input.recaptchaToken);
-					return askQuestio(input.text, story, setupABTestValue());
+					return askQuestion(input.text, story, setupABTestValue());
 				}}
 				checkAnswer={async (input) => {
 					"use server";

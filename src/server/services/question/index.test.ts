@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
-import { askQuestio } from ".";
+import { askQuestion } from ".";
 import { AB_TESTING_VARIANTS } from "../../../common/abtesting";
 import { parseYaml } from "../../../common/util/parseYaml";
 import { applyTestHooks } from "../../../libs/msw-cache/vitest";
@@ -32,7 +32,7 @@ const loadStory = (storyYaml: string): Story => {
 describe.each([
 	AB_TESTING_VARIANTS.ONLY_SONNET,
 	AB_TESTING_VARIANTS.GPT4O,
-] as const)("service/question/askQuestio  %s", (ab) => {
+] as const)("service/question/askQuestion  %s", (ab) => {
 	applyTestHooks();
 	const storyTamada = loadStory("test.yaml");
 	const storyHanako = loadStory("test2.yaml");
@@ -81,7 +81,7 @@ describe.each([
 	])(
 		"真相に対して正しい質問をするとTrueが返る $question",
 		async ({ question, story }) => {
-			const result = await askQuestio(question, story, Promise.resolve(ab));
+			const result = await askQuestion(question, story, Promise.resolve(ab));
 			expect(result.answer).toEqual("True");
 		},
 	);
@@ -129,7 +129,7 @@ describe.each([
 	])(
 		"真相に対して正しくない質問をするとFalseが返る $question",
 		async ({ question, story }) => {
-			const result = await askQuestio(question, story, Promise.resolve(ab));
+			const result = await askQuestion(question, story, Promise.resolve(ab));
 			expect(result.answer).toEqual("False");
 		},
 	);
@@ -153,7 +153,7 @@ describe.each([
 	])(
 		"真相では言及されていない質問をするとUnknownが返る $question",
 		async ({ question, story }) => {
-			const result = await askQuestio(question, story, Promise.resolve(ab));
+			const result = await askQuestion(question, story, Promise.resolve(ab));
 			expect(result.answer).toEqual("Unknown");
 		},
 	);
@@ -181,7 +181,7 @@ describe.each([
 	])(
 		"customMessageを持つquestionExamlpeに近しい質問をすると、customMessageが返る $question",
 		async ({ question, story, expected }) => {
-			const result = await askQuestio(question, story, Promise.resolve(ab));
+			const result = await askQuestion(question, story, Promise.resolve(ab));
 			expect(result.hitQuestionExample?.customMessage).toBe(expected);
 		},
 	);
@@ -193,7 +193,7 @@ describe.each([
 	])(
 		"customMessageを持つquestionExamlpeに近しくない質問をすると、customMessageが返らない",
 		async ({ question, story }) => {
-			const result = await askQuestio(question, story, Promise.resolve(ab));
+			const result = await askQuestion(question, story, Promise.resolve(ab));
 			expect(result.hitQuestionExample?.customMessage).not.toBeDefined();
 		},
 	);
