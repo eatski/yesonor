@@ -1,10 +1,9 @@
-import { getDevice } from "@/common/util/device";
+import { getDevice } from "@/server/serverComponent/getDevice";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { getStory } from "@/server/services/story";
 import { updateStory } from "@/server/services/story/updateStory";
 import { Metadata } from "next";
 import { revalidateTag } from "next/cache";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import { z } from "zod";
@@ -52,7 +51,7 @@ export const generateMetadata = async ({
 export default async function StoryEditPage({ params }: { params: unknown }) {
 	const { storyId } = paramsSchema.parse(params);
 	const { story, user } = await getDataByRequest(storyId);
-	const device = getDevice(headers().get("user-agent") || undefined);
+	const device = getDevice();
 	return (
 		<EditStorySwitchMode
 			story={story}
