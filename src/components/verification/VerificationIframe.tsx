@@ -6,13 +6,10 @@ const getNow = () => new Date().getTime().toString();
 export const useVerificationIframe = () => {
 	const [verificationId, setVerificationId] = useState(getNow);
 	useEffect(() => {
-		const id = setInterval(
-			() => {
-				const now = getNow();
-				setVerificationId(now);
-			},
-			1000 * 60 * 5,
-		);
+		const id = setInterval(() => {
+			const now = getNow();
+			setVerificationId(now);
+		}, 1000);
 	}, []);
 
 	return {
