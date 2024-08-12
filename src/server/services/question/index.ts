@@ -1,3 +1,4 @@
+import { ToUnionWithField } from "@/common/util/type";
 import DataLoader from "dataloader";
 import {
 	type ABTestingVariant,
@@ -5,7 +6,6 @@ import {
 } from "../../../common/abtesting";
 import { calculateEuclideanDistance } from "../../../libs/math";
 import { openai } from "../../../libs/openai";
-import { prepareProura } from "../../../libs/proura";
 import type {
 	QuestionExample,
 	QuestionExampleWithCustomMessage,
@@ -24,92 +24,95 @@ export const askQuestion = async (
 	story: Story,
 	abPromise: Promise<ABTestingVariant>,
 ) => {
-	const proura = prepareProura();
 	const embeddingsDataLoader = new DataLoader((texts: readonly string[]) => {
 		return openai.embeddings
 			.create({
 				model: "text-embedding-ada-002",
 				input: [...texts],
 			})
-			.then((res) => res.data);
-	});
-	const { answer, hitQuestionExample } = await proura
-		.add("questionEmbedding", async () => {
-			return embeddingsDataLoader.load(question);
-		})
-		.add("sortedExamplesWithDistance", async (dependsOn) => {
-			const embeddings = await embeddingsDataLoader.loadMany(
-				story.questionExamples.map(({ question }) => question),
+			.then((res) =>
+				res.data.map(({ index, embedding }) => {
+					const text = texts[index];
+					if (text === undefined) {
+						throw new Error("index out of range");
+					}
+					return {
+						input: text,
+						embedding: embedding,
+					};
+				}),
 			);
-			const questionEmbedding = await dependsOn("questionEmbedding");
-			const result: {
-				example: QuestionExample;
-				distance: number;
-			}[] = [];
-			embeddings.forEach((embedding, index) => {
-				const example = story.questionExamples[index];
-				if (!example) {
-					throw new Error("index out of range");
-				}
-				if (embedding instanceof Error) {
-					console.error(embedding);
-					return;
-				}
-				const distance = calculateEuclideanDistance(
-					questionEmbedding.embedding,
-					embedding.embedding,
-				);
-				result.push({
-					example,
-					distance,
-				});
+	});
+	const questonEmbedding = embeddingsDataLoader.load(question);
+	const examplesEmbeddings = embeddingsDataLoader.loadMany(
+		story.questionExamples.map(({ question }) => question),
+	);
+
+	const sortedExamplesWithDistance = examplesEmbeddings.then(
+		async (embeddings) => {
+			return questonEmbedding.then((questonEmbedding) => {
+				return embeddings
+					.map((item) => {
+						if (item instanceof Error) {
+							console.error(item);
+							return null;
+						}
+						const distance = calculateEuclideanDistance(
+							questonEmbedding.embedding,
+							item.embedding,
+						);
+						const example = story.questionExamples.find(
+							({ question }) => question === item.input,
+						);
+						if (!example) {
+							throw new Error("example not found");
+						}
+						return {
+							example,
+							distance,
+						};
+					})
+					.filter((e) => e !== null)
+					.toSorted((a, b) => a.distance - b.distance);
 			});
-			result.sort((a, b) => a.distance - b.distance);
-			return result;
+		},
+	);
+
+	const answer = sortedExamplesWithDistance
+		.then((examples) => {
+			return ["True", "False", "Unknown"]
+				.map((answer) => {
+					return examples.find(({ example }) => example.answer === answer);
+				})
+				.filter((e) => e !== undefined);
 		})
-		.add("answer", async (dependsOn) => {
-			const examples = await dependsOn("sortedExamplesWithDistance");
-			const pickedFewExamples: typeof examples = [];
-			["True", "False", "Unknown"].forEach((answer) => {
-				const example = examples.find(
-					({ example }) => example.answer === answer,
-				);
-				example && pickedFewExamples.push(example);
-			});
+		.then((pickedFewExamples) => {
 			const inputStory = {
 				quiz: story.quiz,
 				truth: story.truth,
 				questionExamples: pickedFewExamples.map(({ example }) => example),
 			};
-			const ab = await abPromise;
-			const selected = abTestVarToQuestionToAI[ab];
-			return selected(inputStory, question);
-		})
-		.add("hitQuestionExample", async (dependsOn) => {
-			const answer = await dependsOn("answer");
-			const examples = await dependsOn("sortedExamplesWithDistance");
-			const recur = ([
-				head,
-				...tail
-			]: typeof examples): QuestionExampleWithCustomMessage | null => {
-				if (!head) {
-					return null;
-				}
-				const { example, distance } = head;
-				if (example.customMessage && distance < 0.3) {
-					return {
-						...example,
-						customMessage: example.customMessage,
-					};
-				}
-				return recur(tail);
-			};
-			const hit = recur(examples);
-			return hit?.answer === answer ? hit : null;
-		})
-		.exec();
+			return abPromise.then((ab) => {
+				const selected = abTestVarToQuestionToAI[ab];
+				return selected(inputStory, question);
+			});
+		});
+
+	const hitQuestionExample = sortedExamplesWithDistance.then((examples) => {
+		return answer.then((answer) => {
+			return examples
+				.filter(({ example }) => example.answer === answer)
+				.filter(({ distance }) => distance < 0.3)
+				.map(({ example }) => example)
+				.find<QuestionExampleWithCustomMessage>(
+					(example: ToUnionWithField<QuestionExample, "customMessage">) =>
+						typeof example.customMessage === "string",
+				);
+		});
+	});
+
 	return {
-		answer,
-		hitQuestionExample,
+		answer: await answer,
+		hitQuestionExample: (await hitQuestionExample) || null,
 	};
 };
