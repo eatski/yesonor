@@ -3,7 +3,6 @@ import { test, expect } from '@playwright/test';
 import { PrismaClient } from '@prisma/client';
 import { resolveFixturePath } from '../fixtures';
 import { generateId } from '@/common/util/id';
-import { RECAPTCHA_COOKIE_KEY } from '@/common/util/grecaptcha';
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -58,12 +57,6 @@ test('質問の送信', async ({ page }) => {
     })
     
     await page.goto(BASE_URL + "/stories/" + storyId);
-    process.env.MACHINE_TOKEN && await page.context().addCookies([{
-        name: RECAPTCHA_COOKIE_KEY,
-        value: process.env.MACHINE_TOKEN,
-        url: BASE_URL,
-        httpOnly: true
-    }]);
     await page.waitForLoadState("networkidle")
     const input = await page.getByRole('textbox', { name: "AIへの質問" });
     await input.fill("あなたはAIですか？");

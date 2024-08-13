@@ -16,8 +16,6 @@ import {
 	vitest,
 } from "vitest";
 
-import * as recapcha from "../../common/util/grecaptcha";
-
 const Provider: React.FC<PropsWithChildren> = ({ children }) => {
 	const queryClient = useMemo(() => new QueryClient(), []);
 	return (
@@ -30,9 +28,6 @@ describe("useQuestion", () => {
 
 	beforeEach(() => {
 		server.listen();
-		vi.spyOn(recapcha, "getRecaptchaToken").mockReturnValue(
-			Promise.resolve("test"),
-		);
 	});
 
 	afterEach(() => {
@@ -115,13 +110,11 @@ describe("useQuestion", () => {
 			[
 			  [
 			    {
-			      "recaptchaToken": "test",
 			      "text": "太郎は犬ですか？",
 			    },
 			  ],
 			  [
 			    {
-			      "recaptchaToken": "test",
 			      "text": "太郎は猫ですか？",
 			    },
 			  ],

@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { z } from "zod";
-import { getRecaptchaToken } from "../../common/util/grecaptcha";
 import type {
 	Answer,
 	QuestionExampleWithCustomMessage,
@@ -48,7 +47,6 @@ const useMutableHistory = () => {
 export const useQuestion = (
 	sendQuestion: (args: {
 		text: string;
-		recaptchaToken: string;
 	}) => Promise<{
 		answer: z.infer<typeof answer>;
 		hitQuestionExample: QuestionExampleWithCustomMessage | null;
@@ -69,7 +67,6 @@ export const useQuestion = (
 			const id = pushHistory({ input: text, result: null });
 			const result = await mutateAsync({
 				text,
-				recaptchaToken: await getRecaptchaToken(),
 			});
 			const simpleMessage = (
 				{

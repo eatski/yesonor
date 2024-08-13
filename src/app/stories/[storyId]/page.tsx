@@ -8,7 +8,6 @@ import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { setupABTestValue } from "@/server/serverComponent/setupABTestingVariant";
 import { checkAnswer } from "@/server/services/answer";
 import { askQuestion } from "@/server/services/question";
-import { verifyRecaptcha } from "@/server/services/recaptcha";
 import { getStories, getStory } from "@/server/services/story";
 import { deleteStory } from "@/server/services/story/deleteStory";
 import {
@@ -187,12 +186,10 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 				}}
 				sendQuestion={async (input) => {
 					"use server";
-					await verifyRecaptcha(input.recaptchaToken);
 					return askQuestion(input.text, story, setupABTestValue());
 				}}
 				checkAnswer={async (input) => {
 					"use server";
-					await verifyRecaptcha(input.recaptchaToken);
 					return checkAnswer(input.text, story);
 				}}
 				postStoryEvalution={async () => {
