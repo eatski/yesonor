@@ -15,7 +15,6 @@ export const useVerificationIframe = () => {
 	return {
 		iframe: (
 			<iframe
-				style={{ display: "none" }}
 				src={`/verification?${VERIFICATION_PARAMETER_NAME}=${verificationId}`}
 			/>
 		),
