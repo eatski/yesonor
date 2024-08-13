@@ -1,6 +1,8 @@
+import { ToUnionWithField } from "@/common/util/type";
 import { OpenAI } from "openai";
 import {
 	ChatCompletionCreateParamsNonStreaming,
+	ChatCompletionMessageParam,
 	EmbeddingCreateParams,
 } from "openai/resources";
 const openai = new OpenAI({
@@ -13,6 +15,16 @@ const openai = new OpenAI({
 export const createOpenAICompletion = async (
 	config: ChatCompletionCreateParamsNonStreaming,
 ) => {
+	// いずれかのmessageの中身が1000文字を超えた場合、エラーを返す。
+	const tooLong = config.messages
+		.filter(
+			(m: ToUnionWithField<ChatCompletionMessageParam, "content">) =>
+				m.content !== null && m.content !== undefined,
+		)
+		.find((m) => m.content.length > 500);
+	if (tooLong) {
+		throw new Error(`message content is too long(${tooLong.content.length})`);
+	}
 	return openai.chat.completions.create(config);
 };
 
