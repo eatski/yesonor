@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { openai } from "../../../../libs/openai";
+import { createOpenAICompletion } from "../../../../libs/openai";
 import type { QuestionExample } from "../../../../server/model/story";
 import { answer as answerSchema } from "../../../model/story";
 const systemPromptPromise = readFile(
@@ -15,7 +15,7 @@ export const questionToAI = async (
 	},
 	question: string,
 ) => {
-	const response = await openai.chat.completions.create({
+	const response = await createOpenAICompletion({
 		model: "gpt-4o-mini-2024-07-18",
 		user: "testes",
 		max_tokens: 1,

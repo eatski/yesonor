@@ -3,26 +3,24 @@ import {
 	FALLBACK_DISTANCE,
 	calculateEuclideanDistance,
 } from "../../../libs/math";
-import { openai } from "../../../libs/openai";
+import { createOpenAIEmbedding } from "../../../libs/openai";
 import { Story } from "../../../server/model/story";
 import { createPrompt } from "./createPrompt";
 
 export const checkAnswer = async (answer: string, story: Story) => {
-	const distance = openai.embeddings
-		.create({
-			model: "text-embedding-ada-002",
-			input: [story.simpleTruth, answer],
-		})
-		.then(({ data: [textA, textB] }) => {
-			if (!textA || !textB) {
-				return FALLBACK_DISTANCE;
-			}
-			const distanceVal = calculateEuclideanDistance(
-				textA.embedding,
-				textB.embedding,
-			);
-			return Math.round(distanceVal * 100) / 100;
-		});
+	const distance = createOpenAIEmbedding({
+		model: "text-embedding-ada-002",
+		input: [story.simpleTruth, answer],
+	}).then(({ data: [textA, textB] }) => {
+		if (!textA || !textB) {
+			return FALLBACK_DISTANCE;
+		}
+		const distanceVal = calculateEuclideanDistance(
+			textA.embedding,
+			textB.embedding,
+		);
+		return Math.round(distanceVal * 100) / 100;
+	});
 	const isCorrect = createPrompt(story.simpleTruth).then((systemPrompt) =>
 		createMessage({
 			model: "claude-3-opus-20240229",

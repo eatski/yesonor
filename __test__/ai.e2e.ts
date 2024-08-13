@@ -1,5 +1,5 @@
 import parser from 'node-html-parser';
-import { openai } from "@/libs/openai";
+import { createOpenAICompletion } from "@/libs/openai";
 import { z } from "zod";
 import {zodToJsonSchema} from "zod-to-json-schema"
 import { ARIARoleDefinitionKey, roles } from "aria-query";
@@ -113,7 +113,7 @@ test("ai", async ({page})  => {
     await page.goto(BASE_URL);
     const minimumHtml = purizeHtml(await page.content());
     console.log(minimumHtml);
-    const result = await openai.chat.completions.create({
+    const result = await createOpenAICompletion({
         model: "gpt-4o-2024-05-13",
         tools: [
             {
@@ -143,7 +143,7 @@ test("ai", async ({page})  => {
     console.log(cases);
 
     const testCaseDetails = await Promise.all(cases.map(async c => {
-        const result = await openai.chat.completions.create({
+        const result = await createOpenAICompletion({
             model: "gpt-4o-2024-05-13",
             tools: [
                 {
@@ -213,7 +213,7 @@ test("ai", async ({page})  => {
         console.log(testCase.case);
         const html = purizeHtml(await page.content());
 
-        const result = await openai.chat.completions.create({
+        const result = await createOpenAICompletion({
             model: "gpt-4o-2024-05-13",
             temperature: 0,
             messages: [

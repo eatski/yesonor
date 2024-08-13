@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { createMessage } from "../claude";
-import { openai } from "../openai";
+import { createOpenAICompletion, createOpenAIEmbedding } from "../openai";
 import { applyTestHooks } from "./vitest";
 
 describe("initCacheMswServer", () => {
@@ -13,7 +13,7 @@ describe("initCacheMswServer", () => {
 		expect(json).toMatchSnapshot();
 	});
 	test("openai", async () => {
-		const { choices } = await openai.chat.completions.create({
+		const { choices } = await createOpenAICompletion({
 			model: "gpt-3.5-turbo",
 			messages: [
 				{
@@ -30,7 +30,7 @@ describe("initCacheMswServer", () => {
 		expect(choices).toMatchSnapshot();
 	});
 	test("embeddings", async () => {
-		const { data } = await openai.embeddings.create({
+		const { data } = await createOpenAIEmbedding({
 			model: "text-embedding-ada-002",
 			input: [
 				"Once upon a time",
