@@ -9,12 +9,13 @@ export const useVerificationIframe = () => {
 		const id = setInterval(() => {
 			const now = getNow();
 			setVerificationId(now);
-		}, 1000);
+		}, 1000 * 5);
 	}, []);
 
 	return {
 		iframe: (
 			<iframe
+				style={{ display: "none" }}
 				src={`/verification?${VERIFICATION_PARAMETER_NAME}=${verificationId}`}
 			/>
 		),
