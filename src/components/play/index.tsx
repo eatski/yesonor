@@ -1,5 +1,4 @@
 "use client";
-import { CLIENT_KEY, getRecaptchaToken } from "@/common/util/grecaptcha";
 import { gtagEvent } from "@/common/util/gtag";
 import { Button } from "@/designSystem/components/button";
 import type {
@@ -8,7 +7,6 @@ import type {
 	answer as answerSchema,
 } from "@/server/model/story";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import Script from "next/script";
 import { useCallback, useState } from "react";
 import { z } from "zod";
 import { useConfirmModal } from "../confirmModal";
@@ -35,14 +33,12 @@ type Props = {
 	>;
 	sendQuestion: (args: {
 		text: string;
-		recaptchaToken: string;
 	}) => Promise<{
 		answer: z.infer<typeof answerSchema>;
 		hitQuestionExample: QuestionExampleWithCustomMessage | null;
 	}>;
 	checkAnswer: (args: {
 		text: string;
-		recaptchaToken: string;
 	}) => Promise<{
 		isCorrect: boolean;
 		distance: number;
@@ -55,7 +51,6 @@ const AnswerFormContainer: React.FC<{
 	changeMode: (mode: Mode) => void;
 	checkAnswer: (args: {
 		text: string;
-		recaptchaToken: string;
 	}) => Promise<{
 		isCorrect: boolean;
 		distance: number;
@@ -66,7 +61,6 @@ const AnswerFormContainer: React.FC<{
 		async (text: string) => {
 			const response = await checkAnswer({
 				text: text,
-				recaptchaToken: await getRecaptchaToken(),
 			});
 			return {
 				...response,
@@ -162,10 +156,6 @@ export function Play({
 
 	return (
 		<>
-			<Script
-				strategy="lazyOnload"
-				src={`https://www.google.com/recaptcha/api.js?render=${CLIENT_KEY}`}
-			/>
 			{mode === "question" && (
 				<div className={styles.sectionWrapper}>
 					<QuestionForm
