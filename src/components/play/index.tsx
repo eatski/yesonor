@@ -12,7 +12,6 @@ import Script from "next/script";
 import { useCallback, useState } from "react";
 import { z } from "zod";
 import { useConfirmModal } from "../confirmModal";
-import { useVerificationIframe } from "../verification/VerificationIframe";
 import { AnswerForm } from "./components/answerForm";
 import { AnswerResult } from "./components/answerResult";
 import { Feed } from "./components/feed";
@@ -154,7 +153,6 @@ export function Play({
 		queryFn: () => fetchCanPlay(),
 	});
 	const { confirm, view } = useConfirmModal();
-	const { iframe } = useVerificationIframe();
 	if (canPlayResult && !canPlayResult.canPlay) {
 		switch (canPlayResult.reason) {
 			case "desktop_only":
@@ -164,7 +162,6 @@ export function Play({
 
 	return (
 		<>
-			{iframe}
 			<Script
 				strategy="lazyOnload"
 				src={`https://www.google.com/recaptcha/api.js?render=${CLIENT_KEY}`}
