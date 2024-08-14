@@ -5,7 +5,8 @@ import {
 	type StoryWithQuestionLogs,
 	questionExample,
 } from "@/server/model/story";
-import type { Story as DbStory, QuestionLog, User } from "@prisma/client";
+import { User } from "@/server/model/user";
+import type { Story as DbStory, QuestionLog } from "@prisma/client";
 import { z } from "zod";
 
 const hydrateQuestionExamples = (

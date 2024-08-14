@@ -14,7 +14,12 @@ export const getStories = nextCache(
 					publishedAt: "desc",
 				},
 				include: {
-					author: true,
+					author: {
+						select: {
+							id: true,
+							name: true,
+						},
+					},
 				},
 			})
 			.then((stories) => stories.map(omitStory));
@@ -93,7 +98,12 @@ export const getStory = ({
 						...createFindFirstWhereByFilter(storyId, filter),
 					},
 					include: {
-						author: true,
+						author: {
+							select: {
+								id: true,
+								name: true,
+							},
+						},
 					},
 				})
 				.then((story) => {
@@ -127,7 +137,12 @@ export const getStoriesWithAuthorId = async (args: {
 				},
 			],
 			include: {
-				author: true,
+				author: {
+					select: {
+						id: true,
+						name: true,
+					},
+				},
 			},
 		})
 		.then((stories) => stories.map(omitStory));
