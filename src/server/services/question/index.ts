@@ -5,7 +5,7 @@ import {
 	AB_TESTING_VARIANTS,
 } from "../../../common/abtesting";
 import { calculateEuclideanDistance } from "../../../libs/math";
-import { openai } from "../../../libs/openai";
+import { createOpenAIEmbedding } from "../../../libs/openai";
 import type {
 	QuestionExample,
 	QuestionExampleWithCustomMessage,
@@ -25,23 +25,21 @@ export const askQuestion = async (
 	abPromise: Promise<ABTestingVariant>,
 ) => {
 	const embeddingsDataLoader = new DataLoader((texts: readonly string[]) => {
-		return openai.embeddings
-			.create({
-				model: "text-embedding-ada-002",
-				input: [...texts],
-			})
-			.then((res) =>
-				res.data.map(({ index, embedding }) => {
-					const text = texts[index];
-					if (text === undefined) {
-						throw new Error("index out of range");
-					}
-					return {
-						input: text,
-						embedding: embedding,
-					};
-				}),
-			);
+		return createOpenAIEmbedding({
+			model: "text-embedding-ada-002",
+			input: [...texts],
+		}).then((res) =>
+			res.data.map(({ index, embedding }) => {
+				const text = texts[index];
+				if (text === undefined) {
+					throw new Error("index out of range");
+				}
+				return {
+					input: text,
+					embedding: embedding,
+				};
+			}),
+		);
 	});
 	const questonEmbedding = embeddingsDataLoader.load(question);
 	const examplesEmbeddings = embeddingsDataLoader.loadMany(

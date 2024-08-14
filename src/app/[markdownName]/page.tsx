@@ -7,7 +7,6 @@ import { notFound } from "next/navigation";
 import { parse } from "node-html-parser";
 import { z } from "zod";
 
-export const dynamic = "force-static";
 export const dynamicParams = false;
 
 const paramsSchema = z.object({

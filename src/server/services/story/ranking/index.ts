@@ -39,7 +39,12 @@ const findStoriesToRank = async () => {
 					result: "Correct",
 				},
 			},
-			author: true,
+			author: {
+				select: {
+					id: true,
+					name: true,
+				},
+			},
 		},
 		where: createGetStoryWhere({}),
 		orderBy: {
