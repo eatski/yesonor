@@ -1,5 +1,4 @@
 import { brand } from "@/common/texts";
-import { uaToDevice } from "@/common/util/device";
 import { Play } from "@/components/play";
 import { StoryDescription } from "@/components/storyDescription";
 import type { Story } from "@/server/model/story";
@@ -15,10 +14,10 @@ import {
 	unpublishStory,
 } from "@/server/services/story/publishStory";
 import { postStoryEvalution } from "@/server/services/storyEvalution/post";
-import { get } from "@vercel/edge-config";
+import { getQuestionLimitation } from "@/server/services/user/limitation";
 import { Metadata } from "next";
 import { revalidateTag } from "next/cache";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import { z } from "zod";
@@ -160,24 +159,14 @@ export default async function StoryPage({ params: { storyId } }: StoryProps) {
 				story={story}
 				fetchCanPlay={async () => {
 					"use server";
-					const thankyouCookie = cookies().get("thankyou");
-					if (
-						thankyouCookie &&
-						thankyouCookie.value === process.env.THANKYOU_CODE
-					) {
-						return {
-							canPlay: true,
-						};
-					}
-					const questionLimitation = questionLimitationSchema.parse(
-						await get("questionLimitation"),
-					);
-
-					const device = getDevice();
-					if (questionLimitation.desktopOnly && device !== "desktop") {
+					const limited = await getQuestionLimitation({
+						device: getDevice(),
+						getCookie: (key) => cookies().get(key)?.value || null,
+					});
+					if (limited) {
 						return {
 							canPlay: false,
-							reason: "desktop_only",
+							reason: limited,
 						};
 					}
 					return {
