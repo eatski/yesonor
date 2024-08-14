@@ -20,7 +20,6 @@ import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { cache } from "react";
-import { z } from "zod";
 import { MyStoryMenu } from "../../../components/myStoryMenu";
 import styles from "./page.module.scss";
 
@@ -80,10 +79,6 @@ export const generateStaticParams = async () => {
 		storyId: id.toString(),
 	}));
 };
-
-const questionLimitationSchema = z.object({
-	desktopOnly: z.boolean(),
-});
 
 const MyStoryMenuServer = async ({ story }: { story: Story }) => {
 	const session = await getUserSession().catch((e) => {
