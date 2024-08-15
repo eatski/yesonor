@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile.e2e
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    environment:
+      SUPABASE_POSTGRES_URL_NON_POOLING: postgres://postgres:postgres@db:5432/postgres
+      SUPABASE_POSTGRES_PRISMA_URL: postgres://postgres:postgres@db:5432/postgres?pgbouncer=true
+      MOCK_LOGIN: 1
+      RANKING_WEIGHT: '{"questionLogsLength": -0.1,"correctSolutionsLength": 0.3,"evaluationTotal": 0.9,"questionExamplesLength": 0.4,"random": 2,"timeFromPublished": -0.2}'
+      NEXTAUTH_SECRET: 'secret'
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      EDGE_CONFIG: ${EDGE_CONFIG}
+
+
