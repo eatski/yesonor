@@ -1,0 +1,19 @@
+# ベースイメージを指定（例：Node.jsの公式イメージの最新LTS版）
+FROM node:20
+
+# 作業ディレクトリを作成
+WORKDIR /app
+
+# アプリケーションのソースコードをコピー
+COPY . .
+
+RUN git clean -xdf
+
+# 依存関係をインストール
+RUN npm install
+
+# アプリケーションを起動
+CMD ["npm", "run", "dev"]
+
+# ポート番号を指定（例：3000）
+EXPOSE 3000
