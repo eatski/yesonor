@@ -8,6 +8,6 @@ Refer to your past responses to ensure consistency in your answers.
 Avoid answering with "Unknown" if possible.
 
 ## Output Format
-- True: Because xxx
-- False: Because xxx
-- Unknown: Because xxx
+- True
+- False
+- Unknown
