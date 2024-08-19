@@ -52,7 +52,7 @@
 		"zod-to-json-schema": "3.23.2"
 	},
 	"devDependencies": {
-		"@axe-core/playwright": "4.9.1",
+		"@axe-core/playwright": "4.10.0",
 		"@biomejs/biome": "1.8.3",
 		"@eslint/config-array": "0.18.0",
 		"@eslint/object-schema": "2.1.4",
