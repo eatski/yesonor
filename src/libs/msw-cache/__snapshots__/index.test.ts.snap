@@ -3,8 +3,17 @@
 exports[`initCacheMswServer > anthropic 1`] = `
 [
   {
-    "text": "Hello! How can I",
+    "text": "はい、春日さん。あなたの情報を登録させていただきます。",
     "type": "text",
+  },
+  {
+    "id": "toolu_01LxpnngSSuQJinjHD3xexDN",
+    "input": {
+      "age": 42,
+      "name": "春日",
+    },
+    "name": "register",
+    "type": "tool_use",
   },
 ]
 `;
