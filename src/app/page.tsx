@@ -32,7 +32,7 @@ export default async function Home() {
 					}))}
 					level={3}
 				/>
-				<Link href="/stories/rank" className={styles.seeMore}>
+				<Link href="/stories/rank" prefetch={true} className={styles.seeMore}>
 					<GenericButton color="none" size="medium">
 						おすすめを見る
 					</GenericButton>
@@ -50,7 +50,7 @@ export default async function Home() {
 					}))}
 					level={3}
 				/>
-				<Link href="/stories" className={styles.seeMore}>
+				<Link href="/stories" prefetch={true} className={styles.seeMore}>
 					<GenericButton color="none" size="medium">
 						全てのストーリー
 					</GenericButton>

@@ -41,15 +41,72 @@ describe("initCacheMswServer", () => {
 		expect(data.length).toMatchSnapshot();
 	});
 	test("anthropic", async () => {
+		const TOOL_USE_ID = "TOOL_USE_ID";
 		const result = await createMessage({
-			model: "claude-3-opus-20240229",
+			model: "claude-3-5-sonnet-20240620",
+			system: "与えられた情報をもとにageとnameを抽出しregisterしてください",
 			messages: [
 				{
 					role: "user",
-					content: "Hello, World",
+					content: "私は山田花子、30歳よ。私の情報をDBに登録してね",
+				},
+				{
+					role: "assistant",
+					content: [
+						{
+							id: TOOL_USE_ID,
+							type: "tool_use",
+							name: "register",
+							input: {
+								name: "山田花子",
+								age: 30,
+							},
+						},
+					],
+				},
+				{
+					role: "user",
+					content: [
+						{
+							type: "tool_result",
+							tool_use_id: TOOL_USE_ID,
+						},
+					],
+				},
+				{
+					role: "assistant",
+					content: "山田花子さんの情報を登録しました",
+				},
+
+				{
+					role: "user",
+					content: [
+						{
+							type: "text",
+							text: "僕は春日、42歳です〜",
+						},
+					],
 				},
 			],
-			max_tokens: 5,
+			tools: [
+				{
+					name: "register",
+					input_schema: {
+						type: "object",
+						properties: {
+							age: {
+								type: "integer",
+								minimum: 0,
+							},
+							name: {
+								type: "string",
+							},
+						},
+						required: ["age", "name"],
+					},
+				},
+			],
+			max_tokens: 1024,
 			stream: false,
 		});
 		expect(result.content).toMatchSnapshot();
