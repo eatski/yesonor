@@ -22,7 +22,7 @@ export const StoryList: React.FC<{
 				{stories.map(({ story, url }, index) => {
 					return (
 						<li key={story.id}>
-							<Link href={url}>
+							<Link href={url} prefetch={true}>
 								<Heading level={level} size="medium">
 									{story.title}
 								</Heading>
