@@ -1,14 +1,4 @@
-import {
-	afterEach,
-	beforeAll,
-	beforeEach,
-	describe,
-	expect,
-	it,
-	test,
-	vi,
-	vitest,
-} from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 
 import { resolveFixturePath } from "../../../../fixtures";
 import { prepareStoryFromYaml } from "../../../test/prepareStory";
