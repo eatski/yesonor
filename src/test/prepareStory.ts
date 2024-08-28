@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
-import { parseYaml } from "@/common/util/parseYaml";
 import { PrismaClient } from "@prisma/client";
+import { parseYaml } from "../common/util/parseYaml";
 
 const prisma = new PrismaClient();
 
@@ -10,6 +10,7 @@ export const prepareStoryFromYaml = async (
 		authorId: string;
 		storyId: string;
 		published: boolean;
+		date?: Date;
 	},
 ) => {
 	const story = parseYaml(readFileSync(yamlPath, "utf-8"));
@@ -33,13 +34,20 @@ export const prepareStoryFromYaml = async (
 		where: {
 			id: meta.storyId,
 		},
-		update: {},
+		update: {
+			...rest,
+			id: meta.storyId,
+			published: meta.published,
+			authorId: meta.authorId,
+			publishedAt: meta.date || new Date(),
+			questionExamples: JSON.stringify(questionExamples),
+		},
 		create: {
 			...rest,
 			id: meta.storyId,
 			published: meta.published,
 			authorId: meta.authorId,
-			publishedAt: new Date(),
+			publishedAt: meta.date || new Date(),
 			questionExamples: JSON.stringify(questionExamples),
 		},
 	});

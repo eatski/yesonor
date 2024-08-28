@@ -1,6 +1,6 @@
 import { getDevice } from "@/server/serverComponent/getDevice";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
-import { getStory } from "@/server/services/story";
+import { getStory } from "@/server/services/story/getStory";
 import { updateStory } from "@/server/services/story/updateStory";
 import { Metadata } from "next";
 import { revalidateTag } from "next/cache";
