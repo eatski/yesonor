@@ -6,7 +6,7 @@ export default async function PoC() {
 	const cachedNow = await nextCache(() => {
 		const now = new Date();
 		console.log("nextCache", now.toISOString());
-		return now;
+		return now.toISOString();
 	}, ["cachedNow"])();
 	const to = new Date();
 	return (
