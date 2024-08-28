@@ -32,7 +32,7 @@ export const getStories = nextCache(
 
 type FilterForFindFirst =
 	| {
-			type: "onlyPublic" | "includePrivate";
+			type: "onlyPublic";
 	  }
 	| {
 			type: "publicOrWithAuthor" | "withAuthorId";
@@ -58,10 +58,6 @@ const createFindFirstWhereByFilter = (
 			return {
 				id: storyId,
 				published: true,
-			};
-		case "includePrivate":
-			return {
-				id: storyId,
 			};
 		case "publicOrWithAuthor":
 			return {

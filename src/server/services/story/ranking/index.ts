@@ -108,7 +108,7 @@ export const getStoriesRecommended = nextCache(
 		scoredStories.sort((a, b) => b.score - a.score);
 		return scoredStories.map((e) => e.story).slice(0, count);
 	},
-	["getStoriesRecommende"],
+	["_getStoriesRecommende"],
 	{
 		revalidate: revalidateTime.medium,
 	},
