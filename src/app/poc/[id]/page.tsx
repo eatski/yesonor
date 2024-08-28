@@ -7,11 +7,17 @@ console.log(now.toISOString());
 export default async function PoC() {
 	cookies().get("key");
 	console.log("render", now.toISOString());
-	const cachedNow = await nextCache(() => {
-		const now = new Date();
-		console.log("nextCache", now.toISOString());
-		return now.toISOString();
-	}, ["cachedNow2"])();
+	const cachedNow = await nextCache(
+		() => {
+			const now = new Date();
+			console.log("nextCache", now.toISOString());
+			return now.toISOString();
+		},
+		["cachedNow2"],
+		{
+			revalidate: 100000,
+		},
+	)();
 	return (
 		<div>
 			<h1>PoC</h1>
