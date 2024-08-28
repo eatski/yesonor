@@ -24,7 +24,7 @@ export const getUser = async ({ userId }: { userId: string }) => {
 						: null,
 				);
 		},
-		["getUser", userId],
+		["_getUser", userId],
 		{
 			tags: [`/users/${userId}`],
 		},
