@@ -39,7 +39,7 @@ type FilterForFindFirst =
 			authorId: string;
 	  };
 
-const cacheKeyByFilter = (filter: FilterForFindFirst) => {
+const cacheKeyByFilter = (filter: FilterForFindFirst): string[] => {
 	const simpleTypedFilter: {
 		type: FilterForFindFirst["type"];
 		authorId?: string;
