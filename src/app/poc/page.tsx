@@ -6,7 +6,7 @@ export default function PoC() {
 			<h1>PoC</h1>
 			<p>Proof of concept.</p>
 			{[1, 2, 3].map((i) => (
-				<Link key={i} href={`/poc/${i}`}>
+				<Link prefetch key={i} href={`/poc/${i}`}>
 					{i}
 				</Link>
 			))}
