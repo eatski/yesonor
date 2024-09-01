@@ -89,7 +89,7 @@
 		"filenamify": "6.0.0",
 		"husky": "9.1.5",
 		"jsdom": "25.0.0",
-		"lint-staged": "15.2.9",
+		"lint-staged": "15.2.10",
 		"msw": "2.4.1",
 		"node-html-parser": "6.1.13",
 		"prisma": "5.18.0",
