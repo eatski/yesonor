@@ -82,7 +82,7 @@
 		"aria-query": "5.3.1",
 		"cross-env": "7.0.3",
 		"dotenv": "16.4.5",
-		"eslint": "8.57.0",
+		"eslint": "8.57.1",
 		"eslint-config-next": "14.2.11",
 		"eslint-plugin-storybook": "0.8.0",
 		"file-system-cache": "2.4.7",
