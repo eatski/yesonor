@@ -96,7 +96,7 @@
 		"storybook": "8.3.5",
 		"ts-node": "10.9.2",
 		"typescript": "5.6.3",
-		"vercel": "37.7.0",
+		"vercel": "37.7.1",
 		"vitest": "2.1.2"
 	},
 	"lint-staged": {
