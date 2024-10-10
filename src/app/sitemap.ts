@@ -1,6 +1,6 @@
 import { brand } from "@/common/texts";
 import { markdownNames } from "@/docs";
-import { getStories } from "@/server/services/story";
+import { getStories } from "@/server/services/story/getStories";
 import { MetadataRoute } from "next";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const stories = await getStories({

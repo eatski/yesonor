@@ -7,8 +7,9 @@ import { getUserSession } from "@/server/serverComponent/getUserSession";
 import { setupABTestValue } from "@/server/serverComponent/setupABTestingVariant";
 import { checkAnswer } from "@/server/services/answer";
 import { askQuestion } from "@/server/services/question";
-import { getStories, getStory } from "@/server/services/story";
 import { deleteStory } from "@/server/services/story/deleteStory";
+import { getStories } from "@/server/services/story/getStories";
+import { getStory } from "@/server/services/story/getStory";
 import {
 	publishStory,
 	unpublishStory,
