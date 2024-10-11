@@ -1,7 +1,7 @@
 import { revalidateTime } from "@/common/revalidate";
 import { StoryList } from "@/components/storyList";
 import { Heading } from "@/designSystem/components/heading";
-import { getStories } from "@/server/services/story";
+import { getStories } from "@/server/services/story/getStories";
 import styles from "./page.module.scss";
 
 export const revalidate = revalidateTime.short;

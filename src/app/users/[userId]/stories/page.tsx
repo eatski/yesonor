@@ -2,7 +2,7 @@ import { RecommendCreateStory } from "@/components/recommendCreateStory";
 import { StoryList } from "@/components/storyList";
 import { Heading } from "@/designSystem/components/heading";
 import { getUserSession } from "@/server/serverComponent/getUserSession";
-import { getStoriesWithAuthorId } from "@/server/services/story";
+import { getStoriesWithAuthorId } from "@/server/services/story/getStories";
 import { getUser } from "@/server/services/user/getUser";
 import { notFound } from "next/navigation";
 import { z } from "zod";
