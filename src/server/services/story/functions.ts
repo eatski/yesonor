@@ -1,13 +1,13 @@
+import type { Story as DbStory, QuestionLog } from "@prisma/client";
+import { z } from "zod";
 import {
 	type QuestionExample,
 	type Story,
 	type StoryHead,
 	type StoryWithQuestionLogs,
 	questionExample,
-} from "@/server/model/story";
-import { User } from "@/server/model/user";
-import type { Story as DbStory, QuestionLog } from "@prisma/client";
-import { z } from "zod";
+} from "../../..//server/model/story";
+import { User } from "../../../server/model/user";
 
 const hydrateQuestionExamples = (
 	stringQuestionExamples: string,

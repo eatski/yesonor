@@ -4,7 +4,7 @@ import { RecommendCreateStory } from "@/components/recommendCreateStory";
 import { StoryList } from "@/components/storyList";
 import { GenericButton } from "@/designSystem/components/button";
 import { Heading } from "@/designSystem/components/heading";
-import { getStories } from "@/server/services/story";
+import { getStories } from "@/server/services/story/getStories";
 import { getStoriesRecommended } from "@/server/services/story/ranking";
 import Link from "next/link";
 import styles from "./page.module.scss";
