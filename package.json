@@ -55,7 +55,7 @@
 		"@axe-core/playwright": "4.10.1",
 		"@biomejs/biome": "1.9.4",
 		"@eslint/config-array": "0.18.0",
-		"@eslint/object-schema": "2.1.4",
+		"@eslint/object-schema": "2.1.6",
 		"@next/bundle-analyzer": "14.2.15",
 		"@playwright/test": "1.48.0",
 		"@storybook/addon-essentials": "8.3.5",
