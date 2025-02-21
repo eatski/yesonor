@@ -97,7 +97,7 @@
 		"ts-node": "10.9.2",
 		"typescript": "5.6.3",
 		"vercel": "37.8.0",
-		"vitest": "2.1.2"
+		"vitest": "2.1.9"
 	},
 	"lint-staged": {
 		"*": "npm run format"
