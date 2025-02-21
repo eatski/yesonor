@@ -28,7 +28,7 @@
 		"dataloader": "2.2.3",
 		"dayjs": "1.11.13",
 		"js-cookie": "3.0.5",
-		"micromark": "4.0.0",
+		"micromark": "4.0.1",
 		"mustache": "4.2.0",
 		"next": "14.2.15",
 		"next-auth": "4.24.8",
