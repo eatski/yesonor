@@ -54,7 +54,7 @@
 	"devDependencies": {
 		"@axe-core/playwright": "4.10.2",
 		"@biomejs/biome": "1.9.4",
-		"@eslint/config-array": "0.19.2",
+		"@eslint/config-array": "0.21.0",
 		"@eslint/object-schema": "2.1.6",
 		"@next/bundle-analyzer": "14.2.33",
 		"@playwright/test": "1.48.0",
