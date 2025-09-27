@@ -47,7 +47,7 @@
 		"sass": "1.77.8",
 		"seedrandom": "3.0.5",
 		"ua-parser-js": "1.0.41",
-		"yaml": "2.5.1",
+		"yaml": "2.8.1",
 		"zod": "3.23.8",
 		"zod-to-json-schema": "3.23.3"
 	},
